@@ -7,14 +7,14 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 		<NoWarn>1701;1702;CS1591</NoWarn>
-		<RootNamespace>Catalog</RootNamespace>
+		<RootNamespace>YourBrand.Catalog</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<OpenApiReference Include="OpenAPIs\swagger.json" Options="/UseBaseUrl:false /GenerateClientInterfaces:true" Namespace="Catalog">
+		<OpenApiReference Include="OpenAPIs\swagger.json" Options="/UseBaseUrl:false /GenerateClientInterfaces:true" Namespace="YourBrand.Catalog">
 			<SourceUri>https://localhost:5001/swagger/v1/swagger.json</SourceUri>
 			<ClassName>{controller}Client</ClassName>
-			<OutputPath>CatalogClient.cs</OutputPath>
+			<OutputPath>YourBrand.CatalogClient.cs</OutputPath>
 		</OpenApiReference>
 	</ItemGroup>
 

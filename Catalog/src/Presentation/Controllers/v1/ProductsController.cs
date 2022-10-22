@@ -2,12 +2,12 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Catalog.Application;
-using Catalog.Application.Common.Models;
-using Catalog.Application.Products;
+using YourBrand.Catalog.Application;
+using YourBrand.Catalog.Application.Common.Models;
+using YourBrand.Catalog.Application.Products;
 using Microsoft.AspNetCore.Http;
 
-namespace Catalog.Presentation.Controllers;
+namespace YourBrand.Catalog.Presentation.Controllers;
 
 [ApiController]
 [ApiVersion("1")]

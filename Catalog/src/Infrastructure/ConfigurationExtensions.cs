@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using Catalog.Infrastructure;
+using YourBrand.Catalog.Infrastructure;
 
-namespace Catalog.Infrastructure;
+namespace YourBrand.Catalog.Infrastructure;
 
 public static class ConfigurationExtensions
 {

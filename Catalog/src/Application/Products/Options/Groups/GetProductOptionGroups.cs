@@ -2,10 +2,10 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Options;
-using Catalog.Domain;
+using YourBrand.Catalog.Application.Options;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Options.Groups;
+namespace YourBrand.Catalog.Application.Products.Options.Groups;
 
 public record GetProductOptionGroups(string ProductId) : IRequest<IEnumerable<OptionGroupDto>>
 {

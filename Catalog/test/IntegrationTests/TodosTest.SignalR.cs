@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Catalog.IntegrationTests;
+namespace YourBrand.Catalog.IntegrationTests;
 
 partial class TodosTest : IClassFixture<CustomWebApplicationFactory<Program>>
 {

@@ -2,11 +2,11 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Products.Groups;
-using Catalog.Domain;
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Application.Products.Groups;
+using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Application.Products;
+namespace YourBrand.Catalog.Application.Products;
 
 public record CreateProduct(string Name, bool HasVariants, string? Description, string? GroupId, string? SKU, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
 {

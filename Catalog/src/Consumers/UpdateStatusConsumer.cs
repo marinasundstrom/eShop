@@ -1,8 +1,8 @@
 using MassTransit;
 using MediatR;
-using Catalog.Contracts;
+using YourBrand.Catalog.Contracts;
 
-namespace Catalog.Consumers;
+namespace YourBrand.Catalog.Consumers;
 
 /*
 public sealed class UpdateStatusConsumer : IConsumer<UpdateStatus>

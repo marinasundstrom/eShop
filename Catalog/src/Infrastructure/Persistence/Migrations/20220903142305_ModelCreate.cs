@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Catalog.Infrastructure.Persistence.Migrations
+namespace YourBrand.Catalog.Infrastructure.Persistence.Migrations
 {
     public partial class ModelCreate : Migration
     {

@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 using Polly;
 using Polly.Retry;
 using Quartz;
-using Catalog.Infrastructure.Persistence;
-using Catalog.Infrastructure.Persistence.Outbox;
+using YourBrand.Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
-namespace Catalog.Infrastructure.BackgroundJobs;
+namespace YourBrand.Catalog.Infrastructure.BackgroundJobs;
 
 [DisallowConcurrentExecution]
 public sealed class ProcessOutboxMessagesJob : IJob

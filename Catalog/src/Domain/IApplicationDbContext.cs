@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Domain;
+namespace YourBrand.Catalog.Domain;
 
 public interface IApplicationDbContext
 {

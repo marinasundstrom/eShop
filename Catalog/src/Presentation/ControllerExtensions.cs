@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Catalog.Application;
-using Catalog.Domain;
+using YourBrand.Catalog.Application;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Presentation;
+namespace YourBrand.Catalog.Presentation;
 
 public static class ControllerExtensions
 {

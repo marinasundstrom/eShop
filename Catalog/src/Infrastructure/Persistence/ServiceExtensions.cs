@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Catalog.Infrastructure.Persistence.Interceptors;
+using YourBrand.Catalog.Infrastructure.Persistence.Interceptors;
 
-namespace Catalog.Infrastructure.Persistence
+namespace YourBrand.Catalog.Infrastructure.Persistence
 {
     public static class ServiceExtensions
     {

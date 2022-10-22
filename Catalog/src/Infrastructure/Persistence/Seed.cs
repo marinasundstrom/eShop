@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Catalog.Domain.Entities;
-using Catalog.Domain.Enums;
+using YourBrand.Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain.Enums;
 
-namespace Catalog.Infrastructure.Persistence;
+namespace YourBrand.Catalog.Infrastructure.Persistence;
 
 public static class Seed
 {

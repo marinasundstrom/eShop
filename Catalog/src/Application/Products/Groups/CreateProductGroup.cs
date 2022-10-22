@@ -2,10 +2,10 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Application.Products.Groups;
+namespace YourBrand.Catalog.Application.Products.Groups;
 
 public record CreateProductGroup(string ProductId, ApiCreateProductGroup Data) : IRequest<ProductGroupDto>
 {

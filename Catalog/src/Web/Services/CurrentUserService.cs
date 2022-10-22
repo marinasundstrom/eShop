@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using Catalog.Application.Services;
+using YourBrand.Catalog.Application.Services;
 
-namespace Catalog.Web.Services;
+namespace YourBrand.Catalog.Web.Services;
 
 public sealed class CurrentUserService : ICurrentUserService
 {

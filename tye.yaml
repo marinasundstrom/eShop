@@ -17,15 +17,25 @@ services:
       protocol: https
       port: 5011
 
-# - name: clientapp
-#   project: Catalog/src/ClientApp/ClientApp.csproj
-#   bindings:
-#   - name: http
-#     protocol: http
-#     port: 5020
-#   - name: https
-#     protocol: https
-#     port: 5021
+  - name: portal-web
+    project: Portal/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5000
+    - name: https
+      protocol: https
+      port: 5001
+
+  - name: portal-client
+    project: Portal/src/ClientApp/ClientApp.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5020
+    - name: https
+      protocol: https
+      port: 5021
 
   - name: site
     project: Site/src/Server/Site.Server.csproj
@@ -82,10 +92,10 @@ services:
     bindings:
     - name: http
       protocol: http
-      port: 5060
+      port: 5030
     - name: https
       protocol: https
-      port: 5061
+      port: 5031
 
   - name: azurite
     image: mcr.microsoft.com/azure-storage/azurite

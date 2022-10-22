@@ -1,8 +1,8 @@
 ﻿using System;
-using Catalog.Domain.Entities;
-using Catalog.Domain.Enums;
+using YourBrand.Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain.Enums;
 
-namespace Catalog.Domain.Specifications;
+namespace YourBrand.Catalog.Domain.Specifications;
 
 /*
 public class TodosWithStatus : BaseSpecification<Todo>

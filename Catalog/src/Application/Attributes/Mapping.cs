@@ -1,4 +1,4 @@
-namespace Catalog.Application.Attributes;
+namespace YourBrand.Catalog.Application.Attributes;
 
 public static class Mapping
 {

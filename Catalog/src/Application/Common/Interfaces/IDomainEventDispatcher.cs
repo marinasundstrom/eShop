@@ -1,6 +1,6 @@
-﻿using Catalog.Domain;
+﻿using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Common.Interfaces;
+namespace YourBrand.Catalog.Application.Common.Interfaces;
 
 public interface IDomainEventDispatcher
 {

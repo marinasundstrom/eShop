@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Catalog.Application.Behaviors;
-using Catalog.Application.Products.Variants;
+using YourBrand.Catalog.Application.Behaviors;
+using YourBrand.Catalog.Application.Products.Variants;
 
-namespace Catalog.Application;
+namespace YourBrand.Catalog.Application;
 
 public static class ServiceExtensions
 {

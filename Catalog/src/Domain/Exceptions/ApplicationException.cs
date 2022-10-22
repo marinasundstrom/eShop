@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain.Exceptions;
+﻿namespace YourBrand.Catalog.Domain.Exceptions;
 
 public class ApplicationException : Exception
 {

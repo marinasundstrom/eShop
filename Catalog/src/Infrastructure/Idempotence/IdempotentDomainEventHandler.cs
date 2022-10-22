@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Catalog.Application.Common;
-using Catalog.Infrastructure.Persistence;
-using Catalog.Infrastructure.Persistence.Outbox;
+using YourBrand.Catalog.Application.Common;
+using YourBrand.Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
-namespace Catalog.Infrastructure.Idempotence;
+namespace YourBrand.Catalog.Infrastructure.Idempotence;
 
 public sealed class IdempotentDomainEventHandler<TDomainEvent> : IDomainEventHandler<TDomainEvent>
     where TDomainEvent : DomainEvent

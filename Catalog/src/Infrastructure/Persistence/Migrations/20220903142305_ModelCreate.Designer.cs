@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace Catalog.Infrastructure.Persistence.Migrations
+namespace YourBrand.Catalog.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220903142305_ModelCreate")]
@@ -24,7 +24,7 @@ namespace Catalog.Infrastructure.Persistence.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Catalog.Domain.Entities.Todo", b =>
+            modelBuilder.Entity("YourBrand.Catalog.Domain.Entities.Todo", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");

@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain;
+﻿namespace YourBrand.Catalog.Domain;
 
 public static class Errors
 {

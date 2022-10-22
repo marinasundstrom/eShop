@@ -2,11 +2,11 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Options;
-using Catalog.Domain;
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Application.Options;
+using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Application.Products.Options;
+namespace YourBrand.Catalog.Application.Products.Options;
 
 public record CreateProductOption(string ProductId, ApiCreateProductOption Data) : IRequest<OptionDto>
 {

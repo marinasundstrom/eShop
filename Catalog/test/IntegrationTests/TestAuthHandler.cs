@@ -4,7 +4,7 @@ using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Text.Encodings.Web;
 
-namespace Catalog.IntegrationTests;
+namespace YourBrand.Catalog.IntegrationTests;
 
 public class TestAuthHandler : AuthenticationHandler<AuthenticationSchemeOptions>
 {

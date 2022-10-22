@@ -2,9 +2,9 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products;
+namespace YourBrand.Catalog.Application.Products;
 
 public record UpdateProductVisibility(string ProductId, ProductVisibility Visibility) : IRequest
 {

@@ -1,6 +1,6 @@
-﻿using Catalog.Domain.Entities;
+﻿using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Application.Products.Variants;
+namespace YourBrand.Catalog.Application.Products.Variants;
 
 public static class Mappings
 {

@@ -1,5 +1,5 @@
-﻿global using Catalog.Application.Services;
+﻿global using YourBrand.Catalog.Application.Services;
 
-global using Catalog.Domain;
-global using Catalog.Domain.Entities;
-global using Catalog.Domain.Events;
+global using YourBrand.Catalog.Domain;
+global using YourBrand.Catalog.Domain.Entities;
+global using YourBrand.Catalog.Domain.Events;

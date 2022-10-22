@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Catalog.Presentation.Hubs;
+using YourBrand.Catalog.Presentation.Hubs;
 
-namespace Catalog.Presentation;
+namespace YourBrand.Catalog.Presentation;
 
 public static class WebApplicationExtensions
 {

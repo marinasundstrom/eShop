@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Infrastructure.Persistence.Configurations;
+namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
 public class ProductVariantOptionConfiguration : IEntityTypeConfiguration<ProductVariantOption>
 {

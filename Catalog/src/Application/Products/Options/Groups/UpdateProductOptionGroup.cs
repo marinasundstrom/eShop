@@ -2,11 +2,11 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Options;
-using Catalog.Domain;
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Application.Options;
+using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Application.Products.Options.Groups;
+namespace YourBrand.Catalog.Application.Products.Options.Groups;
 
 public record UpdateProductOptionGroup(string ProductId, string OptionGroupId, ApiUpdateProductOptionGroup Data) : IRequest<OptionGroupDto>
 {

@@ -1,8 +1,8 @@
 using MediatR;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Variants;
+namespace YourBrand.Catalog.Application.Products.Variants;
 
 public record FindProductVariants(string ProductId, Dictionary<string, string?> SelectedOptions) : IRequest<IEnumerable<ProductVariantDto>>
 {

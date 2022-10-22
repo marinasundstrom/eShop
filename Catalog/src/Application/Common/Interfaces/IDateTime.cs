@@ -1,4 +1,4 @@
-﻿namespace Catalog.Application.Common.Interfaces;
+﻿namespace YourBrand.Catalog.Application.Common.Interfaces;
 
 public interface IDateTime
 {

@@ -2,9 +2,9 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Attributes.Groups;
+namespace YourBrand.Catalog.Application.Products.Attributes.Groups;
 
 public record DeleteProductAttributeGroup(string ProductId, string AttributeGroupId) : IRequest
 {

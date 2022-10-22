@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Catalog.Domain.Specifications;
+using YourBrand.Catalog.Domain.Specifications;
 
-namespace Catalog.Infrastructure.Persistence;
+namespace YourBrand.Catalog.Infrastructure.Persistence;
 
 public static class QuerySpecificationExtensions
 {

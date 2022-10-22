@@ -4,11 +4,11 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
-using Catalog.Application.Services;
-using Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Infrastructure.Persistence;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace Catalog.Infrastructure
+namespace YourBrand.Catalog.Infrastructure
 {
     public class TodoFixture : IDisposable
     {
@@ -33,7 +33,7 @@ namespace Catalog.Infrastructure
                .Options;
 
             var context = new ApplicationDbContext(options,
-                new Catalog.Infrastructure.Persistence.Interceptors.AuditableEntitySaveChangesInterceptor(fakeCurrentUserService, fakeDateTimeService));
+                new YourBrand.Catalog.Infrastructure.Persistence.Interceptors.AuditableEntitySaveChangesInterceptor(fakeCurrentUserService, fakeDateTimeService));
 
             context.Database.EnsureCreated();
 

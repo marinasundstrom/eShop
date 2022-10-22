@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Catalog.Client;
+namespace YourBrand.Catalog.Client;
 
 public static class ServiceExtensions
 {

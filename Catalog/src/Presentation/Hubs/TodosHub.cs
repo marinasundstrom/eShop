@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SignalR;
 
-namespace Catalog.Presentation.Hubs;
+namespace YourBrand.Catalog.Presentation.Hubs;
 
 [Authorize]
 public sealed class TodosHub : Hub<ITodosHubClient>

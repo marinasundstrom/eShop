@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Presentation;
+namespace YourBrand.Catalog.Presentation;
 
 public static class ResultExtensions
 {

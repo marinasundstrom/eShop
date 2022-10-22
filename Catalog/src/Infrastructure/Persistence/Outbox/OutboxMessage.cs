@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Catalog.Infrastructure.Persistence.Outbox;
+namespace YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
 public sealed class OutboxMessage
 {

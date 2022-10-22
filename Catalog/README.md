@@ -86,7 +86,7 @@ Password: bob
 
 In order to adapt this into your own project, you should do this:
 
-1. Replace the name of the root namespace ”Catalog” with your desired name.
+1. Replace the name of the root namespace ”YourBrand.Catalog” with your desired name.
 2. Rename the solution file.
 3. Do case sensitive replacement of ”Todo” and ”todo”. This will rename variables and types. Change filenames accordingly. 
 

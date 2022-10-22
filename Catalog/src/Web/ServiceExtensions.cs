@@ -1,10 +1,10 @@
 ﻿using MassTransit;
-using Catalog.Application;
-using Catalog.Consumers;
-using Catalog.Infrastructure;
-using Catalog.Presentation;
+using YourBrand.Catalog.Application;
+using YourBrand.Catalog.Consumers;
+using YourBrand.Catalog.Infrastructure;
+using YourBrand.Catalog.Presentation;
 
-namespace Catalog.Web;
+namespace YourBrand.Catalog.Web;
 
 public static class ServiceExtensions
 {

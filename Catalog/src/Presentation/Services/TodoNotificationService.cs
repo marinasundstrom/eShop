@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.SignalR;
-using Catalog.Application.Services;
+using YourBrand.Catalog.Application.Services;
 
-namespace Catalog.Presentation.Hubs;
+namespace YourBrand.Catalog.Presentation.Hubs;
 
 public class TodoNotificationService : ITodoNotificationService
 {

@@ -4,7 +4,7 @@
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<RootNamespace>Catalog.Presentation</RootNamespace>
+		<RootNamespace>YourBrand.Catalog.Presentation</RootNamespace>
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 		<NoWarn>1701;1702;CS1591</NoWarn>
 	</PropertyGroup>

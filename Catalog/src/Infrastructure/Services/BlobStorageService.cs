@@ -1,7 +1,7 @@
-using Catalog.Application.Services;
+using YourBrand.Catalog.Application.Services;
 using Azure.Storage.Blobs;
 
-namespace Catalog.Infrastructure.Services;
+namespace YourBrand.Catalog.Infrastructure.Services;
 
 public sealed class BlobStorageService : IBlobStorageService
 {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Newtonsoft.Json;
-using Catalog.Infrastructure.Persistence.Outbox;
+using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
-namespace Catalog.Infrastructure.Persistence.Interceptors;
+namespace YourBrand.Catalog.Infrastructure.Persistence.Interceptors;
 
 public sealed class OutboxSaveChangesInterceptor : SaveChangesInterceptor
 {

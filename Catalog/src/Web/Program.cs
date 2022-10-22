@@ -15,12 +15,12 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using Catalog.Application.Services;
-using Catalog.Infrastructure.Persistence;
-using Catalog.Presentation;
-using Catalog.Web;
-using Catalog.Web.Middleware;
-using Catalog.Web.Services;
+using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Presentation;
+using YourBrand.Catalog.Web;
+using YourBrand.Catalog.Web.Middleware;
+using YourBrand.Catalog.Web.Services;
 using Microsoft.Extensions.Azure;
 using Azure.Storage.Blobs;
 using Azure.Identity;
@@ -29,7 +29,7 @@ Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;
 
 // Define some important constants to initialize tracing with
-var serviceName = "Catalog";
+var serviceName = "YourBrand.Catalog";
 var serviceVersion = "1.0.0";
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";

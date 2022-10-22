@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Catalog.Infrastructure.Persistence.Outbox;
+using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
-namespace Catalog.Infrastructure.Persistence.Configurations;
+namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
 public sealed class OutboxMessageConfiguration : IEntityTypeConfiguration<OutboxMessage>
 {

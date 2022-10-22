@@ -1,12 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using NSubstitute;
-using Catalog.Application.Services;
-using Catalog.Domain.Events;
-using Catalog.Infrastructure.Persistence.Repositories.Mocks;
+using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Domain.Events;
+using YourBrand.Catalog.Infrastructure.Persistence.Repositories.Mocks;
 using Xunit;
 
-namespace Catalog.Application.Todos.Commands;
+namespace YourBrand.Catalog.Application.Todos.Commands;
 
 public class CreateTodoTest
 {

@@ -8,16 +8,16 @@ namespace Site.Server.Controllers;
 public class ProductsController : ControllerBase
 {
     private readonly ILogger<ProductsController> _logger;
-    private readonly Catalog.IProductsClient _productsClient;
+    private readonly YourBrand.Catalog.IProductsClient _productsClient;
 
-    public ProductsController(ILogger<ProductsController> logger, Catalog.IProductsClient productsClient)
+    public ProductsController(ILogger<ProductsController> logger, YourBrand.Catalog.IProductsClient productsClient)
     {
         _logger = logger;
         _productsClient = productsClient;
     }
 
     [HttpGet]
-    public async Task<ItemsResultOfProductDto> GetProducts(string productGroupId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResultOfProductDto> GetProducts(string? productGroupId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
         return await _productsClient.GetProductsAsync(false, productGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
     }

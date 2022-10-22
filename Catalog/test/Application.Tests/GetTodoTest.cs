@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
 using NSubstitute;
-using Catalog.Application.Services;
-using Catalog.Application.Todos.Queries;
-using Catalog.Domain;
-using Catalog.Infrastructure.Persistence.Repositories.Mocks;
+using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Application.Todos.Queries;
+using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Infrastructure.Persistence.Repositories.Mocks;
 using Xunit;
 
-namespace Catalog.Application.Todos.Commands;
+namespace YourBrand.Catalog.Application.Todos.Commands;
 
 public class GetTodoTest
 {

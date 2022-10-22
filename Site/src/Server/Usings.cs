@@ -1,1 +1,1 @@
-global using Catalog;
+global using YourBrand.Catalog;

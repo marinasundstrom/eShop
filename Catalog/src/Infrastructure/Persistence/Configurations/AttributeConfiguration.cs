@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Catalog.Infrastructure.Persistence.Configurations;
+namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
 public class AttributeConfiguration : IEntityTypeConfiguration<Domain.Entities.Attribute>
 {

@@ -1,12 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 
-using Catalog.Application;
-using Catalog.Application.Options;
-using Catalog.Application.Products.Options;
-using Catalog.Application.Products.Options.Groups;
-using Catalog.Application.Products.Variants;
+using YourBrand.Catalog.Application;
+using YourBrand.Catalog.Application.Options;
+using YourBrand.Catalog.Application.Products.Options;
+using YourBrand.Catalog.Application.Products.Options.Groups;
+using YourBrand.Catalog.Application.Products.Variants;
 
-namespace Catalog.Presentation.Controllers;
+namespace YourBrand.Catalog.Presentation.Controllers;
 
 partial class ProductsController : Controller
 {

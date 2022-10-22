@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Microsoft.IdentityModel.Logging;
 
 namespace IdentityService;
 
@@ -17,6 +18,10 @@ internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+#if DEBUG
+        IdentityModelEventSource.ShowPII = true;
+#endif
+
         builder.Services.AddRazorPages();
 
         builder.Services.AddHealthChecks()

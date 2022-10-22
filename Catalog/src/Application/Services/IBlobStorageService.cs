@@ -1,4 +1,4 @@
-namespace Catalog.Application.Services;
+namespace YourBrand.Catalog.Application.Services;
 
 public interface IBlobStorageService
 {

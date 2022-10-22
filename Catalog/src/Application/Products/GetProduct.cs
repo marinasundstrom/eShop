@@ -2,10 +2,10 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Products.Groups;
-using Catalog.Domain;
+using YourBrand.Catalog.Application.Products.Groups;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products;
+namespace YourBrand.Catalog.Application.Products;
 
 public record GetProduct(string ProductId) : IRequest<ProductDto?>
 {

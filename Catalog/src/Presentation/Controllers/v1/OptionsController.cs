@@ -2,10 +2,10 @@
 
 using Microsoft.AspNetCore.Mvc;
 
-using Catalog.Application;
-using Catalog.Application.Options;
+using YourBrand.Catalog.Application;
+using YourBrand.Catalog.Application.Options;
 
-namespace Catalog.Presentation.Controllers;
+namespace YourBrand.Catalog.Presentation.Controllers;
 
 [ApiController]
 [ApiVersion("1")]

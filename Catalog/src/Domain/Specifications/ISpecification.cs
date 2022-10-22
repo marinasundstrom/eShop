@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Catalog.Domain.Specifications;
+namespace YourBrand.Catalog.Domain.Specifications;
 
 public interface ISpecification<T>
 {

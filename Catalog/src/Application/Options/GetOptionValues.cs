@@ -2,9 +2,9 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Options;
+namespace YourBrand.Catalog.Application.Options;
 
 public record GetOptionValues(string OptionId) : IRequest<IEnumerable<OptionValueDto>>
 {

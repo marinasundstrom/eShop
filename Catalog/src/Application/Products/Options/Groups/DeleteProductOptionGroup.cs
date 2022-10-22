@@ -2,9 +2,9 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Options.Groups;
+namespace YourBrand.Catalog.Application.Products.Options.Groups;
 
 public record DeleteProductOptionGroup(string ProductId, string OptionGroupId) : IRequest
 {

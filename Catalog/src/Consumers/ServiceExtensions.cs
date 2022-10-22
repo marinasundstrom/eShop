@@ -1,6 +1,6 @@
 ﻿using MassTransit;
 
-namespace Catalog.Consumers;
+namespace YourBrand.Catalog.Consumers;
 
 public static class ServiceExtensions
 {

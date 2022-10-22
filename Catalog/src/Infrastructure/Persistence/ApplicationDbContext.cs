@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using Catalog.Infrastructure.Persistence.Interceptors;
-using Catalog.Infrastructure.Persistence.Outbox;
+using YourBrand.Catalog.Infrastructure.Persistence.Interceptors;
+using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
-namespace Catalog.Infrastructure.Persistence;
+namespace YourBrand.Catalog.Infrastructure.Persistence;
 
 public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 {

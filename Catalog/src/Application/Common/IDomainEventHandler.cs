@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-namespace Catalog.Application.Common;
+namespace YourBrand.Catalog.Application.Common;
 
 public interface IDomainEventHandler<TDomainEvent>
     : INotificationHandler<TDomainEvent>

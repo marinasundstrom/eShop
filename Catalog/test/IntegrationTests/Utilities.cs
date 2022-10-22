@@ -1,6 +1,6 @@
-﻿using Catalog.Infrastructure.Persistence;
+﻿using YourBrand.Catalog.Infrastructure.Persistence;
 
-namespace Catalog.IntegrationTests;
+namespace YourBrand.Catalog.IntegrationTests;
 
 internal class Utilities
 {

@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain.Enums;
+﻿namespace YourBrand.Catalog.Domain.Enums;
 
 public enum OptionType
 {

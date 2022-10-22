@@ -1,6 +1,6 @@
-﻿using Catalog.Domain.Enums;
+﻿using YourBrand.Catalog.Domain.Enums;
 
-namespace Catalog.Domain.Entities;
+namespace YourBrand.Catalog.Domain.Entities;
 
 public class Product : IAggregateRoot
 {

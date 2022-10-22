@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Catalog.Domain.Entities;
-using Catalog.Infrastructure.Persistence;
-using Catalog.Infrastructure.Persistence.Repositories;
+using YourBrand.Catalog.Domain.Entities;
+using YourBrand.Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Infrastructure.Persistence.Repositories;
 
-namespace Catalog.Infrastructure;
+namespace YourBrand.Catalog.Infrastructure;
 
 public class TodoRepositoryTest
     : IClassFixture<TodoFixture>

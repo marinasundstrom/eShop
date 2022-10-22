@@ -1,4 +1,4 @@
-namespace Catalog.Contracts;
+namespace YourBrand.Catalog.Contracts;
 
 public enum TodoStatus
 {

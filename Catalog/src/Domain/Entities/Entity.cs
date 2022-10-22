@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Catalog.Domain.Entities;
+namespace YourBrand.Catalog.Domain.Entities;
 
 public abstract class Entity : IHasDomainEvents
 {

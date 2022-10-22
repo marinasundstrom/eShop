@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using Catalog.Infrastructure.BackgroundJobs;
-using Catalog.Infrastructure.Persistence;
-using Catalog.Infrastructure.Services;
+using YourBrand.Catalog.Infrastructure.BackgroundJobs;
+using YourBrand.Catalog.Infrastructure.Persistence;
+using YourBrand.Catalog.Infrastructure.Services;
 using MediatR;
-using Catalog.Infrastructure.Idempotence;
+using YourBrand.Catalog.Infrastructure.Idempotence;
 
-namespace Catalog.Infrastructure
+namespace YourBrand.Catalog.Infrastructure
 {
     public static class ServiceExtensions
     {

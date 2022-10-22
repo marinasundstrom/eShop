@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Catalog.Application;
+namespace YourBrand.Catalog.Application;
 
 public static class ExpressionTreesExtension
 {

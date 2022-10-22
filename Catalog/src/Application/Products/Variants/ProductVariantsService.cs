@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
-using Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Domain.Entities;
 
-namespace Catalog.Application.Products.Variants;
+namespace YourBrand.Catalog.Application.Products.Variants;
 
 public class ProductVariantsService 
 {

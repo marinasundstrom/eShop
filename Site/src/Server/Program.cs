@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using System.Net.Http;
 using System.Globalization;
 using Blazor.Analytics;
-using Catalog.Client;
+using YourBrand.Catalog.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 

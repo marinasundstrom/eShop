@@ -2,7 +2,7 @@
 using System.Net.Http.Headers;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
-namespace Catalog.IntegrationTests;
+namespace YourBrand.Catalog.IntegrationTests;
 
 public partial class TodosTest : IClassFixture<CustomWebApplicationFactory<Program>>
 {

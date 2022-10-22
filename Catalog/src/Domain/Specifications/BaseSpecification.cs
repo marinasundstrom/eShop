@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using LinqKit;
 
-namespace Catalog.Domain.Specifications;
+namespace YourBrand.Catalog.Domain.Specifications;
 
 public abstract class BaseSpecification<T> : ISpecification<T>
 {

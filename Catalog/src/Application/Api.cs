@@ -1,7 +1,7 @@
-﻿namespace Catalog.Application;
+﻿namespace YourBrand.Catalog.Application;
 
 using System;
-using Catalog.Application.Options;
+using YourBrand.Catalog.Application.Options;
 
 public record class ApiCreateProduct(string Name, bool HasVariants, string? Description, string? GroupId, string? SKU, decimal? Price, ProductVisibility? Visibility);
 

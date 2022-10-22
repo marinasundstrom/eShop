@@ -12,7 +12,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Catalog.IntegrationTests": {
+    "YourBrand.Catalog.IntegrationTests": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:11109",

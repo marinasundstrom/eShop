@@ -1,4 +1,4 @@
-﻿namespace Catalog.Infrastructure.Services;
+﻿namespace YourBrand.Catalog.Infrastructure.Services;
 
 sealed class DateTimeService : IDateTime
 {

@@ -2,9 +2,9 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Variants;
+namespace YourBrand.Catalog.Application.Products.Variants;
 
 public record UploadProductVariantImage(string ProductId, string VariantId, string FileName, Stream Stream) : IRequest<string?>
 {

@@ -2,10 +2,10 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Products.Variants;
-using Catalog.Domain;
+using YourBrand.Catalog.Application.Products.Variants;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Variants;
+namespace YourBrand.Catalog.Application.Products.Variants;
 
 public record GetProductVariant(string ProductId, string ProductVariantId) : IRequest<ProductVariantDto?>
 {

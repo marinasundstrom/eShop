@@ -7,7 +7,7 @@
 
     <IsPackable>false</IsPackable>
 
-	<RootNamespace>Catalog.Domain</RootNamespace>
+	<RootNamespace>YourBrand.Catalog.Domain</RootNamespace>
 	<WarningsAsErrors>nullable</WarningsAsErrors>
 	<NoWarn>1701;1702;CS1591</NoWarn>
   </PropertyGroup>

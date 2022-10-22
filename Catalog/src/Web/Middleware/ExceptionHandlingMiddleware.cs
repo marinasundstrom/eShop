@@ -1,9 +1,9 @@
 ﻿using System.Text.Json;
-using Catalog.Application.Exceptions;
-using Catalog.Domain.Exceptions;
-using ApplicationException = Catalog.Domain.Exceptions.ApplicationException;
+using YourBrand.Catalog.Application.Exceptions;
+using YourBrand.Catalog.Domain.Exceptions;
+using ApplicationException = YourBrand.Catalog.Domain.Exceptions.ApplicationException;
 
-namespace Catalog.Web.Middleware;
+namespace YourBrand.Catalog.Web.Middleware;
 
 internal sealed class ExceptionHandlingMiddleware : IMiddleware
 {

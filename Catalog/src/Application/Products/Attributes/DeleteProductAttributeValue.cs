@@ -2,9 +2,9 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Domain;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products.Attributes;
+namespace YourBrand.Catalog.Application.Products.Attributes;
 
 public record DeleteProductAttributeValue(string ProductId, string AttributeId, string ValueId) : IRequest
 {

@@ -2,11 +2,11 @@
 using System.Net.Http.Headers;
 using MassTransit;
 using MassTransit.Testing;
-using Catalog.Consumers;
-using Catalog.Contracts;
+using YourBrand.Catalog.Consumers;
+using YourBrand.Catalog.Contracts;
 using static MassTransit.Logging.OperationName;
 
-namespace Catalog.IntegrationTests;
+namespace YourBrand.Catalog.IntegrationTests;
 
 partial class TodosTest : IClassFixture<CustomWebApplicationFactory<Program>>
 {

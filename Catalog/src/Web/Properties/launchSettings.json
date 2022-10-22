@@ -26,7 +26,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Catalog.Web": {
+    "YourBrand.Catalog.Web": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:38451;http://localhost:59032",

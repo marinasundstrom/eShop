@@ -1,4 +1,4 @@
-﻿namespace Catalog.Domain.Entities
+﻿namespace YourBrand.Catalog.Domain.Entities
 {
     public interface IHasDomainEvents
     {

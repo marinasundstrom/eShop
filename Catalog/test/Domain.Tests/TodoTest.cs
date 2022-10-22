@@ -1,15 +1,15 @@
-﻿using Catalog.Domain.Entities;
-using Catalog.Domain.Enums;
-using Catalog.Domain.Events;
+﻿using YourBrand.Catalog.Domain.Entities;
+using YourBrand.Catalog.Domain.Enums;
+using YourBrand.Catalog.Domain.Events;
 
-namespace Catalog.Domain.Tests;
+namespace YourBrand.Catalog.Domain.Tests;
 
 public class TodoTest
 {
     [Fact]
     public void CreateTodo()
     {
-        var todo = new Todo("Foo", "Bar", Catalog.Domain.Enums.TodoStatus.NotStarted);
+        var todo = new Todo("Foo", "Bar", YourBrand.Catalog.Domain.Enums.TodoStatus.NotStarted);
 
         //todo.DomainEvents.OfType<TodoCreated>().Should().ContainSingle();
     }
@@ -20,7 +20,7 @@ public class TodoTest
         // Arrange
         var oldTitle = "Foo";
 
-        var todo = new Todo(oldTitle, "Bar", Catalog.Domain.Enums.TodoStatus.NotStarted);
+        var todo = new Todo(oldTitle, "Bar", YourBrand.Catalog.Domain.Enums.TodoStatus.NotStarted);
 
         var newTitle = "Zack";
 
@@ -41,7 +41,7 @@ public class TodoTest
         // Arrange
         var oldDescription = "Bar";
 
-        var todo = new Todo("Foo", oldDescription, Catalog.Domain.Enums.TodoStatus.NotStarted);
+        var todo = new Todo("Foo", oldDescription, YourBrand.Catalog.Domain.Enums.TodoStatus.NotStarted);
 
         var newDescription = "This is a new description";
 
@@ -60,7 +60,7 @@ public class TodoTest
     public void UpdateStatus()
     {
         // Arrange
-        var oldStatus = Catalog.Domain.Enums.TodoStatus.NotStarted;
+        var oldStatus = YourBrand.Catalog.Domain.Enums.TodoStatus.NotStarted;
 
         var todo = new Todo("Foo", "Bar", oldStatus);
 

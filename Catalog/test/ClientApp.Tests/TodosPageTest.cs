@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 using NSubstitute;
-using Catalog;
-using Catalog.Pages;
+using YourBrand.Catalog;
+using YourBrand.Catalog.Pages;
 
-namespace Catalog.Tests;
+namespace YourBrand.Catalog.Tests;
 
 public class TodosPageTest
 {
@@ -20,7 +20,7 @@ public class TodosPageTest
 
         ctx.Services.AddLocalization();
 
-        var fakeAccessTokenProvider = Substitute.For<Catalog.Services.IAccessTokenProvider>();
+        var fakeAccessTokenProvider = Substitute.For<YourBrand.Catalog.Services.IAccessTokenProvider>();
 
         ctx.Services.AddSingleton(fakeAccessTokenProvider);
 

@@ -1,8 +1,8 @@
-﻿namespace Catalog.Domain.Entities;
+﻿namespace YourBrand.Catalog.Domain.Entities;
 
 using System.ComponentModel.DataAnnotations.Schema;
 
-using Catalog.Domain.Enums;
+using YourBrand.Catalog.Domain.Enums;
 
 public class Option : IAggregateRoot
 {

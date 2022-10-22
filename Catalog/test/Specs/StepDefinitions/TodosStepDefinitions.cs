@@ -1,4 +1,4 @@
-namespace Catalog.Specs.StepDefinitions;
+namespace YourBrand.Catalog.Specs.StepDefinitions;
 
 [Binding]
 public sealed class TodosStepDefinitions

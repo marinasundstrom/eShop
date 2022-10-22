@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace Catalog.Infrastructure.Persistence.Interceptors;
+namespace YourBrand.Catalog.Infrastructure.Persistence.Interceptors;
 
 public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {

@@ -2,11 +2,11 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
-using Catalog.Application.Common.Models;
-using Catalog.Application.Products.Groups;
-using Catalog.Domain;
+using YourBrand.Catalog.Application.Common.Models;
+using YourBrand.Catalog.Application.Products.Groups;
+using YourBrand.Catalog.Domain;
 
-namespace Catalog.Application.Products;
+namespace YourBrand.Catalog.Application.Products;
 
 public record GetProducts(bool IncludeUnlisted = false, string? GroupId = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
 {
@@ -46,7 +46,7 @@ public record GetProducts(bool IncludeUnlisted = false, string? GroupId = null, 
 
             if (request.SortBy is not null)
             {
-                query = query.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? Catalog.Application.SortDirection.Descending : Catalog.Application.SortDirection.Ascending);
+                query = query.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? YourBrand.Catalog.Application.SortDirection.Descending : YourBrand.Catalog.Application.SortDirection.Ascending);
             }
 
             var products = await query

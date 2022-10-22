@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Catalog.Application.Services;
-using Catalog.Presentation.Controllers;
-using Catalog.Presentation.Hubs;
+using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Presentation.Controllers;
+using YourBrand.Catalog.Presentation.Hubs;
 
-namespace Catalog.Presentation;
+namespace YourBrand.Catalog.Presentation;
 
 public static class ServiceExtensions
 {
