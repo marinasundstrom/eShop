@@ -37,6 +37,17 @@ services:
       protocol: https
       port: 5021
 
+      
+  - name: orders-web
+    project: Orders/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5040
+    - name: https
+      protocol: https
+      port: 5041
+
   - name: site
     project: Site/src/Server/Site.Server.csproj
     bindings:
