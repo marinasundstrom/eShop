@@ -1,4 +1,4 @@
-﻿# jQuery
+# jQuery
 
 > jQuery is a fast, small, and feature-rich JavaScript library.
 
@@ -60,4 +60,3 @@ const { JSDOM } = require( "jsdom" );
 const { window } = new JSDOM( "" );
 const $ = require( "jquery" )( window );
 ```
-

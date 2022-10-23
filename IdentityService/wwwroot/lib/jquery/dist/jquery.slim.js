@@ -1,4 +1,4 @@
-﻿/*!
+/*!
  * jQuery JavaScript Library v3.5.1 -ajax,-ajax/jsonp,-ajax/load,-ajax/script,-ajax/var/location,-ajax/var/nonce,-ajax/var/rquery,-ajax/xhr,-manipulation/_evalUrl,-deprecated/ajax-event-alias,-effects,-effects/Tween,-effects/animatedSelector
  * https://jquery.com/
  *
@@ -8775,4 +8775,3 @@ if ( typeof noGlobal === "undefined" ) {
 
 return jQuery;
 } );
-

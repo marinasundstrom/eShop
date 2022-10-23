@@ -1,11 +1,11 @@
-﻿// Copyright (c) Duende Software. All rights reserved.
+// Copyright (c) Duende Software. All rights reserved.
 // See LICENSE in the project root for license information.
 
 
-using System.Text;
-using System.Text.Json;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
+using System.Text;
+using System.Text.Json;
 
 namespace IdentityService.Pages.Diagnostics;
 

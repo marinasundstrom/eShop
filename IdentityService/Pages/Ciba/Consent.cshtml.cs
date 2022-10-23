@@ -1,4 +1,4 @@
-﻿using Duende.IdentityServer.Events;
+using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
@@ -28,7 +28,7 @@ public class Consent : PageModel
     }
 
     public ViewModel View { get; set; }
-
+        
     [BindProperty]
     public InputModel Input { get; set; }
 

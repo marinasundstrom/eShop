@@ -4,4 +4,3 @@
         window.location = a.href;
     }
 });
-

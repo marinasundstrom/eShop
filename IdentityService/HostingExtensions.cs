@@ -1,16 +1,12 @@
-﻿using Duende.IdentityServer;
-using Duende.IdentityServer.EntityFramework.DbContexts;
+using Duende.IdentityServer;
 using HealthChecks.UI.Client;
-using IdentityService;
-using IdentityService.Pages.Admin.ApiScopes;
-using IdentityService.Pages.Admin.Clients;
-using IdentityService.Pages.Admin.IdentityScopes;
-using Microsoft.AspNetCore.Authentication.Google;
+using IdentityService.Data;
+using IdentityService.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using Microsoft.IdentityModel.Logging;
+using Serilog;
 
 namespace IdentityService;
 
@@ -25,16 +21,20 @@ internal static class HostingExtensions
         builder.Services.AddRazorPages();
 
         builder.Services.AddHealthChecks()
-            .AddDbContextCheck<ConfigurationDbContext>()
-            .AddDbContextCheck<PersistedGrantDbContext>();
+            .AddDbContextCheck<ApplicationDbContext>();
 
         var connectionString = IdentityService.ConfigurationExtensions.GetConnectionString(builder.Configuration, "mssql", "IdentityService")
             ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-        var connectionString2 = IdentityService.ConfigurationExtensions.GetConnectionString(builder.Configuration, "mssql", "PersistedGrantDb")
-            ?? builder.Configuration.GetConnectionString("DefaultConnection2");
+        builder.Services.AddDbContext<ApplicationDbContext>(options => {
+            options.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(Program).Assembly.FullName));
+        });
 
-        var isBuilder = builder.Services
+        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+
+        builder.Services
             .AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -42,30 +42,15 @@ internal static class HostingExtensions
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
 
-                // see https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
+                // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
             })
-            .AddTestUsers(TestUsers.Users)
-            // this adds the config data from DB (clients, resources, CORS)
-            .AddConfigurationStore(options =>
-            {
-                options.ConfigureDbContext = b =>
-                    b.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName));
-            })
-            // this is something you will want in production to reduce load on and requests to the DB
-            //.AddConfigurationStoreCache()
-            //
-            // this adds the operational data from DB (codes, tokens, consents)
-            .AddOperationalStore(options =>
-            {
-                options.ConfigureDbContext = b =>
-                    b.UseSqlServer(connectionString2, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName));
-
-                // this enables automatic token cleanup. this is optional.
-                options.EnableTokenCleanup = true;
-                options.RemoveConsumedTokens = true;
-            });
-
+            .AddInMemoryIdentityResources(Config.IdentityResources)
+            .AddInMemoryApiResources(Config.ApiResources)
+            .AddInMemoryApiScopes(Config.ApiScopes)
+            .AddInMemoryClients(Config.Clients)
+            .AddAspNetIdentity<ApplicationUser>();
+        
         builder.Services.AddAuthentication()
             .AddGoogle(options =>
             {
@@ -74,41 +59,17 @@ internal static class HostingExtensions
                 // register your IdentityServer with Google at https://console.developers.google.com
                 // enable the Google+ API
                 // set the redirect URI to https://localhost:5001/signin-google
-                options.ClientId = builder.Configuration["Authentication:Google:ClientId"]!;
-                options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"]!;
+                options.ClientId = "copy client ID from Google here";
+                options.ClientSecret = "copy client secret from Google here";
             });
-
-
-        // this adds the necessary config for the simple admin/config pages
-        {
-            builder.Services.AddAuthorization(options =>
-                options.AddPolicy("admin",
-                    policy => policy.RequireClaim("sub", "1"))
-            );
-
-            builder.Services.Configure<RazorPagesOptions>(options =>
-                options.Conventions.AuthorizeFolder("/Admin", "admin"));
-
-            builder.Services.AddTransient<ClientRepository>();
-            builder.Services.AddTransient<IdentityScopeRepository>();
-            builder.Services.AddTransient<ApiScopeRepository>();
-        }
-
-        // if you want to use server-side sessions: https://blog.duendesoftware.com/posts/20220406_session_management/
-        // then enable it
-        //isBuilder.AddServerSideSessions();
-        //
-        // and put some authorization on the admin/management pages using the same policy created above
-        //builder.Services.Configure<RazorPagesOptions>(options =>
-        //    options.Conventions.AuthorizeFolder("/ServerSideSessions", "admin"));
 
         return builder.Build();
     }
-
+    
     public static WebApplication ConfigurePipeline(this WebApplication app)
-    {
+    { 
         app.UseSerilogRequestLogging();
-
+    
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -118,10 +79,10 @@ internal static class HostingExtensions
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
-
+        
         app.MapRazorPages()
             .RequireAuthorization();
-        
+
         app.MapHealthChecks("/healthz", new HealthCheckOptions()
         {
             Predicate = _ => true,

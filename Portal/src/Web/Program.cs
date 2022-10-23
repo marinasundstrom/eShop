@@ -78,7 +78,7 @@ foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
         config.DocumentName = $"v{description.ApiVersion}";
         config.PostProcess = document =>
         {
-            document.Info.Title = "Todo API";
+            document.Info.Title = "Portal API";
             document.Info.Version = $"v{description.ApiVersion.ToString()}";
         };
         config.ApiGroupNames = new[] { description.ApiVersion.ToString() };

@@ -25,7 +25,7 @@ public static class Config
     public static IEnumerable<ApiScope> ApiScopes =>
         new ApiScope[]
         {
-             new ApiScope("myapi", "Access the api")
+            new ApiScope("myapi", "Access the api")
         };
 
     public static IEnumerable<Client> Clients =>
@@ -42,7 +42,6 @@ public static class Config
                 RedirectUris = { "https://localhost:5021/authentication/login-callback" },
                 PostLogoutRedirectUris = { "https://localhost:5021/" },
                 Enabled = true
-            }
+            },
         };
 }
-

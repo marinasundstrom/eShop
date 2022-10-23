@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Services;
@@ -30,7 +30,7 @@ public class Index : PageModel
     }
 
     public ViewModel View { get; set; }
-
+        
     public async Task OnGet()
     {
         var grants = await _interaction.GetAllUserGrantsAsync();

@@ -1,4 +1,4 @@
-﻿namespace IdentityService.Pages.Grants;
+namespace IdentityService.Pages.Grants;
 
 public class ViewModel
 {

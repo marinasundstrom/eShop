@@ -1,4 +1,4 @@
-﻿namespace IdentityService.Pages.Device;
+namespace IdentityService.Pages.Device;
 
 public class InputModel
 {

@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Portal\src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Portal\src\Web\Web.csproj", "{156A45B7-379F-40B1-855F-C90BCF308E92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityService", "IdentityService\IdentityService.csproj", "{BFC7AEA8-1FFF-4E4E-BE94-1114D5F88719}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -152,6 +154,10 @@ Global
 		{156A45B7-379F-40B1-855F-C90BCF308E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{156A45B7-379F-40B1-855F-C90BCF308E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{156A45B7-379F-40B1-855F-C90BCF308E92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC7AEA8-1FFF-4E4E-BE94-1114D5F88719}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC7AEA8-1FFF-4E4E-BE94-1114D5F88719}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC7AEA8-1FFF-4E4E-BE94-1114D5F88719}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC7AEA8-1FFF-4E4E-BE94-1114D5F88719}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EC2C5CE6-2E67-41BF-8270-126367A61D2A} = {A6448884-BE4E-4A98-9A19-9F018E1D51CC}

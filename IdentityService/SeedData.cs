@@ -1,6 +1,8 @@
-﻿using Duende.IdentityServer.EntityFramework.DbContexts;
-using Duende.IdentityServer.EntityFramework.Mappers;
-using Duende.IdentityServer.Models;
+﻿using System.Security.Claims;
+using IdentityModel;
+using IdentityService.Data;
+using IdentityService.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -12,90 +14,75 @@ public class SeedData
     {
         using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
         {
-            scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.EnsureDeleted();
-            scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.EnsureCreated();
-
-            var context = scope.ServiceProvider.GetService<ConfigurationDbContext>();
-            context.Database.EnsureDeleted();
+            var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
             context.Database.EnsureCreated();
-            EnsureSeedData(context);
-        }
-    }
+            //context.Database.Migrate();
 
-    private static void EnsureSeedData(ConfigurationDbContext context)
-    {
-        if (!context.Clients.Any())
-        {
-            Log.Debug("Clients being populated");
-            foreach (var client in Config.Clients.ToList())
+            var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+            var alice = userMgr.FindByNameAsync("alice").Result;
+            if (alice == null)
             {
-                context.Clients.Add(client.ToEntity());
+                alice = new ApplicationUser
+                {
+                    UserName = "alice",
+                    Email = "AliceSmith@email.com",
+                    EmailConfirmed = true,
+                };
+                var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                            new Claim(JwtClaimTypes.GivenName, "Alice"),
+                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                        }).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+                Log.Debug("alice created");
             }
-            context.SaveChanges();
-        }
-        else
-        {
-            Log.Debug("Clients already populated");
-        }
-
-        if (!context.IdentityResources.Any())
-        {
-            Log.Debug("IdentityResources being populated");
-            foreach (var resource in Config.IdentityResources.ToList())
+            else
             {
-                context.IdentityResources.Add(resource.ToEntity());
+                Log.Debug("alice already exists");
             }
-            context.SaveChanges();
-        }
-        else
-        {
-            Log.Debug("IdentityResources already populated");
-        }
 
-        if (!context.ApiResources.Any())
-        {
-            Log.Debug("ApiResources being populated");
-            foreach (var resource in Config.ApiResources.ToList())
+            var bob = userMgr.FindByNameAsync("bob").Result;
+            if (bob == null)
             {
-                context.ApiResources.Add(resource.ToEntity());
+                bob = new ApplicationUser
+                {
+                    UserName = "bob",
+                    Email = "BobSmith@email.com",
+                    EmailConfirmed = true
+                };
+                var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+
+                result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                            new Claim(JwtClaimTypes.GivenName, "Bob"),
+                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                            new Claim("location", "somewhere")
+                        }).Result;
+                if (!result.Succeeded)
+                {
+                    throw new Exception(result.Errors.First().Description);
+                }
+                Log.Debug("bob created");
             }
-            context.SaveChanges();
-        }
-        else
-        {
-            Log.Debug("ApiScopes already populated");
-        }
-
-        if (!context.ApiScopes.Any())
-        {
-            Log.Debug("ApiScopes being populated");
-            foreach (var resource in Config.ApiScopes.ToList())
+            else
             {
-                context.ApiScopes.Add(resource.ToEntity());
+                Log.Debug("bob already exists");
             }
-            context.SaveChanges();
-        }
-        else
-        {
-            Log.Debug("ApiScopes already populated");
-        }
-
-        if (!context.IdentityProviders.Any())
-        {
-            Log.Debug("OIDC IdentityProviders being populated");
-            context.IdentityProviders.Add(new OidcProvider
-            {
-                Scheme = "demoidsrv",
-                DisplayName = "IdentityServer",
-                Authority = "https://demo.duendesoftware.com",
-                ClientId = "login",
-            }.ToEntity());
-            context.SaveChanges();
-        }
-        else
-        {
-            Log.Debug("OIDC IdentityProviders already populated");
         }
     }
 }
-
