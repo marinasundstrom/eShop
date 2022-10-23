@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace IdentityService;
+namespace YourBrand.IdentityService;
 
 public static class ConfigurationExtensions
 {

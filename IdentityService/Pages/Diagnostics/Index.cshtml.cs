@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Authorization;
 
-namespace IdentityService.Pages.Diagnostics;
+namespace YourBrand.IdentityService.Pages.Diagnostics;
 
 [SecurityHeaders]
 [Authorize]

@@ -2,7 +2,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace IdentityService.Pages.Device;
+namespace YourBrand.IdentityService.Pages.Device;
 
 public class DeviceOptions
 {

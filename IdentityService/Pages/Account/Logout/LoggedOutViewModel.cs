@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace IdentityService.Pages.Logout;
+namespace YourBrand.IdentityService.Pages.Logout;
 
 public class LoggedOutViewModel
 {

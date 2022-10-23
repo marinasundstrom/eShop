@@ -4,6 +4,7 @@
 	  <TargetFramework>net7.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <UserSecretsId>a1332611-5168-4b95-8d99-d089ecbce952</UserSecretsId>
+	  <RootNamespace>YourBrand.IdentityService</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'SelfHost' " />

@@ -2,7 +2,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace IdentityService.Pages.Consent;
+namespace YourBrand.IdentityService.Pages.Consent;
 
 public class ConsentOptions
 {

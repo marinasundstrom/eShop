@@ -1,4 +1,4 @@
-namespace IdentityService.Pages.Device;
+namespace YourBrand.IdentityService.Pages.Device;
 
 public class ViewModel
 {

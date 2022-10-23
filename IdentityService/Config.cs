@@ -1,7 +1,7 @@
 ﻿using Duende.IdentityServer.Models;
 using IdentityModel;
 
-namespace IdentityService;
+namespace YourBrand.IdentityService;
 
 public static class Config
 {

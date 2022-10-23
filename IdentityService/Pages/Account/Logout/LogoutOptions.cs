@@ -1,5 +1,5 @@
 
-namespace IdentityService.Pages.Logout;
+namespace YourBrand.IdentityService.Pages.Logout;
 
 public class LogoutOptions
 {

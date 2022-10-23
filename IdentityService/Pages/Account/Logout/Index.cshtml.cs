@@ -2,27 +2,27 @@ using Duende.IdentityServer.Events;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Services;
 using IdentityModel;
-using IdentityService.Models;
+using YourBrand.IdentityService.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityService.Pages.Logout;
+namespace YourBrand.IdentityService.Pages.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]
 public class Index : PageModel
 {
-    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly SignInManager<User> _signInManager;
     private readonly IIdentityServerInteractionService _interaction;
     private readonly IEventService _events;
 
     [BindProperty] 
     public string LogoutId { get; set; }
 
-    public Index(SignInManager<ApplicationUser> signInManager, IIdentityServerInteractionService interaction, IEventService events)
+    public Index(SignInManager<User> signInManager, IIdentityServerInteractionService interaction, IEventService events)
     {
         _signInManager = signInManager;
         _interaction = interaction;

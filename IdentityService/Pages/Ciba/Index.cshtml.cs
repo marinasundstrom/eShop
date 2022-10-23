@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityService.Pages.Ciba;
+namespace YourBrand.IdentityService.Pages.Ciba;
 
 [AllowAnonymous]
 [SecurityHeaders]

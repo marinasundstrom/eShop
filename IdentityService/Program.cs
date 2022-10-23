@@ -1,4 +1,4 @@
-﻿using IdentityService;
+﻿using YourBrand.IdentityService;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

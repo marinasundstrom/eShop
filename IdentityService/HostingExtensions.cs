@@ -1,14 +1,14 @@
 using Duende.IdentityServer;
 using HealthChecks.UI.Client;
-using IdentityService.Data;
-using IdentityService.Models;
+using YourBrand.IdentityService.Data;
+using YourBrand.IdentityService.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Logging;
 using Serilog;
 
-namespace IdentityService;
+namespace YourBrand.IdentityService;
 
 internal static class HostingExtensions
 {
@@ -30,7 +30,7 @@ internal static class HostingExtensions
             options.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(Program).Assembly.FullName));
         });
 
-        builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+        builder.Services.AddIdentity<User, Role>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -49,7 +49,7 @@ internal static class HostingExtensions
             .AddInMemoryApiResources(Config.ApiResources)
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
-            .AddAspNetIdentity<ApplicationUser>();
+            .AddAspNetIdentity<User>();
         
         builder.Services.AddAuthentication()
             .AddGoogle(options =>

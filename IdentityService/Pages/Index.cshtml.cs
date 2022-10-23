@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace IdentityService.Pages.Home;
+namespace YourBrand.IdentityService.Pages.Home;
 
 [AllowAnonymous]
 public class Index : PageModel
