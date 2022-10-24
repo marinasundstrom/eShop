@@ -15,7 +15,7 @@ namespace YourBrand.Sales.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-[Authorize]
+//[Authorize]
 public sealed partial class CartsController : ControllerBase
 {
     private readonly IMediator mediator;

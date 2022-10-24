@@ -118,12 +118,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -163,12 +158,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Carts/{id}": {
@@ -220,12 +210,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -258,12 +243,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Carts/{id}/Items": {
@@ -271,7 +251,7 @@
         "tags": [
           "Carts"
         ],
-        "operationId": "Carts_CreateCartItem",
+        "operationId": "Carts_AddCartItem",
         "parameters": [
           {
             "name": "id",
@@ -297,7 +277,7 @@
           "x-position": 2
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -317,12 +297,61 @@
               }
             }
           }
-        },
-        "security": [
+        }
+      }
+    },
+    "/v1/Carts/{id}/Items/{itemId}/Quantity": {
+      "put": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_UpdateCartItemQuantity",
+        "parameters": [
           {
-            "JWT": []
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "quantity",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "double"
+            },
+            "x-position": 3
           }
-        ]
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/Carts/{id}/Items/{itemId}": {
@@ -330,7 +359,7 @@
         "tags": [
           "Carts"
         ],
-        "operationId": "Carts_DeleteCartItem",
+        "operationId": "Carts_RemoveCartItem",
         "parameters": [
           {
             "name": "id",
@@ -367,12 +396,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Orders": {
@@ -1118,7 +1142,12 @@
             "format": "date-time"
           },
           "createdBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "lastModified": {
             "type": "string",
@@ -1142,31 +1171,25 @@
           "id": {
             "type": "string"
           },
-          "description": {
-            "type": "string"
-          },
           "itemId": {
             "type": "string",
             "nullable": true
           },
-          "price": {
-            "type": "number",
-            "format": "decimal"
-          },
           "quantity": {
             "type": "number",
             "format": "double"
-          },
-          "total": {
-            "type": "number",
-            "format": "decimal"
           },
           "created": {
             "type": "string",
             "format": "date-time"
           },
           "createdBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "lastModified": {
             "type": "string",
@@ -1260,24 +1283,13 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "description": {
-            "type": "string"
-          },
           "itemId": {
             "type": "string",
             "nullable": true
           },
-          "price": {
-            "type": "number",
-            "format": "decimal"
-          },
           "quantity": {
             "type": "number",
             "format": "double"
-          },
-          "total": {
-            "type": "number",
-            "format": "decimal"
           }
         }
       },
@@ -1326,7 +1338,12 @@
             "format": "date-time"
           },
           "createdBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "lastModified": {
             "type": "string",
@@ -1390,7 +1407,12 @@
             "format": "date-time"
           },
           "createdBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "lastModified": {
             "type": "string",

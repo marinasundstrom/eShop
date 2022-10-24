@@ -74,7 +74,7 @@
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfProductDto>(
         "productResults", out var restored))
         {
-            string productGroupId = "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";
+            string productGroupId = null; // "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";
 
             productResults = await ProductsClient.GetProductsAsync(productGroupId, Page.GetValueOrDefault(), pageSize, null, null, null);
         }

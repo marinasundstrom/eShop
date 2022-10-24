@@ -121,7 +121,7 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/CartDto"
+              "$ref": "#/definitions/SiteCartDto"
             }
           }
         }
@@ -135,6 +135,107 @@
           {
             "type": "string",
             "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Carts/{id}/Items": {
+      "post": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_AddItemToCart",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AddCartItemDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Carts/{id}/Items/{itemId}/Quantity": {
+      "put": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_UpdateCartItemQuantity",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "quantity",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Carts/{id}/Items/{itemId}": {
+      "delete": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_RemoveItemFromCart",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "itemId",
             "in": "path",
             "required": true,
             "x-nullable": true
@@ -625,8 +726,7 @@
       "required": [
         "id",
         "items",
-        "created",
-        "createdBy"
+        "created"
       ],
       "properties": {
         "id": {
@@ -658,34 +758,19 @@
       "type": "object",
       "required": [
         "id",
-        "description",
-        "price",
         "quantity",
-        "total",
-        "created",
-        "createdBy"
+        "created"
       ],
       "properties": {
         "id": {
           "type": "string"
         },
-        "description": {
-          "type": "string"
-        },
         "itemId": {
           "type": "string"
-        },
-        "price": {
-          "type": "number",
-          "format": "decimal"
         },
         "quantity": {
           "type": "number",
           "format": "double"
-        },
-        "total": {
-          "type": "number",
-          "format": "decimal"
         },
         "created": {
           "type": "string",
@@ -746,6 +831,83 @@
         1
       ]
     },
+    "SiteCartDto": {
+      "type": "object",
+      "required": [
+        "items"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SiteCartItemDto"
+          }
+        }
+      }
+    },
+    "SiteCartItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "item",
+        "quantity",
+        "total"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "item": {
+          "$ref": "#/definitions/SiteItemDto"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "total": {
+          "type": "number",
+          "format": "decimal"
+        }
+      }
+    },
+    "SiteItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "price"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        }
+      }
+    },
+    "AddCartItemDto": {
+      "type": "object",
+      "required": [
+        "quantity"
+      ],
+      "properties": {
+        "itemId": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
     "ItemsResultOfOrderDto": {
       "type": "object",
       "required": [
@@ -771,8 +933,7 @@
         "id",
         "status",
         "items",
-        "created",
-        "createdBy"
+        "created"
       ],
       "properties": {
         "id": {
@@ -830,8 +991,7 @@
         "price",
         "quantity",
         "total",
-        "created",
-        "createdBy"
+        "created"
       ],
       "properties": {
         "id": {

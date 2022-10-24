@@ -16,14 +16,22 @@ public class Cart : AuditableEntity, IAggregateRoot
     {
     }
 
-    public string Id { get; private set; } = Guid.NewGuid().ToString();
+    public string Id { get; private set; } = "test"; // Guid.NewGuid().ToString();
 
     public IReadOnlyCollection<CartItem> Items => _items;
 
-    public CartItem AddCartItem(string description, string? itemId, decimal price, double quantity, decimal total) 
+    public CartItem AddCartItem(string? itemId, double quantity) 
     {
-        var cartItem = new CartItem(description, itemId, price, quantity, total);
-        _items.Add(cartItem);
+        CartItem? cartItem = _items.FirstOrDefault(x => x.ItemId == itemId);
+        if(cartItem is null) 
+        {
+            cartItem = new CartItem(itemId, quantity);
+            _items.Add(cartItem);
+        }
+        else 
+        {
+            cartItem.AddToQuantity(quantity);
+        }
         return cartItem;
     }
 

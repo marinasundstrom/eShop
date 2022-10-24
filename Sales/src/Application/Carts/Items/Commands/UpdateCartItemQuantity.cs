@@ -3,19 +3,19 @@ using MediatR;
 
 namespace YourBrand.Sales.Application.Carts.Items.Commands;
 
-public sealed record DeleteCartItem(string CartId, string OrdeItemId) : IRequest<Result>
+public sealed record UpdateCartItemQuantity(string CartId, string CartItemId, double Quantity) : IRequest<Result>
 {
-    public sealed class Validator : AbstractValidator<DeleteCartItem>
+    public sealed class Validator : AbstractValidator<RemoveCartItem>
     {
         public Validator()
         {
             RuleFor(x => x.CartId).NotEmpty();
 
-            RuleFor(x => x.OrdeItemId).NotEmpty();
+            RuleFor(x => x.CartItemId).NotEmpty();
         }
     }
 
-    public sealed class Handler : IRequestHandler<DeleteCartItem, Result>
+    public sealed class Handler : IRequestHandler<UpdateCartItemQuantity, Result>
     {
         private readonly ICartRepository cartRepository;
         private readonly IUnitOfWork unitOfWork;
@@ -26,7 +26,7 @@ public sealed record DeleteCartItem(string CartId, string OrdeItemId) : IRequest
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(DeleteCartItem request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateCartItemQuantity request, CancellationToken cancellationToken)
         {
             var cart = await cartRepository.FindByIdAsync(request.CartId, cancellationToken);
 
@@ -35,14 +35,14 @@ public sealed record DeleteCartItem(string CartId, string OrdeItemId) : IRequest
                 return Result.Failure(Errors.Carts.CartNotFound);
             }
 
-            var cartItem = cart.Items.FirstOrDefault(x => x.Id == request.OrdeItemId);
+            var cartItem = cart.Items.FirstOrDefault(x => x.Id == request.CartItemId);
 
             if (cartItem is null)
             {
                 throw new System.Exception();
             }
 
-            cart.RemoveCartItem(cartItem);
+            cartItem.UpdateQuantity(request.Quantity);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

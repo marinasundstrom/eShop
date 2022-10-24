@@ -24,6 +24,7 @@ public sealed class CartRepository : ICartRepository
     public async Task<Cart?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
     {
         return await dbSet
+            .Include(i => i.Items)
             .Include(i => i.CreatedBy)
             .Include(i => i.LastModifiedBy)
             .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
@@ -32,6 +33,7 @@ public sealed class CartRepository : ICartRepository
     public IQueryable<Cart> GetAll(ISpecification<Cart> specification)
     {
         return dbSet
+            .Include(i => i.Items)
             .Include(i => i.CreatedBy)
             .Include(i => i.LastModifiedBy)
             .Where(specification.Criteria);

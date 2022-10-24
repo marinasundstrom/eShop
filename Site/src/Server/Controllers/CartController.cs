@@ -10,11 +10,13 @@ public class CartsController : ControllerBase
 {
     private readonly ILogger<CartsController> _logger;
     private readonly YourBrand.Sales.ICartsClient _cartsClient;
+    private readonly YourBrand.Catalog.IProductsClient _productsClient;
 
-    public CartsController(ILogger<CartsController> logger, YourBrand.Sales.ICartsClient cartsClient)
+    public CartsController(ILogger<CartsController> logger, YourBrand.Sales.ICartsClient cartsClient, YourBrand.Catalog.IProductsClient productsClient)
     {
         _logger = logger;
         _cartsClient = cartsClient;
+        _productsClient = productsClient;
     }
 
     [HttpGet]
@@ -25,9 +27,24 @@ public class CartsController : ControllerBase
 
     
     [HttpGet("{id}")]
-    public async Task<CartDto?> GetCart(string id, CancellationToken cancellationToken = default)
+    public async Task<SiteCartDto?> GetCart(string id, CancellationToken cancellationToken = default)
     {
-        return await _cartsClient.GetCartByIdAsync(id, cancellationToken);
+        var cart = await _cartsClient.GetCartByIdAsync(id, cancellationToken);
+        
+        var items = new List<SiteCartItemDto>();
+
+        foreach(var cartItem in cart.Items) 
+        {
+            var item = await _productsClient.GetProductByItemIdAsync(cartItem.ItemId);
+
+            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, item.Price.GetValueOrDefault()), (int)cartItem.Quantity, 0));
+        }
+
+        return new SiteCartDto(items);
+
+        /*
+        return new CartDto(cart.Items.Select(ci => new CartItemDto()));
+        */
     }
 
     [HttpDelete("{id}")]
@@ -35,4 +52,34 @@ public class CartsController : ControllerBase
     {
         await _cartsClient.DeleteCartAsync(id, cancellationToken);
     }
+
+    [HttpPost("{id}/Items")]
+    public async Task AddItemToCart(string id, AddCartItemDto dto, CancellationToken cancellationToken = default)
+    {
+        var dto2 = new YourBrand.Sales.CreateCartItemRequest() {
+            ItemId = dto.ItemId,
+            Quantity = dto.Quantity
+        };
+        await _cartsClient.AddCartItemAsync(id, dto2, cancellationToken);
+    }
+
+    [HttpPut("{id}/Items/{itemId}/Quantity")]
+    public async Task UpdateCartItemQuantity(string id, string itemId, int quantity, CancellationToken cancellationToken = default)
+    {
+        await _cartsClient.UpdateCartItemQuantityAsync(id, itemId, quantity, cancellationToken);
+    }
+
+    [HttpDelete("{id}/Items/{itemId}")]
+    public async Task RemoveItemFromCart(string id, string itemId, CancellationToken cancellationToken = default)
+    {
+        await _cartsClient.RemoveCartItemAsync(id, itemId, cancellationToken);
+    }
 }
+
+public record AddCartItemDto(string? ItemId, int Quantity);
+
+public record SiteItemDto(string Id, string Name, string? Description, decimal Price);
+
+public record SiteCartDto(IEnumerable<SiteCartItemDto> Items);
+
+public record SiteCartItemDto(string Id, SiteItemDto Item, int Quantity, decimal Total);

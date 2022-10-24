@@ -1,8 +1,9 @@
 @page "/products/{id}"
 @implements IDisposable
-@inject IProductsClient ProductsClient
 @inject PersistentComponentState ApplicationState
 @inject NavigationManager NavigationManager
+@inject IProductsClient ProductsClient
+@inject ICartsClient CartsClient
 
 <SitePageTitle>Product</SitePageTitle>
 
@@ -38,7 +39,7 @@
                         </div>
                         
                         <div>
-                            <button type="button" class="btn btn-outline-secondary ms-2 me-2" @onclick="async () => { hasAddedToCart = true; }" @onclick:preventDefault><i class="fa fa-shopping-basket"></i> Add to basket</button>
+                            <button type="button" class="btn btn-outline-secondary ms-2 me-2" @onclick="AddItemToCart" @onclick:preventDefault><i class="fa fa-shopping-basket"></i> Add to basket</button>
                             @if (hasAddedToCart)
                             {
                                 <a class="btn btn-primary fadeInRight" href="/checkout"><i class="fa fa-shopping-basket"></i> Check out</a>
@@ -203,6 +204,16 @@
         ApplicationState.PersistAsJson("productVariants", productVariantResults);
 
         return Task.CompletedTask;
+    }
+
+    async Task AddItemToCart() 
+    {
+        await CartsClient.AddItemToCartAsync("test", new AddCartItemDto() {
+            ItemId = product.Sku,
+            Quantity = quantity
+        });
+
+        hasAddedToCart = true;
     }
 
     void IDisposable.Dispose()

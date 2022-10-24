@@ -11,7 +11,7 @@ public static class ServiceExtensions
             .AddTypedClient<IProductsClient>((http, sp) => new ProductsClient(http));
 
         services.AddHttpClient("Site")
-            .AddTypedClient<IProductsClient>((http, sp) => new ProductsClient(http));
+            .AddTypedClient<ICartsClient>((http, sp) => new CartsClient(http));
 
             
         CultureInfo? culture = new("sv-SE");

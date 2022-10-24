@@ -5,19 +5,21 @@ using YourBrand.Sales.Application.Carts.Dtos;
 
 namespace YourBrand.Sales.Application.Carts.Items.Commands;
 
-public sealed record CreateCartItem(string CartId, string Description, string? ItemId, decimal Price, double Quantity, decimal Total) : IRequest<Result<CartItemDto>>
+public sealed record AddCartItem(string CartId, string? ItemId, double Quantity) : IRequest<Result<CartItemDto>>
 {
-    public sealed class Validator : AbstractValidator<CreateCartItem>
+    public sealed class Validator : AbstractValidator<AddCartItem>
     {
         public Validator()
         {
             RuleFor(x => x.CartId).NotEmpty().MaximumLength(60);
 
-            RuleFor(x => x.Description).NotEmpty().MaximumLength(240);
+            RuleFor(x => x.ItemId).NotEmpty().MaximumLength(60);
+
+            RuleFor(x => x.Quantity);
         }
     }
 
-    public sealed class Handler : IRequestHandler<CreateCartItem, Result<CartItemDto>>
+    public sealed class Handler : IRequestHandler<AddCartItem, Result<CartItemDto>>
     {
         private readonly ICartRepository cartRepository;
         private readonly IUnitOfWork unitOfWork;
@@ -30,7 +32,7 @@ public sealed record CreateCartItem(string CartId, string Description, string? I
             this.domainEventDispatcher = domainEventDispatcher;
         }
 
-        public async Task<Result<CartItemDto>> Handle(CreateCartItem request, CancellationToken cancellationToken)
+        public async Task<Result<CartItemDto>> Handle(AddCartItem request, CancellationToken cancellationToken)
         {
             var cart = await cartRepository.FindByIdAsync(request.CartId, cancellationToken);
 
@@ -39,7 +41,7 @@ public sealed record CreateCartItem(string CartId, string Description, string? I
                 return Result.Failure<CartItemDto>(Errors.Carts.CartNotFound);
             }
 
-            var cartItem = cart.AddCartItem(request.Description, request.ItemId, request.Price, request.Quantity, request.Total);
+            var cartItem = cart.AddCartItem(request.ItemId, request.Quantity);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

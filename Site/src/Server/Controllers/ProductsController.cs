@@ -23,7 +23,6 @@ public class ProductsController : ControllerBase
         return await _productsClient.GetProductsAsync(false, productGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
     }
 
-    
     [HttpGet("{id}")]
     public async Task<ProductDto?> GetProduct(string id, CancellationToken cancellationToken = default)
     {

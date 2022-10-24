@@ -2,7 +2,7 @@
   "x-generator": "NSwag v13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))",
   "openapi": "3.0.0",
   "info": {
-    "title": "Todo API",
+    "title": "Catalog API",
     "version": "v1"
   },
   "servers": [
@@ -874,6 +874,37 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Products/GetItemByItemId": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_GetProductByItemId",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemDto"
                 }
               }
             }
@@ -2535,6 +2566,39 @@
           "Desc",
           "Asc"
         ]
+      },
+      "ItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "group": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductGroupDto"
+              }
+            ]
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          }
+        }
       },
       "ApiUpdateProductDetails": {
         "type": "object",

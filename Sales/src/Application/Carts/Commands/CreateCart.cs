@@ -41,7 +41,7 @@ public sealed record CreateCart() : IRequest<Result<CartDto>>
             cart = await cartRepository.GetAll()
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
-                .LastAsync(cancellationToken);
+                .FirstAsync(x => x.Id == cart.Id, cancellationToken);
 
             return Result.Success(cart!.ToDto());
         }

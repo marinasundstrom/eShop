@@ -50,10 +50,9 @@ public sealed record CreateOrder(string Title, string? Description, OrderStatusD
             await domainEventDispatcher.Dispatch(new OrderCreated(order.Id), cancellationToken);
 
             order = await orderRepository.GetAll()
-                .OrderBy(i => i.Id)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
-                .LastAsync(cancellationToken);
+                .FirstAsync(x => x.Id == order.Id, cancellationToken);
 
             return Result.Success(order!.ToDto());
         }

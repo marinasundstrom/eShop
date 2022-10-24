@@ -35,6 +35,12 @@ public partial class ProductsController : Controller
         return Ok(await _mediator.Send(new GetProduct(productId), cancellationToken));
     }
 
+    [HttpGet("GetItemByItemId")]
+    public async Task<ActionResult<ItemDto>> GetProductByItemId(string itemId, CancellationToken cancellationToken)
+    {
+        return Ok(await _mediator.Send(new GetItemByItemId(itemId), cancellationToken));
+    }
+
     [HttpPut("{productId}")]
     public async Task<ActionResult> UpdateProductDetails(string productId, ApiUpdateProductDetails details, CancellationToken cancellationToken)
     {

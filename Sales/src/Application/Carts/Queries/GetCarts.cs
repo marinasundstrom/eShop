@@ -33,6 +33,7 @@ public record GetCarts(int Page = 1, int PageSize = 10, string? SortBy = null, S
             }
 
             var carts = await query
+                .Include(i => i.Items)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
                 .AsSplitQuery()
