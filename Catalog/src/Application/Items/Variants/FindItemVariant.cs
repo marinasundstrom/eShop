@@ -26,7 +26,7 @@ public record FindItemVariant(string ItemId, Dictionary<string, string?> Selecte
 
             return new ItemDto(variant.Id, variant.Name, variant.Description,
                 variant.Group is not null ? new Groups.ItemGroupDto(variant.Group.Id, variant.Group.Name, variant.Group.Description, null) : null,
-                GetImageUrl(variant.Image), variant.Price, variant.HasVariants, (ItemVisibility?)variant.Visibility,
+                GetImageUrl(variant.Image), variant.Price.GetValueOrDefault(), variant.CompareAtPrice, variant.HasVariants, (ItemVisibility?)variant.Visibility,
                 variant.AttributeValues.Select(x => x.ToDto()));
         }
 

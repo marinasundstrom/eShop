@@ -27,7 +27,7 @@ public record FindItemVariants(string ItemId, Dictionary<string, string?> Select
                 {
                     return new ItemDto(item.Id, item.Name, item.Description,
                         item.Group is not null ? new Groups.ItemGroupDto(item.Group.Id, item.Group.Name, item.Group.Description, item.Group?.Parent?.Id) : null,
-                        GetImageUrl(item.Image), item.Price, item.HasVariants, (ItemVisibility?)item.Visibility,
+                        GetImageUrl(item.Image), item.Price.GetValueOrDefault(), item.CompareAtPrice, item.HasVariants, (ItemVisibility?)item.Visibility,
                         item.AttributeValues.Select(x => x.ToDto()));
                 });
         }

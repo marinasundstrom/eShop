@@ -36,7 +36,7 @@ public class CartsController : ControllerBase
         {
             var item = await _itemsClient.GetItemAsync(cartItem.ItemId);
 
-            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, item.Image, item.Price.GetValueOrDefault()), (int)cartItem.Quantity, 0));
+            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, item.Image, item.Price), (int)cartItem.Quantity, 0));
         }
 
         return new SiteCartDto(items);

@@ -69,7 +69,7 @@ public record CreateItemVariant(string ItemId, ApiCreateItemVariant Data) : IReq
 
             return new ItemDto(variant.Id, variant.Name, variant.Description,
                             variant.Group is not null ? new Groups.ItemGroupDto(variant.Group.Id, variant.Group.Name, variant.Group.Description, variant.Group?.Parent?.Id) : null,
-                            GetImageUrl(item.Image), variant.Price, variant.HasVariants, (ItemVisibility?)variant.Visibility,
+                            GetImageUrl(item.Image), variant.Price.GetValueOrDefault(), variant.CompareAtPrice, variant.HasVariants, (ItemVisibility?)variant.Visibility,
                             variant.AttributeValues.Select(x => x.ToDto()));
         }
 

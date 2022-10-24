@@ -27,16 +27,18 @@
                                 <div class="btn-group">
                                     <a class="btn btn-sm btn-outline-secondary" href="/items/@item.Id">View</a>
                                 </div>
-                                <small class="text-muted">
+                                <div>
                                     @if (item.HasVariants)
                                     {
-                                        <text>Har flera varianter</text>
+                                        <small class="text-muted">
+                                            <text>Har flera varianter</text>
+                                        </small>
                                     }
                                     else
                                     {
-                                        @item.Price?.ToString("c")
+                                        <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
                                     }
-                                </small>
+                                </div>
                             </div>
                         </div>
                     </div>

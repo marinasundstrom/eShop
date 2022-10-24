@@ -1058,6 +1058,7 @@
       "required": [
         "id",
         "name",
+        "price",
         "hasVariants",
         "attributes"
       ],
@@ -1078,6 +1079,10 @@
           "type": "string"
         },
         "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "compareAtPrice": {
           "type": "number",
           "format": "decimal"
         },

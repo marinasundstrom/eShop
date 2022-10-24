@@ -35,7 +35,7 @@ public record GetItemVariant(string ItemId, string ItemVariantId) : IRequest<Ite
 
             return new ItemDto(itemVariant.Id, itemVariant.Name, itemVariant.Description,
                 itemVariant is not null ? new Groups.ItemGroupDto(itemVariant.Id, itemVariant.Name, itemVariant.Description, null) : null,
-                GetImageUrl(itemVariant!.Image), itemVariant.Price, itemVariant.HasVariants, (ItemVisibility?)itemVariant.Visibility,
+                GetImageUrl(itemVariant!.Image), itemVariant.Price.GetValueOrDefault(), itemVariant.CompareAtPrice, itemVariant.HasVariants, (ItemVisibility?)itemVariant.Visibility,
                 itemVariant.AttributeValues.Select(x => x.ToDto()));
         }
 

@@ -54,3 +54,23 @@ window.initDropDown = function () {
 
     hoverfunc();
 };
+
+function scrollFunction() {
+    const elem = document.getElementById("scrollTopButton");
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        elem.style.display = "block";
+    } else {
+        elem.style.display = "none";
+    }
+}
+
+document.addEventListener("scroll", scrollFunction);
+
+// When the user clicks on the button, scroll to the top of the document
+window.scrollToTop = function () {
+    window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+    });
+}
