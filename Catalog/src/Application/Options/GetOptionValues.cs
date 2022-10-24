@@ -27,7 +27,7 @@ public record GetOptionValues(string OptionId) : IRequest<IEnumerable<OptionValu
                 .Where(p => p.Option.Id == request.OptionId)
                 .ToArrayAsync();
 
-            return options.Select(x => new OptionValueDto(x.Id, x.Name, x.SKU, x.Price, x.Seq));  
+            return options.Select(x => new OptionValueDto(x.Id, x.Name, x.ItemId, x.Price, x.Seq));  
         }
     }
 }

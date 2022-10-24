@@ -1,0 +1,546 @@
+﻿@page "/items/{itemId}/edit"
+@inject NavigationManager NavigationManager
+@inject IItemsClient ItemsClient
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@using System.ComponentModel.DataAnnotations
+
+<PageTitle>Item</PageTitle>
+
+@if (item is null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <PageTitle>@item.Name (@item.Id)</PageTitle>
+
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@item.Name</MudText>
+
+    <MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary" Link="@($"/items/{item.Id}")">View
+        item</MudButton>
+
+    <MudGrid Spacing="6">
+        <MudItem xs="12" sm="12" md="6" lg="6">
+            <div class="card shadow-sm">
+                @if (item.Image is not null)
+                {
+                    <MudImage Src="@item.Image" Alt="Mony the dog" Fluid="true" Elevation="25" Class="rounded-lg"
+                Style="width: 100%;" />
+                }
+                else
+                {
+                    <svg class="rounded-lg" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                        <title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                    dy=".3em">Thumbnail</text>
+                    </svg>
+                }
+            </div>
+
+            <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
+
+            <MudButton HtmlTag="label" Color="Color.Secondary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
+                Upload image
+            </MudButton>
+
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="6" lg="6">
+
+            <MudCard class="mb-4" Elevation="25">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Details</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <EditForm Model="@this" OnValidSubmit="OnDetailsFormSubmit">
+                        <DataAnnotationsValidator />
+
+                                <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
+
+                                <MudTextField Lines="3" Class="mb-6" Label="Description" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
+
+                                @if (Groups is not null)
+                                {
+                                    <MudSelect T="ItemGroupDto" Label="Group" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Group" ToStringFunc="x => x?.Name"
+                                               For="() => Group">
+                                        @foreach (var item in Groups)
+                                        {
+                                            <MudSelectItem Value="@item" />
+                                        }
+                                    </MudSelect>
+                                }
+
+                                @if (!item.HasVariants)
+                                {
+                                    <MudTextField Label="Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
+
+                                    <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
+                                }
+
+       
+                                <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">Save changes</MudButton>
+                        </EditForm>
+
+                        <MudSelect T="ItemVisibility?" Label="Visibility" Variant="Variant.Outlined" Value="@item.Visibility"
+                                   ValueChanged="async (e) => await UpdateVisibility((ItemVisibility?)e)"
+                                   ToStringFunc="x => x?.ToString()" Class="mt-8">
+                            @foreach (var item in VisibilityOptions)
+                            {
+                                <MudSelectItem Value="@item" />
+                            }
+                        </MudSelect>
+
+</MudCardContent>
+            </MudCard>
+
+        </MudItem>
+
+    </MudGrid>
+
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mt-6 mb-2">Attributes</MudText>
+
+    <div class="mb-4">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateAttribute"
+        StartIcon="@Icons.Material.Filled.Add">Create attribute</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Link="@($"/items/{item.Id}/attributes/groups")">
+            Attribute groups</MudButton>
+    </div>
+
+    if (attributes is not null)
+    {
+        @foreach (var group in attributes
+       .ToList()
+       .GroupBy(x => x.Group?.Name))
+        {
+            @if (group.Key is not null)
+            {
+                <MudText Typo="Typo.h5" Align="Align.Left" Class="mb-2 mt-6">@group.Key</MudText>
+            }
+
+            <MudTable T="AttributeDto" Items="@group" Dense="true" Hover="true" @ref="table2" Class="mb-4" Elevation="25">
+
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>For Variant</MudTh>
+                    <MudTh>Is main attribute</MudTh>
+                    <MudTh>Values</MudTh>
+                    @* <MudTh>Default value</MudTh> *@
+                    <MudTh></MudTh>
+                </HeaderContent>
+
+                <RowTemplate Context="attribute">
+                    <MudTd DataLabel="Name">@(attribute.Name)</MudTd>
+                    <MudTd DataLabel="For Variant">@(attribute.ForVariant)</MudTd>
+                    <MudTd DataLabel="Is main attribute">@(attribute.IsMainAttribute)</MudTd>
+                    <MudTd DataLabel="Values">@string.Join(", ", attribute.Values.Select(x => x.Name))</MudTd>
+                    @* <MudTd DataLabel="Default value">@attribute.DefaultValue?.Name</MudTd> *@
+                    <MudTd>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateAttribute(attribute)" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                OnClick="async () => await DeleteAttribute(attribute)" />
+                    </MudTd>
+                </RowTemplate>
+
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+
+            </MudTable>
+        }
+    }
+
+    @if (item.HasVariants)
+    {
+        <MudText Typo="Typo.h4" Align="Align.Center" Class="mt-6 mb-2">Variants</MudText>
+
+        @if (!attributes.Any())
+        {
+            <span>Add attributes before you can create variants</span>
+        }
+        else
+        {
+            <div class="mb-4">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateVariant"
+        StartIcon="@Icons.Material.Filled.Add">Create variant</MudButton>
+</div>
+
+            <MudTable T="ItemDto" @ref="table3" ServerData="ServerReload" Dense="true" Hover="true" Class="mb-4"
+    Elevation="25">
+
+                <HeaderContent>
+                    <MudTh>Image</MudTh>
+                    <MudTh>
+                        <MudTableSortLabel SortLabel="Name" T="ItemDto">Name</MudTableSortLabel>
+                    </MudTh>
+                    <MudTh>
+                        <MudTableSortLabel SortLabel="Id" T="ItemDto">Id</MudTableSortLabel>
+                    </MudTh>
+                    <MudTh>
+                        <MudTableSortLabel SortLabel="Price" T="ItemDto">Price</MudTableSortLabel>
+                    </MudTh>
+
+                    @if (GetTableData()?.Items is IEnumerable<ItemDto> variants && variants.Any())
+                    {
+                        @foreach (var option in GetTableData().Items.First().Attributes)
+                        {
+                            <MudTh>
+                                <MudTableSortLabel SortLabel="Values.Value" T="ItemDto">@option.Name</MudTableSortLabel>
+                            </MudTh>
+                        }
+                    }
+
+                    <MudTh></MudTh>
+                </HeaderContent>
+
+                <RowTemplate Context="variant">
+                    <MudTd DataLabel="Image">
+                        @if (variant.Image is not null)
+                        {
+                            <MudImage Src="@variant.Image" Alt="Mony the dog" Elevation="0" Height="100" Class="rounded-lg" />
+                        }
+                    </MudTd>
+                    <MudTd DataLabel="Name">@variant.Name</MudTd>
+                    <MudTd DataLabel="Id">@variant.Id</MudTd>
+                    <MudTd DataLabel="Price">@variant.Price?.ToString("c")</MudTd>
+
+                    @if (variant.Attributes is not null)
+                    {
+                        foreach (var option in variant.Attributes)
+                        {
+                            <MudTd DataLabel="Name">@option.Value</MudTd>
+                        }
+                    }
+
+                    <MudTd>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateVariant(variant)" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteVariant(variant)" />
+                    </MudTd>
+
+                </RowTemplate>
+
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+
+        }
+    }
+
+    <MudText Typo="Typo.h4" Align="Align.Center" Class="mt-6 mb-2">Options</MudText>
+
+    <div class="mb-4">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateOption"
+        StartIcon="@Icons.Material.Filled.Add">Create option</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Secondary" Link="@($"/items/{item.Id}/options/groups")">
+            Option groups</MudButton>
+    </div>
+
+    if (options is not null)
+    {
+        @foreach (var group in options
+       .ToList()
+       .GroupBy(x => x.Group?.Name))
+        {
+            @if (group.Key is not null)
+            {
+                <MudText Typo="Typo.h5" Align="Align.Left" Class="mb-2 mt-6">@group.Key</MudText>
+            }
+
+            <MudTable T="OptionDto" Items="@group" Dense="true" Hover="true" @ref="table" Class="mb-4" Elevation="25">
+
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Type</MudTh>
+                    <MudTh>Id</MudTh>
+                    <MudTh>Price</MudTh>
+                    <MudTh>Values</MudTh>
+                    <MudTh>Default value</MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+
+                <RowTemplate Context="option">
+                    <MudTd DataLabel="Name">@option.Name</MudTd>
+                    <MudTd DataLabel="Type">@option.OptionType</MudTd>
+                    <MudTd DataLabel="Id">@option.Id</MudTd>
+                    <MudTd DataLabel="Price">@option.Price?.ToString("c")</MudTd>
+                    <MudTd DataLabel="Values">@string.Join(", ", option.Values.Select(x => x.Name))</MudTd>
+                    <MudTd DataLabel="Default value">@option.DefaultValue?.Name</MudTd>
+                    <MudTd>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateOption(option)" />
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteOption(option)" />
+                    </MudTd>
+                </RowTemplate>
+
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+
+            </MudTable>
+        }
+    }
+}
+
+@code
+{
+    MudTable<OptionDto> table;
+    MudTable<AttributeDto> table2;
+    MudTable<ItemDto> table3;
+
+    ItemDto? item;
+    List<AttributeDto>? attributes;
+    List<OptionDto>? options;
+
+    public IList<ItemVisibility?> VisibilityOptions { get; } = Enum.GetValues<ItemVisibility>().Select(x =>
+    (ItemVisibility?)x).ToArray();
+
+    [Parameter]
+    public string? ItemId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        item = await ItemsClient.GetItemAsync(ItemId);
+        attributes = (await ItemsClient.GetItemAttributesAsync(ItemId)).ToList();
+        options = (await ItemsClient.GetItemOptionsAsync(ItemId, null)).ToList();
+
+        var groups = await ItemsClient.GetItemGroupsAsync(true);
+        Groups = groups.ToList();
+
+        Name = item.Name;
+        Description = item.Description;
+        Id = item.Id;
+        Price = item.Price;
+
+        Group = groups.FirstOrDefault(x => x.Id == item.Group?.Id);
+    }
+
+    private async Task<TableData<ItemDto>> ServerReload(TableState state)
+    {
+        var result = await ItemsClient.GetVariantsAsync(ItemId, state.Page, state.PageSize, null, state.SortLabel,
+        state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc :
+        YourBrand.Catalog.SortDirection.Desc);
+
+        return new TableData<ItemDto>() { TotalItems = result.TotalItems, Items = result.Items };
+    }
+
+    async Task UpdateVisibility(ItemVisibility? value)
+    {
+        try
+        {
+            await ItemsClient.UpdateItemVisibilityAsync(ItemId, value.GetValueOrDefault());
+
+            item.Visibility = value;
+
+            Snackbar.Add($"The item \"{item.Name}\" is now {item.Visibility.ToString().ToLower()}.", Severity.Success);
+        }
+        catch (Exception exc)
+        {
+            Snackbar.Add(exc.Message, Severity.Error);
+        }
+    }
+
+    async Task CreateOption()
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(CreateItemOptionModal.ItemId), ItemId);
+        parameters.Add(nameof(CreateItemOptionModal.Item), item);
+
+        var modalRef = DialogService.Show<CreateItemOptionModal>("New Option", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        options.Add((OptionDto)result.Data);
+    }
+
+    async Task UpdateOption(OptionDto option)
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(UpdateItemOptionModal.ItemId), ItemId);
+        parameters.Add(nameof(UpdateItemOptionModal.Option), option);
+        parameters.Add(nameof(UpdateItemOptionModal.Item), item);
+
+        var modalRef = DialogService.Show<UpdateItemOptionModal>("Update Option", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        var index = options!.IndexOf(option);
+
+        options[index] = (OptionDto)result.Data;
+    }
+
+    async Task DeleteOption(OptionDto option)
+    {
+        var modalResult = await DialogService.ShowMessageBox("Delete the option?", "This cannot be undone.", yesText: "Delete",
+        noText: "No");
+        if (!modalResult.GetValueOrDefault())
+        {
+            return;
+        }
+
+        await ItemsClient.DeleteItemOptionAsync(ItemId, option.Id);
+
+        options.Remove(option);
+    }
+
+    async Task CreateVariant()
+    {
+        NavigationManager.NavigateTo($"/items/{ItemId}/variants/new");
+    }
+
+    async Task UpdateVariant(ItemDto variant)
+    {
+        NavigationManager.NavigateTo($"/items/{ItemId}/variants/{variant.Id}/edit");
+    }
+
+    async Task DeleteVariant(ItemDto variant)
+    {
+        var modalResult = await DialogService.ShowMessageBox("Delete the variant?", "This cannot be undone.", yesText: "Delete",
+        noText: "No");
+        if (!modalResult.GetValueOrDefault())
+        {
+            return;
+        }
+
+        await ItemsClient.DeleteVariantAsync(ItemId, variant.Id);
+
+        //variants.Remove(variant);
+
+        await table3.ReloadServerData();
+    }
+
+
+    private async void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles().First();
+        item.Image = await ItemsClient.UploadItemImageAsync(item.Id, new FileParameter(file.OpenReadStream(3 *
+        1000000), file.Name));
+
+        StateHasChanged();
+    }
+
+    class ItemVariantVm
+    {
+        public string? Id { get; set; }
+
+        public string Name { get; set; }
+
+        public OptionValueDto? SelectedValue { get; set; }
+
+        public IEnumerable<OptionValueDto> Values { get; set; } = null!;
+    }
+
+    async Task CreateAttribute()
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(CreateItemAttributeModal.ItemId), ItemId);
+        parameters.Add(nameof(CreateItemAttributeModal.Item), item);
+
+        var modalRef = DialogService.Show<CreateItemAttributeModal>("New Attribute", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        attributes.Add((AttributeDto)result.Data);
+    }
+
+    async Task UpdateAttribute(AttributeDto attribute)
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(UpdateItemAttributeModal.ItemId), ItemId);
+        parameters.Add(nameof(UpdateItemAttributeModal.Attribute), attribute);
+        parameters.Add(nameof(UpdateItemAttributeModal.Item), item);
+
+        var modalRef = DialogService.Show<UpdateItemAttributeModal>("Update Attribute", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        var index = attributes!.IndexOf(attribute);
+
+        attributes[index] = (AttributeDto)result.Data;
+    }
+
+    async Task DeleteAttribute(AttributeDto attribute)
+    {
+        var modalResult = await DialogService.ShowMessageBox("Delete the attribute?", "This cannot be undone.", yesText:
+        "Delete", noText: "No");
+        if (!modalResult.GetValueOrDefault())
+        {
+            return;
+        }
+
+        await ItemsClient.DeleteItemAttributeAsync(ItemId, attribute.Id);
+
+        attributes.Remove(attribute);
+    }
+
+    private TableData<ItemDto>? GetTableData()
+    {
+        if (table3 is null) return null;
+
+        return (TableData<ItemDto>?)table3?.GetType()?
+        .GetField("_server_data", System.Reflection.BindingFlags.NonPublic |
+        System.Reflection.BindingFlags.Instance)?
+        .GetValue(table3);
+    }
+
+    async Task OnDetailsFormSubmit()
+    {
+        try
+        {
+            ApiUpdateItemDetails data = new()
+            {
+                Name = Name,
+                Description = Description,
+                GroupId = Group.Id,
+                Id = Id,
+                Price = Price
+            };
+            await ItemsClient.UpdateItemDetailsAsync(ItemId, data);
+
+            item = await ItemsClient.GetItemAsync(ItemId);
+
+            Snackbar.Add("Details updated", Severity.Info);
+        }
+        catch(Exception e)
+        {
+            Snackbar.Add("Failed to update details", Severity.Error);
+        }
+    }
+
+    [Required]
+    public string Name { get; set; }
+
+    public string? Description { get; set; }
+
+    public ItemGroupDto Group { get; set; }
+
+    public string? Id { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public IList<ItemGroupDto> Groups { get; set; }
+}

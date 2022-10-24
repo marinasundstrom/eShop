@@ -9,7 +9,7 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Application.Items;
 
-public record CreateItem(string Name, bool HasVariants, string? Description, string? GroupId, string? SKU, decimal? Price, ItemVisibility? Visibility) : IRequest<ItemDto?>
+public record CreateItem(string? Id, string Name, bool HasVariants, string? Description, string? GroupId, decimal? Price, ItemVisibility? Visibility) : IRequest<ItemDto?>
 {
     public class Handler : IRequestHandler<CreateItem, ItemDto?>
     {
@@ -27,7 +27,7 @@ public record CreateItem(string Name, bool HasVariants, string? Description, str
 
             var item = new Item()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id =  request.Id ?? Guid.NewGuid().ToString(),
                 Name = request.Name,
                 Description = request.Description,
                 Group = group,

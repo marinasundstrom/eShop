@@ -60,6 +60,6 @@ public partial class ItemsController : Controller
     [HttpPost]
     public async Task<ActionResult<ItemDto>> CreateItem(ApiCreateItem data, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new CreateItem(data.Name, data.HasVariants, data.Description, data.GroupId, data.SKU, data.Price, data.Visibility), cancellationToken));
+        return Ok(await _mediator.Send(new CreateItem(data.Id, data.Name, data.HasVariants, data.Description, data.GroupId, data.Price, data.Visibility), cancellationToken));
     }
 }

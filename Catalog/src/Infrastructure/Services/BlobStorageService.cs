@@ -12,14 +12,27 @@ public sealed class BlobStorageService : IBlobStorageService
         this._blobServiceClient = blobServiceClient;
     }
 
-    public Task DeleteBlobAsync(string id)
+    public async Task DeleteBlobAsync(string id)
     {
-        throw new NotImplementedException();
+        var blobContainerClient = _blobServiceClient.GetBlobContainerClient("images");
+
+#if DEBUG
+        await blobContainerClient.CreateIfNotExistsAsync();
+#endif
+
+        await blobContainerClient.DeleteBlobIfExistsAsync(id);
     }
 
-    public Task<Stream> GetBlobAsync(string id)
+    public async Task<Stream> GetBlobAsync(string id)
     {
-        throw new NotImplementedException();
+        var blobContainerClient = _blobServiceClient.GetBlobContainerClient("images");
+
+#if DEBUG
+        await blobContainerClient.CreateIfNotExistsAsync();
+#endif
+
+        var blobClient = blobContainerClient.GetBlobClient(id);
+        return await blobClient.OpenReadAsync();
     }
 
     public async Task UploadBlobAsync(string id, Stream stream)

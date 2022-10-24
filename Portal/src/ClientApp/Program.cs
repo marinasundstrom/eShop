@@ -1,42 +1,21 @@
+using System.Net.Http.Json;
+using System.Reflection;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Localization;
 using MudBlazor.Services;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
 using YourBrand.Portal;
+using YourBrand.Portal.Modules;
+using YourBrand.Portal.Navigation;
 using YourBrand.Portal.Theming;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
-
-builder.Services.AddTransient<CustomAuthorizationMessageHandler>();
-
-builder.Services.AddHttpClient("WebAPI",
-        client => client.BaseAddress = new Uri("https://localhost:5001/"));
-
-builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>()
-    .CreateClient("WebAPI"));
-
-builder.Services.AddHttpClient<ITodosClient>(nameof(TodosClient), (sp, http) =>
-{
-    http.BaseAddress = new Uri("https://localhost:5001/");
-})
-.AddTypedClient<ITodosClient>((http, sp) => new TodosClient(http))
-.AddHttpMessageHandler<CustomAuthorizationMessageHandler>()
-.SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Set lifetime to five minutes
-.AddPolicyHandler(GetRetryPolicy());
-
-builder.Services.AddHttpClient<IUsersClient>(nameof(UsersClient), (sp, http) =>
-{
-    http.BaseAddress = new Uri("https://localhost:5001/");
-})
-.AddTypedClient<IUsersClient>((http, sp) => new UsersClient(http))
-.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-//.SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Set lifetime to five minutes
-//.AddPolicyHandler(GetRetryPolicy());
 
 builder.Services.AddOidcAuthentication(options =>
 {
@@ -45,23 +24,59 @@ builder.Services.AddOidcAuthentication(options =>
 
 builder.Services.AddScoped<YourBrand.Portal.Services.IAccessTokenProvider, YourBrand.Portal.Services.AccessTokenProvider>();
 
-builder.Services.AddMudServices();
+builder.Services
+    .AddServices()
+    .AddThemeServices()
+    .AddNavigationServices()
+    .AddScoped<ModuleLoader>();
 
-builder.Services.AddBlazoredLocalStorage();
-
-builder.Services.AddThemeServices();
-
-builder.Services.AddLocalization();
+await LoadModules(builder.Services);
 
 var app = builder.Build();
+
+var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
+moduleBuilder.ConfigureServices();
+
+var navManager = app.Services
+    .GetRequiredService<NavManager>();
+
+var resources = app.Services.GetRequiredService<IStringLocalizer<YourBrand.Portal.Resources>>();
+
+var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => resources["Administration"]);
+
+group.CreateItem("users", options =>
+{
+    options.NameFunc = () => resources["Users"];
+    options.Icon = MudBlazor.Icons.Material.Filled.Person;
+    options.Href = "/users";
+    options.RequiresAuthorization = true;
+});
+
+group.CreateItem("setup", options =>
+{
+    options.NameFunc = () => resources["SetUp"];
+    options.Icon = MudBlazor.Icons.Material.Filled.Settings;
+    options.Href = "/setup";
+});
 
 await app.Services.Localize();
 
 await app.RunAsync();
 
-IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+async Task LoadModules(IServiceCollection services)
 {
-    return HttpPolicyExtensions
-         .HandleTransientHttpError()
-         .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(1), retryCount: 5));
+    var http = builder.Services
+        .BuildServiceProvider()
+        .GetRequiredService<HttpClient>();
+
+    var entries = await http.GetFromJsonAsync<IEnumerable<ModuleDefinition>>($"https://localhost:5021/modules.json");
+
+    entries!.Where(x => x.Enabled).ToList().ForEach(x =>
+        ModuleLoader.LoadModule(x.Name, Assembly.Load(x.Assembly), x.Enabled));
+
+    ModuleLoader.AddServices(builder.Services);
 }
+
+record ModuleEntry(Assembly Assembly, bool Enabled);
+
+public record ModuleDefinition(string Name, string Assembly, bool Enabled);

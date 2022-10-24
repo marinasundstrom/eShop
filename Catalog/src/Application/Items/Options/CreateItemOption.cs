@@ -32,7 +32,7 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
                 Id = Guid.NewGuid().ToString(),
                 Name = request.Data.Name,
                 Description = request.Data.Description,
-                SKU = request.Data.SKU,
+                ItemId = request.Data.ItemId,
                 Group = group,
                 Price = request.Data.Price,
                 OptionType = (Domain.Enums.OptionType)request.Data.OptionType
@@ -44,7 +44,7 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
                 {
                     Id = Guid.NewGuid().ToString(),
                     Name = v.Name,
-                    SKU = v.SKU,
+                    ItemId = v.ItemId,
                     Price = v.Price
                 };
 
@@ -55,9 +55,9 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
 
             await _context.SaveChangesAsync();
 
-            return new OptionDto(option.Id, option.Name, option.Description, (Application.OptionType)option.OptionType, option.Group == null ? null : new OptionGroupDto(option.Group.Id, option.Group.Name, option.Group.Description, option.Group.Seq, option.Group.Min, option.Group.Max), option.SKU, option.Price, option.IsSelected,
-                option.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.SKU, x.Price, x.Seq)),
-                option.DefaultValue == null ? null : new OptionValueDto(option.DefaultValue.Id, option.DefaultValue.Name, option.DefaultValue.SKU, option.DefaultValue.Price, option.DefaultValue.Seq), option.MinNumericalValue, option.MaxNumericalValue, option.DefaultNumericalValue, option.TextValueMinLength, option.TextValueMaxLength, option.DefaultTextValue);
+            return new OptionDto(option.Id, option.Name, option.Description, (Application.OptionType)option.OptionType, option.Group == null ? null : new OptionGroupDto(option.Group.Id, option.Group.Name, option.Group.Description, option.Group.Seq, option.Group.Min, option.Group.Max), option.ItemId, option.Price, option.IsSelected,
+                option.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.ItemId, x.Price, x.Seq)),
+                option.DefaultValue == null ? null : new OptionValueDto(option.DefaultValue.Id, option.DefaultValue.Name, option.DefaultValue.ItemId, option.DefaultValue.Price, option.DefaultValue.Seq), option.MinNumericalValue, option.MaxNumericalValue, option.DefaultNumericalValue, option.TextValueMinLength, option.TextValueMaxLength, option.DefaultTextValue);
         
         }
     }

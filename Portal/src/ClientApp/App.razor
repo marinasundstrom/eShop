@@ -1,7 +1,11 @@
+@using System.Reflection
+
+@inject ISnackbar Snackbar
+@inject YourBrand.Portal.Modules.ModuleLoader ModuleLoader
 @inject IStringLocalizer<App> T
 
 <CascadingAuthenticationState>
-    <Router AppAssembly="@typeof(App).Assembly">
+    <Router AppAssembly="@typeof(Program).Assembly" AdditionalAssemblies="ModuleLoader.GetAssemblies()">
         <Found Context="routeData">
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <Authorizing>
@@ -28,3 +32,11 @@
         </NotFound>
     </Router>
 </CascadingAuthenticationState>
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        Snackbar.Configuration.PositionClass = Defaults.Classes.Position.BottomRight;
+    }
+}

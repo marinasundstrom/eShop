@@ -1,0 +1,123 @@
+﻿@page "/items/list"
+@inject IItemsClient ItemsClient
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Items</PageTitle>
+
+<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">Items</MudText>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateItem" StartIcon="@Icons.Material.Filled.Add"
+    Class="my-2">Create item</MudButton>
+
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" Link="/items/groups" Class="my-2">Item groups
+</MudButton>
+
+<MudTable T="ItemDto" ServerData="@(new Func<TableState, Task<TableData<ItemDto>>>(ServerReload))" Dense="true"
+    Hover="true" @ref="table" OnRowClick="(e) => ShowItem(e.Item)" Elevation="25">
+    @*<ToolBarContent>
+        <MudText Typo="Typo.h6">Items</MudText>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start"
+        AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+        </ToolBarContent> *@
+    <HeaderContent>
+        <MudTh></MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Name" T="ItemDto">Name</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Description" T="ItemDto">Description</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Group" T="ItemDto">Group</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Id" T="ItemDto">Id</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="HasVariants" T="ItemDto">Has variants</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Price" T="ItemDto">Price</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
+            <MudTableSortLabel SortLabel="Visibility" T="ItemDto">Visibility</MudTableSortLabel>
+        </MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd>
+            @if (context.Image is not null)
+            {
+                <MudImage Src="@context.Image" ObjectFit="ObjectFit.Contain" Alt="Mony the dog" Width="100" Height="100" Elevation="0" Class="rounded-lg" />
+            }
+            @*
+            else
+            {
+                <svg class="rounded-lg" width="120px" height="120" xmlns="http://www.w3.org/2000/svg" role="img"
+                aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+                    <title>Placeholder</title>
+                    <rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef"
+                    dy=".3em">Thumbnail</text>
+                </svg>
+            }
+            *@
+        </MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd DataLabel="Group">@context.Group?.Name</MudTd>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : "No")</MudTd>
+        <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
+        <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Link="@($"/items/{context.Id}/edit")" />
+        </MudTd>
+    </RowTemplate>
+    <NoRecordsContent>
+        <MudText>No matching records found</MudText>
+    </NoRecordsContent>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code
+{
+
+    MudTable<ItemDto> table;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? GroupId { get; set; }
+
+    void ShowItem(ItemDto item)
+    {
+        NavigationManager.NavigateTo($"/items/{item.Id}");
+    }
+
+    async Task CreateItem()
+    {
+        var modalRef = DialogService.Show<CreateItemModal>("New Item");
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        var item = (ItemDto)result.Data;
+
+        NavigationManager.NavigateTo($"/items/{item.Id}/edit");
+
+    }
+
+    private async Task<TableData<ItemDto>> ServerReload(TableState state)
+    {
+        var result = await ItemsClient.GetItemsAsync(true, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
+
+        return new TableData<ItemDto>() { TotalItems = result.TotalItems, Items = result.Items };
+    }
+}

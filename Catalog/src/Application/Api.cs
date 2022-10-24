@@ -3,28 +3,28 @@
 using System;
 using YourBrand.Catalog.Application.Options;
 
-public record class ApiCreateItem(string Name, bool HasVariants, string? Description, string? GroupId, string? SKU, decimal? Price, ItemVisibility? Visibility);
+public record class ApiCreateItem(string Name, bool HasVariants, string? Description, string? GroupId, string? Id, decimal? Price, ItemVisibility? Visibility);
 
-public record class ApiUpdateItemDetails(string Name, string? Description, string? SKU, string? Image, decimal? Price, string? GroupId);
+public record class ApiUpdateItemDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, string? GroupId);
 
 public record class ApiCreateItemGroup(string Name, string? Description, string? ParentGroupId);
 
 public record class ApiUpdateItemGroup(string Name, string? Description, string? ParentGroupId);
 
-public record class ApiCreateItemOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateItemOptionValue> Values);
+public record class ApiCreateItemOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, string? ItemId, decimal? Price, string? GroupId, IEnumerable<ApiCreateItemOptionValue> Values);
 
 public record class ApiCreateItemAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateItemAttributeValue> Values);
 
 
-public record class ApiCreateItemOptionValue(string Name, string? SKU, decimal? Price);
+public record class ApiCreateItemOptionValue(string Name, string? ItemId, decimal? Price);
 
 public record class ApiCreateItemAttributeValue(string Name);
 
-public record class ApiUpdateItemOption(string Name, string? Description, OptionType OptionType, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiUpdateItemOptionValue> Values);
+public record class ApiUpdateItemOption(string Name, string? Description, OptionType OptionType, string? ItemId, decimal? Price, string? GroupId, IEnumerable<ApiUpdateItemOptionValue> Values);
 
 public record class ApiUpdateItemAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiUpdateItemAttributeValue> Values);
 
-public record class ApiUpdateItemOptionValue(string? Id, string Name, string? SKU, decimal? Price);
+public record class ApiUpdateItemOptionValue(string? Id, string Name, string? ItemId, decimal? Price);
 
 public record class ApiUpdateItemAttributeValue(string? Id, string Name);
 
@@ -42,12 +42,12 @@ public record class ApiUpdateItemAttributeGroup(string Name, string? Description
 
 
 
-public record class ApiCreateItemVariant(string Name, string? Description, string SKU, decimal Price, IEnumerable<ApiCreateItemVariantAttribute> Attributes);
+public record class ApiCreateItemVariant(string Name, string? Description, string Id, decimal Price, IEnumerable<ApiCreateItemVariantAttribute> Attributes);
 
 public record class ApiCreateItemVariantAttribute(string OptionId, string ValueId);
 
 
-public record class ApiUpdateItemVariant(string Name, string? Description, string SKU, decimal Price, IEnumerable<ApiUpdateItemVariantAttribute> Attributes);
+public record class ApiUpdateItemVariant(string Name, string? Description, string Id, decimal Price, IEnumerable<ApiUpdateItemVariantAttribute> Attributes);
 
 public record class ApiUpdateItemVariantAttribute(int? Id, string AttributeId, string ValueId);
 

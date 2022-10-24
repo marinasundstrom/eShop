@@ -20,7 +20,7 @@ public class Option : IAggregateRoot
 
     public bool IsSelected { get; set; }
 
-    public string? SKU { get; set; }
+    public string? ItemId { get; set; }
 
     public decimal? Price { get; set; }
 

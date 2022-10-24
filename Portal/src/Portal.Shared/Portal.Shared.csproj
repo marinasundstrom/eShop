@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>YourBrand.Portal</RootNamespace>
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.0-rc.2.*" />
+    <PackageReference Include="MudBlazor" Version="6.0.16" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.3.0-preview.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Portal.Services\Portal.Services.csproj" />
+    <ProjectReference Include="..\Portal.Theming\Portal.Theming.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Shared\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Shared\" />
+  </ItemGroup>
+</Project>

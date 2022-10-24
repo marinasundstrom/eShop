@@ -1,0 +1,103 @@
+﻿@page "/items/{itemId}/options/groups"
+@inject IItemsClient ItemsClient
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+<PageTitle>Items</PageTitle>
+
+@if (item is null)
+{
+    <span>Loading...</span>
+}
+else
+{
+    <PageTitle>@item.Name (@item.Id)</PageTitle>
+
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">Option Groups</MudText>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateGroup" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create group</MudButton>
+
+    <MudTable T="OptionGroupDto" Items="optionGroups"
+              Dense="true" Hover="true" Elevation="25">
+        <HeaderContent>
+            <MudTh>Name</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh></MudTh>
+        </HeaderContent>
+        <RowTemplate Context="group">
+            <MudTd DataLabel="Name">@group.Name</MudTd>
+            <MudTd DataLabel="Description">@group.Description</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateGroup(group)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
+            </MudTd>
+        </RowTemplate>
+        <NoRecordsContent>
+            <MudText>No matching records found</MudText>
+        </NoRecordsContent>
+        <LoadingContent>
+            <MudText>Loading...</MudText>
+        </LoadingContent>
+    </MudTable>
+}
+
+@code
+{
+    ItemDto? item;
+    List<OptionGroupDto>? optionGroups;
+
+    [Parameter]
+    public string? ItemId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        item = await ItemsClient.GetItemAsync(ItemId);
+        optionGroups = (await ItemsClient.GetOptionGroupsAsync(ItemId)).ToList();
+    }
+
+    async Task CreateGroup()
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(CreateItemOptionGroupModal.ItemId), ItemId);
+
+        var modalRef = DialogService.Show<CreateItemOptionGroupModal>("Create Group", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        optionGroups.Add((OptionGroupDto)result.Data);
+    }
+
+    async Task UpdateGroup(OptionGroupDto optionGroup)
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(UpdateItemOptionGroupModal.ItemId), ItemId);
+        parameters.Add(nameof(UpdateItemOptionGroupModal.OptionGroup), optionGroup);
+
+        var modalRef = DialogService.Show<UpdateItemOptionGroupModal>("Update Group", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        var index = optionGroups!.IndexOf(optionGroup);
+
+        optionGroups[index] = (OptionGroupDto)result.Data;
+    }
+
+    async Task DeleteGroup(OptionGroupDto optionGroup)
+    {
+        var modalResult = await DialogService.ShowMessageBox("Delete the group?", "The group will be deleted, but the options will remain.\nThis cannot be undone.", yesText: "Delete", noText: "No");
+        if (!modalResult.GetValueOrDefault())
+
+        {
+            return;
+        }
+
+        await ItemsClient.DeleteOptionGroupAsync(ItemId, optionGroup.Id);
+
+        optionGroups.Remove(optionGroup);
+    }
+}
+

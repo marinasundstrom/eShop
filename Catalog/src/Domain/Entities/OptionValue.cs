@@ -10,7 +10,7 @@ public class OptionValue
 
     public string Name { get; set; } = null!;
 
-    public string? SKU { get; set; }
+    public string? ItemId { get; set; }
 
     public decimal? Price { get; set; }
 }

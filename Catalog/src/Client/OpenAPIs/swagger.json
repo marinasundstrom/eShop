@@ -2177,7 +2177,7 @@
           "name": {
             "type": "string"
           },
-          "sku": {
+          "itemId": {
             "type": "string",
             "nullable": true
           },
@@ -2218,7 +2218,7 @@
               }
             ]
           },
-          "sku": {
+          "itemId": {
             "type": "string",
             "nullable": true
           },
@@ -2571,7 +2571,7 @@
             "type": "string",
             "nullable": true
           },
-          "sku": {
+          "id": {
             "type": "string",
             "nullable": true
           },
@@ -2608,7 +2608,7 @@
             "type": "string",
             "nullable": true
           },
-          "sku": {
+          "id": {
             "type": "string",
             "nullable": true
           },
@@ -2683,7 +2683,7 @@
               }
             ]
           },
-          "sku": {
+          "itemId": {
             "type": "string",
             "nullable": true
           },
@@ -2711,7 +2711,7 @@
           "name": {
             "type": "string"
           },
-          "sku": {
+          "itemId": {
             "type": "string",
             "nullable": true
           },
@@ -2736,7 +2736,7 @@
           "optionType": {
             "$ref": "#/components/schemas/OptionType"
           },
-          "sku": {
+          "itemId": {
             "type": "string",
             "nullable": true
           },
@@ -2768,7 +2768,7 @@
           "name": {
             "type": "string"
           },
-          "sku": {
+          "itemId": {
             "type": "string",
             "nullable": true
           },
@@ -2865,7 +2865,7 @@
             "type": "string",
             "nullable": true
           },
-          "sku": {
+          "id": {
             "type": "string"
           },
           "price": {
@@ -2903,7 +2903,7 @@
             "type": "string",
             "nullable": true
           },
-          "sku": {
+          "id": {
             "type": "string"
           },
           "price": {
