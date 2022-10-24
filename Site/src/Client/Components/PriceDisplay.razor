@@ -17,7 +17,7 @@ else
 }
 @if (CompareAtPrice != null)
 {
-    <span class="text-muted" style="text-decoration: line-through; @(Big ? "font-size: 24px;" : "font-size: 14px")">@FormatPrice(CompareAtPrice.GetValueOrDefault())</span>
+    <span class="text-muted" style="text-decoration: line-through; @(Big ? "font-size: 24px;" : "font-size: 14px"); color: red !important">@FormatPrice(CompareAtPrice.GetValueOrDefault())</span>
 }
 
 @code {
