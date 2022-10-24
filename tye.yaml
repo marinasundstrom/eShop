@@ -38,8 +38,8 @@ services:
       port: 5021
 
       
-  - name: orders-web
-    project: Orders/src/Web/Web.csproj
+  - name: sales-web
+    project: Sales/src/Web/Web.csproj
     bindings:
     - name: http
       protocol: http

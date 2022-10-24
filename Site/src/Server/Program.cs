@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using System.Net.Http;
 using System.Globalization;
 using Blazor.Analytics;
+using Site.Client;
 using YourBrand.Catalog.Client;
+using YourBrand.Sales.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,19 +29,31 @@ builder.Services.AddCatalogClients((sp, httpClient) => {
             //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
         });
 
+const string SalesServiceUrl = $"https://localhost:5041";
+
+builder.Services.AddSalesClients((sp, httpClient) => {
+    httpClient.BaseAddress = new Uri($"{SalesServiceUrl}/");
+}, builder => {
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
+
+builder.Services.AddHttpClient("Site", (sp, http) => {
+    http.BaseAddress = new Uri("https://localhost:6001/");
+});
+
+builder.Services.AddServices();
+
 var descriptorDbContext = builder.Services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(Site.Client.IProductsClient));
 builder.Services.Remove(descriptorDbContext);
 
-builder.Services.AddHttpClient(nameof(Site.Client.ProductsClient) + "C", (sp, http) => {
-                http.BaseAddress = new Uri("https://localhost:6001/");
-            })
+builder.Services.AddHttpClient("Site")
             .AddTypedClient<Site.Client.IProductsClient>((http, sp) => new Site.Client.ProductsClient(http));
+
+builder.Services.AddGoogleAnalytics("YOUR_GTAG_ID");
 
 CultureInfo? culture = new("sv-SE");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
-
-builder.Services.AddGoogleAnalytics("YOUR_GTAG_ID");
 
 var app = builder.Build();
 

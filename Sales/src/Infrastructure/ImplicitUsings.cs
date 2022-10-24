@@ -1,0 +1,5 @@
+﻿global using YourBrand.Sales.Application.Services;
+
+global using YourBrand.Sales.Domain;
+global using YourBrand.Sales.Domain.Entities;
+global using YourBrand.Sales.Domain.Repositories;

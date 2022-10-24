@@ -16,9 +16,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Client\Site.Client.csproj" />
     <ProjectReference Include="..\Shared\Site.Shared.csproj" />
-    <ProjectReference Include="..\..\..\Catalog\src\Client\Client.csproj">
-      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-    </ProjectReference>
+    <ProjectReference Include="..\..\..\Catalog\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
   </ItemGroup>
 
 

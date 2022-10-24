@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Site.Shared;
+using YourBrand.Catalog;
 
 namespace Site.Server.Controllers;
 

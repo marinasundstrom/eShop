@@ -8,6 +8,7 @@
 		<WarningsAsErrors>nullable</WarningsAsErrors>
 		<NoWarn>1701;1702;CS1591</NoWarn>
 		<RootNamespace>YourBrand.Catalog</RootNamespace>
+		<AssemblyName>Catalog.Client</AssemblyName>
 	</PropertyGroup>
 
 	<ItemGroup>

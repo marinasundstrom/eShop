@@ -2,29 +2,44 @@
   "x-generator": "NSwag v13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))",
   "swagger": "2.0",
   "info": {
-    "title": "Commerce API",
+    "title": "Site API",
     "version": "0.1"
   },
   "host": "localhost:6001",
   "schemes": [
     "https"
   ],
-  "produces": [
-    "text/plain",
-    "application/json",
-    "text/json"
-  ],
   "paths": {
-    "/api/Products": {
+    "/api/Carts": {
       "get": {
         "tags": [
-          "Products"
+          "Carts"
         ],
-        "operationId": "Products_GetProducts",
+        "operationId": "Carts_GetCarts",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
+            "type": "integer",
+            "name": "status",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/CartStatusDto"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
             "type": "string",
-            "name": "productGroup",
+            "name": "assignedTo",
             "in": "query",
             "x-nullable": true
           },
@@ -75,6 +90,265 @@
             "x-nullable": false,
             "description": "",
             "schema": {
+              "$ref": "#/definitions/ItemsResultOfCartDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Carts/{id}": {
+      "get": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_GetCart",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/CartDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_DeleteCart",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_GetOrders",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "status",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/OrderStatusDto"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ]
+          },
+          {
+            "type": "string",
+            "name": "assignedTo",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "format": "int32",
+            "default": 1,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "pageSize",
+            "in": "query",
+            "format": "int32",
+            "default": 10,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "searchString",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sortBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "sortDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/SortDirection"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ItemsResultOfOrderDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Orders/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_GetOrder",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_DeleteOrder",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Products": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_GetProducts",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "productGroupId",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "format": "int32",
+            "default": 1,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "pageSize",
+            "in": "query",
+            "format": "int32",
+            "default": 10,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "searchString",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sortBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "sortDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/SortDirection2"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
               "$ref": "#/definitions/ItemsResultOfProductDto"
             }
           }
@@ -87,6 +361,11 @@
           "Products"
         ],
         "operationId": "Products_GetProduct",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -113,6 +392,11 @@
           "Products"
         ],
         "operationId": "Products_GetProductAttributes",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -142,6 +426,11 @@
           "Products"
         ],
         "operationId": "Products_GetProductOptions",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -171,6 +460,11 @@
           "Products"
         ],
         "operationId": "Products_GetProductVariants",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -212,7 +506,7 @@
             "name": "sortDirection",
             "in": "query",
             "x-schema": {
-              "$ref": "#/definitions/SortDirection"
+              "$ref": "#/definitions/SortDirection2"
             },
             "x-nullable": true,
             "enum": [
@@ -242,6 +536,11 @@
           "application/json",
           "text/json",
           "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
         ],
         "parameters": [
           {
@@ -281,6 +580,11 @@
           "WeatherForecast"
         ],
         "operationId": "WeatherForecast_Get",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "responses": {
           "200": {
             "x-nullable": false,
@@ -297,6 +601,276 @@
     }
   },
   "definitions": {
+    "ItemsResultOfCartDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "totalItems"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartDto"
+          }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "CartDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "items",
+        "created",
+        "createdBy"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CartItemDto"
+          }
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "$ref": "#/definitions/UserDto"
+        }
+      }
+    },
+    "CartItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "price",
+        "quantity",
+        "total",
+        "created",
+        "createdBy"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "itemId": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "total": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "$ref": "#/definitions/UserDto"
+        }
+      }
+    },
+    "UserDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "CartStatusDto": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Draft",
+        "Open",
+        "Archived",
+        "Canceled"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "SortDirection": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Ascending",
+        "Descending"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "ItemsResultOfOrderDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "totalItems"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDto"
+          }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "OrderDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "status",
+        "items",
+        "created",
+        "createdBy"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/OrderStatusDto"
+        },
+        "assignedTo": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderItemDto"
+          }
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "$ref": "#/definitions/UserDto"
+        }
+      }
+    },
+    "OrderStatusDto": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Draft",
+        "Open",
+        "Archived",
+        "Canceled"
+      ],
+      "enum": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    "OrderItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "price",
+        "quantity",
+        "total",
+        "created",
+        "createdBy"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "itemId": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "total": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "$ref": "#/definitions/UserDto"
+        }
+      }
+    },
     "ItemsResultOfProductDto": {
       "type": "object",
       "required": [
@@ -387,7 +961,7 @@
         1
       ]
     },
-    "SortDirection": {
+    "SortDirection2": {
       "type": "integer",
       "description": "",
       "x-enumNames": [
