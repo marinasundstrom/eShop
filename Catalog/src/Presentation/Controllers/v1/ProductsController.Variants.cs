@@ -2,58 +2,59 @@ using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Application;
 using YourBrand.Catalog.Application.Common.Models;
-using YourBrand.Catalog.Application.Products.Variants;
+using YourBrand.Catalog.Application.Items.Variants;
 using Microsoft.AspNetCore.Http;
+using YourBrand.Catalog.Application.Items;
 
 namespace YourBrand.Catalog.Presentation.Controllers;
 
-partial class ProductsController : Controller
+partial class ItemsController : Controller
 {
-    [HttpGet("{productId}/Variants")]
-    public async Task<ActionResult<ItemsResult<ProductVariantDto>>> GetVariants(string productId, int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Application.Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    [HttpGet("{itemId}/Variants")]
+    public async Task<ActionResult<ItemsResult<ItemDto>>> GetVariants(string itemId, int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Application.Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProductVariants(productId, page, pageSize, searchString, sortBy, sortDirection)));
+        return Ok(await _mediator.Send(new GetItemVariants(itemId, page, pageSize, searchString, sortBy, sortDirection)));
     }
 
-    [HttpDelete("{productId}/Variants/{variantId}")]
-    public async Task<ActionResult> DeleteVariant(string productId, string variantId)
+    [HttpDelete("{itemId}/Variants/{variantId}")]
+    public async Task<ActionResult> DeleteVariant(string itemId, string variantId)
     {
-        await _mediator.Send(new DeleteProductVariant(productId, variantId));
+        await _mediator.Send(new DeleteItemVariant(itemId, variantId));
         return Ok();
     }
 
-    [HttpGet("{productId}/Variants/{variantId}")]
-    public async Task<ActionResult<ProductVariantDto>> GetVariant(string productId, string variantId)
+    [HttpGet("{itemId}/Variants/{variantId}")]
+    public async Task<ActionResult<ItemDto>> GetVariant(string itemId, string variantId)
     {
-        return Ok( await _mediator.Send(new GetProductVariant(productId, variantId)));
+        return Ok( await _mediator.Send(new GetItemVariant(itemId, variantId)));
     }
 
-    [HttpPost("{productId}/Variants/Find")]
-    public async Task<ActionResult<ProductVariantDto>> FindVariantByAttributeValues(string productId, Dictionary<string, string?> selectedAttributeValues)
+    [HttpPost("{itemId}/Variants/Find")]
+    public async Task<ActionResult<ItemDto>> FindVariantByAttributeValues(string itemId, Dictionary<string, string?> selectedAttributeValues)
     {
-        return Ok(await _mediator.Send(new FindProductVariant(productId, selectedAttributeValues)));
+        return Ok(await _mediator.Send(new FindItemVariant(itemId, selectedAttributeValues)));
     }
 
-    [HttpPost("{productId}/Variants/Find2")]
-    public async Task<ActionResult<IEnumerable<ProductVariantDto>>> FindVariantByAttributeValues2(string productId, Dictionary<string, string?> selectedAttributeValues)
+    [HttpPost("{itemId}/Variants/Find2")]
+    public async Task<ActionResult<IEnumerable<ItemDto>>> FindVariantByAttributeValues2(string itemId, Dictionary<string, string?> selectedAttributeValues)
     {
-        return Ok(await _mediator.Send(new FindProductVariants(productId, selectedAttributeValues)));
+        return Ok(await _mediator.Send(new FindItemVariants(itemId, selectedAttributeValues)));
     }
 
-    [HttpGet("{productId}/Variants/{variantId}/Options")]
-    public async Task<ActionResult<ProductVariantAttributeDto>> GetVariantAttributes(string productId, string variantId)
+    [HttpGet("{itemId}/Variants/{variantId}/Options")]
+    public async Task<ActionResult<ItemVariantAttributeDto>> GetVariantAttributes(string itemId, string variantId)
     {
-        return Ok(await _mediator.Send(new GetProductVariantAttributes(productId, variantId)));
+        return Ok(await _mediator.Send(new GetItemVariantAttributes(itemId, variantId)));
     }
 
-    [HttpPost("{productId}/Variants")]
-    [ProducesResponseType(typeof(ProductVariantDto), StatusCodes.Status200OK)]
+    [HttpPost("{itemId}/Variants")]
+    [ProducesResponseType(typeof(ItemDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductVariantDto>> CreateVariant(string productId, ApiCreateProductVariant data)
+    public async Task<ActionResult<ItemDto>> CreateVariant(string itemId, ApiCreateItemVariant data)
     {
         try
         {
-            return Ok(await _mediator.Send(new CreateProductVariant(productId, data)));
+            return Ok(await _mediator.Send(new CreateItemVariant(itemId, data)));
         }
         catch (VariantAlreadyExistsException e)
         {
@@ -65,14 +66,14 @@ partial class ProductsController : Controller
         }
     }
 
-    [HttpPut("{productId}/Variants/{variantId}")]
-    [ProducesResponseType(typeof(ProductVariantDto), StatusCodes.Status200OK)]
+    [HttpPut("{itemId}/Variants/{variantId}")]
+    [ProducesResponseType(typeof(ItemDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductVariantDto>> UpdateVariant(string productId, string variantId, ApiUpdateProductVariant data)
+    public async Task<ActionResult<ItemDto>> UpdateVariant(string itemId, string variantId, ApiUpdateItemVariant data)
     {
         try
         {
-            return Ok(await _mediator.Send(new UpdateProductVariant(productId, variantId, data)));
+            return Ok(await _mediator.Send(new UpdateItemVariant(itemId, variantId, data)));
         }
         catch (VariantAlreadyExistsException e)
         {
@@ -84,11 +85,11 @@ partial class ProductsController : Controller
         }
     }
     
-    [HttpPost("{productId}/Variants/{variantId}/UploadImage")]
+    [HttpPost("{itemId}/Variants/{variantId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<ActionResult> UploadVariantImage([FromRoute] string productId, string variantId, IFormFile file, CancellationToken cancellationToken)
+    public async Task<ActionResult> UploadVariantImage([FromRoute] string itemId, string variantId, IFormFile file, CancellationToken cancellationToken)
     {
-        var url = await _mediator.Send(new UploadProductVariantImage(productId, variantId, file.Name, file.OpenReadStream()), cancellationToken); 
+        var url = await _mediator.Send(new UploadItemVariantImage(itemId, variantId, file.Name, file.OpenReadStream()), cancellationToken); 
         return Ok(url);
     }
 }

@@ -2,81 +2,81 @@ using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Application;
 using YourBrand.Catalog.Application.Options;
-using YourBrand.Catalog.Application.Products.Options;
-using YourBrand.Catalog.Application.Products.Options.Groups;
-using YourBrand.Catalog.Application.Products.Variants;
+using YourBrand.Catalog.Application.Items.Options;
+using YourBrand.Catalog.Application.Items.Options.Groups;
+using YourBrand.Catalog.Application.Items.Variants;
 
 namespace YourBrand.Catalog.Presentation.Controllers;
 
-partial class ProductsController : Controller
+partial class ItemsController : Controller
 {
-    [HttpGet("{productId}/Options")]
-    public async Task<ActionResult<IEnumerable<OptionDto>>> GetProductOptions(string productId, string? variantId, CancellationToken cancellationToken)
+    [HttpGet("{itemId}/Options")]
+    public async Task<ActionResult<IEnumerable<OptionDto>>> GetItemOptions(string itemId, string? variantId, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetProductOptions(productId, variantId), cancellationToken));
+        return Ok(await _mediator.Send(new GetItemOptions(itemId, variantId), cancellationToken));
     }
 
-    [HttpPost("{productId}/Options")]
-    public async Task<ActionResult<OptionDto>> CreateProductOption(string productId, ApiCreateProductOption data, CancellationToken cancellationToken)
+    [HttpPost("{itemId}/Options")]
+    public async Task<ActionResult<OptionDto>> CreateItemOption(string itemId, ApiCreateItemOption data, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new CreateProductOption(productId, data), cancellationToken));
+        return Ok(await _mediator.Send(new CreateItemOption(itemId, data), cancellationToken));
     }
 
-    [HttpPut("{productId}/Options/{optionId}")]
-    public async Task<ActionResult<OptionDto>> UpdateProductOption(string productId, string optionId, ApiUpdateProductOption data, CancellationToken cancellationToken)
+    [HttpPut("{itemId}/Options/{optionId}")]
+    public async Task<ActionResult<OptionDto>> UpdateItemOption(string itemId, string optionId, ApiUpdateItemOption data, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new UpdateProductOption(productId, optionId, data), cancellationToken));
+        return Ok(await _mediator.Send(new UpdateItemOption(itemId, optionId, data), cancellationToken));
     }
 
-    [HttpDelete("{productId}/Options/{optionId}")]
-    public async Task<ActionResult> DeleteProductOption(string productId, string optionId)
+    [HttpDelete("{itemId}/Options/{optionId}")]
+    public async Task<ActionResult> DeleteItemOption(string itemId, string optionId)
     {
-        await _mediator.Send(new DeleteProductOption(productId, optionId));
+        await _mediator.Send(new DeleteItemOption(itemId, optionId));
         return Ok();
     }
 
-    [HttpPost("{productId}/Options/{optionId}/Values")]
-    public async Task<ActionResult<OptionValueDto>> CreateProductOptionValue(string productId, string optionId, ApiCreateProductOptionValue data, CancellationToken cancellationToken)
+    [HttpPost("{itemId}/Options/{optionId}/Values")]
+    public async Task<ActionResult<OptionValueDto>> CreateItemOptionValue(string itemId, string optionId, ApiCreateItemOptionValue data, CancellationToken cancellationToken)
     {
 
-        return Ok(await _mediator.Send(new CreateProductOptionValue(productId, optionId, data), cancellationToken));
+        return Ok(await _mediator.Send(new CreateItemOptionValue(itemId, optionId, data), cancellationToken));
     }
 
-    [HttpPost("{productId}/Options/{optionId}/Values/{valueId}")]
-    public async Task<ActionResult> DeleteProductOptionValue(string productId, string optionId, string valueId, CancellationToken cancellationToken)
+    [HttpPost("{itemId}/Options/{optionId}/Values/{valueId}")]
+    public async Task<ActionResult> DeleteItemOptionValue(string itemId, string optionId, string valueId, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteProductOptionValue(productId, optionId, valueId), cancellationToken);
+        await _mediator.Send(new DeleteItemOptionValue(itemId, optionId, valueId), cancellationToken);
         return Ok();
     }
 
-    [HttpGet("{productId}/Options/{optionId}/Values")]
-    public async Task<ActionResult<IEnumerable<OptionValueDto>>> GetProductOptionValues(string productId, string optionId)
+    [HttpGet("{itemId}/Options/{optionId}/Values")]
+    public async Task<ActionResult<IEnumerable<OptionValueDto>>> GetItemOptionValues(string itemId, string optionId)
     {
         return Ok(await _mediator.Send(new GetOptionValues(optionId)));
     }
 
-    [HttpGet("{productId}/Options/Groups")]
-    public async Task<ActionResult<IEnumerable<OptionGroupDto>>> GetOptionGroups(string productId)
+    [HttpGet("{itemId}/Options/Groups")]
+    public async Task<ActionResult<IEnumerable<OptionGroupDto>>> GetOptionGroups(string itemId)
     {
-        return Ok(await _mediator.Send(new GetProductOptionGroups(productId)));
+        return Ok(await _mediator.Send(new GetItemOptionGroups(itemId)));
     }
 
-    [HttpPost("{productId}/Options/Groups")]
-    public async Task<ActionResult<OptionGroupDto>> CreateOptionGroup(string productId, ApiCreateProductOptionGroup data)
+    [HttpPost("{itemId}/Options/Groups")]
+    public async Task<ActionResult<OptionGroupDto>> CreateOptionGroup(string itemId, ApiCreateItemOptionGroup data)
     {
-        return Ok(await _mediator.Send(new CreateProductOptionGroup(productId, data)));
+        return Ok(await _mediator.Send(new CreateItemOptionGroup(itemId, data)));
     }
 
-    [HttpPut("{productId}/Options/Groups/{optionGroupId}")]
-    public async Task<ActionResult<OptionGroupDto>> UpdateOptionGroup(string productId, string optionGroupId, ApiUpdateProductOptionGroup data)
+    [HttpPut("{itemId}/Options/Groups/{optionGroupId}")]
+    public async Task<ActionResult<OptionGroupDto>> UpdateOptionGroup(string itemId, string optionGroupId, ApiUpdateItemOptionGroup data)
     {
-        return Ok(await _mediator.Send(new UpdateProductOptionGroup(productId, optionGroupId, data)));
+        return Ok(await _mediator.Send(new UpdateItemOptionGroup(itemId, optionGroupId, data)));
     }
 
-    [HttpDelete("{productId}/Options/Groups/{optionGroupId}")]
-    public async Task<ActionResult> DeleteOptionGroup(string productId, string optionGroupId)
+    [HttpDelete("{itemId}/Options/Groups/{optionGroupId}")]
+    public async Task<ActionResult> DeleteOptionGroup(string itemId, string optionGroupId)
     {
-        await _mediator.Send(new DeleteProductOptionGroup(productId, optionGroupId));
+        await _mediator.Send(new DeleteItemOptionGroup(itemId, optionGroupId));
         return Ok();
     }
 }

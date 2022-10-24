@@ -6,50 +6,50 @@ namespace Site.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class ProductsController : ControllerBase
+public class ItemsController : ControllerBase
 {
-    private readonly ILogger<ProductsController> _logger;
-    private readonly YourBrand.Catalog.IProductsClient _productsClient;
+    private readonly ILogger<ItemsController> _logger;
+    private readonly YourBrand.Catalog.IItemsClient _itemsClient;
 
-    public ProductsController(ILogger<ProductsController> logger, YourBrand.Catalog.IProductsClient productsClient)
+    public ItemsController(ILogger<ItemsController> logger, YourBrand.Catalog.IItemsClient itemsClient)
     {
         _logger = logger;
-        _productsClient = productsClient;
+        _itemsClient = itemsClient;
     }
 
     [HttpGet]
-    public async Task<ItemsResultOfProductDto> GetProducts(string? productGroupId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResultOfItemDto> GetItems(string? itemGroupId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await _productsClient.GetProductsAsync(false, productGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
+        return await _itemsClient.GetItemsAsync(false, itemGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
     }
 
     [HttpGet("{id}")]
-    public async Task<ProductDto?> GetProduct(string id, CancellationToken cancellationToken = default)
+    public async Task<ItemDto?> GetItem(string id, CancellationToken cancellationToken = default)
     {
-        return await _productsClient.GetProductAsync(id, cancellationToken);
+        return await _itemsClient.GetItemAsync(id, cancellationToken);
     }
 
     [HttpGet("{id}/Attributes")]
-    public async Task<IEnumerable<AttributeDto>> GetProductAttributes(string id, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<AttributeDto>> GetItemAttributes(string id, CancellationToken cancellationToken = default)
     {
-        return await _productsClient.GetProductAttributesAsync(id, cancellationToken);
+        return await _itemsClient.GetItemAttributesAsync(id, cancellationToken);
     }
 
     [HttpGet("{id}/Options")]
-    public async Task<IEnumerable<OptionDto>> GetProductOptions(string id, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<OptionDto>> GetItemOptions(string id, CancellationToken cancellationToken = default)
     {
-        return await _productsClient.GetProductOptionsAsync(id, null, cancellationToken);
+        return await _itemsClient.GetItemOptionsAsync(id, null, cancellationToken);
     }
 
     [HttpGet("{id}/Variants")]
-    public async Task<ItemsResultOfProductVariantDto> GetProductVariants(string id, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResultOfItemDto> GetItemVariants(string id, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await _productsClient.GetVariantsAsync(id, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
+        return await _itemsClient.GetVariantsAsync(id, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
     }
 
     [HttpPost("{id}/Variants/Find")]
-    public async Task<ProductVariantDto?> FindProductVariantByAttributes(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
+    public async Task<ItemDto?> FindItemVariantByAttributes(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
     {
-        return await _productsClient.FindVariantByAttributeValuesAsync(id, attributes, cancellationToken);
+        return await _itemsClient.FindVariantByAttributeValuesAsync(id, attributes, cancellationToken);
     }
 }

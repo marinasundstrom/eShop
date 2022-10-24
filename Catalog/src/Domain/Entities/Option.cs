@@ -26,9 +26,9 @@ public class Option : IAggregateRoot
 
     public List<OptionValue> Values { get; } = new List<OptionValue>();
 
-    public List<Product> Products { get; } = new List<Product>();
+    public List<Item> Items { get; } = new List<Item>();
 
-    public List<ProductVariantOption> ProductVariantOptions { get; } = new List<ProductVariantOption>();
+    public List<ItemVariantOption> ItemVariantOptions { get; } = new List<ItemVariantOption>();
 
     [ForeignKey(nameof(DefaultValue))]
     public string? DefaultValueId { get; set; }

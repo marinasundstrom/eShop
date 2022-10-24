@@ -10,7 +10,7 @@ public class AttributeGroup : IAggregateRoot
 
     public string? Description { get; set; }
 
-    public Product? Product { get; set; }
+    public Item? Item { get; set; }
 
     public List<Entities.Attribute> Attributes { get; } = new List<Entities.Attribute>();
 }

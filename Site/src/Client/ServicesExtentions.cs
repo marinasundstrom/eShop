@@ -8,7 +8,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddServices(this IServiceCollection services) 
     {
         services.AddHttpClient("Site")
-            .AddTypedClient<IProductsClient>((http, sp) => new ProductsClient(http));
+            .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
 
         services.AddHttpClient("Site")
             .AddTypedClient<ICartsClient>((http, sp) => new CartsClient(http));

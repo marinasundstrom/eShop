@@ -10,7 +10,7 @@ public class OptionGroup : IAggregateRoot
 
     public string? Description { get; set; }
 
-    public Product? Product { get; set; }
+    public Item? Item { get; set; }
 
     public List<Option> Options { get; } = new List<Option>();
 

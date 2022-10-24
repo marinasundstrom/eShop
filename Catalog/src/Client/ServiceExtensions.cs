@@ -17,8 +17,8 @@ public static class ServiceExtensions
     public static IServiceCollection AddCatalogClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
     {
         var b = services
-            .AddHttpClient(nameof(ProductsClient), configureClient)
-            .AddTypedClient<IProductsClient>((http, sp) => new ProductsClient(http));
+            .AddHttpClient(nameof(ItemsClient), configureClient)
+            .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
 
         builder?.Invoke(b);
 

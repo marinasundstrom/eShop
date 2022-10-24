@@ -27,7 +27,7 @@ public class OptionsController : Controller
 
     /*
     [HttpGet("{optionId}")]
-    public async Task<ActionResult<OptionDto>> GetProductOptionValues(string optionId)
+    public async Task<ActionResult<OptionDto>> GetItemOptionValues(string optionId)
     {
         return Ok(await _mediator.Send(new GetOption(optionId)));
     }

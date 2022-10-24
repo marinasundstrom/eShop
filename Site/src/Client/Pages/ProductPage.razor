@@ -1,37 +1,37 @@
-@page "/products/{id}"
+@page "/items/{id}"
 @implements IDisposable
 @inject PersistentComponentState ApplicationState
 @inject NavigationManager NavigationManager
-@inject IProductsClient ProductsClient
+@inject IItemsClient ItemsClient
 @inject ICartsClient CartsClient
 
-<SitePageTitle>Product</SitePageTitle>
+<SitePageTitle>Item</SitePageTitle>
 
 <article class="container">
-    @if(product is not null) 
+    @if(item is not null) 
     {
-        <SitePageTitle>@product.Name</SitePageTitle>
+        <SitePageTitle>@item.Name</SitePageTitle>
 
         <HeadContent>
-            <meta name="description" content="@product.Description">
+            <meta name="description" content="@item.Description">
             <meta name="keywords" content="">
         </HeadContent>
 
         <div class="row">
             <div class="col-12 col-md-4 mb-4">
                 <div class="card shadow-sm">
-                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@product.Image" style="object-fit: contain;" />
+                    <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image" style="object-fit: contain;" />
                 </div>
             </div>
 
             <section class="col-12 col-md-8">
-                <h1>@product.Name</h1>
+                <h1>@item.Name</h1>
 
-                <p>@product.Sku</p>
+                <p>@item.Id</p>
 
-                <p class="text-muted">@product.Price?.ToString("c")</p>
+                <p class="text-muted">@item.Price?.ToString("c")</p>
 
-                <p>@product.Description</p>
+                <p>@item.Description</p>
 
                     <div class="d-flex justify-content-start mt-4 mb-2">
                         <div>
@@ -48,58 +48,58 @@
                     </div>
 
                 <div class="form">
-                @foreach (var productOptionGroups in productOptions.GroupBy(x => x.Group?.Name))
+                @foreach (var itemOptionGroups in itemOptions.GroupBy(x => x.Group?.Name))
                 {
-                    <h3 class="mt-4">@(productOptionGroups.Key ?? "Options")</h3>
+                    <h3 class="mt-4">@(itemOptionGroups.Key ?? "Options")</h3>
 
-                    @foreach (var productOption in productOptionGroups)
+                    @foreach (var itemOption in itemOptionGroups)
                     {
                         <div class="form-floating mb-3 mt-3">
-                            @if(productOption.OptionType == OptionType.YesOrNo) 
+                            @if(itemOption.OptionType == OptionType.YesOrNo) 
                             {
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
                                     <label class="form-check-label" for="flexCheckDefault">
-                                        @productOption.Name
+                                        @itemOption.Name
                                     </label>
                                 </div>
                             }
-                            else if(productOption.OptionType == OptionType.Choice) 
+                            else if(itemOption.OptionType == OptionType.Choice) 
                             {
-                                <select class="form-select" aria-label="@productOption.Name" placeholder="Choose option">
+                                <select class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
                                     @* <option selected>None</option> *@
-                                    @foreach(var value in productOption.Values) 
+                                    @foreach(var value in itemOption.Values) 
                                     {
                                         <option value="@value.Id">@value.Name</option>
                                     }
                                 </select>
-                                <label for="exampleInputEmail1">@productOption.Name</label>
+                                <label for="exampleInputEmail1">@itemOption.Name</label>
                             }
-                            else if(productOption.OptionType == OptionType.NumericalValue) 
+                            else if(itemOption.OptionType == OptionType.NumericalValue) 
                             {           
-                                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter value" min="@productOption.MinNumericalValue" step="1" max="@productOption.MaxNumericalValue" >
-                                <label for="exampleInputEmail1">@productOption.Name</label>
+                                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter value" min="@itemOption.MinNumericalValue" step="1" max="@itemOption.MaxNumericalValue" >
+                                <label for="exampleInputEmail1">@itemOption.Name</label>
                             }
                         </div>
                     }
                 }
                 </div>
 
-                @if(productAttributes is not null) 
+                @if(itemAttributes is not null) 
                 {
-                    @foreach (var productAttributesGroups in productAttributes.GroupBy(x => x.Group?.Name))
+                    @foreach (var itemAttributesGroups in itemAttributes.GroupBy(x => x.Group?.Name))
                     {
-                        <h3>@productAttributesGroups.Key</h3>
+                        <h3>@itemAttributesGroups.Key</h3>
 
                         <table class="table mt-4">
                             <tbody>
-                                @foreach (var productAttribute in productAttributesGroups.Where(x => !x.ForVariant))
+                                @foreach (var itemAttribute in itemAttributesGroups.Where(x => !x.ForVariant))
                                 {
                                 <tr>
-                                    <th>@productAttribute.Name</th>
+                                    <th>@itemAttribute.Name</th>
 
                                     <td>
-                                        @string.Join(", ", productAttribute.Values.Select(x => x.Name))
+                                        @string.Join(", ", itemAttribute.Values.Select(x => x.Name))
                                     </td>
                                 </tr>
                                 }
@@ -108,27 +108,27 @@
                     }
                 }
 
-                @if(productAttributes is not null) 
+                @if(itemAttributes is not null) 
                 {
                     <div class="form">
-                        @foreach (var productAttributesGroups in productAttributes.GroupBy(x => x.Group?.Name))
+                        @foreach (var itemAttributesGroups in itemAttributes.GroupBy(x => x.Group?.Name))
                         {
-                            <h3 class="mt-4">@productAttributesGroups.Key</h3>
+                            <h3 class="mt-4">@itemAttributesGroups.Key</h3>
 
-                            @foreach (var productAttribute in productAttributesGroups)
+                            @foreach (var itemAttribute in itemAttributesGroups)
                             {
-                                @productAttribute.Name
+                                @itemAttribute.Name
                             }
                         }
                     </div>
                 }
 
-                @if(productVariantResults is not null) 
+                @if(itemVariantResults is not null) 
                 {
                     <ul>
-                        @foreach (var productVariant in productVariantResults.Items)
+                        @foreach (var itemVariant in itemVariantResults.Items)
                         {
-                            <li>@productVariant.Name</li>
+                            <li>@itemVariant.Name</li>
                         }
                     </ul>
                 }
@@ -138,10 +138,10 @@
  </article>
 
 @code {
-    ProductDto? product;
-    IEnumerable<OptionDto>? productOptions;
-    IEnumerable<AttributeDto>? productAttributes;
-    ItemsResultOfProductVariantDto? productVariantResults;
+    ItemDto? item;
+    IEnumerable<OptionDto>? itemOptions;
+    IEnumerable<AttributeDto>? itemAttributes;
+    ItemsResultOfItemDto? itemVariantResults;
 
     int quantity = 1;
     bool hasAddedToCart = false;
@@ -154,54 +154,54 @@
     protected override async Task OnInitializedAsync()
     {
         persistingSubscription = 
-            ApplicationState.RegisterOnPersisting(PersistProducts);
+            ApplicationState.RegisterOnPersisting(PersistItems);
 
-        if (!ApplicationState.TryTakeFromJson<ProductDto>(
-            "product", out var restored))
+        if (!ApplicationState.TryTakeFromJson<ItemDto>(
+            "item", out var restored))
         {
-            product = await ProductsClient.GetProductAsync(Id);
+            item = await ItemsClient.GetItemAsync(Id);
         }
         else
         {
-            product = restored!;
+            item = restored!;
         }
 
         if (!ApplicationState.TryTakeFromJson<IEnumerable<OptionDto>>(
-            "productOptions", out var restored2))
+            "itemOptions", out var restored2))
         {
-            productOptions = await ProductsClient.GetProductOptionsAsync(Id);
+            itemOptions = await ItemsClient.GetItemOptionsAsync(Id);
         }
         else
         {
-            productOptions = restored2!;
+            itemOptions = restored2!;
         }
 
         if (!ApplicationState.TryTakeFromJson<IEnumerable<AttributeDto>>(
-            "productAttributes", out var restored3))
+            "itemAttributes", out var restored3))
         {
-            productAttributes = await ProductsClient.GetProductAttributesAsync(Id);
+            itemAttributes = await ItemsClient.GetItemAttributesAsync(Id);
         }
         else
         {
-            productAttributes = restored3!;
+            itemAttributes = restored3!;
         }
 
-        if (!ApplicationState.TryTakeFromJson<ItemsResultOfProductVariantDto>(
-            "productVariants", out var restored4))
+        if (!ApplicationState.TryTakeFromJson<ItemsResultOfItemDto>(
+            "itemVariants", out var restored4))
         {
-            productVariantResults = await ProductsClient.GetProductVariantsAsync(Id, 1, 10, null, null, null);
+            itemVariantResults = await ItemsClient.GetItemVariantsAsync(Id, 1, 10, null, null, null);
         }
         else
         {
-            productVariantResults = restored4!;
+            itemVariantResults = restored4!;
         }
     }
 
-    private Task PersistProducts()
+    private Task PersistItems()
     {
-        ApplicationState.PersistAsJson("product", product);
-        ApplicationState.PersistAsJson("productOptions", productOptions);
-        ApplicationState.PersistAsJson("productVariants", productVariantResults);
+        ApplicationState.PersistAsJson("item", item);
+        ApplicationState.PersistAsJson("itemOptions", itemOptions);
+        ApplicationState.PersistAsJson("itemVariants", itemVariantResults);
 
         return Task.CompletedTask;
     }
@@ -209,7 +209,7 @@
     async Task AddItemToCart() 
     {
         await CartsClient.AddItemToCartAsync("test", new AddCartItemDto() {
-            ItemId = product.Sku,
+            ItemId = item.Id,
             Quantity = quantity
         });
 

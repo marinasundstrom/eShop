@@ -10,5 +10,5 @@ public class AttributeValue
 
     public string Name { get; set; } = null!;
 
-    public List<ProductVariantAttributeValue> ProductVariantValues { get; } = new List<ProductVariantAttributeValue>();
+    public List<ItemAttributeValue> ItemValues { get; } = new List<ItemAttributeValue>();
 }

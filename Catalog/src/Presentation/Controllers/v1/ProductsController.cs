@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Application;
 using YourBrand.Catalog.Application.Common.Models;
-using YourBrand.Catalog.Application.Products;
+using YourBrand.Catalog.Application.Items;
 using Microsoft.AspNetCore.Http;
 
 namespace YourBrand.Catalog.Presentation.Controllers;
@@ -12,60 +12,54 @@ namespace YourBrand.Catalog.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-public partial class ProductsController : Controller
+public partial class ItemsController : Controller
 {
     private readonly IMediator _mediator;
 
-    public ProductsController(IMediator mediator)
+    public ItemsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<ActionResult<ItemsResult<ProductDto>>> GetProducts(
+    public async Task<ActionResult<ItemsResult<ItemDto>>> GetItems(
         bool includeUnlisted = false, string? groupId = null,
         int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Application.Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProducts(includeUnlisted, groupId, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
+        return Ok(await _mediator.Send(new GetItems(includeUnlisted, groupId, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
     }
 
-    [HttpGet("{productId}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(string productId, CancellationToken cancellationToken)
+    [HttpGet("{itemId}")]
+    public async Task<ActionResult<ItemDto>> GetItem(string itemId, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetProduct(productId), cancellationToken));
+        return Ok(await _mediator.Send(new GetItem(itemId), cancellationToken));
     }
 
-    [HttpGet("GetItemByItemId")]
-    public async Task<ActionResult<ItemDto>> GetProductByItemId(string itemId, CancellationToken cancellationToken)
+    [HttpPut("{itemId}")]
+    public async Task<ActionResult> UpdateItemDetails(string itemId, ApiUpdateItemDetails details, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new GetItemByItemId(itemId), cancellationToken));
-    }
-
-    [HttpPut("{productId}")]
-    public async Task<ActionResult> UpdateProductDetails(string productId, ApiUpdateProductDetails details, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(new UpdateProductDetails(productId, details), cancellationToken);
+        await _mediator.Send(new UpdateItemDetails(itemId, details), cancellationToken);
         return Ok();
     }
 
-    [HttpPost("{productId}/UploadImage")]
+    [HttpPost("{itemId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<ActionResult> UploadProductImage([FromRoute] string productId, IFormFile file, CancellationToken cancellationToken)
+    public async Task<ActionResult> UploadItemImage([FromRoute] string itemId, IFormFile file, CancellationToken cancellationToken)
     {
-        var url = await _mediator.Send(new UploadProductImage(productId, file.FileName, file.OpenReadStream()), cancellationToken);
+        var url = await _mediator.Send(new UploadItemImage(itemId, file.FileName, file.OpenReadStream()), cancellationToken);
         return Ok(url);
     }
 
-    [HttpGet("{productId}/Visibility")]
-    public async Task<ActionResult> UpdateProductVisibility(string productId, ProductVisibility visibility, CancellationToken cancellationToken)
+    [HttpGet("{itemId}/Visibility")]
+    public async Task<ActionResult> UpdateItemVisibility(string itemId, ItemVisibility visibility, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateProductVisibility(productId, visibility), cancellationToken);
+        await _mediator.Send(new UpdateItemVisibility(itemId, visibility), cancellationToken);
         return Ok();
     }
 
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateProduct(ApiCreateProduct data, CancellationToken cancellationToken)
+    public async Task<ActionResult<ItemDto>> CreateItem(ApiCreateItem data, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new CreateProduct(data.Name, data.HasVariants, data.Description, data.GroupId, data.SKU, data.Price, data.Visibility), cancellationToken));
+        return Ok(await _mediator.Send(new CreateItem(data.Name, data.HasVariants, data.Description, data.GroupId, data.SKU, data.Price, data.Visibility), cancellationToken));
     }
 }

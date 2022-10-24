@@ -6,11 +6,11 @@ namespace YourBrand.Catalog.Domain;
 
 public interface IApplicationDbContext
 {
-    DbSet<ProductGroup> ProductGroups { get; }
+    DbSet<ItemGroup> ItemGroups { get; }
 
-    DbSet<Product> Products { get; }
+    DbSet<Item> Items { get; }
 
-    DbSet<ProductAttribute> ProductAttributes { get; }
+    DbSet<ItemAttribute> ItemAttributes { get; }
 
     DbSet<AttributeGroup> AttributeGroups { get; }
 
@@ -18,13 +18,11 @@ public interface IApplicationDbContext
 
     DbSet<AttributeValue> AttributeValues { get; }
 
-    DbSet<ProductVariant> ProductVariants { get; }
+    DbSet<ItemOption> ItemOptions { get; }
 
-    DbSet<ProductVariantOption> ProductVariantOptions { get; }
+    DbSet<ItemAttributeValue> ItemAttributeValues { get; }
 
-    DbSet<ProductVariantAttributeValue> ProductVariantAttributeValues { get; }
-
-    DbSet<ProductOption> ProductOptions { get; }
+    DbSet<ItemVariantOption> ItemVariantOptions { get; }
 
     DbSet<OptionGroup> OptionGroups { get; }
 

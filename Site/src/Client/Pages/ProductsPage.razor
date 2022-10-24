@@ -1,40 +1,40 @@
-﻿@page "/products"
+﻿@page "/items"
 @implements IDisposable
-@inject IProductsClient ProductsClient
+@inject IItemsClient ItemsClient
 @inject PersistentComponentState ApplicationState
 @inject NavigationManager NavigationManager
 
-<SitePageTitle>Products</SitePageTitle>
+<SitePageTitle>Items</SitePageTitle>
 
 <div class="container">
-    <h1>Products</h1>
+    <h1>Items</h1>
 
-    @if (productResults is not null)
+    @if (itemResults is not null)
     {
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            @foreach (var product in productResults.Items)
+            @foreach (var item in itemResults.Items)
             {
                 <div class="col">
                     <div class="card shadow-sm">
-                        <a href="/products/@product.Id">
-                            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@product.Image"
+                        <a href="/items/@item.Id">
+                            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image"
                         style="object-fit: contain;" />
                         </a>
                         <div class="card-body">
-                            <h5 class="card-title">@product.Name</h5>
-                            <p class="card-text">@product.Description</p>
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Description</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a class="btn btn-sm btn-outline-secondary" href="/products/@product.Id">View</a>
+                                    <a class="btn btn-sm btn-outline-secondary" href="/items/@item.Id">View</a>
                                 </div>
                                 <small class="text-muted">
-                                    @if (product.HasVariants)
+                                    @if (item.HasVariants)
                                     {
                                         <text>Har flera varianter</text>
                                     }
                                     else
                                     {
-                                        @product.Price?.ToString("c")
+                                        @item.Price?.ToString("c")
                                     }
                                 </small>
                             </div>
@@ -50,7 +50,7 @@
 </div>
 
 @code {
-    ItemsResultOfProductDto? productResults;
+    ItemsResultOfItemDto? itemResults;
 
     int pageSize = 10;
     int totalPages = 0;
@@ -69,31 +69,31 @@
         }
 
         persistingSubscription =
-        ApplicationState.RegisterOnPersisting(PersistProducts);
+        ApplicationState.RegisterOnPersisting(PersistItems);
 
-        if (!ApplicationState.TryTakeFromJson<ItemsResultOfProductDto>(
-        "productResults", out var restored))
+        if (!ApplicationState.TryTakeFromJson<ItemsResultOfItemDto>(
+        "itemResults", out var restored))
         {
-            string productGroupId = null; // "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";
+            string itemGroupId = null; // "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";
 
-            productResults = await ProductsClient.GetProductsAsync(productGroupId, Page.GetValueOrDefault(), pageSize, null, null, null);
+            itemResults = await ItemsClient.GetItemsAsync(itemGroupId, Page.GetValueOrDefault(), pageSize, null, null, null);
         }
         else
         {
-            productResults = restored!;
+            itemResults = restored!;
         }
 
-        if (productResults.TotalItems < pageSize)
+        if (itemResults.TotalItems < pageSize)
         {
             totalPages = 1;
             return;
         }
-        totalPages = (int)Math.Ceiling((double)(productResults.TotalItems / pageSize));
+        totalPages = (int)Math.Ceiling((double)(itemResults.TotalItems / pageSize));
     }
 
-    private Task PersistProducts()
+    private Task PersistItems()
     {
-        ApplicationState.PersistAsJson("productResults", productResults);
+        ApplicationState.PersistAsJson("itemResults", itemResults);
 
         return Task.CompletedTask;
     }

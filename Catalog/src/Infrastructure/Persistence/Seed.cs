@@ -10,21 +10,21 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
-        context.ProductGroups.Add(new ProductGroup()
+        context.ItemGroups.Add(new ItemGroup()
         {
             Id = Guid.NewGuid().ToString(),
-            Name = "Products",
+            Name = "Items",
             Description = null
         });
 
-        context.ProductGroups.Add(new ProductGroup()
+        context.ItemGroups.Add(new ItemGroup()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Clothes",
             Description = null
         });
 
-        context.ProductGroups.Add(new ProductGroup()
+        context.ItemGroups.Add(new ItemGroup()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Food",
@@ -50,16 +50,16 @@ public static class Seed
 
     public static async Task CreateShirt(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Randing t-shirt",
             Description = "Stilren t-shirt med randigt mönster",
             HasVariants = true,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Clothes")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Clothes")
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         var option = new Domain.Entities.Attribute()
         {
@@ -68,7 +68,7 @@ public static class Seed
             ForVariant = true
         };
 
-        product.Attributes.Add(option);
+        item.Attributes.Add(option);
 
         var valueSmall = new AttributeValue
         {
@@ -94,70 +94,67 @@ public static class Seed
 
         option.Values.Add(valueLarge);
 
-        product.Attributes.Add(option);
+        item.Attributes.Add(option);
 
-        var variantSmall = new ProductVariant()
+        var variantSmall = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Small",
-            ItemId = "12345667",
             GTIN = "4345547457457",
         };
 
-        variantSmall.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantSmall.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option,
             Value = valueSmall
         });
 
-        product.Variants.Add(variantSmall);
+        item.Variants.Add(variantSmall);
 
-        var variantMedium = new ProductVariant()
+        var variantMedium = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Medium",
-            ItemId = "4465645645",
             GTIN = "543453454567",
         };
 
-        variantMedium.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantMedium.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option,
             Value = valueMedium
         });
 
-        product.Variants.Add(variantMedium);
+        item.Variants.Add(variantMedium);
 
-        var variantLarge = new ProductVariant()
+        var variantLarge = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Large",
-            ItemId = "233423544545",
             GTIN = "6876345345345",
         };
 
-        variantLarge.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantLarge.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option,
             Value = valueLarge
         });
 
-        product.Variants.Add(variantLarge);
+        item.Variants.Add(variantLarge);
     }
 
     public static async Task CreateShirt2(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt",
             Name = "T-shirt",
             Description = "T-shirt i olika färger",
             HasVariants = true,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Clothes"),
-            Visibility = ProductVisibility.Listed
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Clothes"),
+            Visibility = ItemVisibility.Listed
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         var attr = new Domain.Entities.Attribute()
         {
@@ -166,7 +163,7 @@ public static class Seed
             ForVariant = true
         };
 
-        product.Attributes.Add(attr);
+        item.Attributes.Add(attr);
 
         var valueSmall = new AttributeValue
         {
@@ -192,7 +189,7 @@ public static class Seed
 
         attr.Values.Add(valueLarge);
 
-        product.Attributes.Add(attr);
+        item.Attributes.Add(attr);
 
         var option2 = new Domain.Entities.Attribute()
         {
@@ -202,7 +199,7 @@ public static class Seed
             IsMainAttribute = true
         };
 
-        product.Attributes.Add(option2);
+        item.Attributes.Add(option2);
 
         var valueBlue = new AttributeValue
         {
@@ -222,147 +219,141 @@ public static class Seed
 
         ///*
 
-        var variantBlueSmall = new ProductVariant()
+        var variantBlueSmall = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt-blue-small",
             Name = "Blue S",
-            ItemId = "TSHIRT-BLUE-S",
             GTIN = "4345547457457",
             Price = 120,
         };
 
-        variantBlueSmall.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantBlueSmall.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = attr,
             Value = valueSmall
         });
 
-        variantBlueSmall.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantBlueSmall.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option2,
             Value = valueBlue
         });
 
-        product.Variants.Add(variantBlueSmall);
+        item.Variants.Add(variantBlueSmall);
 
         //*/
 
-        var variantBlueMedium = new ProductVariant()
+        var variantBlueMedium = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt-blue-medium",
             Name = "Blue M",
-            ItemId = "TSHIRT-BLUE-M",
             GTIN = "543453454567",
             Price = 120
         };
 
-        variantBlueMedium.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantBlueMedium.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = attr,
             Value = valueMedium
         });
 
-        variantBlueMedium.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantBlueMedium.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option2,
             Value = valueBlue
         });
 
-        product.Variants.Add(variantBlueMedium);
+        item.Variants.Add(variantBlueMedium);
 
-        var variantBlueLarge = new ProductVariant()
+        var variantBlueLarge = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt-blue-large",
             Name = "Blue L",
-            ItemId = "TSHIRT-BLUE-L",
             GTIN = "6876345345345",
             Price = 60,
         };
 
-        variantBlueLarge.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantBlueLarge.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = attr,
             Value = valueLarge
         });
 
-        variantBlueLarge.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantBlueLarge.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option2,
             Value = valueBlue
         });
 
-        product.Variants.Add(variantBlueLarge);
+        item.Variants.Add(variantBlueLarge);
 
         /////
 
-        var variantRedSmall = new ProductVariant()
+        var variantRedSmall = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt-red-small",
             Name = "Red S",
-            ItemId = "TSHIRT-RED-S",
             GTIN = "4345547457457",
             Price = 120,
         };
 
-        variantRedSmall.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantRedSmall.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = attr,
             Value = valueSmall
         });
 
-        variantRedSmall.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantRedSmall.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option2,
             Value = valueRed
         });
 
-        product.Variants.Add(variantRedSmall);
+        item.Variants.Add(variantRedSmall);
 
-        var variantRedMedium = new ProductVariant()
+        var variantRedMedium = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt-red-medium",
             Name = "Red M",
-            ItemId = "TSHIRT-RED-M",
             GTIN = "543453454567",
             Price = 120,
         };
 
-        variantRedMedium.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantRedMedium.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = attr,
             Value = valueMedium
         });
 
-        variantRedMedium.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantRedMedium.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option2,
             Value = valueRed
         });
 
-        product.Variants.Add(variantRedMedium);
+        item.Variants.Add(variantRedMedium);
 
-        var variantRedLarge = new ProductVariant()
+        var variantRedLarge = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "tshirt-red-large",
             Name = "Red L",
-            ItemId = "TSHIRT-RED-L",
             GTIN = "6876345345345",
             Price = 120,
         };
 
-        variantRedLarge.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantRedLarge.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = attr,
             Value = valueLarge
         });
 
-        variantRedLarge.AttributeValues.Add(new ProductVariantAttributeValue()
+        variantRedLarge.AttributeValues.Add(new ItemAttributeValue()
         {
             Attribute = option2,
             Value = valueRed
         });
 
-        product.Variants.Add(variantRedLarge);
+        item.Variants.Add(variantRedLarge);
 
         var textOption = new Domain.Entities.Option()
         {
@@ -371,21 +362,21 @@ public static class Seed
             OptionType = OptionType.TextValue
         };
 
-        product.Options.Add(textOption);
+        item.Options.Add(textOption);
     }
 
     public static async Task CreateKebabPlate(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Kebabtallrik",
             Description = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
             Price = 89,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         var option = new Option()
         {
@@ -393,7 +384,7 @@ public static class Seed
             Name = "Sås"
         };
 
-        product.Options.Add(option);
+        item.Options.Add(option);
 
         await context.SaveChangesAsync();
 
@@ -426,16 +417,16 @@ public static class Seed
 
     public static async Task CreateHerrgardsStek(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Herrgårdsstek",
             Description = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
             Price = 179,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         await context.SaveChangesAsync();
 
@@ -445,7 +436,7 @@ public static class Seed
             Name = "Stekning"
         };
 
-        product.Options.Add(optionDoneness);
+        item.Options.Add(optionDoneness);
 
         await context.SaveChangesAsync();
 
@@ -481,23 +472,23 @@ public static class Seed
             Price = 15
         };
 
-        product.Options.Add(optionSize);
+        item.Options.Add(optionSize);
 
         await context.SaveChangesAsync();
     }
 
     public static async Task CreateKorg(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Korg",
             Description = "En korg med smårätter",
             Price = 179,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         await context.SaveChangesAsync();
 
@@ -508,7 +499,7 @@ public static class Seed
             Max = 7
         };
 
-        product.OptionGroups.Add(ratterGroup);
+        item.OptionGroups.Add(ratterGroup);
 
         var optionFalafel = new Option()
         {
@@ -518,7 +509,7 @@ public static class Seed
             Group = ratterGroup
         };
 
-        product.Options.Add(optionFalafel);
+        item.Options.Add(optionFalafel);
 
         var optionChickenWing = new Option()
         {
@@ -528,7 +519,7 @@ public static class Seed
             Group = ratterGroup
         };
 
-        product.Options.Add(optionChickenWing);
+        item.Options.Add(optionChickenWing);
 
         var optionRib = new Option()
         {
@@ -538,7 +529,7 @@ public static class Seed
             Group = ratterGroup
         };
 
-        product.Options.Add(optionRib);
+        item.Options.Add(optionRib);
 
         await context.SaveChangesAsync();
 
@@ -549,7 +540,7 @@ public static class Seed
             Name = "Extra"
         };
 
-        product.OptionGroups.Add(extraGroup);
+        item.OptionGroups.Add(extraGroup);
 
         await context.SaveChangesAsync();
 
@@ -562,7 +553,7 @@ public static class Seed
             Group = extraGroup
         };
 
-        product.Options.Add(optionSauce);
+        item.Options.Add(optionSauce);
 
         /*
         optionSauce.Values.Add(new OptionValue() {
@@ -575,16 +566,16 @@ public static class Seed
 
     public static async Task CreatePizza(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Pizza",
             Description = "Custom pizza",
             Price = 40,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         await context.SaveChangesAsync();
 
@@ -595,7 +586,7 @@ public static class Seed
             Name = "Bread"
         };
 
-        product.OptionGroups.Add(breadGroup);
+        item.OptionGroups.Add(breadGroup);
 
         var meatGroup = new OptionGroup()
         {
@@ -605,7 +596,7 @@ public static class Seed
             Max = 2
         };
 
-        product.OptionGroups.Add(meatGroup);
+        item.OptionGroups.Add(meatGroup);
 
         var nonMeatGroup = new OptionGroup()
         {
@@ -614,7 +605,7 @@ public static class Seed
             Name = "Non-Meat"
         };
 
-        product.OptionGroups.Add(nonMeatGroup);
+        item.OptionGroups.Add(nonMeatGroup);
 
         var sauceGroup = new OptionGroup()
         {
@@ -623,7 +614,7 @@ public static class Seed
             Name = "Sauce"
         };
 
-        product.OptionGroups.Add(sauceGroup);
+        item.OptionGroups.Add(sauceGroup);
 
         var toppingsGroup = new OptionGroup()
         {
@@ -632,7 +623,7 @@ public static class Seed
             Name = "Toppings"
         };
 
-        product.OptionGroups.Add(toppingsGroup);
+        item.OptionGroups.Add(toppingsGroup);
 
         await context.SaveChangesAsync();
 
@@ -642,7 +633,7 @@ public static class Seed
             Name = "Style"
         };
 
-        product.Options.Add(optionStyle);
+        item.Options.Add(optionStyle);
 
         await context.SaveChangesAsync();
 
@@ -673,7 +664,7 @@ public static class Seed
             Price = 15
         };
 
-        product.Options.Add(optionHam);
+        item.Options.Add(optionHam);
 
         var optionKebab = new Option()
         {
@@ -685,7 +676,7 @@ public static class Seed
             IsSelected = true
         };
 
-        product.Options.Add(optionKebab);
+        item.Options.Add(optionKebab);
 
         var optionChicken = new Option()
         {
@@ -696,7 +687,7 @@ public static class Seed
             Price = 10
         };
 
-        product.Options.Add(optionChicken);
+        item.Options.Add(optionChicken);
 
         var optionExtraCheese = new Option()
         {
@@ -707,7 +698,7 @@ public static class Seed
             Price = 5
         };
 
-        product.Options.Add(optionExtraCheese);
+        item.Options.Add(optionExtraCheese);
 
         var optionGreenOlives = new Option()
         {
@@ -718,22 +709,22 @@ public static class Seed
             Price = 5
         };
 
-        product.Options.Add(optionGreenOlives);
+        item.Options.Add(optionGreenOlives);
     }
 
     public static async Task CreateSalad(ApplicationDbContext context)
     {
-        var product = new Product()
+        var item = new Item()
         {
             Id = Guid.NewGuid().ToString(),
             Name = "Sallad",
             Description = "Din egna sallad",
             Price = 52,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
-            Visibility = ProductVisibility.Listed
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Visibility = ItemVisibility.Listed
         };
 
-        context.Products.Add(product);
+        context.Items.Add(item);
 
         var baseGroup = new OptionGroup()
         {
@@ -742,7 +733,7 @@ public static class Seed
             Name = "Bas"
         };
 
-        product.OptionGroups.Add(baseGroup);
+        item.OptionGroups.Add(baseGroup);
 
         var proteinGroup = new OptionGroup()
         {
@@ -752,7 +743,7 @@ public static class Seed
             Max = 1
         };
 
-        product.OptionGroups.Add(proteinGroup);
+        item.OptionGroups.Add(proteinGroup);
 
         var additionalGroup = new OptionGroup()
         {
@@ -762,7 +753,7 @@ public static class Seed
             Max = 3
         };
 
-        product.OptionGroups.Add(additionalGroup);
+        item.OptionGroups.Add(additionalGroup);
 
         var dressingGroup = new OptionGroup()
         {
@@ -772,7 +763,7 @@ public static class Seed
             Max = 1
         };
 
-        product.OptionGroups.Add(dressingGroup);
+        item.OptionGroups.Add(dressingGroup);
 
         await context.SaveChangesAsync();
 
@@ -783,7 +774,7 @@ public static class Seed
             Group = baseGroup
         };
 
-        product.Options.Add(optionBase);
+        item.Options.Add(optionBase);
 
         await context.SaveChangesAsync();
 
@@ -829,7 +820,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionChicken);
+        item.Options.Add(optionChicken);
 
         var optionSmokedTurkey = new Option()
         {
@@ -839,7 +830,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionSmokedTurkey);
+        item.Options.Add(optionSmokedTurkey);
 
         var optionBeanMix = new Option()
         {
@@ -849,7 +840,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionBeanMix);
+        item.Options.Add(optionBeanMix);
 
         var optionVegMe = new Option()
         {
@@ -859,7 +850,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionVegMe);
+        item.Options.Add(optionVegMe);
 
         var optionChevre = new Option()
         {
@@ -869,7 +860,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionChevre);
+        item.Options.Add(optionChevre);
 
         var optionSmokedSalmon = new Option()
         {
@@ -879,7 +870,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionSmokedSalmon);
+        item.Options.Add(optionSmokedSalmon);
 
         var optionPrawns = new Option()
         {
@@ -889,7 +880,7 @@ public static class Seed
             Group = proteinGroup
         };
 
-        product.Options.Add(optionPrawns);
+        item.Options.Add(optionPrawns);
 
         var optionCheese = new Option()
         {
@@ -899,7 +890,7 @@ public static class Seed
             Group = additionalGroup
         };
 
-        product.Options.Add(optionCheese);
+        item.Options.Add(optionCheese);
 
         var optionGreenOlives = new Option()
         {
@@ -909,7 +900,7 @@ public static class Seed
             Group = additionalGroup
         };
 
-        product.Options.Add(optionGreenOlives);
+        item.Options.Add(optionGreenOlives);
 
         var optionSoltorkadTomat = new Option()
         {
@@ -919,7 +910,7 @@ public static class Seed
             Group = additionalGroup
         };
 
-        product.Options.Add(optionSoltorkadTomat);
+        item.Options.Add(optionSoltorkadTomat);
 
         var optionInlagdRödlök = new Option()
         {
@@ -929,7 +920,7 @@ public static class Seed
             Group = additionalGroup
         };
 
-        product.Options.Add(optionInlagdRödlök);
+        item.Options.Add(optionInlagdRödlök);
 
         var optionRostadAioli = new Option()
         {
@@ -939,7 +930,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionRostadAioli);
+        item.Options.Add(optionRostadAioli);
 
         var optionPesto = new Option()
         {
@@ -949,7 +940,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionPesto);
+        item.Options.Add(optionPesto);
 
         var optionOrtvinagret = new Option()
         {
@@ -959,7 +950,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionOrtvinagret);
+        item.Options.Add(optionOrtvinagret);
 
         var optionSoyavinagret = new Option()
         {
@@ -969,7 +960,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionSoyavinagret);
+        item.Options.Add(optionSoyavinagret);
 
         var optionRhodeIsland = new Option()
         {
@@ -979,7 +970,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionRhodeIsland);
+        item.Options.Add(optionRhodeIsland);
 
         var optionKimchimayo = new Option()
         {
@@ -989,7 +980,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionKimchimayo);
+        item.Options.Add(optionKimchimayo);
 
         var optionCaesar = new Option()
         {
@@ -999,7 +990,7 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionCaesar);
+        item.Options.Add(optionCaesar);
 
         var optionCitronLime = new Option()
         {
@@ -1009,6 +1000,6 @@ public static class Seed
             Group = dressingGroup
         };
 
-        product.Options.Add(optionCitronLime);
+        item.Options.Add(optionCitronLime);
     }
 }

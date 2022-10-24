@@ -10,13 +10,13 @@ public class CartsController : ControllerBase
 {
     private readonly ILogger<CartsController> _logger;
     private readonly YourBrand.Sales.ICartsClient _cartsClient;
-    private readonly YourBrand.Catalog.IProductsClient _productsClient;
+    private readonly YourBrand.Catalog.IItemsClient _itemsClient;
 
-    public CartsController(ILogger<CartsController> logger, YourBrand.Sales.ICartsClient cartsClient, YourBrand.Catalog.IProductsClient productsClient)
+    public CartsController(ILogger<CartsController> logger, YourBrand.Sales.ICartsClient cartsClient, YourBrand.Catalog.IItemsClient itemsClient)
     {
         _logger = logger;
         _cartsClient = cartsClient;
-        _productsClient = productsClient;
+        _itemsClient = itemsClient;
     }
 
     [HttpGet]
@@ -35,7 +35,7 @@ public class CartsController : ControllerBase
 
         foreach(var cartItem in cart.Items) 
         {
-            var item = await _productsClient.GetProductByItemIdAsync(cartItem.ItemId);
+            var item = await _itemsClient.GetItemAsync(cartItem.ItemId);
 
             items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, item.Price.GetValueOrDefault()), (int)cartItem.Quantity, 0));
         }

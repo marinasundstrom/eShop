@@ -43,11 +43,11 @@ builder.Services.AddHttpClient("Site", (sp, http) => {
 
 builder.Services.AddServices();
 
-var descriptorDbContext = builder.Services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(Site.Client.IProductsClient));
+var descriptorDbContext = builder.Services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(Site.Client.IItemsClient));
 builder.Services.Remove(descriptorDbContext);
 
 builder.Services.AddHttpClient("Site")
-            .AddTypedClient<Site.Client.IProductsClient>((http, sp) => new Site.Client.ProductsClient(http));
+            .AddTypedClient<Site.Client.IItemsClient>((http, sp) => new Site.Client.ItemsClient(http));
 
 builder.Services.AddGoogleAnalytics("YOUR_GTAG_ID");
 
@@ -67,7 +67,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    // The default HSTS value is 30 days. You may want to change this for itemion scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

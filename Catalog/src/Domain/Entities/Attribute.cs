@@ -14,7 +14,7 @@ public class Attribute : IAggregateRoot
 
     public bool IsMainAttribute { get; set; }
 
-    public List<Product> Products { get; } = new List<Product>();
+    public List<Item> Items { get; } = new List<Item>();
 
     public List<AttributeValue> Values { get; } = new List<AttributeValue>();
 }

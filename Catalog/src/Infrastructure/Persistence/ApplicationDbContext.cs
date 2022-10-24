@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using YourBrand.Catalog.Domain.Entities;
 using YourBrand.Catalog.Infrastructure.Persistence.Interceptors;
 using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 
@@ -49,11 +50,11 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
 #nullable disable
 
-    public DbSet<ProductGroup> ProductGroups { get; set; } = null!;
+    public DbSet<ItemGroup> ItemGroups { get; set; } = null!;
 
-    public DbSet<Product> Products { get; set; } = null!;
+    public DbSet<Item> Items { get; set; } = null!;
 
-    public DbSet<ProductAttribute> ProductAttributes { get; set; } = null!;
+    public DbSet<ItemAttribute> ItemAttributes { get; set; } = null!;
 
     public DbSet<AttributeGroup> AttributeGroups { get; set; } = null!;
 
@@ -61,13 +62,11 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<AttributeValue> AttributeValues { get; set; } = null!;
 
-    public DbSet<ProductVariant> ProductVariants { get; set; } = null!;
+    public DbSet<ItemOption> ItemOptions { get; set; } = null!;
 
-    public DbSet<ProductVariantOption> ProductVariantOptions { get; set; } = null!;
+    public DbSet<ItemAttributeValue> ItemAttributeValues { get; set; } = null!;
 
-    public DbSet<ProductVariantAttributeValue> ProductVariantAttributeValues { get; set; } = null!;
-
-    public DbSet<ProductOption> ProductOptions { get; set; } = null!;
+    public DbSet<ItemVariantOption> ItemVariantOptions { get; set; } = null!;
 
     public DbSet<OptionGroup> OptionGroups { get; set; } = null!;
 
