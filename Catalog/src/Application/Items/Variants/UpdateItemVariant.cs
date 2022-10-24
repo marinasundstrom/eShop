@@ -42,7 +42,7 @@ public record UpdateItemVariant(string ItemId, string ItemVariantId, ApiUpdateIt
                     .ThenInclude(o => o.Values)
                 .FirstAsync(x => x.Id == request.ItemId);
 
-            var variant = item.Variants.First(x => x.Id == request.ItemId);
+            var variant = item.Variants.First(x => x.Id == request.ItemVariantId);
 
             variant.Name = request.Data.Name;
             variant.Description = request.Data.Description;
@@ -90,10 +90,10 @@ public record UpdateItemVariant(string ItemId, string ItemVariantId, ApiUpdateIt
 
             await _context.SaveChangesAsync();
 
-            return new ItemDto(item.Id, item.Name, item.Description,
-                item.Group is not null ? new Groups.ItemGroupDto(item.Group.Id, item.Group.Name, item.Group.Description, item.Group?.Parent?.Id) : null,
-                GetImageUrl(item.Image), item.Price, item.HasVariants, (ItemVisibility?)item.Visibility,
-                item.AttributeValues.Select(x => x.ToDto()));
+            return new ItemDto(variant.Id, variant.Name, variant.Description,
+                variant.Group is not null ? new Groups.ItemGroupDto(variant.Group.Id, variant.Group.Name, variant.Group.Description, variant.Group?.Parent?.Id) : null,
+                GetImageUrl(variant.Image), variant.Price, variant.HasVariants, (ItemVisibility?)variant.Visibility,
+                variant.AttributeValues.Select(x => x.ToDto()));
         }
 
         private static string? GetImageUrl(string? name)

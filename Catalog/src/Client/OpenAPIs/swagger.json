@@ -698,13 +698,22 @@
             "x-position": 1
           },
           {
+            "name": "groupItems",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 2
+          },
+          {
             "name": "groupId",
             "in": "query",
             "schema": {
               "type": "string",
               "nullable": true
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "page",
@@ -714,7 +723,7 @@
               "format": "int32",
               "default": 0
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "pageSize",
@@ -724,7 +733,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 4
+            "x-position": 5
           },
           {
             "name": "searchString",
@@ -733,7 +742,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 5
+            "x-position": 6
           },
           {
             "name": "sortBy",
@@ -742,7 +751,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 6
+            "x-position": 7
           },
           {
             "name": "sortDirection",
@@ -759,7 +768,7 @@
                 }
               ]
             },
-            "x-position": 7
+            "x-position": 8
           }
         ],
         "responses": {

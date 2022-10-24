@@ -9,7 +9,7 @@ using YourBrand.Catalog.Domain;
 
 namespace YourBrand.Catalog.Application.Items;
 
-public record GetItems(bool IncludeUnlisted = false, string? GroupId = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ItemDto>>
+public record GetItems(bool IncludeUnlisted = false, bool GroupItems = true, string? GroupId = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ItemDto>>
 {
     public class Handler : IRequestHandler<GetItems, ItemsResult<ItemDto>>
     {
@@ -36,6 +36,11 @@ public record GetItems(bool IncludeUnlisted = false, string? GroupId = null, int
             if (request.GroupId is not null)
             {
                 query = query.Where(x => x.Group!.Id == request.GroupId);
+            }
+
+            if (request.GroupItems)
+            {
+                query = query.Where(x => x.ParentItemId == null);
             }
 
             if (request.SearchString is not null)

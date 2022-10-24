@@ -20,7 +20,7 @@ public class ItemsController : ControllerBase
     [HttpGet]
     public async Task<ItemsResultOfItemDto> GetItems(string? itemGroupId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await _itemsClient.GetItemsAsync(false, itemGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
+        return await _itemsClient.GetItemsAsync(false, true, itemGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
     }
 
     [HttpGet("{id}")]

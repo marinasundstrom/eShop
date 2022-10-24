@@ -22,11 +22,11 @@ public record UploadItemVariantImage(string ItemId, string VariantId, string Fil
         public async Task<string?> Handle(UploadItemVariantImage request, CancellationToken cancellationToken)
         {
             var item = await _context.Items
-            .Include(x => x.Variants)
-            .FirstAsync(x => x.Id == request.ItemId);
+                .Include(x => x.Variants)
+                .FirstAsync(x => x.Id == request.ItemId);
 
-            var variant = await _context.Items
-                .FirstAsync(x => x.Id == request.VariantId);
+            var variant = item.Variants
+                .First(x => x.Id == request.VariantId);
 
             var blobId = $"{variant.Id}:{request.FileName}";
 

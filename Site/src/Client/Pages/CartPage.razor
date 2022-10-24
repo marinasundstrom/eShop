@@ -13,6 +13,9 @@
         <table class="table table-striped">
             <thead>
                 <th>
+                    
+                </th
+                <th>
                     Item Id
                 </th>
                 <th>
@@ -32,7 +35,10 @@
         @foreach (var item in cart.Items)
         {
             <tr>
-                 <td>
+                <td>
+                    <a href="/items/@item.Item.Id"><img src="@item.Item.Image" style="height: 60px; width: 60px;" /></a>
+                </td>
+                <td>
                     @item.Item.Id
                 </td>
                 <td>

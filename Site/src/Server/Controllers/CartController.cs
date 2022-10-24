@@ -24,7 +24,6 @@ public class CartsController : ControllerBase
     {
         return await _cartsClient.GetCartsAsync(status, assignedTo, page - 1, pageSize, sortBy, sortDirection, cancellationToken);
     }
-
     
     [HttpGet("{id}")]
     public async Task<SiteCartDto?> GetCart(string id, CancellationToken cancellationToken = default)
@@ -37,7 +36,7 @@ public class CartsController : ControllerBase
         {
             var item = await _itemsClient.GetItemAsync(cartItem.ItemId);
 
-            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, item.Price.GetValueOrDefault()), (int)cartItem.Quantity, 0));
+            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, item.Image, item.Price.GetValueOrDefault()), (int)cartItem.Quantity, 0));
         }
 
         return new SiteCartDto(items);
@@ -56,6 +55,13 @@ public class CartsController : ControllerBase
     [HttpPost("{id}/Items")]
     public async Task AddItemToCart(string id, AddCartItemDto dto, CancellationToken cancellationToken = default)
     {
+        var item = await _itemsClient.GetItemAsync(dto.ItemId);
+
+        if(item.HasVariants) 
+        {
+            throw new Exception();
+        }
+
         var dto2 = new YourBrand.Sales.CreateCartItemRequest() {
             ItemId = dto.ItemId,
             Quantity = dto.Quantity
@@ -78,7 +84,7 @@ public class CartsController : ControllerBase
 
 public record AddCartItemDto(string? ItemId, int Quantity);
 
-public record SiteItemDto(string Id, string Name, string? Description, decimal Price);
+public record SiteItemDto(string Id, string Name, string? Description, string? Image, decimal Price);
 
 public record SiteCartDto(IEnumerable<SiteCartItemDto> Items);
 
