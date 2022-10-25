@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Site.Server.Hubs;
 using Site.Shared;
 using YourBrand.Sales;
 
@@ -11,12 +13,18 @@ public class CartsController : ControllerBase
     private readonly ILogger<CartsController> _logger;
     private readonly YourBrand.Sales.ICartsClient _cartsClient;
     private readonly YourBrand.Catalog.IItemsClient _itemsClient;
+    private readonly IHubContext<CartHub, ICartHubClient> _cartHubContext;
 
-    public CartsController(ILogger<CartsController> logger, YourBrand.Sales.ICartsClient cartsClient, YourBrand.Catalog.IItemsClient itemsClient)
+    public CartsController(
+        ILogger<CartsController> logger, 
+        YourBrand.Sales.ICartsClient cartsClient, 
+        YourBrand.Catalog.IItemsClient itemsClient,
+        IHubContext<CartHub, ICartHubClient> cartHubContext)
     {
         _logger = logger;
         _cartsClient = cartsClient;
         _itemsClient = itemsClient;
+        _cartHubContext = cartHubContext;
     }
 
     [HttpGet]
@@ -67,18 +75,24 @@ public class CartsController : ControllerBase
             Quantity = dto.Quantity
         };
         await _cartsClient.AddCartItemAsync(id, dto2, cancellationToken);
+
+        await _cartHubContext.Clients.All.CartUpdated();
     }
 
     [HttpPut("{id}/Items/{itemId}/Quantity")]
     public async Task UpdateCartItemQuantity(string id, string itemId, int quantity, CancellationToken cancellationToken = default)
     {
         await _cartsClient.UpdateCartItemQuantityAsync(id, itemId, quantity, cancellationToken);
+
+        await _cartHubContext.Clients.All.CartUpdated();
     }
 
     [HttpDelete("{id}/Items/{itemId}")]
     public async Task RemoveItemFromCart(string id, string itemId, CancellationToken cancellationToken = default)
     {
         await _cartsClient.RemoveCartItemAsync(id, itemId, cancellationToken);
+
+        await _cartHubContext.Clients.All.CartUpdated();
     }
 }
 

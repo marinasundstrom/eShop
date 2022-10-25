@@ -21,6 +21,10 @@ builder.Services.AddSwaggerDocument(c =>
     c.Version = "0.1";
 });
 
+builder.Services.AddSignalR();
+
+builder.Services.AddHttpContextAccessor();
+
 const string CatalogServiceUrl = $"https://localhost:5011";
 
 builder.Services.AddCatalogClients((sp, httpClient) => {
@@ -78,6 +82,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.MapHub<Site.Server.Hubs.CartHub>("/hubs/cart");
 
 app.MapRazorPages();
 app.MapControllers();
