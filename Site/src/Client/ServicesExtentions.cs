@@ -5,7 +5,7 @@ namespace Site.Client;
 
 public static class ServiceExtensions 
 {
-    public static IServiceCollection AddServices(this IServiceCollection services) 
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration) 
     {
         services.AddHttpClient("Site")
             .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
@@ -17,7 +17,7 @@ public static class ServiceExtensions
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-        services.AddGoogleAnalytics("YOUR_GTAG_ID");
+        services.AddGoogleAnalytics(configuration["GoogleAnalytics:TrackingId"]);
 
         return services;
     }

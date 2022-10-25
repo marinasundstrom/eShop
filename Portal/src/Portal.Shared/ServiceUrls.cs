@@ -7,4 +7,6 @@ public static class ServiceUrls
     public const string CatalogServiceUrl = $"{RootUrl}:5011";
 
     public const string InventoryServiceUrl = $"{RootUrl}:5051";
+
+    public const string CustomersServiceUrl = $"{RootUrl}:5071";
 }

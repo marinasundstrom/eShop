@@ -8,5 +8,10 @@
     "Name": "Inventory",
     "Assembly": "Inventory.UI",
     "Enabled": true
+  },
+  {
+    "Name": "Customers",
+    "Assembly": "Customers.UI",
+    "Enabled": true
   }
 ]

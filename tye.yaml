@@ -57,6 +57,17 @@ services:
       protocol: https
       port: 5051
 
+
+  - name: customers-web
+    project: Customers/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5070
+    - name: https
+      protocol: https
+      port: 5071
+
   - name: site
     project: Site/src/Server/Site.Server.csproj
     bindings:

@@ -10,6 +10,6 @@ builder.Services.AddHttpClient("Site", (sp, http) => {
     http.BaseAddress =  new Uri(builder.HostEnvironment.BaseAddress);
 });
 
-builder.Services.AddServices();
+builder.Services.AddServices(builder.Configuration);
 
 await builder.Build().RunAsync();

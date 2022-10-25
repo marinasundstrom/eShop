@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Client.csproj" />
     <ProjectReference Include="..\Inventory.Components\Inventory.Components.csproj" />
     <ProjectReference Include="..\..\..\Portal\src\Portal.Shared\Portal.Shared.csproj" />
     <ProjectReference Include="..\..\..\Portal\src\Portal.Modules\Portal.Modules.csproj" />

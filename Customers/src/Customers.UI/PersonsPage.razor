@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client;
+
+@page "/customers/persons"
+
+@inject IPersonsClient PersonsClient
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@inject NavigationManager NavigationManager
+
+<PageTitle>Persons</PageTitle>
+
+<MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true" Class="mt-4 mb-8">Persons</MudText>
+
+@* <MudButton Variant="Variant.Filled" OnClick="NewPerson" Class="mb-2">New transaction</MudButton> *@
+
+<MudTable T="PersonDto" @ref="table" ServerData="ServerReload" Hover="true" Elevation="25" Breakpoint="Breakpoint.Sm"
+    Loading="@loading" LoadingProgressColor="Color.Info" >
+    
+     <HeaderContent>
+         <MudTh>Id</MudTh>
+         <MudTh>First Name</MudTh>
+         <MudTh>Last Name</MudTh>
+         <MudTh>SSN</MudTh>
+     </HeaderContent>
+     <RowTemplate Context="customer">
+         <MudTd DataLabel="Id">@customer.Id</MudTd>
+         <MudTd DataLabel="FirstName">@customer.FirstName</MudTd>
+         <MudTd DataLabel="LastName">@customer.LastName</MudTd>
+         <MudTd DataLabel="SSN">@customer.Ssn</MudTd>
+     </RowTemplate>
+    <LoadingContent>
+        <MudText>Loading...</MudText>
+    </LoadingContent>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@code
+{
+    MudTable<PersonDto> table = null!;
+    bool loading = false;
+
+    private async Task<TableData<PersonDto>> ServerReload(TableState state)
+    {
+        loading = true;
+
+        try
+        {
+            var result = await PersonsClient.GetPersonsAsync(state.Page, state.PageSize);
+
+            return new TableData<PersonDto>() { TotalItems = result.TotalItems, Items = result.Items };
+        }
+        finally
+        {
+            loading = false;
+        }
+    }
+
+    private TableData<PersonDto>? GetTableData()
+    {
+        return (TableData<PersonDto>?)table?.GetType()?
+            .GetField("_server_data", System.Reflection.BindingFlags.NonPublic |
+                         System.Reflection.BindingFlags.Instance)?
+            .GetValue(table);
+    }
+}

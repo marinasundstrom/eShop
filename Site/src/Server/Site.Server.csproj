@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0-rc.2.22476.2" />
     <PackageReference Include="NSwag.AspNetCore" Version="13.17.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-rc.2.22476.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,6 +21,5 @@
     <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Inventory\src\Client\Client.csproj" />
   </ItemGroup>
-
 
 </Project>
