@@ -46,7 +46,7 @@ public sealed record UpdateAssignedUser(int Id, string? UserId) : IRequest<Resul
                 }
             }
 
-            todo.UpdateAssignedTo(request.UserId);
+            todo.UpdateAssigneeId(request.UserId);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

@@ -29,9 +29,9 @@ public sealed class TodoStatusUpdatedEventHandler : IDomainEventHandler<TodoStat
 
         await todoNotificationService.StatusUpdated(todo.Id, (TodoStatusDto)todo.Status);
 
-        if (todo.AssignedToId is not null && todo.LastModifiedById != todo.AssignedToId)
+        if (todo.AssigneeIdId is not null && todo.LastModifiedById != todo.AssigneeIdId)
         {
-            await emailService.SendEmail(todo.AssignedTo!.Email,
+            await emailService.SendEmail(todo.AssigneeId!.Email,
                 $"Status of \"{todo.Title}\" [{todo.Id}] changed to {notification.NewStatus}.",
                 $"{todo.LastModifiedBy!.Name} changed status of \"{todo.Title}\" [{todo.Id}] from {notification.OldStatus} to {notification.NewStatus}.");
         }

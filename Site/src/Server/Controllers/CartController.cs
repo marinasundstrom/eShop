@@ -28,9 +28,9 @@ public class CartsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ItemsResultOfCartDto> GetCarts(YourBrand.Sales.CartStatusDto? status = null, string? assignedTo = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResultOfCartDto> GetCarts(YourBrand.Sales.CartStatusDto? status = null, string? assigneeId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await _cartsClient.GetCartsAsync(status, assignedTo, page - 1, pageSize, sortBy, sortDirection, cancellationToken);
+        return await _cartsClient.GetCartsAsync(status, assigneeId, page - 1, pageSize, sortBy, sortDirection, cancellationToken);
     }
     
     [HttpGet("{id}")]

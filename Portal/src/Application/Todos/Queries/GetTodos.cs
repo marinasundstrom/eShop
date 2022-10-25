@@ -6,7 +6,7 @@ using YourBrand.Portal.Domain.Enums;
 
 namespace YourBrand.Portal.Application.Todos.Queries;
 
-public record GetTodos(TodoStatusDto? Status, string? AssignedTo, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<TodoDto>>
+public record GetTodos(TodoStatusDto? Status, string? AssigneeId, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<TodoDto>>
 {
     public class Handler : IRequestHandler<GetTodos, ItemsResult<TodoDto>>
     {
@@ -26,9 +26,9 @@ public record GetTodos(TodoStatusDto? Status, string? AssignedTo, int Page = 1, 
                 query = query.Where(x => x.Status == (TodoStatus)request.Status);
             }
 
-            if (request.AssignedTo is not null)
+            if (request.AssigneeId is not null)
             {
-                query = query.Where(x => x.AssignedToId == request.AssignedTo);
+                query = query.Where(x => x.AssigneeIdId == request.AssigneeId);
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
@@ -43,7 +43,7 @@ public record GetTodos(TodoStatusDto? Status, string? AssignedTo, int Page = 1, 
             }
 
             var todos = await query
-                .Include(i => i.AssignedTo)
+                .Include(i => i.AssigneeId)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
                 .AsSplitQuery()

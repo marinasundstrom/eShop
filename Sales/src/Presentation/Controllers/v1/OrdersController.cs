@@ -30,8 +30,8 @@ public sealed partial class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<OrderDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]
-    public async Task<ItemsResult<OrderDto>> GetOrders(OrderStatusDto? status, string? assignedTo, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
-        => await mediator.Send(new GetOrders(status, assignedTo, page, pageSize, sortBy, sortDirection), cancellationToken);
+    public async Task<ItemsResult<OrderDto>> GetOrders(OrderStatusDto? status, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+        => await mediator.Send(new GetOrders(status, assigneeId, page, pageSize, sortBy, sortDirection), cancellationToken);
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDto))]
@@ -48,7 +48,7 @@ public sealed partial class OrdersController : ControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<OrderDto>> CreateOrder(CreateOrderRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateOrder(request.Title, request.Description, request.Status, request.AssignedTo, request.EstimatedHours, request.RemainingHours), cancellationToken);
+        var result = await mediator.Send(new CreateOrder(request.Title, request.Description, request.Status, request.AssigneeId, request.EstimatedHours, request.RemainingHours), cancellationToken);
         return result.Handle(
             onSuccess: data => CreatedAtAction(nameof(GetOrderById), new { id = data.Id }, data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));

@@ -30,7 +30,7 @@ public sealed partial class CartsController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<CartDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]
-    public async Task<ItemsResult<CartDto>> GetCarts(CartStatusDto? status, string? assignedTo, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResult<CartDto>> GetCarts(CartStatusDto? status, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
         => await mediator.Send(new GetCarts(page, pageSize, sortBy, sortDirection), cancellationToken);
 
     [HttpGet("{id}")]

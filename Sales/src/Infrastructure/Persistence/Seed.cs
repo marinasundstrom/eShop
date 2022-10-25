@@ -7,8 +7,10 @@ namespace YourBrand.Sales.Infrastructure.Persistence;
 
 public static class Seed
 {
-    public static async Task SeedData(DbContext context)
+    public static async Task SeedData(ApplicationDbContext context)
     {
+        context.Carts.Add(new Cart("test"));
+
         await context.SaveChangesAsync();
     }
 }

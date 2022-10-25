@@ -30,8 +30,8 @@ public sealed class TodosController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<TodoDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]
-    public async Task<ItemsResult<TodoDto>> GetTodos(TodoStatusDto? status, string? assignedTo, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
-        => await mediator.Send(new GetTodos(status, assignedTo, page, pageSize, sortBy, sortDirection), cancellationToken);
+    public async Task<ItemsResult<TodoDto>> GetTodos(TodoStatusDto? status, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+        => await mediator.Send(new GetTodos(status, assigneeId, page, pageSize, sortBy, sortDirection), cancellationToken);
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoDto))]
@@ -48,7 +48,7 @@ public sealed class TodosController : ControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<TodoDto>> CreateTodo(CreateTodoRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateTodo(request.Title, request.Description, request.Status, request.AssignedTo, request.EstimatedHours, request.RemainingHours), cancellationToken);
+        var result = await mediator.Send(new CreateTodo(request.Title, request.Description, request.Status, request.AssigneeId, request.EstimatedHours, request.RemainingHours), cancellationToken);
         return result.Handle(
             onSuccess: data => CreatedAtAction(nameof(GetTodoById), new { id = data.Id }, data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));

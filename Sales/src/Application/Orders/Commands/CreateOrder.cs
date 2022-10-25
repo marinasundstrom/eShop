@@ -5,7 +5,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record CreateOrder(string Title, string? Description, OrderStatusDto Status, string? AssignedTo, double? EstimatedHours, double? RemainingHours) : IRequest<Result<OrderDto>>
+public sealed record CreateOrder(string Title, string? Description, OrderStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours) : IRequest<Result<OrderDto>>
 {
     public sealed class Validator : AbstractValidator<CreateOrder>
     {
@@ -38,9 +38,9 @@ public sealed record CreateOrder(string Title, string? Description, OrderStatusD
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            if (request.AssignedTo is not null)
+            if (request.AssigneeId is not null)
             {
-                order.UpdateAssignedTo(request.AssignedTo);
+                order.UpdateAssigneeId(request.AssigneeId);
 
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 

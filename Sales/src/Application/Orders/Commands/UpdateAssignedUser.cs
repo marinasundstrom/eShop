@@ -46,7 +46,7 @@ public sealed record UpdateAssignedUser(string Id, string? UserId) : IRequest<Re
                 }
             }
 
-            order.UpdateAssignedTo(request.UserId);
+            order.UpdateAssigneeId(request.UserId);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

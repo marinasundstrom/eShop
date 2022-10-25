@@ -6,7 +6,7 @@ using YourBrand.Sales.Domain.Enums;
 
 namespace YourBrand.Sales.Application.Orders.Queries;
 
-public record GetOrders(OrderStatusDto? Status, string? AssignedTo, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<OrderDto>>
+public record GetOrders(OrderStatusDto? Status, string? AssigneeId, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<OrderDto>>
 {
     public class Handler : IRequestHandler<GetOrders, ItemsResult<OrderDto>>
     {
@@ -26,9 +26,9 @@ public record GetOrders(OrderStatusDto? Status, string? AssignedTo, int Page = 1
                 query = query.Where(x => x.Status == (OrderStatus)request.Status);
             }
 
-            if (request.AssignedTo is not null)
+            if (request.AssigneeId is not null)
             {
-                query = query.Where(x => x.AssignedToId == request.AssignedTo);
+                query = query.Where(x => x.AssigneeIdId == request.AssigneeId);
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
@@ -43,7 +43,7 @@ public record GetOrders(OrderStatusDto? Status, string? AssignedTo, int Page = 1
             }
 
             var orders = await query
-                .Include(i => i.AssignedTo)
+                .Include(i => i.AssigneeId)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
                 .AsSplitQuery()

@@ -5,7 +5,7 @@ using YourBrand.Portal.Application.Todos.Dtos;
 
 namespace YourBrand.Portal.Application.Todos.Commands;
 
-public sealed record CreateTodo(string Title, string? Description, TodoStatusDto Status, string? AssignedTo, double? EstimatedHours, double? RemainingHours) : IRequest<Result<TodoDto>>
+public sealed record CreateTodo(string Title, string? Description, TodoStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours) : IRequest<Result<TodoDto>>
 {
     public sealed class Validator : AbstractValidator<CreateTodo>
     {
@@ -41,9 +41,9 @@ public sealed record CreateTodo(string Title, string? Description, TodoStatusDto
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            if (request.AssignedTo is not null)
+            if (request.AssigneeId is not null)
             {
-                todo.UpdateAssignedTo(request.AssignedTo);
+                todo.UpdateAssigneeId(request.AssigneeId);
 
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 

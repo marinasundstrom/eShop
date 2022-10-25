@@ -32,7 +32,7 @@
             "x-position": 1
           },
           {
-            "name": "assignedTo",
+            "name": "assigneeId",
             "in": "query",
             "schema": {
               "type": "string",
@@ -420,7 +420,7 @@
             "x-position": 1
           },
           {
-            "name": "assignedTo",
+            "name": "assigneeId",
             "in": "query",
             "schema": {
               "type": "string",
@@ -1319,7 +1319,7 @@
           "status": {
             "$ref": "#/components/schemas/OrderStatusDto"
           },
-          "assignedTo": {
+          "assigneeId": {
             "nullable": true,
             "oneOf": [
               {
@@ -1443,7 +1443,7 @@
           "status": {
             "$ref": "#/components/schemas/OrderStatusDto"
           },
-          "assignedTo": {
+          "assigneeId": {
             "type": "string",
             "nullable": true
           },

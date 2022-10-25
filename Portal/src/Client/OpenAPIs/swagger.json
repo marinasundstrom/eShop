@@ -79,7 +79,7 @@
             "x-position": 1
           },
           {
-            "name": "assignedTo",
+            "name": "assigneeId",
             "in": "query",
             "schema": {
               "type": "string",
@@ -892,7 +892,7 @@
           "status": {
             "$ref": "#/components/schemas/TodoStatusDto"
           },
-          "assignedTo": {
+          "assigneeId": {
             "nullable": true,
             "oneOf": [
               {
@@ -986,7 +986,7 @@
           "status": {
             "$ref": "#/components/schemas/TodoStatusDto"
           },
-          "assignedTo": {
+          "assigneeId": {
             "type": "string",
             "nullable": true
           },

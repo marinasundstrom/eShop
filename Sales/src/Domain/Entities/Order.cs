@@ -38,23 +38,38 @@ public class Order : AuditableEntity, IAggregateRoot
         return false;
     }
 
-    public User? AssignedTo { get; private set; }
+    public User? AssigneeId { get; private set; }
 
-    public string? AssignedToId { get; private set; }
+    public string? AssigneeIdId { get; private set; }
 
-    public bool UpdateAssignedTo(string? userId)
+    public bool UpdateAssigneeId(string? userId)
     {
-        var oldAssignedToId = AssignedToId;
-        if (userId != oldAssignedToId)
+        var oldAssigneeIdId = AssigneeIdId;
+        if (userId != oldAssigneeIdId)
         {
-            AssignedToId = userId;
-            AddDomainEvent(new OrderAssignedUserUpdated(Id, userId, oldAssignedToId));
+            AssigneeIdId = userId;
+            AddDomainEvent(new OrderAssignedUserUpdated(Id, userId, oldAssigneeIdId));
 
             return true;
         }
 
         return false;
     }
+
+    public string? CustomerId { get; set; } 
+
+    public double VatRate { get; set; } 
+
+    public decimal Vat{ get; set; }
+
+    public decimal SubTotal { get; set; } 
+
+    public decimal Total { get; set; } 
+
+    public ValueObjects.Address BillingAddress { get; set; } = null!;
+
+    public ValueObjects.Address? ShippingAddress { get; set; }
+
 
     public IReadOnlyCollection<OrderItem> Items => _items;
 

@@ -39,7 +39,7 @@
           },
           {
             "type": "string",
-            "name": "assignedTo",
+            "name": "assigneeId",
             "in": "query",
             "x-nullable": true
           },
@@ -277,7 +277,7 @@
           },
           {
             "type": "string",
-            "name": "assignedTo",
+            "name": "assigneeId",
             "in": "query",
             "x-nullable": true
           },
@@ -997,7 +997,7 @@
         "status": {
           "$ref": "#/definitions/OrderStatusDto"
         },
-        "assignedTo": {
+        "assigneeId": {
           "$ref": "#/definitions/UserDto"
         },
         "items": {

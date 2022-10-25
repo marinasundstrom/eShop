@@ -23,13 +23,13 @@ public sealed class OrderAssignedUserEventHandler : IDomainEventHandler<OrderAss
         if (order is null)
             return;
 
-        if (order.AssignedToId is not null && order.LastModifiedById != order.AssignedToId)
+        if (order.AssigneeIdId is not null && order.LastModifiedById != order.AssigneeIdId)
         {
             /*
             await emailService.SendEmail(
-                order.AssignedTo!.Email,
+                order.AssigneeId!.Email,
                 $"You were assigned to \"{order.Title}\" [{order.Id}].",
-                $"{order.LastModifiedBy!.Name} assigned {order.AssignedTo.Name} to \"{order.Title}\" [{order.Id}]."); */
+                $"{order.LastModifiedBy!.Name} assigned {order.AssigneeId.Name} to \"{order.Title}\" [{order.Id}]."); */
         }
     }
 }

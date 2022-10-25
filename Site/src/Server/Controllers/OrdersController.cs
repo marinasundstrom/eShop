@@ -18,9 +18,9 @@ public class OrdersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ItemsResultOfOrderDto> GetOrders(YourBrand.Sales.OrderStatusDto? status = null, string? assignedTo = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResultOfOrderDto> GetOrders(YourBrand.Sales.OrderStatusDto? status = null, string? assigneeId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await _ordersClient.GetOrdersAsync(status, assignedTo, page - 1, pageSize, sortBy, sortDirection, cancellationToken);
+        return await _ordersClient.GetOrdersAsync(status, assigneeId, page - 1, pageSize, sortBy, sortDirection, cancellationToken);
     }
 
     
