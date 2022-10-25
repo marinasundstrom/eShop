@@ -1,5 +1,6 @@
 ﻿@using Microsoft.JSInterop
 @inject IJSRuntime JS
+@inject IItemsClient ItemsClient
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-brand px-3">
     <div class="container">
@@ -9,7 +10,7 @@
             
         <div>
             <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-md-none" 
-                href="cart" target="_blank">
+                href="basket" target="_blank">
                 <CartDisplay />
             </a>
         
@@ -29,15 +30,30 @@
                 </li>
                 *@
 
-                <li class="nav-item dropdown">
+                @* <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="items" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Items
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="items">Clothes</a></li>
-                        <li><a class="dropdown-item" href="items">Apparel</a></li>
-                    </ul>
-                </li>
+                    @if(itemGroups is not null) 
+                    {
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            @foreach (var group in itemGroups)
+                            {
+                                <li><a class="dropdown-item" href="@($"categories/{group.Id}")">@group.Name</a></li>
+                            }
+                        </ul>
+                    }
+                </li> *@
+
+                 @if(itemGroups is not null) 
+                {
+                    @foreach (var group in itemGroups)
+                    {
+                        <li class="nav-item">
+                            <NavLink class="nav-link" href="@($"items/{group.Id}")">@group.Name</NavLink>
+                        </li>
+                    }
+                }
             </ul>
             <ol class="navbar-nav flex-row flex-wrap ms-md-auto list-inline list-unstyled" style="margin: 0;">
                 @*
@@ -64,9 +80,15 @@
 </nav>
 
 @code {
+    ICollection<ItemGroupDto>? itemGroups = null;
     bool isOpen = false;
 
     void ToggleOpen() => isOpen = !isOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+        itemGroups = await ItemsClient.GetItemGroupsAsync();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

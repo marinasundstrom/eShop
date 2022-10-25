@@ -1,4 +1,4 @@
-@page "/items/{id}"
+@page "/items/{groupId}/{id}"
 @implements IDisposable
 @inject PersistentComponentState ApplicationState
 @inject NavigationManager NavigationManager
@@ -154,6 +154,9 @@
     bool hasAddedToCart = false;
 
     private PersistingComponentStateSubscription persistingSubscription;
+
+    [Parameter]
+    public string GroupId { get; set; }
 
     [Parameter]
     public string Id { get; set; }

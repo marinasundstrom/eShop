@@ -52,4 +52,10 @@ public class ItemsController : ControllerBase
     {
         return await _itemsClient.FindVariantByAttributeValuesAsync(id, attributes, cancellationToken);
     }
+
+    [HttpGet("Categories")]
+    public async Task<ICollection<ItemGroupDto>?> GetItemGroups(CancellationToken cancellationToken = default)
+    {
+        return await _itemsClient.GetItemGroupsAsync(false, cancellationToken);
+    }
 }

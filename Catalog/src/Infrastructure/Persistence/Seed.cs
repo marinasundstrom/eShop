@@ -19,14 +19,14 @@ public static class Seed
 
         context.ItemGroups.Add(new ItemGroup()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "clothes",
             Name = "Clothes",
             Description = null
         });
 
         context.ItemGroups.Add(new ItemGroup()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "food",
             Name = "Food",
             Description = null
         });
@@ -52,7 +52,7 @@ public static class Seed
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "t-shirt-randig",
             Name = "Randing t-shirt",
             Description = "Stilren t-shirt med randigt mönster",
             HasVariants = true,
@@ -369,7 +369,7 @@ public static class Seed
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "kebabtallrik",
             Name = "Kebabtallrik",
             Description = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
             Price = 89,
@@ -419,7 +419,7 @@ public static class Seed
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "herrgardsstek",
             Name = "Herrgårdsstek",
             Description = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
             Price = 179,
@@ -481,7 +481,7 @@ public static class Seed
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "korg",
             Name = "Korg",
             Description = "En korg med smårätter",
             Price = 179,
@@ -568,7 +568,7 @@ public static class Seed
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "pizza",
             Name = "Pizza",
             Description = "Custom pizza",
             Price = 40,
@@ -716,7 +716,7 @@ public static class Seed
     {
         var item = new Item()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = "sallad",
             Name = "Sallad",
             Description = "Din egna sallad",
             Price = 52,

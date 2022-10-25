@@ -1,61 +1,67 @@
-@page "/cart"
+@page "/basket"
 @inject ICartsClient CartsClient
+@inject NavigationManager NavigationManager
 
-<SitePageTitle>Cart</SitePageTitle>
+<SitePageTitle>Basket</SitePageTitle>
 
 <div class="container">
-    <h1>Cart</h1>
-
-    <p role="status">Test</p
+    <h1>Basket</h1>
 
     @if(cart is not null) 
     {
-        <table class="table table-striped">
-            <thead>
-                <th>
-                    
-                </th
-                <th>
-                    Name
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-                    Quantity
-                </th>
-                <th>
-                    Line total
-                </th>
-            </thead>
-            <tbody>
-        @foreach (var item in cart.Items)
+        @if(cart.Items.Any()) 
         {
-            <tr>
-                <td>
-                    <a href="/items/@item.Item.Id"><img src="@item.Item.Image" style="height: 60px; width: 60px; object-fit: contain;" /></a>
-                </td>
-                <td>
-                    @item.Item.Name
-                </td>
-                <td>
-                    @item.Item.Price.ToString("c")
-                </td>
-                <td>
-                      <InputQuantity MinValue="0" Value="item.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(item, v)" />
-                </td>
-                  <td>
-                    @((item.Quantity * item.Item.Price).ToString("c"))
-                </td>
-            </tr>
-        }     
-            </tbody>       
-        </table>
+            <table class="table table-striped">
+                <thead>
+                    <th>
+                        
+                    </th
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Price
+                    </th>
+                    <th>
+                        Quantity
+                    </th>
+                    <th>
+                        Line total
+                    </th>
+                </thead>
+                <tbody>
+            @foreach (var item in cart.Items)
+            {
+                <tr>
+                    <td>
+                        <a href="/items/@item.Item.Id"><img src="@item.Item.Image" style="height: 60px; width: 60px; object-fit: contain;" /></a>
+                    </td>
+                    <td>
+                        @item.Item.Name
+                    </td>
+                    <td>
+                        @item.Item.Price.ToString("c")
+                    </td>
+                    <td>
+                        <InputQuantity MinValue="0" Value="item.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(item, v)" />
+                    </td>
+                    <td>
+                        @((item.Quantity * item.Item.Price).ToString("c"))
+                    </td>
+                </tr>
+            }     
+                </tbody>       
+            </table>
 
-        <div class="d-flex justify-content-end">
-            <h4 class="pt-2 pe-4">@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</h4>
-            <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
-        </div>
+            <div class="d-flex justify-content-end">
+                <h4 class="pt-2 pe-4">@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</h4>
+                <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
+            </div>
+        }
+        else 
+        {
+            <p>No items here :(</p>
+        }
     }
 </div>
 

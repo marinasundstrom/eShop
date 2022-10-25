@@ -1,4 +1,5 @@
 ﻿@page "/items"
+@page "/items/{groupId}"
 @implements IDisposable
 @inject IItemsClient ItemsClient
 @inject PersistentComponentState ApplicationState
@@ -7,7 +8,7 @@
 <SitePageTitle>Items</SitePageTitle>
 
 <div class="container">
-    <h1>Items</h1>
+    <h1>@(itemGroup?.Name ?? "Items")</h1>
 
     @if (itemResults is not null)
     {
@@ -16,7 +17,7 @@
             {
                 <div class="col">
                     <div class="card shadow-sm">
-                        <a href="/items/@item.Id">
+                        <a href="/items/@item.Group.Id/@item.Id">
                             <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image"
                         style="object-fit: contain;" />
                         </a>
@@ -25,7 +26,7 @@
                             <p class="card-text">@item.Description</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a class="btn btn-sm btn-outline-secondary" href="/items/@item.Id">View</a>
+                                    <a class="btn btn-sm btn-outline-secondary" href="/items/@item.Group.Id/@item.Id">View</a>
                                 </div>
                                 <div>
                                     @if (item.HasVariants)
@@ -52,6 +53,8 @@
 </div>
 
 @code {
+    ItemGroupDto? itemGroup;
+    IEnumerable<ItemGroupDto>? itemGroups;
     ItemsResultOfItemDto? itemResults;
 
     int pageSize = 10;
@@ -60,25 +63,61 @@
     private PersistingComponentStateSubscription persistingSubscription;
 
     [Parameter]
+    public string? GroupId { get; set; }
+
+    [Parameter]
     [SupplyParameterFromQuery]
     public int? Page { get; set; } = 1;
 
     protected override async Task OnInitializedAsync()
     {
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+        await LoadData();
+    }
+
+    private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    {
+        await LoadData();
+
+        StateHasChanged();
+    }
+
+    public async Task LoadData() 
+    {
         if (Page is null)
         {
             Page = 1;
         }
-
+        
         persistingSubscription =
         ApplicationState.RegisterOnPersisting(PersistItems);
+
+        if (!ApplicationState.TryTakeFromJson<IEnumerable<ItemGroupDto>>(
+            "itemGroups", out var restored0))
+        {
+            itemGroups = await ItemsClient.GetItemGroupsAsync();
+        }
+        else
+        {
+            itemGroups = restored0!;
+        }
+
+        if(GroupId is not null) 
+        {
+            itemGroup = itemGroups.FirstOrDefault(x => x.Id == GroupId);
+        }
+        else 
+        {
+            itemGroup = null;
+        }
 
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfItemDto>(
         "itemResults", out var restored))
         {
             string itemGroupId = null; // "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";
 
-            itemResults = await ItemsClient.GetItemsAsync(itemGroupId, Page.GetValueOrDefault(), pageSize, null, null, null);
+            itemResults = await ItemsClient.GetItemsAsync(GroupId, Page.GetValueOrDefault(), pageSize, null, null, null);
         }
         else
         {
@@ -103,6 +142,7 @@
     void IDisposable.Dispose()
     {
         persistingSubscription.Dispose();
+        NavigationManager.LocationChanged -= OnLocationChanged;
     }
 
     async Task OnPageChanged(int page)

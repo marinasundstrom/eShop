@@ -675,6 +675,31 @@
         }
       }
     },
+    "/api/Items/Categories": {
+      "get": {
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_GetItemGroups",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ItemGroupDto"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/WeatherForecast": {
       "get": {
         "tags": [

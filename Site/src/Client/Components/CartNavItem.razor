@@ -3,12 +3,14 @@
 @inject NavigationManager NavigationManager
 
 <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle no-toggle" href="cart" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
         <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" />
     </a>
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10px; width: 350px">
         @if(cart is not null) 
         {
+            if(cart.Items.Any()) 
+            {
             <ul class="list-group mb-3 mx-2">
                 @foreach (var cartItem in cart.Items)
                 {
@@ -25,8 +27,13 @@
                 <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
                 </li>
             </ul>
-            <li><a class="dropdown-item" href="cart">Manage cart</a></li>
-            <li><a class="dropdown-item" href="checkout">Check out & Pay</a></li>
+            <li><a class="dropdown-item" href="basket"><i class="fa fa-shopping-basket me-2" style="color: black !important" /> Manage basket</a></li>
+            <li><a class="dropdown-item" href="checkout"><i class="fa fa-credit-card me-2" style="color: black !important" /> Check out & Pay</a></li>
+            }
+            else 
+            {
+                <span class="mx-4 my-2">You have not added any items yet :( </span>
+            }
         }
     </ul>
 </li>
