@@ -20,7 +20,7 @@ public static class Seed
                 Email = "john.d@email.com",
             };
 
-            person.AddAddress(new Address("foo")
+            person.AddAddress(new Address
             {
                 Type = Domain.Enums.AddressType.Billing,
                 Thoroughfare = "Baker Street",
@@ -50,7 +50,7 @@ public static class Seed
                 Email = "acme@email.com",
             };
 
-            organization.AddAddress(new Address("foo")
+            organization.AddAddress(new Address
             {
                 Type = Domain.Enums.AddressType.Billing,
                 Thoroughfare = "Baker Street",

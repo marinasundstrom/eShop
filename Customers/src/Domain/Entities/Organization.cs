@@ -5,8 +5,6 @@ namespace YourBrand.Customers.Domain.Entities;
 
 public class Organization : Customer
 {
-    readonly HashSet<Address> _addresses = new HashSet<Address>();
-
     protected Organization() { }
 
     public Organization(string name, string organizationNo, string vatNo)

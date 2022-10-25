@@ -21,17 +21,19 @@
         <MudTextField T="string" Dense="true" Value="searchString" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search (Customer No, Name, SSN, Org No)" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Immediate="true" DebounceInterval="200"></MudTextField>
     </ToolBarContent>
     
-     <HeaderContent>
-         <MudTh>Customer No</MudTh>
-         <MudTh>Name</MudTh>
-         <MudTh>SSN</MudTh>
-         <MudTh>Organization No</MudTh>
-     </HeaderContent>
+    <HeaderContent>
+        <MudTh>Customer No</MudTh>
+        <MudTh>Name</MudTh>
+        <MudTh>SSN</MudTh>
+        <MudTh>Organization No</MudTh>
+        <MudTh>Address</MudTh>
+    </HeaderContent>
      <RowTemplate Context="customer">
          <MudTd DataLabel="Customer No">@customer.Id</MudTd>
          <MudTd DataLabel="Name">@customer.Name</MudTd>
          <MudTd DataLabel="SSN">@customer.Ssn</MudTd>
          <MudTd DataLabel="Organization No">@customer.OrgNo</MudTd>
+         <MudTd DataLabel="Address">@customer.Address.ToAddressString()</MudTd>
      </RowTemplate>
     <LoadingContent>
         <MudText>Loading...</MudText>

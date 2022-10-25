@@ -3,6 +3,7 @@ using YourBrand.Customers.Application;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+using YourBrand.Customers.Application.Addresses;
 using YourBrand.Customers.Application.Organizations.Queries;
 using YourBrand.Customers.Application.Organizations;
 using YourBrand.Customers.Application.Organizations.Commands;
@@ -41,7 +42,7 @@ public class OrganizationsController : ControllerBase
     [ProducesResponseType(typeof(OrganizationDto), StatusCodes.Status201Created)]
     public async Task<ActionResult> CreateOrganization([FromBody] CreateOrganizationDto dto, CancellationToken cancellationToken)
     {
-        var dto2 = await _mediator.Send(new CreateOrganization(dto.Name, dto.OrgNo, dto.Phone, dto.PhoneMobile, dto.Email), cancellationToken);
+        var dto2 = await _mediator.Send(new CreateOrganization(dto.Name, dto.OrgNo, dto.Phone, dto.PhoneMobile, dto.Email, dto.Address), cancellationToken);
         return CreatedAtAction(nameof(GetOrganization), new { id = dto2.Id }, dto2);
     }
 
@@ -59,6 +60,6 @@ public class OrganizationsController : ControllerBase
 }
 
 
-public record CreateOrganizationDto(string Name, string OrgNo, string? Phone, string? PhoneMobile, string? Email);
+public record CreateOrganizationDto(string Name, string OrgNo, string? Phone, string? PhoneMobile, string? Email, Address2Dto Address);
 
 public record UpdateOrganizationDto(string Name, string OrgNo, string? Phone, string? PhoneMobile, string? Email);

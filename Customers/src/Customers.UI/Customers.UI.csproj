@@ -19,6 +19,7 @@
     <PackageReference Include="Humanizer" Version="2.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.0-rc.2.*" />
     <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,4 +28,7 @@
     <ProjectReference Include="..\..\..\Portal\src\Portal.Modules\Portal.Modules.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
+  </ItemGroup>
 </Project>

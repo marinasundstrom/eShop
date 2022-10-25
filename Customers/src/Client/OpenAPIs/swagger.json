@@ -550,6 +550,9 @@
           "vatNo": {
             "type": "string",
             "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDto"
           }
         }
       },
@@ -668,6 +671,41 @@
           "email": {
             "type": "string",
             "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address2Dto"
+          }
+        }
+      },
+      "Address2Dto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "thoroughfare": {
+            "type": "string"
+          },
+          "premises": {
+            "type": "string",
+            "nullable": true
+          },
+          "subPremises": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "locality": {
+            "type": "string"
+          },
+          "subAdministrativeArea": {
+            "type": "string"
+          },
+          "administrativeArea": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
           }
         }
       },
@@ -775,6 +813,9 @@
           "email": {
             "type": "string",
             "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/Address2Dto"
           }
         }
       },

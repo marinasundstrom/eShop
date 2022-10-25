@@ -41,6 +41,9 @@ public record GetCustomers(int Page = 1, int PageSize = 10, string? SearchString
             {
                 query = query.Where(x =>  x.Id.ToString().Contains(request.SearchString) 
                     || x.Name.ToLower().Contains(request.SearchString.ToLower())
+                    || x.Phone!.ToLower().Contains(request.SearchString.ToLower())
+                    || x.PhoneMobile.ToLower().Contains(request.SearchString.ToLower())
+                    || x.Email.ToLower().Contains(request.SearchString.ToLower())
                     || (x as Domain.Entities.Organization)!.OrganizationNo.ToLower().Contains(request.SearchString.ToLower())
                     || (x as Domain.Entities.Person)!.FirstName.ToLower().Contains(request.SearchString.ToLower())
                     || (x as Domain.Entities.Person)!.LastName.ToLower().Contains(request.SearchString.ToLower())
@@ -49,8 +52,9 @@ public record GetCustomers(int Page = 1, int PageSize = 10, string? SearchString
 
             int totalItems = await query.CountAsync(cancellationToken);
 
-            query = query         
-                //.Include(i => i.Addresses)
+            query = query
+                .Include(i => ((Person)i).Addresses)
+                .Include(i => ((Organization)i).Addresses)
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize);
 

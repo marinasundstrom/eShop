@@ -10,7 +10,7 @@ public static class Mappings
 {
     public static CustomerDto ToDto(this Customer customer) 
     {
-        return new CustomerDto(customer.Id, customer.CustomerType, customer.Name, (customer as Person)?.Ssn, (customer as Organization)?.OrganizationNo, (customer as Organization)?.VatNo);
+        return new CustomerDto(customer.Id, customer.CustomerType, customer.Name, (customer as Person)?.Ssn, (customer as Organization)?.OrganizationNo, (customer as Organization)?.VatNo, customer.Addresses.First().ToDto());
     }
 
     public static PersonDto ToDto(this Person person) 

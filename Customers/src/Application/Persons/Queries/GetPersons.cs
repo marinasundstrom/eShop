@@ -48,7 +48,7 @@ public record GetPersons(int Page = 1, int PageSize = 10, string? SearchString =
 
             int totalItems = await query.CountAsync(cancellationToken);
 
-            query = query         
+            query = query
                 .Include(i => i.Addresses)
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize);

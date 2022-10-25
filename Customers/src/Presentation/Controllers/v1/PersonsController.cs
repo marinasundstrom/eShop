@@ -3,6 +3,7 @@ using YourBrand.Customers.Application;
 using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
+using YourBrand.Customers.Application.Addresses;
 using YourBrand.Customers.Application.Persons.Queries;
 using YourBrand.Customers.Application.Persons;
 using YourBrand.Customers.Application.Persons.Commands;
@@ -41,7 +42,7 @@ public class PersonsController : ControllerBase
     [ProducesResponseType(typeof(PersonDto), StatusCodes.Status201Created)]
     public async Task<ActionResult> CreatePerson([FromBody] CreatePersonDto dto, CancellationToken cancellationToken)
     {
-        var dto2 = await _mediator.Send(new CreatePerson(dto.FirstName, dto.LastName, dto.SSN, dto.Phone, dto.PhoneMobile, dto.Email), cancellationToken);
+        var dto2 = await _mediator.Send(new CreatePerson(dto.FirstName, dto.LastName, dto.SSN, dto.Phone, dto.PhoneMobile, dto.Email, dto.Address), cancellationToken);
         return CreatedAtAction(nameof(GetPerson), new { id = dto2.Id }, dto2);
     }
 
@@ -58,6 +59,6 @@ public class PersonsController : ControllerBase
     }
 }
 
-public record CreatePersonDto(string FirstName, string LastName, string SSN, string? Phone, string? PhoneMobile, string? Email);
+public record CreatePersonDto(string FirstName, string LastName, string SSN, string? Phone, string? PhoneMobile, string? Email, Address2Dto Address);
 
 public record UpdatePersonDto(string FirstName, string LastName, string SSN, string? Phone, string? PhoneMobile, string? Email);
