@@ -46,7 +46,7 @@
                                     <MudText Typo="Typo.body2">@item.Description</MudText>
                                 </MudCardContent>
                                 <MudCardActions>
-                                    <MudText Typo="Typo.body2">@item.Price?.ToString("c")</MudText>
+                                    <MudText Typo="Typo.body2">@item.Price.ToString("c")</MudText>
                                     <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/items/{item.Id}")">Learn More</MudButton>
                                 </MudCardActions>
                             </MudCard>
@@ -75,13 +75,13 @@
     protected override async Task OnInitializedAsync()
     {
         itemGroups = await ItemsClient.GetItemGroupsAsync(false);
-        
+
         await OnPageChanged(1);
     }
 
-    async Task OnPageChanged(int page) 
+    async Task OnPageChanged(int page)
     {
-        var result = await ItemsClient.GetItemsAsync(false, GroupId, page - 1, pageSize, null, null, null);
+        var result = await ItemsClient.GetItemsAsync(false, true, GroupId, page - 1, pageSize, null, null, null);
         items = result.Items;
         
         this.pages = (int)Math.Ceiling((double)result.TotalItems / (double)pageSize);

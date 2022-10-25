@@ -207,7 +207,7 @@ else
                     </MudTd>
                     <MudTd DataLabel="Name">@variant.Name</MudTd>
                     <MudTd DataLabel="Id">@variant.Id</MudTd>
-                    <MudTd DataLabel="Price">@variant.Price?.ToString("c")</MudTd>
+                    <MudTd DataLabel="Price">@variant.Price.ToString("c")</MudTd>
 
                     @if (variant.Attributes is not null)
                     {

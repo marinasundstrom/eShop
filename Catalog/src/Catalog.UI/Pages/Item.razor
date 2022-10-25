@@ -63,7 +63,7 @@
                             <p class="mb-4">Id: @variant.Id</p>
     }
 
-                        <p class="mb-4"> @variant.Price.GetValueOrDefault().ToString("c")</p>
+                        <p class="mb-4"> @variant.Price.ToString("c")</p>
     }
 
                     <MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" Link="@($"/items/{ItemId}/edit")" Class="my-2">Edit</MudButton>

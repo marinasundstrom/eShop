@@ -156,7 +156,7 @@ else
         Name = Variant.Name;
         Description = Variant.Description;
         Id = Variant.Id;
-        Price = Variant.Price.GetValueOrDefault();
+        Price = Variant.Price;
 
         var attributes = await ItemsClient.GetItemAttributesAsync(ItemId);
         foreach (var attribute in attributes.Where(x => x.ForVariant))

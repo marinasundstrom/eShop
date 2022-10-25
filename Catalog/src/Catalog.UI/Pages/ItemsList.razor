@@ -69,7 +69,7 @@
         <MudTd DataLabel="Group">@context.Group?.Name</MudTd>
         <MudTd DataLabel="Id">@context.Id</MudTd>
         <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : "No")</MudTd>
-        <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
+        <MudTd DataLabel="Price">@context.Price.ToString("c")</MudTd>
         <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Link="@($"/items/{context.Id}/edit")" />
@@ -116,7 +116,7 @@
 
     private async Task<TableData<ItemDto>> ServerReload(TableState state)
     {
-        var result = await ItemsClient.GetItemsAsync(true, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
+        var result = await ItemsClient.GetItemsAsync(true, true, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
 
         return new TableData<ItemDto>() { TotalItems = result.TotalItems, Items = result.Items };
     }
