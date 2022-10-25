@@ -16,33 +16,27 @@
             @foreach (var item in itemResults.Items)
             {
                 <div class="col">
+                    <a href="/items/@item.Group.Id/@item.Id" style="all: unset; cursor: pointer;">
                     <div class="card shadow-sm">
-                        <a href="/items/@item.Group.Id/@item.Id">
-                            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image"
+                        <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image"
                         style="object-fit: contain;" />
-                        </a>
                         <div class="card-body">
                             <h5 class="card-title">@item.Name</h5>
                             <p class="card-text">@item.Description</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a class="btn btn-sm btn-outline-secondary" href="/items/@item.Group.Id/@item.Id">View</a>
+                                    @if(item.Available is not null) 
+                                    {
+                                        <p class="text-muted mt-3">@item.Available available</p> 
+                                    }
                                 </div>
                                 <div>
-                                    @if (item.HasVariants)
-                                    {
-                                        <small class="text-muted">
-                                            <text>Har flera varianter</text>
-                                        </small>
-                                    }
-                                    else
-                                    {
-                                        <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
-                                    }
+                                    <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    </a>
                 </div>
             }
         </div>
@@ -55,7 +49,7 @@
 @code {
     ItemGroupDto? itemGroup;
     IEnumerable<ItemGroupDto>? itemGroups;
-    ItemsResultOfItemDto? itemResults;
+    ItemsResultOfSiteItemDto? itemResults;
 
     int pageSize = 10;
     int totalPages = 0;
@@ -112,7 +106,7 @@
             itemGroup = null;
         }
 
-        if (!ApplicationState.TryTakeFromJson<ItemsResultOfItemDto>(
+        if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteItemDto>(
         "itemResults", out var restored))
         {
             string itemGroupId = null; // "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";

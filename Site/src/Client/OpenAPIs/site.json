@@ -450,7 +450,7 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/ItemsResultOfItemDto"
+              "$ref": "#/definitions/ItemsResultOfSiteItemDto"
             }
           }
         }
@@ -481,7 +481,7 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/ItemDto"
+              "$ref": "#/definitions/SiteItemDto"
             }
           }
         }
@@ -900,6 +900,7 @@
       "required": [
         "id",
         "name",
+        "group",
         "price"
       ],
       "properties": {
@@ -912,12 +913,38 @@
         "description": {
           "type": "string"
         },
+        "group": {
+          "$ref": "#/definitions/SiteItemGroupDto"
+        },
         "image": {
           "type": "string"
         },
         "price": {
           "type": "number",
           "format": "decimal"
+        },
+        "compareAtPrice": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "available": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SiteItemGroupDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
         }
       }
     },
@@ -1059,7 +1086,7 @@
         }
       }
     },
-    "ItemsResultOfItemDto": {
+    "ItemsResultOfSiteItemDto": {
       "type": "object",
       "required": [
         "items",
@@ -1069,118 +1096,12 @@
         "items": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/ItemDto"
+            "$ref": "#/definitions/SiteItemDto"
           }
         },
         "totalItems": {
           "type": "integer",
           "format": "int32"
-        }
-      }
-    },
-    "ItemDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name",
-        "price",
-        "hasVariants",
-        "attributes"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "group": {
-          "$ref": "#/definitions/ItemGroupDto"
-        },
-        "image": {
-          "type": "string"
-        },
-        "price": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "compareAtPrice": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "hasVariants": {
-          "type": "boolean"
-        },
-        "visibility": {
-          "$ref": "#/definitions/ItemVisibility"
-        },
-        "attributes": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/ItemVariantAttributeDto"
-          }
-        }
-      }
-    },
-    "ItemGroupDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "parentGroupId": {
-          "type": "string"
-        }
-      }
-    },
-    "ItemVisibility": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "Unlisted",
-        "Listed"
-      ],
-      "enum": [
-        0,
-        1
-      ]
-    },
-    "ItemVariantAttributeDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name",
-        "value",
-        "isMainAttribute"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        },
-        "valueId": {
-          "type": "string"
-        },
-        "isMainAttribute": {
-          "type": "boolean"
         }
       }
     },
@@ -1407,6 +1328,131 @@
         "seq": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "ItemsResultOfItemDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "totalItems"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemDto"
+          }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "ItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "price",
+        "hasVariants",
+        "attributes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "group": {
+          "$ref": "#/definitions/ItemGroupDto"
+        },
+        "image": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "compareAtPrice": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "hasVariants": {
+          "type": "boolean"
+        },
+        "visibility": {
+          "$ref": "#/definitions/ItemVisibility"
+        },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemVariantAttributeDto"
+          }
+        }
+      }
+    },
+    "ItemGroupDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "parentGroupId": {
+          "type": "string"
+        }
+      }
+    },
+    "ItemVisibility": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Unlisted",
+        "Listed"
+      ],
+      "enum": [
+        0,
+        1
+      ]
+    },
+    "ItemVariantAttributeDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "value",
+        "isMainAttribute"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "valueId": {
+          "type": "string"
+        },
+        "isMainAttribute": {
+          "type": "boolean"
         }
       }
     },
