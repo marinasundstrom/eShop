@@ -7,6 +7,7 @@ using Blazor.Analytics;
 using Site.Client;
 using YourBrand.Catalog.Client;
 using YourBrand.Sales.Client;
+using YourBrand.Inventory.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +38,18 @@ const string SalesServiceUrl = $"https://localhost:5041";
 
 builder.Services.AddSalesClients((sp, httpClient) => {
     httpClient.BaseAddress = new Uri($"{SalesServiceUrl}/");
+}, builder => {
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
+
+builder.Services.AddHttpClient("Site", (sp, http) => {
+    http.BaseAddress = new Uri("https://localhost:6001/");
+});
+
+const string InventoryServiceUrl = $"https://localhost:5051";
+
+builder.Services.AddInventoryClients((sp, httpClient) => {
+    httpClient.BaseAddress = new Uri($"{InventoryServiceUrl}/");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });

@@ -3,5 +3,10 @@
     "Name": "Catalog",
     "Assembly": "Catalog.UI",
     "Enabled": true
+  },
+  {
+    "Name": "Inventory",
+    "Assembly": "Inventory.UI",
+    "Enabled": true
   }
 ]

@@ -1,0 +1,113 @@
+@using System.ComponentModel.DataAnnotations
+@inject IItemsClient ItemsClient
+@inject ISnackbar Snackbar
+
+<EditForm EditContext="@context" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudDialog DisableSidePadding="true">
+        <DialogContent>
+            <MudContainer Style="max-height: 500px; overflow-y: scroll">
+                <MudTextField Label="Id" Variant="Variant.Outlined" Class="mt-4" @bind-Value="NewId"
+                              For="@(() => NewId)" />
+
+                <MudTextField Label="Name" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Name"
+                              For="@(() => Name)" />
+
+                <ItemGroupSelector Label="Group" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Group" For="@(() => Group)" />
+
+                <MudTextField Label="Unit" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Unit"
+                              For="@(() => Unit)" />
+
+            </MudContainer>
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton Variant="Variant.Text" Color="Color.Secondary" OnClick="() => Dialog.Cancel()">Cancel</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Text" Color="Color.Primary">
+                @if(Id is null) 
+                {
+                    <text>Add</text>
+                }
+                else 
+                {
+                    <text>Update</text>
+                }
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+
+</EditForm>
+
+@code
+{
+    EditContext context = null!;
+
+    [CascadingParameter]
+    public MudDialogInstance Dialog { get; set; } = null!;
+
+
+    [Parameter]
+    public string Id { get; set; }
+
+    [Required]
+    public string NewId { get; set; }
+
+    [Required]
+    public string Name { get; set; }
+
+    //[Required]
+    //public string GTIN { get; set; }
+
+    [Required]
+    public ItemGroupDto Group { get; set; }
+
+    [Required]
+    public string Unit { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = new EditContext(this);
+
+        if (Id is not null) 
+        {
+            var item = await ItemsClient.GetItemAsync(Id);
+            NewId = item.Id;
+            Name = item.Name;
+            //GTIN = item.Gtin;
+            Group = item.Group;
+            Unit = item.Unit;
+        }
+    }
+
+    public async Task OnValidSubmit()
+    {
+        if(Id is null) 
+        {
+            var item = await ItemsClient.CreateItemAsync(new CreateItemDto {
+                Id = NewId,
+                Name = Name,
+                //Gtin = GTIN,
+                GroupId = Group.Id,
+                Unit = Unit
+            });
+
+            Dialog.Close(item);
+        }
+        else 
+        {
+            if (context.IsModified())
+            {
+                await ItemsClient.UpdateItemAsync(Id, new UpdateItemDto
+                {
+                    Id = NewId,
+                    Name = Name,
+                    //Gtin = GTIN,
+                    GroupId = Group.Id,
+                    Unit = Unit
+                });
+            }
+
+            Dialog.Close();
+        }
+    }
+}

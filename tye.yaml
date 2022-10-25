@@ -37,7 +37,6 @@ services:
       protocol: https
       port: 5021
 
-      
   - name: sales-web
     project: Sales/src/Web/Web.csproj
     bindings:
@@ -47,6 +46,16 @@ services:
     - name: https
       protocol: https
       port: 5041
+
+  - name: inventory-web
+    project: Inventory/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5050
+    - name: https
+      protocol: https
+      port: 5051
 
   - name: site
     project: Site/src/Server/Site.Server.csproj

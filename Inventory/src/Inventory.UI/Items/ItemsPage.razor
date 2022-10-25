@@ -1,0 +1,143 @@
+@page "/inventory/items"
+@attribute [Authorize]
+@inject IItemsClient ItemsClient
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+
+<MudText Typo="Typo.h3" Class="mb-4">Items</MudText>
+
+<MudButton Variant="Variant.Filled" OnClick="async () => await OnItemClicked(null)" StartIcon="@Icons.Filled.Add" Color="Color.Default" Class="mb-2 me-2">
+    New Item
+</MudButton>
+
+<MudButton Variant="Variant.Filled" Href="/inventory/items/groups" StartIcon="@Icons.Filled.List" Color="Color.Default" Class="mb-2 me-2">
+    Groups
+</MudButton>
+
+<MudPaper Class="pa-4" Elevation="25">
+    <MudTable @ref="table" T="ItemDto" Elevation="0" ServerData="LoadData" Dense="false" Hover="true" Bordered="false"
+              Striped="true" OnRowClick="ItemOnClick">
+        <ToolBarContent>
+            <WarehouseSelector Label="Warehouse" Value="Warehouse" ValueChanged="OnWarehouseChanged" For="() => Warehouse" />
+
+            <MudSpacer />
+
+            <ItemGroupSelector Value="ItemGroup" ValueChanged="OnItemGroupChanged" For="() => ItemGroup" />
+
+            <MudSpacer />
+
+            <MudTextField T="string" Dense="true" Value="searchString" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Immediate="true" DebounceInterval="200"></MudTextField>
+        </ToolBarContent>
+       <HeaderContent>
+            <MudTh><MudTableSortLabel T="ItemDto" SortLabel="Id">Id</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="ItemDto" SortLabel="Name">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="ItemDto" SortLabel="Group">Group</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="ItemDto" SortLabel="Unit">Unit</MudTableSortLabel></MudTh>
+            <MudTh>Qt available</MudTh>
+        </HeaderContent>
+        <RowTemplate Context="item">
+            <MudTd DataLabel="Id">@item.Id</MudTd>
+            <MudTd DataLabel="Name">@item.Name</MudTd>
+            <MudTd DataLabel="Group">@item.Group.Name</MudTd>
+            <MudTd DataLabel="Unit">@item.Unit</MudTd>
+            <MudTd DataLabel="Qt available">@item.QuantityAvailable</MudTd>    
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudPaper>
+
+
+@code {
+    MudTable<ItemDto> table; 
+    string? searchString;
+
+    public WarehouseDto Warehouse { get; set; }
+
+    public ItemGroupDto ItemGroup { get; set; }
+
+    private async Task<TableData<ItemDto>> LoadData(TableState state)
+    {
+        try
+        {
+            var results = await ItemsClient.GetItemsAsync(state.Page + 1, state.PageSize, ItemGroup?.Id, Warehouse?.Id, searchString, state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel, state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Inventory.SortDirection.Asc : YourBrand.Inventory.SortDirection.Desc));
+            return new TableData<ItemDto> { Items = results.Items, TotalItems = results.TotalItems };
+        }
+        /*catch (ApiException exc)
+        {
+        }
+        catch (HttpRequestException exc)
+        {
+        }*/
+        catch (Exception exc)
+        {
+            //await JSHelpers.Alert(exc.Message);
+        }
+
+        return null!;
+    }
+
+    private async Task ItemOnClick(TableRowClickEventArgs<ItemDto> ev)
+    {
+        var item = ev.Item;
+
+        await OnItemClicked(item);
+    }
+
+    private void OnSearch(string text)
+    {
+        searchString = text;
+        table.ReloadServerData();
+    }
+
+    private async Task OnWarehouseChanged(WarehouseDto w)
+    {
+        Warehouse = w;
+        table.ReloadServerData();
+    }
+
+    private async Task OnItemGroupChanged(ItemGroupDto w)
+    {
+        ItemGroup = w;
+        table.ReloadServerData();
+    }
+
+    async Task OnItemClicked(ItemDto? dto)
+    {
+        try
+        {
+            if(dto?.Id is not null)
+            {
+                NavigationManager.NavigateTo($"/inventory/items/{dto.Id}");
+                return;
+            }
+
+            var parameters = new DialogParameters();
+            parameters.Add(nameof(ItemDialog.Id), dto?.Id);
+
+            var dialogReference = DialogService.Show<ItemDialog>(dto is null ? "New Item" : $"Update {dto.Name}", parameters, new DialogOptions {
+                //FullScreen = true,
+                MaxWidth = MaxWidth.ExtraLarge
+            });
+            var result = await dialogReference.Result;
+
+            if(result.Cancelled)
+                return;
+
+            await table.ReloadServerData();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+
+    private TableData<ItemDto>? GetTableData()
+    {
+        return (TableData<ItemDto>?)table?.GetType()?
+            .GetField("_server_data", System.Reflection.BindingFlags.NonPublic |
+                         System.Reflection.BindingFlags.Instance)?
+            .GetValue(table);
+    }
+}

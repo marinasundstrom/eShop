@@ -18,6 +18,7 @@
     <ProjectReference Include="..\Shared\Site.Shared.csproj" />
     <ProjectReference Include="..\..\..\Catalog\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Inventory\src\Client\Client.csproj" />
   </ItemGroup>
 
 
