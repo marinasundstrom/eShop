@@ -10,15 +10,13 @@ public static class Mappings
 {
     public static CustomerDto ToDto(this Customer customer) 
     {
-        return new CustomerDto(customer.Id, customer.CustomerType, customer.Name, (customer as Person)?.Ssn, (customer as Organization)?.OrganizationNo, (customer as Organization)?.VatNo, customer.Addresses.First().ToDto());
+        return new CustomerDto(customer.Id, customer.CustomerType, customer.Name, (customer as Person)?.FirstName, (customer as Person)?.LastName, (customer as Person)?.Ssn, (customer as Organization)?.OrganizationNo, (customer as Organization)?.VatNo, customer.Phone, customer.PhoneMobile, customer.Email, customer.Addresses.First().ToDto());
     }
-
-    public static PersonDto ToDto(this Person person) 
+    public static PersonDto ToDto(this Person person)
     {
         return new PersonDto(person.Id, person.FirstName, person.LastName, person.Ssn, person.IsDeceased.GetValueOrDefault(), person.Phone, person.PhoneMobile, person.Email, person.Addresses.Select(a => a.ToDto()));
     }
-
-    public static OrganizationDto ToDto(this Organization organization) 
+    public static OrganizationDto ToDto(this Organization organization)
     {
         return new OrganizationDto(organization.Id, organization.Name, organization.OrganizationNo, organization.HasCeased.GetValueOrDefault(), organization.Phone, organization.PhoneMobile, organization.Email, organization.Addresses.Select(a => a.ToDto()));
     }

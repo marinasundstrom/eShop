@@ -5,6 +5,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YourBrand.Customers.Application.Customers.Queries;
 using YourBrand.Customers.Application.Common.Models;
+using YourBrand.Customers.Application.Organizations;
+using YourBrand.Customers.Application.Organizations.Queries;
+using YourBrand.Customers.Application.Customers;
 
 namespace YourBrand.Customers.Presentation.Controllers;
 
@@ -26,5 +29,11 @@ public class CustomersController
     {
         var result = await _mediator.Send(new GetCustomers(page, pageSize, searchString), cancellationToken);
         return Ok(result);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<CustomerDto?> GetCustomer(int id, CancellationToken cancellationToken)
+    {
+        return await _mediator.Send(new GetCustomer(id), cancellationToken);
     }
 }
