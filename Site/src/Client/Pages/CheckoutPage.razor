@@ -222,6 +222,13 @@
 
     public async Task Submit()
     {
+        var cart = await CartsClient.GetCartAsync("test");
+
+        if(!cart.Items.Any())
+        {
+            NavigationManager.NavigateTo("/cart");
+        }
+
         await CheckoutClient.CheckoutAsync(new CheckoutDto
         {
             BillingDetails = new Site.Client.BillingDetailsDto
@@ -250,7 +257,7 @@
             }
         });
 
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/order/confirmation");
     }
 
     private Site.Client.AddressDto Map(AddressModel address)

@@ -11,33 +11,37 @@
     {
         @if(cart.Items.Any()) 
         {
-        <ul class="list-group mb-3">
-            @foreach (var cartItem in cart.Items)
-            {
-                <li class="list-group-item d-flex justify-content-between lh-sm">
+            <ul class="list-group mb-3">
+                @foreach (var cartItem in cart.Items)
+                {
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
+                            <small class="text-muted">@cartItem.Item.Description</small>
+                            <div class="d-flex">
+                                <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
+                                <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
+                            </div>
+                        </div>
+                        <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
+                    </li>   
+                }
+                <li class="list-group-item d-flex justify-content-end">
                     <div>
-                        <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
-                        <small class="text-muted">@cartItem.Item.Description</small>
-                        <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
+                        <li class="d-flex justify-content-between">
+                            <span class="me-5">Total</span>
+                            <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
+                        </li>
+                        <li class="d-flex justify-content-between mt-2">
+                            <small class="me-5">VAT incl.</small>
+                            <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price) * 0.25m).ToString("c"))</small>
+                        </li>
                     </div>
-                    <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
-                </li>   
-            }
-            <li class="list-group-item d-flex justify-content-end">
-                <div>
-                    <li class="d-flex justify-content-between">
-                        <span class="me-5">Total</span>
-                        <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
-                    </li>
-                    <li class="d-flex justify-content-between mt-2">
-                        <small class="me-5">VAT incl.</small>
-                        <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price) * 0.25m).ToString("c"))</small>
-                    </li>
-                </div>
-            </li>
-        </ul>
+                </li>
+            </ul>
 
             <div class="d-flex justify-content-end">
+                <button class="btn btn-secondary me-2" @onclick="async () => await ClearItems()"><i class="fa fa-trash" /> Clear basket</button>
                 <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
             </div>
         }
@@ -52,14 +56,14 @@
 {
     SiteCartDto? cart;
 
-    protected override async Task OnInitializedAsync() 
+    protected override async Task OnInitializedAsync()
     {
         cart = await CartsClient.GetCartAsync("test");
     }
 
-    async Task ItemQuantityChanged(SiteCartItemDto cartItem, int newQuantity) 
+    async Task ItemQuantityChanged(SiteCartItemDto cartItem, int newQuantity)
     {
-        if(newQuantity == 0) 
+        if(newQuantity == 0)
         {
             // Remove
             await CartsClient.RemoveItemFromCartAsync("test", cartItem.Id);
@@ -68,5 +72,19 @@
         }
         await CartsClient.UpdateCartItemQuantityAsync("test", cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
+    }
+
+    async Task DeleteItem(SiteCartItemDto cartItem)
+    {
+        await CartsClient.RemoveItemFromCartAsync(cart.Id, cartItem.Id);
+
+        cart!.Items.Remove(cartItem);
+    }
+
+    async Task ClearItems()
+    {
+        await CartsClient.ClearCartAsync(cart.Id);
+
+        cart!.Items.Clear();
     }
 }

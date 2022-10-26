@@ -1,0 +1,12 @@
+﻿@page "/order/confirmation"
+@using System.ComponentModel.DataAnnotations
+@inject ICartsClient CartsClient
+@inject ICheckoutClient CheckoutClient
+@inject NavigationManager NavigationManager
+
+<SitePageTitle>Checkout</SitePageTitle>
+
+<div class="py-5 text-center">
+    <h2>Order has been placed</h2>
+    <p class="lead">You will get a confirmation in e-mal.</p>
+</div>

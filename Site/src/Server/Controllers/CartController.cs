@@ -47,7 +47,7 @@ public class CartsController : ControllerBase
             items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, 0), (int)cartItem.Quantity, 0));
         }
 
-        return new SiteCartDto(items);
+        return new SiteCartDto(cart.Id, items);
 
         /*
         return new CartDto(cart.Items.Select(ci => new CartItemDto()));
@@ -110,6 +110,6 @@ public record SiteItemDto(string Id, string Name, string? Description, SiteItemG
 
 public record SiteItemGroupDto(string Id, string Name);
 
-public record SiteCartDto(IEnumerable<SiteCartItemDto> Items);
+public record SiteCartDto(string Id, IEnumerable<SiteCartItemDto> Items);
 
 public record SiteCartItemDto(string Id, SiteItemDto Item, int Quantity, decimal Total);

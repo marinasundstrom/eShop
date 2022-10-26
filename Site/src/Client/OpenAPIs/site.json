@@ -908,9 +908,13 @@
     "SiteCartDto": {
       "type": "object",
       "required": [
+        "id",
         "items"
       ],
       "properties": {
+        "id": {
+          "type": "string"
+        },
         "items": {
           "type": "array",
           "items": {
