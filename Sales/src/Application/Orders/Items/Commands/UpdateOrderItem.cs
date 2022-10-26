@@ -5,9 +5,9 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Items.Commands;
 
-public sealed record CreateOrderItem(string OrderId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity) : IRequest<Result<OrderItemDto>>
+public sealed record UpdateOrderItem(string OrderId, string OrderItemId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity) : IRequest<Result<OrderItemDto>>
 {
-    public sealed class Validator : AbstractValidator<CreateOrderItem>
+    public sealed class Validator : AbstractValidator<UpdateOrderItem>
     {
         public Validator()
         {
@@ -17,7 +17,7 @@ public sealed record CreateOrderItem(string OrderId, string Description, string?
         }
     }
 
-    public sealed class Handler : IRequestHandler<CreateOrderItem, Result<OrderItemDto>>
+    public sealed class Handler : IRequestHandler<UpdateOrderItem, Result<OrderItemDto>>
     {
         private readonly IOrderRepository orderRepository;
         private readonly IUnitOfWork unitOfWork;
@@ -30,7 +30,7 @@ public sealed record CreateOrderItem(string OrderId, string Description, string?
             this.domainEventDispatcher = domainEventDispatcher;
         }
 
-        public async Task<Result<OrderItemDto>> Handle(CreateOrderItem request, CancellationToken cancellationToken)
+        public async Task<Result<OrderItemDto>> Handle(UpdateOrderItem request, CancellationToken cancellationToken)
         {
             var order = await orderRepository.FindByIdAsync(request.OrderId, cancellationToken);
 
@@ -39,7 +39,19 @@ public sealed record CreateOrderItem(string OrderId, string Description, string?
                 return Result.Failure<OrderItemDto>(Errors.Orders.OrderNotFound);
             }
 
-            var orderItem = order.AddOrderItem(request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity);
+            var orderItem = order.Items.FirstOrDefault(x => x.Id == request.OrderItemId);
+
+            if (orderItem is null)
+            {
+                throw new System.Exception();
+            }
+
+            orderItem.Description = request.Description;
+            orderItem.ItemId = request.ItemId;
+            orderItem.Unit = request.Unit;
+            orderItem.UnitPrice = request.UnitPrice;
+            orderItem.VatRate = request.VatRate;
+            orderItem.Quantity = request.Quantity;
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

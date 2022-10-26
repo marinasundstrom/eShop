@@ -315,7 +315,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/CartDto"
+                  "$ref": "#/components/schemas/CartItemDto"
                 }
               }
             }
@@ -667,6 +667,36 @@
         }
       }
     },
+    "/v1/Orders/Draft": {
+      "post": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_CreateDraftOrder",
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderDto"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Orders/{id}/Status": {
       "put": {
         "tags": [
@@ -791,12 +821,73 @@
           "x-position": 2
         },
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderItemDto"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_UpdateOrderItem",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "itemId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "request",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderItemRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
           "201": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OrderDto"
+                  "$ref": "#/components/schemas/OrderItemDto"
                 }
               }
             }
@@ -1309,6 +1400,10 @@
           "id": {
             "type": "string"
           },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
           "status": {
             "$ref": "#/components/schemas/OrderStatusDto"
           },
@@ -1320,11 +1415,46 @@
               }
             ]
           },
+          "customerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string"
+          },
+          "billingDetails": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BillingDetailsDto"
+              }
+            ]
+          },
+          "shippingDetails": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ShippingDetailsDto"
+              }
+            ]
+          },
           "items": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OrderItemDto"
             }
+          },
+          "subTotal": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "vat": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal"
           },
           "created": {
             "type": "string",
@@ -1358,96 +1488,14 @@
         "description": "",
         "x-enumNames": [
           "Draft",
-          "Open",
-          "Archived",
+          "Placed",
           "Canceled"
         ],
         "enum": [
           0,
           1,
-          2,
-          3
+          2
         ]
-      },
-      "OrderItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "itemId": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "quantity": {
-            "type": "number",
-            "format": "double"
-          },
-          "total": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "created": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
-          },
-          "lastModified": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "lastModifiedBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
-          }
-        }
-      },
-      "CreateOrderRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "customerId": {
-            "type": "string",
-            "nullable": true
-          },
-          "billingDetails": {
-            "$ref": "#/components/schemas/BillingDetailsDto"
-          },
-          "shippingDetails": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ShippingDetailsDto"
-              }
-            ]
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/CreateOrderItemDto"
-            }
-          }
-        }
       },
       "BillingDetailsDto": {
         "type": "object",
@@ -1525,6 +1573,94 @@
           }
         }
       },
+      "OrderItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "vatRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastModifiedBy": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          }
+        }
+      },
+      "CreateOrderRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "customerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "billingDetails": {
+            "$ref": "#/components/schemas/BillingDetailsDto"
+          },
+          "shippingDetails": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ShippingDetailsDto"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateOrderItemDto"
+            }
+          }
+        }
+      },
       "CreateOrderItemDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1536,7 +1672,11 @@
             "type": "string",
             "nullable": true
           },
-          "price": {
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
             "type": "number",
             "format": "decimal"
           },
@@ -1561,7 +1701,11 @@
             "type": "string",
             "nullable": true
           },
-          "price": {
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
             "type": "number",
             "format": "decimal"
           },
@@ -1572,10 +1716,35 @@
           "vatRate": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "UpdateOrderItemRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "type": "string"
           },
-          "total": {
+          "itemId": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
             "type": "number",
             "format": "decimal"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "vatRate": {
+            "type": "number",
+            "format": "double"
           }
         }
       },

@@ -19,6 +19,7 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public string Id { get; private set; } = Guid.NewGuid().ToString();
 
+    public DateTime Date { get; private set; } = DateTime.Now;
 
     public OrderStatus Status { get; private set; }
 
@@ -56,7 +57,9 @@ public class Order : AuditableEntity, IAggregateRoot
         return false;
     }
 
-    public string? CustomerId { get; set; } 
+    public string? CustomerId { get; set; }
+
+    public string Currency { get; set; } = "SEK";
 
     public double VatRate { get; set; } 
 
@@ -66,15 +69,15 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public decimal Total { get; set; } 
 
-    public ValueObjects.BillingDetails BillingDetails { get; set; } = null!;
+    public ValueObjects.BillingDetails? BillingDetails { get; set; } = null!;
 
     public ValueObjects.ShippingDetails? ShippingDetails { get; set; }
 
     public IReadOnlyCollection<OrderItem> Items => _items;
 
-    public OrderItem AddOrderItem(string description, string? itemId, decimal price, double vatRate, double quantity) 
+    public OrderItem AddOrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity) 
     {
-        var orderItem = new OrderItem(description, itemId, price, vatRate, quantity, price * (decimal)quantity);
+        var orderItem = new OrderItem(description, itemId, unit, unitPrice, vatRate, quantity, unitPrice * (decimal)quantity);
         _items.Add(orderItem);
         return orderItem;
     }

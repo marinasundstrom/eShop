@@ -15,7 +15,7 @@ namespace YourBrand.Sales.Presentation.Controllers;
 partial class CartsController
 {
     [HttpPost("{id}/Items")]
-    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CartDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CartItemDto))]
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CartItemDto>> AddCartItem(string id, CreateCartItemRequest request, CancellationToken cancellationToken)
     {

@@ -6,7 +6,9 @@ public sealed class CreateOrderItemDto
 
     public string? ItemId { get; set; }
 
-    public decimal Price { get; set; }
+    public string? Unit { get; set; }
+
+    public decimal UnitPrice { get; set; }
 
     public double VatRate { get; set; }
 

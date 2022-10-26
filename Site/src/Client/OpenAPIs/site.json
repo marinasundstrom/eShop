@@ -1200,7 +1200,7 @@
       "required": [
         "id",
         "description",
-        "price",
+        "unitPrice",
         "quantity",
         "total",
         "created"
@@ -1215,7 +1215,10 @@
         "itemId": {
           "type": "string"
         },
-        "price": {
+        "unit": {
+          "type": "string"
+        },
+        "unitPrice": {
           "type": "number",
           "format": "decimal"
         },

@@ -53,6 +53,17 @@ public sealed partial class OrdersController : ControllerBase
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
     }
 
+    [HttpPost("Draft")]
+    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(OrderDto))]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<OrderDto>> CreateDraftOrder(CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new CreateDraftOrder(), cancellationToken);
+        return result.Handle(
+            onSuccess: data => CreatedAtAction(nameof(GetOrderById), new { id = data.Id }, data),
+            onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
+    }
+
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]

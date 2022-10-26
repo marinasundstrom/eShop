@@ -1,21 +1,53 @@
 ﻿using YourBrand.Sales.Application.Carts.Dtos;
 using YourBrand.Sales.Application.Orders.Dtos;
 using YourBrand.Sales.Application.Users;
+using YourBrand.Sales.Domain.ValueObjects;
 
 namespace YourBrand.Sales.Application;
 
 public static class Mappings
 {
-    public static OrderDto ToDto(this Order order) => new OrderDto(order.Id, (OrderStatusDto)order.Status, order.Assignee?.ToDto(), order.Items.Select(x => x.ToDto()), order.Created, order.CreatedBy?.ToDto(), order.LastModified, order.LastModifiedBy?.ToDto());
+    public static OrderDto ToDto(this Order order) => new OrderDto(order.Id, order.Date, (OrderStatusDto)order.Status, order.Assignee?.ToDto(), order.CustomerId, order.Currency,
+        order.BillingDetails?.ToDto(),
+        order.ShippingDetails?.ToDto(),
+        order.Items.Select(x => x.ToDto()), order.SubTotal, order.Vat, order.Total, order.Created, order.CreatedBy?.ToDto(), order.LastModified, order.LastModifiedBy?.ToDto());
 
-    public static OrderItemDto ToDto(this OrderItem orderItem) => new OrderItemDto(orderItem.Id, orderItem.Description, orderItem.ItemId, orderItem.Price, orderItem.Quantity, orderItem.Total, orderItem.Created, orderItem.CreatedBy?.ToDto(), orderItem.LastModified, orderItem.LastModifiedBy?.ToDto());
+    public static OrderItemDto ToDto(this OrderItem orderItem) => new (orderItem.Id, orderItem.Description, orderItem.ItemId, orderItem.Unit, orderItem.UnitPrice, orderItem.Quantity, orderItem.VatRate, orderItem.Total, orderItem.Created, orderItem.CreatedBy?.ToDto(), orderItem.LastModified, orderItem.LastModifiedBy?.ToDto());
 
-    public static UserDto ToDto(this User user) => new UserDto(user.Id, user.Name);
+    public static UserDto ToDto(this User user) => new (user.Id, user.Name);
 
-    public static UserInfoDto ToDto2(this User user) => new UserInfoDto(user.Id, user.Name);
+    public static UserInfoDto ToDto2(this User user) => new (user.Id, user.Name);
 
-    public static CartDto ToDto(this Cart cart) => new CartDto(cart.Id, cart.Items.Select(x => x.ToDto()), cart.Created, cart.CreatedBy?.ToDto(), cart.LastModified, cart.LastModifiedBy?.ToDto());
+    public static CartDto ToDto(this Cart cart) => new (cart.Id, cart.Items.Select(x => x.ToDto()), cart.Created, cart.CreatedBy?.ToDto(), cart.LastModified, cart.LastModifiedBy?.ToDto());
 
-    public static CartItemDto ToDto(this CartItem cartItem) => new CartItemDto(cartItem.Id, cartItem.ItemId, cartItem.Quantity, cartItem.Created, cartItem.CreatedBy?.ToDto(), cartItem.LastModified, cartItem.LastModifiedBy?.ToDto());
+    public static CartItemDto ToDto(this CartItem cartItem) => new (cartItem.Id, cartItem.ItemId, cartItem.Quantity, cartItem.Created, cartItem.CreatedBy?.ToDto(), cartItem.LastModified, cartItem.LastModifiedBy?.ToDto());
+
+    public static AddressDto ToDto(this Domain.ValueObjects.Address address) => new ()
+    {
+        Thoroughfare = address.Thoroughfare,
+        Premises = address.Premises,
+        SubPremises = address.SubPremises,
+        PostalCode = address.PostalCode,
+        Locality = address.Locality,
+        SubAdministrativeArea = address.SubAdministrativeArea,
+        AdministrativeArea = address.AdministrativeArea,
+        Country = address.Country
+    };
+
+    public static BillingDetailsDto ToDto(this BillingDetails billingDetails) => new () {
+        FirstName = billingDetails.FirstName,
+        LastName = billingDetails.LastName,
+        SSN = billingDetails.SSN,
+        Email = billingDetails.Email,
+        PhoneNumber = billingDetails.PhoneNumber,
+        Address = billingDetails.Address.ToDto()
+    };
+
+    public static ShippingDetailsDto ToDto(this ShippingDetails billingDetails) => new ()
+    {
+        FirstName = billingDetails.FirstName,
+        LastName = billingDetails.LastName,
+        Address = billingDetails.Address.ToDto()
+    };
 
 }

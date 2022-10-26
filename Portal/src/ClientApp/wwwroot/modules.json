@@ -5,6 +5,11 @@
     "Enabled": true
   },
   {
+    "Name": "Sales",
+    "Assembly": "Sales.UI",
+    "Enabled": true
+  },
+  {
     "Name": "Inventory",
     "Assembly": "Inventory.UI",
     "Enabled": true

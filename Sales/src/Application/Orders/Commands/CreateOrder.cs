@@ -59,7 +59,7 @@ public sealed record CreateOrder(string? CustomerId, BillingDetailsDto BillingDe
 
             foreach (var orderItem in request.Items)
             {
-                order.AddOrderItem(orderItem.Description, orderItem.ItemId, orderItem.Price, orderItem.VatRate, orderItem.Quantity);
+                order.AddOrderItem(orderItem.Description, orderItem.ItemId, orderItem.Unit, orderItem.UnitPrice, orderItem.VatRate, orderItem.Quantity);
             }
 
             order.Calculate();

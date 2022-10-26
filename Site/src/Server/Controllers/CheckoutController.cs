@@ -49,7 +49,7 @@ public class CheckoutController : ControllerBase
             items.Add(new CreateOrderItemDto {
                     Description = item.Description,
                     ItemId = cartItem.ItemId,
-                    Price = item.Price,
+                    UnitPrice = item.Price,
                     VatRate = 0.25,
                     Quantity = cartItem.Quantity
                 });

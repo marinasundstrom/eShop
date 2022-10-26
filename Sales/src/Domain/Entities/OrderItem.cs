@@ -6,21 +6,30 @@ public class OrderItem : AuditableEntity, IAggregateRoot
     {
     }
 
-    internal OrderItem(string description, string? itemId, decimal price, double vatRate, double quantity, decimal total)
+    internal OrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity, decimal total)
     {
         Description = description;
         ItemId = itemId;
-        Price = price;
+        Unit = unit;
+        UnitPrice = unitPrice;
         VatRate = vatRate;
         Quantity = quantity;
         Total = total;
     }
 
     public string Id { get; private set; } = Guid.NewGuid().ToString();
-    public string Description { get; private set; } = null!;
-    public string? ItemId { get; private set; } = null!;
-    public decimal Price { get; private set; }
-    public double VatRate { get; private set; }
-    public double Quantity { get; private set; }
-    public decimal Total { get; private set; }
+
+    public string Description { get; set; } = null!;
+
+    public string? ItemId { get; set; } = null!;
+
+    public string? Unit { get; set; }
+
+    public decimal UnitPrice { get; set; }
+
+    public double VatRate { get; set; }
+
+    public double Quantity { get; set; }
+
+    public decimal Total { get; set; }
 }

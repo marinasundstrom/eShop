@@ -1,0 +1,51 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inject IOrdersClient OrdersClient
+
+<EditForm Model="@this" OnValidSubmit="Submit">
+    <DataAnnotationsValidator />
+
+    <MudDialog>
+        <DialogContent>
+
+            <MudSelect Label="Status" @bind-Value="Status" For="() => Status">
+                @foreach(var status in statuses)
+                {
+                    <MudSelectItem Value="@status">@Enum.GetName(typeof(OrderStatus), status)</MudSelectItem>
+                }    
+            </MudSelect>
+            
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="Cancel" Variant="Variant.Text">Cancel</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Text">Ok</MudButton>
+        </DialogActions>
+    </MudDialog>
+</EditForm>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Required]
+    [Parameter] public string OrderId { get; set; }
+
+    [Required]
+    [Parameter] public OrderStatus Status { get; set; }
+
+    OrderStatus currentStatus;
+    IEnumerable<OrderStatus> statuses = Array.Empty<OrderStatus>();
+
+    protected override void OnInitialized() 
+    {
+        statuses = Enum.GetValues<OrderStatus>().Skip(1);
+        currentStatus = Status;
+    }
+
+    async Task Submit()
+    {
+        //await OrdersClient.SetOrderStatusAsync(OrderId, Status);
+
+        MudDialog.Close(DialogResult.Ok(Status));
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
