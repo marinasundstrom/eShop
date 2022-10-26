@@ -11,50 +11,33 @@
     {
         @if(cart.Items.Any()) 
         {
-            <table class="table table-striped">
-                <thead>
-                    <th>
-                        
-                    </th
-                    <th>
-                        Name
-                    </th>
-                    <th>
-                        Price
-                    </th>
-                    <th>
-                        Quantity
-                    </th>
-                    <th>
-                        Line total
-                    </th>
-                </thead>
-                <tbody>
-            @foreach (var item in cart.Items)
+        <ul class="list-group mb-3">
+            @foreach (var cartItem in cart.Items)
             {
-                <tr>
-                    <td>
-                        <a href="/items/@item.Item.Id"><img src="@item.Item.Image" style="height: 60px; width: 60px; object-fit: contain;" /></a>
-                    </td>
-                    <td>
-                        @item.Item.Name
-                    </td>
-                    <td>
-                        @item.Item.Price.ToString("c")
-                    </td>
-                    <td>
-                        <InputQuantity MinValue="0" Value="item.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(item, v)" />
-                    </td>
-                    <td>
-                        @((item.Quantity * item.Item.Price).ToString("c"))
-                    </td>
-                </tr>
-            }     
-                </tbody>       
-            </table>
+                <li class="list-group-item d-flex justify-content-between lh-sm">
+                    <div>
+                        <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
+                        <small class="text-muted">@cartItem.Item.Description</small>
+                        <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
+                    </div>
+                    <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
+                </li>   
+            }
+            <li class="list-group-item d-flex justify-content-end">
+                <div>
+                    <li class="d-flex justify-content-between">
+                        <span class="me-5">Total</span>
+                        <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
+                    </li>
+                    <li class="d-flex justify-content-between mt-2">
+                        <small class="me-5">VAT incl.</small>
+                        <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price) * 0.25m).ToString("c"))</small>
+                    </li>
+                </div>
+            </li>
+        </ul>
 
             <div class="d-flex justify-content-end">
-                <h4 class="pt-2 pe-4">@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</h4>
                 <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
             </div>
         }

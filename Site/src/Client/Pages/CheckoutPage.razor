@@ -7,7 +7,7 @@
     @if(cart is not null) 
     {
     <div class="py-5 text-center">
-        <img class="d-block mx-auto mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        @*<img class="d-block mx-auto mb-4" src="/docs/5.2/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"> *@
         <h2>Checkout</h2>
         <p class="lead">Fill out this form to finish your order.</p>
     </div>
@@ -23,7 +23,7 @@
             {
                 <li class="list-group-item d-flex justify-content-between lh-sm">
                     <div>
-                        <h6 class="my-0">@cartItem.Item.Name</h6>
+                        <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
                         <small class="text-muted">@cartItem.Item.Description</small>
                     </div>
                     <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
