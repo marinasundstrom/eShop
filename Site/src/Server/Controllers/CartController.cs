@@ -42,7 +42,7 @@ public class CartsController : ControllerBase
 
         foreach(var cartItem in cart.Items) 
         {
-            var item = await _itemsClient.GetItemAsync(cartItem.ItemId);
+            var item = await _itemsClient.GetItemAsync(cartItem.ItemId, cancellationToken);
 
             items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, 0), (int)cartItem.Quantity, 0));
         }
@@ -91,6 +91,14 @@ public class CartsController : ControllerBase
     public async Task RemoveItemFromCart(string id, string itemId, CancellationToken cancellationToken = default)
     {
         await _cartsClient.RemoveCartItemAsync(id, itemId, cancellationToken);
+
+        await _cartHubContext.Clients.All.CartUpdated();
+    }
+
+    [HttpDelete("{id}/Items")]
+    public async Task ClearCart(string id, CancellationToken cancellationToken = default)
+    {
+        await _cartsClient.ClearCartAsync(id, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
     }

@@ -181,6 +181,26 @@
             "description": ""
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_ClearCart",
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
       }
     },
     "/api/Carts/{id}/Items/{itemId}/Quantity": {
@@ -239,6 +259,35 @@
             "in": "path",
             "required": true,
             "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Checkout": {
+      "post": {
+        "tags": [
+          "Checkout"
+        ],
+        "operationId": "Checkout_Checkout",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CheckoutDto"
+            },
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -960,6 +1009,110 @@
         "quantity": {
           "type": "integer",
           "format": "int32"
+        }
+      }
+    },
+    "CheckoutDto": {
+      "type": "object",
+      "required": [
+        "billingDetails",
+        "shippingDetails"
+      ],
+      "properties": {
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetailsDto"
+        },
+        "shippingDetails": {
+          "$ref": "#/definitions/ShippingDetailsDto"
+        }
+      }
+    },
+    "BillingDetailsDto": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "phoneNumber",
+        "email",
+        "address"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "ssn": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/AddressDto"
+        }
+      }
+    },
+    "AddressDto": {
+      "type": "object",
+      "required": [
+        "thoroughfare",
+        "postalCode",
+        "locality",
+        "subAdministrativeArea",
+        "administrativeArea",
+        "country"
+      ],
+      "properties": {
+        "thoroughfare": {
+          "type": "string"
+        },
+        "premises": {
+          "type": "string"
+        },
+        "subPremises": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "subAdministrativeArea": {
+          "type": "string"
+        },
+        "administrativeArea": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "ShippingDetailsDto": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "address"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "careOf": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/AddressDto"
         }
       }
     },

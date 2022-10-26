@@ -5,7 +5,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Items.Commands;
 
-public sealed record CreateOrderItem(string OrderId, string Description, string? ItemId, decimal Price, double Quantity, decimal Total) : IRequest<Result<OrderItemDto>>
+public sealed record CreateOrderItem(string OrderId, string Description, string? ItemId, decimal Price, double VatRate, double Quantity) : IRequest<Result<OrderItemDto>>
 {
     public sealed class Validator : AbstractValidator<CreateOrderItem>
     {
@@ -39,7 +39,7 @@ public sealed record CreateOrderItem(string OrderId, string Description, string?
                 return Result.Failure<OrderItemDto>(Errors.Orders.OrderNotFound);
             }
 
-            var orderItem = order.AddOrderItem(request.Description, request.ItemId, request.Price, request.Quantity, request.Total);
+            var orderItem = order.AddOrderItem(request.Description, request.ItemId, request.Price, request.VatRate, request.Quantity);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -23,7 +23,7 @@ public sealed class OrderAssignedUserEventHandler : IDomainEventHandler<OrderAss
         if (order is null)
             return;
 
-        if (order.AssigneeIdId is not null && order.LastModifiedById != order.AssigneeIdId)
+        if (order.AssigneeId is not null && order.LastModifiedById != order.AssigneeId)
         {
             /*
             await emailService.SendEmail(

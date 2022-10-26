@@ -6,11 +6,12 @@ public class OrderItem : AuditableEntity, IAggregateRoot
     {
     }
 
-    internal OrderItem(string description, string? itemId, decimal price, double quantity, decimal total)
+    internal OrderItem(string description, string? itemId, decimal price, double vatRate, double quantity, decimal total)
     {
         Description = description;
         ItemId = itemId;
         Price = price;
+        VatRate = vatRate;
         Quantity = quantity;
         Total = total;
     }
@@ -19,6 +20,7 @@ public class OrderItem : AuditableEntity, IAggregateRoot
     public string Description { get; private set; } = null!;
     public string? ItemId { get; private set; } = null!;
     public decimal Price { get; private set; }
+    public double VatRate { get; private set; }
     public double Quantity { get; private set; }
     public decimal Total { get; private set; }
 }

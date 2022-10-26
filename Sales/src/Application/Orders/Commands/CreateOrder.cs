@@ -5,15 +5,15 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record CreateOrder(string Title, string? Description, OrderStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours) : IRequest<Result<OrderDto>>
+public sealed record CreateOrder(string? CustomerId, BillingDetailsDto BillingDetails, ShippingDetailsDto? ShippingDetails, IEnumerable<CreateOrderItemDto> Items) : IRequest<Result<OrderDto>>
 {
     public sealed class Validator : AbstractValidator<CreateOrder>
     {
         public Validator()
         {
-            RuleFor(x => x.Title).NotEmpty().MaximumLength(60);
+            //RuleFor(x => x.Title).NotEmpty().MaximumLength(60);
 
-            RuleFor(x => x.Description).MaximumLength(240);
+            //RuleFor(x => x.Description).MaximumLength(240);
         }
     }
 
@@ -32,12 +32,43 @@ public sealed record CreateOrder(string Title, string? Description, OrderStatusD
 
         public async Task<Result<OrderDto>> Handle(CreateOrder request, CancellationToken cancellationToken)
         {
-            var order = new Order((Domain.Enums.OrderStatus)request.Status);
+            var order = new Order();
+
+            order.CustomerId = request.CustomerId;
+
+            order.BillingDetails = new Domain.ValueObjects.BillingDetails
+            {
+                FirstName = request.BillingDetails.FirstName,
+                LastName = request.BillingDetails.LastName,
+                SSN = request.BillingDetails.SSN,
+                Email = request.BillingDetails.Email,
+                PhoneNumber = request.BillingDetails.PhoneNumber,
+                Address = Map(request.BillingDetails.Address)
+            };
+
+            if (request.ShippingDetails is not null)
+            {
+                order.ShippingDetails = new Domain.ValueObjects.ShippingDetails
+                {
+                    FirstName = request.ShippingDetails.FirstName,
+                    LastName = request.ShippingDetails.LastName,
+                    CareOf = request.ShippingDetails.CareOf,
+                    Address = Map(request.ShippingDetails.Address),
+                };
+            }
+
+            foreach (var orderItem in request.Items)
+            {
+                order.AddOrderItem(orderItem.Description, orderItem.ItemId, orderItem.Price, orderItem.VatRate, orderItem.Quantity);
+            }
+
+            order.Calculate();
 
             orderRepository.Add(order);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
+            /*
             if (request.AssigneeId is not null)
             {
                 order.UpdateAssigneeId(request.AssigneeId);
@@ -46,6 +77,7 @@ public sealed record CreateOrder(string Title, string? Description, OrderStatusD
 
                 order.ClearDomainEvents();
             }
+            */
 
             await domainEventDispatcher.Dispatch(new OrderCreated(order.Id), cancellationToken);
 
@@ -55,6 +87,21 @@ public sealed record CreateOrder(string Title, string? Description, OrderStatusD
                 .FirstAsync(x => x.Id == order.Id, cancellationToken);
 
             return Result.Success(order!.ToDto());
+        }
+
+        private Domain.ValueObjects.Address Map(AddressDto address)
+        {
+            return new Domain.ValueObjects.Address
+            {
+                Thoroughfare = address.Thoroughfare,
+                Premises = address.Premises,
+                SubPremises = address.SubPremises,
+                PostalCode = address.PostalCode,
+                Locality = address.Locality,
+                SubAdministrativeArea = address.SubAdministrativeArea,
+                AdministrativeArea = address.AdministrativeArea,
+                Country = address.Country
+            };
         }
     }
 }

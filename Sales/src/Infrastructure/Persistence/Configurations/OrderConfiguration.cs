@@ -9,8 +9,8 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.ToTable("Orders");
 
-        builder.OwnsOne(x => x.BillingAddress);
+        builder.OwnsOne(x => x.BillingDetails, x => x.OwnsOne(z => z.Address));
 
-        builder.OwnsOne(x => x.ShippingAddress);
+        builder.OwnsOne(x => x.ShippingDetails, x => x.OwnsOne(z => z.Address));
     }
 }

@@ -62,6 +62,15 @@ public sealed partial class CartsController : ControllerBase
         var result = await mediator.Send(new DeleteCart(id), cancellationToken);
         return this.HandleResult(result);
     }
+
+    [HttpDelete("{id}/Items")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> ClearCart(string id, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new ClearCart(id), cancellationToken);
+        return this.HandleResult(result);
+    }
 }
 
 public sealed record CreateCartRequest();

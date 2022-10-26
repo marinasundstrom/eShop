@@ -1,3 +1,3 @@
 namespace YourBrand.Sales.Presentation.Controllers;
 
-public sealed record CreateOrderItemRequest(string Description, string? ItemId, decimal Price, double Quantity, decimal Total);
+public sealed record CreateOrderItemRequest(string Description, string? ItemId, decimal Price, double Quantity, double VatRate, decimal Total);

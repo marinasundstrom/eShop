@@ -19,7 +19,7 @@ partial class OrdersController
     [ProducesDefaultResponseType]
     public async Task<ActionResult<OrderItemDto>> CreateOrderItem(string id, CreateOrderItemRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateOrderItem(id, request.Description, request.ItemId, request.Price, request.Quantity, request.Total), cancellationToken);
+        var result = await mediator.Send(new CreateOrderItem(id, request.Description, request.ItemId, request.Price, request.VatRate, request.Quantity), cancellationToken);
         return result.Handle(
             onSuccess: data => Ok(data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));

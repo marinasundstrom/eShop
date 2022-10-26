@@ -15,7 +15,6 @@ namespace YourBrand.Sales.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-[Authorize]
 public sealed partial class OrdersController : ControllerBase
 {
     private readonly IMediator mediator;
@@ -48,7 +47,7 @@ public sealed partial class OrdersController : ControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<OrderDto>> CreateOrder(CreateOrderRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateOrder(request.Title, request.Description, request.Status, request.AssigneeId, request.EstimatedHours, request.RemainingHours), cancellationToken);
+        var result = await mediator.Send(new CreateOrder(request.CustomerId, request.BillingDetails, request.ShippingDetails, request.Items), cancellationToken);
         return result.Handle(
             onSuccess: data => CreatedAtAction(nameof(GetOrderById), new { id = data.Id }, data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));

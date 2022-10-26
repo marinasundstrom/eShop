@@ -23,12 +23,12 @@ public sealed class TodoAssignedUserEventHandler : IDomainEventHandler<TodoAssig
         if (todo is null)
             return;
 
-        if (todo.AssigneeIdId is not null && todo.LastModifiedById != todo.AssigneeIdId)
+        if (todo.AssigneeId is not null && todo.LastModifiedById != todo.AssigneeId)
         {
             await emailService.SendEmail(
-                todo.AssigneeId!.Email,
+                todo.Assignee!.Email,
                 $"You were assigned to \"{todo.Title}\" [{todo.Id}].",
-                $"{todo.LastModifiedBy!.Name} assigned {todo.AssigneeId.Name} to \"{todo.Title}\" [{todo.Id}].");
+                $"{todo.LastModifiedBy!.Name} assigned {todo.Assignee.Name} to \"{todo.Title}\" [{todo.Id}].");
         }
     }
 }

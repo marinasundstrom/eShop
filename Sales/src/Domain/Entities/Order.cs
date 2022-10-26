@@ -38,17 +38,17 @@ public class Order : AuditableEntity, IAggregateRoot
         return false;
     }
 
-    public User? AssigneeId { get; private set; }
+    public User? Assignee { get; private set; }
 
-    public string? AssigneeIdId { get; private set; }
+    public string? AssigneeId { get; private set; }
 
     public bool UpdateAssigneeId(string? userId)
     {
-        var oldAssigneeIdId = AssigneeIdId;
-        if (userId != oldAssigneeIdId)
+        var oldAssigneeId = AssigneeId;
+        if (userId != oldAssigneeId)
         {
-            AssigneeIdId = userId;
-            AddDomainEvent(new OrderAssignedUserUpdated(Id, userId, oldAssigneeIdId));
+            AssigneeId = userId;
+            AddDomainEvent(new OrderAssignedUserUpdated(Id, userId, oldAssigneeId));
 
             return true;
         }
@@ -60,25 +60,32 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public double VatRate { get; set; } 
 
-    public decimal Vat{ get; set; }
+    public decimal Vat { get; set; }
 
     public decimal SubTotal { get; set; } 
 
     public decimal Total { get; set; } 
 
-    public ValueObjects.Address BillingAddress { get; set; } = null!;
+    public ValueObjects.BillingDetails BillingDetails { get; set; } = null!;
 
-    public ValueObjects.Address? ShippingAddress { get; set; }
-
+    public ValueObjects.ShippingDetails? ShippingDetails { get; set; }
 
     public IReadOnlyCollection<OrderItem> Items => _items;
 
-    public OrderItem AddOrderItem(string description, string? itemId, decimal price, double quantity, decimal total) 
+    public OrderItem AddOrderItem(string description, string? itemId, decimal price, double vatRate, double quantity) 
     {
-        var orderItem = new OrderItem(description, itemId, price, quantity, total);
+        var orderItem = new OrderItem(description, itemId, price, vatRate, quantity, price * (decimal)quantity);
         _items.Add(orderItem);
         return orderItem;
     }
 
     public void RemoveOrderItem(OrderItem orderItem) => _items.Remove(orderItem);
+
+    public void Calculate()
+    {
+        VatRate = 0.25;
+        Vat = Items.Sum(x => (decimal)x.VatRate * x.Total);
+        Total = Items.Sum(x => x.Total);
+        SubTotal = Total - Vat;
+    }
 }

@@ -13,6 +13,9 @@ public static class ServiceExtensions
 
         services.AddHttpClient("Site")
             .AddTypedClient<ICartsClient>((http, sp) => new CartsClient(http));
+
+        services.AddHttpClient("Site")
+            .AddTypedClient<ICheckoutClient>((http, sp) => new CheckoutClient(http));
          
         CultureInfo? culture = new("sv-SE");
         CultureInfo.DefaultThreadCurrentCulture = culture;

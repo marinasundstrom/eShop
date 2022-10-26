@@ -24,10 +24,4 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Orders %28copy%29\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Orders %28copy%29\" />
-  </ItemGroup>
 </Project>

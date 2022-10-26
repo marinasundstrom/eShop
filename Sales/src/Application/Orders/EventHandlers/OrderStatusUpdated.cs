@@ -29,7 +29,7 @@ public sealed class OrderStatusUpdatedEventHandler : IDomainEventHandler<OrderSt
 
         await orderNotificationService.StatusUpdated(order.Id, (OrderStatusDto)order.Status);
 
-        if (order.AssigneeIdId is not null && order.LastModifiedById != order.AssigneeIdId)
+        if (order.AssigneeId is not null && order.LastModifiedById != order.AssigneeId)
         {/*
             await emailService.SendEmail(order.AssigneeId!.Email,
                 $"Status of \"{order.Title}\" [{order.Id}] changed to {notification.NewStatus}.",

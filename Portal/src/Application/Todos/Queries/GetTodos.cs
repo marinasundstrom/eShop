@@ -28,7 +28,7 @@ public record GetTodos(TodoStatusDto? Status, string? AssigneeId, int Page = 1, 
 
             if (request.AssigneeId is not null)
             {
-                query = query.Where(x => x.AssigneeIdId == request.AssigneeId);
+                query = query.Where(x => x.AssigneeId == request.AssigneeId);
             }
 
             var totalCount = await query.CountAsync(cancellationToken);
@@ -43,7 +43,7 @@ public record GetTodos(TodoStatusDto? Status, string? AssigneeId, int Page = 1, 
             }
 
             var todos = await query
-                .Include(i => i.AssigneeId)
+                .Include(i => i.Assignee)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
                 .AsSplitQuery()

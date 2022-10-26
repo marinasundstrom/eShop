@@ -32,7 +32,7 @@ public class ItemsController : ControllerBase
             int? available = null;
             try 
             {
-                var inventoryItem = await _inventoryItemsClient.GetItemAsync(item.Id);
+                var inventoryItem = await _inventoryItemsClient.GetItemAsync(item.Id, cancellationToken);
                 available = inventoryItem.QuantityAvailable;
             } catch {}
 
@@ -48,7 +48,7 @@ public class ItemsController : ControllerBase
         int? available = null;
         try 
         {
-            var inventoryItem = await _inventoryItemsClient.GetItemAsync(item.Id);
+            var inventoryItem = await _inventoryItemsClient.GetItemAsync(item.Id, cancellationToken);
             available = inventoryItem.QuantityAvailable;
         } catch {}
         return new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, available);

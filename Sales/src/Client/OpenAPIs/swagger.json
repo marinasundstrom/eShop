@@ -247,6 +247,39 @@
       }
     },
     "/v1/Carts/{id}/Items": {
+      "delete": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_ClearCart",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      },
       "post": {
         "tags": [
           "Carts"
@@ -506,12 +539,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -551,12 +579,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Orders/{id}": {
@@ -608,12 +631,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -646,12 +664,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Orders/{id}/Status": {
@@ -698,12 +711,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Orders/{id}/AssignedUser": {
@@ -749,12 +757,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Orders/{id}/Items": {
@@ -808,12 +811,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Orders/{id}/Items/{itemId}": {
@@ -858,12 +856,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Test/{id}/status": {
@@ -1433,29 +1426,127 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "title": {
+          "customerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "billingDetails": {
+            "$ref": "#/components/schemas/BillingDetailsDto"
+          },
+          "shippingDetails": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ShippingDetailsDto"
+              }
+            ]
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CreateOrderItemDto"
+            }
+          }
+        }
+      },
+      "BillingDetailsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
             "type": "string"
           },
+          "lastName": {
+            "type": "string"
+          },
+          "ssn": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDto"
+          }
+        }
+      },
+      "AddressDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "thoroughfare": {
+            "type": "string"
+          },
+          "premises": {
+            "type": "string",
+            "nullable": true
+          },
+          "subPremises": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "locality": {
+            "type": "string"
+          },
+          "subAdministrativeArea": {
+            "type": "string"
+          },
+          "administrativeArea": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "ShippingDetailsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "careOf": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDto"
+          }
+        }
+      },
+      "CreateOrderItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "description": {
+            "type": "string"
+          },
+          "itemId": {
             "type": "string",
             "nullable": true
           },
-          "status": {
-            "$ref": "#/components/schemas/OrderStatusDto"
-          },
-          "assigneeId": {
-            "type": "string",
-            "nullable": true
-          },
-          "estimatedHours": {
+          "price": {
             "type": "number",
-            "format": "double",
-            "nullable": true
+            "format": "decimal"
           },
-          "remainingHours": {
+          "vatRate": {
             "type": "number",
-            "format": "double",
-            "nullable": true
+            "format": "double"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
           }
         }
       },
@@ -1475,6 +1566,10 @@
             "format": "decimal"
           },
           "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "vatRate": {
             "type": "number",
             "format": "double"
           },

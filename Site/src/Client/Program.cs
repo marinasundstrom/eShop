@@ -22,11 +22,4 @@ builder.Services.AddHttpClientInterceptor();
 
 builder.Services.AddAuthorizationCore();
 
-/*
-builder.Services.AddScoped<IAuthorizationPolicyProvider, Microsoft.AspNetCore.Authorization.DefaultAuthorizationPolicyProvider>();
-builder.Services.AddScoped<IAuthorizationService, Microsoft.AspNetCore.Authorization.DefaultAuthorizationService>();
-builder.Services.AddScoped<IAuthorizationHandlerProvider, Microsoft.AspNetCore.Authorization.DefaultAuthorizationHandlerProvider>();
-builder.Services.AddScoped<IAuthorizationHandlerContextFactory, Microsoft.AspNetCore.Authorization.DefaultAuthorizationHandlerContextFactory>();
-builder.Services.AddScoped<IAuthorizationEvaluator, Microsoft.AspNetCore.Authorization.DefaultAuthorizationEvaluator>(); */
-
 await builder.Build().RunAsync();

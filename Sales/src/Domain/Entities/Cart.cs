@@ -36,4 +36,9 @@ public class Cart : AuditableEntity, IAggregateRoot
     }
 
     public void RemoveCartItem(CartItem cartItem) => _items.Remove(cartItem);
+
+    public void Clear()
+    {
+        _items.Clear();
+    }
 }

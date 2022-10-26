@@ -40,6 +40,8 @@ public class ShippingDetailsModel
     [Required]
     public string LastName { get; set; } = null!;
 
+    public string? CareOf { get; set; }
+
     [Required]
     public AddressModel Address { get; set; } = new AddressModel();
 }

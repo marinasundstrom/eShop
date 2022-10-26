@@ -72,17 +72,17 @@ public class Todo : AuditableEntity, IAggregateRoot
         return false;
     }
 
-    public User? AssigneeId { get; private set; }
+    public User? Assignee { get; private set; }
 
-    public string? AssigneeIdId { get; private set; }
+    public string? AssigneeId { get; private set; }
 
     public bool UpdateAssigneeId(string? userId)
     {
-        var oldAssigneeIdId = AssigneeIdId;
-        if (userId != oldAssigneeIdId)
+        var oldAssigneeId = AssigneeId;
+        if (userId != oldAssigneeId)
         {
-            AssigneeIdId = userId;
-            AddDomainEvent(new TodoAssignedUserUpdated(Id, userId, oldAssigneeIdId));
+            AssigneeId = userId;
+            AddDomainEvent(new TodoAssignedUserUpdated(Id, userId, oldAssigneeId));
 
             return true;
         }
