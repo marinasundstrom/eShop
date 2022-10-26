@@ -23,7 +23,7 @@
                     </li>   
                 }
                 <li class="list-group-item d-flex justify-content-between">
-                <span>Total (USD)</span>
+                <span>Total</span>
                 <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
                 </li>
             </ul>

@@ -1,0 +1,28 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject IAuthenticationService AuthenticationService
+
+<div>
+    <AuthorizeView>
+        <Authorized>
+
+        </Authorized>
+        <Authorized>
+            <div class="d-flex mt-2">
+                <a class="btn nav-link" href="authentication/profile">@context.User!.Identity!.Name</a>
+                <button class="btn nav-link" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Sign out</button>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <a class="nav-link mt-2" href="/login"><i class="fa fa-sign-in-alt" /> Log in</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code{
+    async Task BeginSignOut()
+    {
+        await AuthenticationService.Logout();
+        Navigation.NavigateTo("/logout");
+    }
+}

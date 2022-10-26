@@ -41,10 +41,17 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-rc.2.22472.3" />
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.2.22472.3" />
     <PackageReference Include="Blazor-Analytics" Version="3.11.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Shared\Site.Shared.csproj" />
+    <ProjectReference Include="..\Site.Client.Authentication\Site.Client.Authentication.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
+  </ItemGroup>
 </Project>

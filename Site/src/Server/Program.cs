@@ -5,6 +5,8 @@ using System.Net.Http;
 using System.Globalization;
 using Blazor.Analytics;
 using Site.Client;
+using Site.Server.Authentication;
+using Site.Server.Authentication.Endpoints;
 using YourBrand.Catalog.Client;
 using YourBrand.Sales.Client;
 using YourBrand.Inventory.Client;
@@ -14,6 +16,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
+using YourBrand.Customers.Client;
+using Site.Client.Authentication;
+using Microsoft.AspNetCore.Components.Authorization;
+using Site.Server.Authentication.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,6 +60,10 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddAuthServices(builder.Configuration);
+builder.Services.AddScoped<IAuthenticationService, MockAuthenticationService>();
+builder.Services.AddScoped<AuthenticationStateProvider, MockAuthenticationStateProvider>();
+
 const string CatalogServiceUrl = $"https://localhost:5011";
 
 builder.Services.AddCatalogClients((sp, httpClient) => {
@@ -78,6 +88,18 @@ const string InventoryServiceUrl = $"https://localhost:5051";
 
 builder.Services.AddInventoryClients((sp, httpClient) => {
     httpClient.BaseAddress = new Uri($"{InventoryServiceUrl}/");
+}, builder => {
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
+
+builder.Services.AddHttpClient("Site", (sp, http) => {
+    http.BaseAddress = new Uri("https://localhost:6001/");
+});
+
+const string CustomerServiceUrl = $"https://localhost:5071";
+
+builder.Services.AddCustomersClients((sp, httpClient) => {
+    httpClient.BaseAddress = new Uri($"{CustomerServiceUrl}/");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
@@ -167,7 +189,12 @@ app.MapPost("/security/createToken",
     return Results.Unauthorized();
 });
 
+app.AddAuthEndpoints();
 app.MapFallbackToPage("/_Host");
+
+using var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
+//context.Database.EnsureCreated();
 
 app.Run();
 

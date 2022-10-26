@@ -1,5 +1,6 @@
 using System.Globalization;
 using Blazor.Analytics;
+using Blazored.LocalStorage;
 
 namespace Site.Client;
 
@@ -18,6 +19,8 @@ public static class ServiceExtensions
         CultureInfo.DefaultThreadCurrentUICulture = culture;
 
         services.AddGoogleAnalytics(configuration["GoogleAnalytics:TrackingId"]);
+
+        services.AddBlazoredLocalStorage();
 
         return services;
     }

@@ -1,0 +1,30 @@
+@using Site.Client.Authentication
+@using System.ComponentModel.DataAnnotations
+
+@page "/login"
+@inject IAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+
+<SitePageTitle>Login</SitePageTitle>
+
+<div class="container">
+    <h1>Login</h1>
+
+    <EditForm Model="@this" OnValidSubmit="Login">
+        <InputText @bind-Value="SSN"></InputText>
+
+        <button type="submit" class="btn btn-primary">Login</button>
+    </EditForm>
+</div>
+
+@code {
+    [Required]
+    public string SSN { get; set; } = null!;
+
+    public async Task Login()
+    {
+        await AuthenticationService.Login(new UserForAuthenticationDto() { SSN = SSN });
+
+        NavigationManager.NavigateTo("/");
+    }
+}

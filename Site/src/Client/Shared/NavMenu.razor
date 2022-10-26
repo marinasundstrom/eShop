@@ -57,20 +57,24 @@
             </ul>
             <ol class="navbar-nav flex-row flex-wrap ms-md-auto list-inline list-unstyled" style="margin: 0;">
                 @*
-                <li class="nav-item list-inline-item">
-                    <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"
-                        href="#" title="Twitter" target="_blank">
-                        <i class="fab fa-2x fa-facebook"></i>
-                    </a>
-                </li>
-                
-                <li class="nav-item list-inline-item">
-                    <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"
-                        href="#" target="_blank">
-                        <i class="fab fa-2x fa-youtube"></i>
-                    </a>
-                </li>
+        <li class="nav-item list-inline-item">
+            <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"
+                href="#" title="Twitter" target="_blank">
+                <i class="fab fa-2x fa-facebook"></i>
+            </a>
+        </li>
+
+        <li class="nav-item list-inline-item">
+            <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"
+                href="#" target="_blank">
+                <i class="fab fa-2x fa-youtube"></i>
+            </a>
+        </li>
                 *@
+
+                <li class="nav-item list-inline-item">
+                    <Site.Client.Authentication.LoginDisplay />
+                </li>
 
                 <CartNavItem />
 

@@ -36,4 +36,11 @@ public class CustomersController
     {
         return await _mediator.Send(new GetCustomer(id), cancellationToken);
     }
+
+
+    [HttpGet("GetCustomerBySsn/{ssn}")]
+    public async Task<CustomerDto?> GetCustomerBySSN(string ssn, CancellationToken cancellationToken)
+    {
+        return await _mediator.Send(new GetCustomerBySSN(ssn), cancellationToken);
+    }
 }
