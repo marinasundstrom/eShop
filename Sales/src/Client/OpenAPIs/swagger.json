@@ -882,7 +882,7 @@
           "x-position": 3
         },
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {

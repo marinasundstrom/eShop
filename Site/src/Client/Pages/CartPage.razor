@@ -34,7 +34,7 @@
                         </li>
                         <li class="d-flex justify-content-between mt-2">
                             <small class="me-5">VAT incl.</small>
-                            <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price) * 0.25m).ToString("c"))</small>
+                            <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price).GetVatFromTotal(0.25)).ToString("c"))</small>
                         </li>
                     </div>
                 </li>

@@ -59,6 +59,8 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public string? CustomerId { get; set; }
 
+    public bool VatIncluded { get; set; }
+
     public string Currency { get; set; } = "SEK";
 
     public double VatRate { get; set; } 
@@ -87,8 +89,8 @@ public class Order : AuditableEntity, IAggregateRoot
     public void Calculate()
     {
         VatRate = 0.25;
-        Vat = Items.Sum(x => (decimal)x.VatRate * x.Total);
+        Vat = VatIncluded ? Items.Select(x => x.Total.GetVatFromTotal(x.VatRate)).Sum() : Items.Sum(x => (decimal)x.VatRate * x.Total);
         Total = Items.Sum(x => x.Total);
-        SubTotal = Total - Vat;
+        SubTotal = VatIncluded ? (Total - Vat) : Total;
     }
 }

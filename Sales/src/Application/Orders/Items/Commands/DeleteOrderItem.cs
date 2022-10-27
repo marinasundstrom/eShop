@@ -44,6 +44,8 @@ public sealed record DeleteOrderItem(string OrderId, string OrdeItemId) : IReque
 
             order.RemoveOrderItem(orderItem);
 
+            order.Calculate();
+
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

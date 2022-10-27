@@ -120,12 +120,13 @@
                 <MudTh>Unit Price (excl. VAT)</MudTh>
                 <MudTh>Quantity</MudTh>
                 <MudTh>Unit</MudTh>
+                <MudTh>VAT Rate</MudTh>
                 <MudTh>VAT</MudTh>
-                <MudTh>Total (excl. VAT)</MudTh>
-            @if (Model.Status == OrderStatusDto.Draft)
-            {
-                        <MudTh></MudTh>
-            }
+                <MudTh>Total</MudTh>
+                @if (Model.Status == OrderStatusDto.Draft)
+                {
+                    <MudTh></MudTh>
+                }
             </HeaderContent>
             <RowTemplate Context="orderItem">
                 <MudTd DataLabel="Description">@orderItem.Description</MudTd>
@@ -133,14 +134,15 @@
                 <MudTd DataLabel="Unit Price (excl. VAT)">@orderItem.UnitPrice</MudTd>
                 <MudTd DataLabel="Quantity">@orderItem.Quantity</MudTd>
                 <MudTd DataLabel="Unit">@orderItem.Unit</MudTd>
-                <MudTd DataLabel="VAT">@(orderItem.VatRate * 100)%</MudTd>
-                <MudTd DataLabel="Line Total (excl. VAT)">@orderItem.LineTotal.FormatCurrency(order.Currency)</MudTd>
-            @if (Model.Status == OrderStatusDto.Draft)
-            {
-                        <MudTd>
-                            <MudIconButton Icon="@Icons.Filled.Delete" OnClick="async () => await DeleteItem(orderItem)" />
-                        </MudTd>
-            }
+                <MudTd DataLabel="VAT Rate">@(orderItem.VatRate * 100)%</MudTd>
+                <MudTd DataLabel="VAT">@orderItem.Vat</MudTd>
+                <MudTd DataLabel="Line Total">@orderItem.LineTotal.FormatCurrency(order.Currency)</MudTd>
+                @if (Model.Status == OrderStatusDto.Draft)
+                {
+                    <MudTd>
+                        <MudIconButton Icon="@Icons.Filled.Delete" OnClick="async () => await DeleteItem(orderItem)" />
+                    </MudTd>
+                }
             </RowTemplate>
             <LoadingContent>
                 <MudText>Loading...</MudText>

@@ -34,6 +34,8 @@ public sealed record CreateDraftOrder() : IRequest<Result<OrderDto>>
         {
             var order = new Order();
 
+            order.VatIncluded = true;
+
             orderRepository.Add(order);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);

@@ -1,4 +1,4 @@
-﻿namespace YourBrand;
+﻿namespace Site;
 
 public static class Calculations
 {

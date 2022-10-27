@@ -17,9 +17,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="ValueObjects\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="ValueObjects\" />
+		<ProjectReference Include="..\..\..\Sales\src\Core\Core.csproj" />
 	</ItemGroup>
 </Project>

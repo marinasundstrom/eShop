@@ -41,6 +41,8 @@ public sealed record CreateOrderItem(string OrderId, string Description, string?
 
             var orderItem = order.AddOrderItem(request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity);
 
+            order.Calculate();
+
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success(orderItem!.ToDto());

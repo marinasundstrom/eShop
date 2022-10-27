@@ -26,7 +26,7 @@ partial class OrdersController
     }
 
     [HttpPut("{id}/Items")]
-    [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(OrderItemDto))]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderItemDto))]
     [ProducesDefaultResponseType]
     public async Task<ActionResult<OrderItemDto>> UpdateOrderItem(string id, string itemId, UpdateOrderItemRequest request, CancellationToken cancellationToken)
     {

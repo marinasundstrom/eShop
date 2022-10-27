@@ -36,6 +36,8 @@ public sealed record CreateOrder(string? CustomerId, BillingDetailsDto BillingDe
 
             order.CustomerId = request.CustomerId;
 
+            order.VatIncluded = true;
+
             order.BillingDetails = new Domain.ValueObjects.BillingDetails
             {
                 FirstName = request.BillingDetails.FirstName,

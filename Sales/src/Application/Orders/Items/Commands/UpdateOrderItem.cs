@@ -53,6 +53,8 @@ public sealed record UpdateOrderItem(string OrderId, string OrderItemId, string 
             orderItem.VatRate = request.VatRate;
             orderItem.Quantity = request.Quantity;
 
+            order.Calculate();
+
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success(orderItem!.ToDto());
