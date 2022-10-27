@@ -76,10 +76,17 @@ else
                                 {
                                     <MudTextField Label="Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
 
-                                    <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
+                                    <MudGrid>
+                                        <MudItem xs="12" sm="12" md="6" lg="6">
+                                            <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
+                                        </MudItem>
+
+                                        <MudItem xs="12" sm="12" md="6" lg="6">
+                                            <MudNumericField Label="Compare At Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="CompareAtPrice" For="() => CompareAtPrice" />
+                                        </MudItem>
+                                    </MudGrid>                                   
                                 }
 
-       
                                 <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary" Variant="Variant.Filled">Save changes</MudButton>
                         </EditForm>
 
@@ -327,6 +334,7 @@ else
         Description = item.Description;
         Id = item.Id;
         Price = item.Price;
+        CompareAtPrice = item.CompareAtPrice;
 
         Group = groups.FirstOrDefault(x => x.Id == item.Group?.Id);
     }
@@ -517,7 +525,8 @@ else
                 Description = Description,
                 GroupId = Group.Id,
                 Id = Id,
-                Price = Price
+                Price = Price,
+                CompareAtPrice = CompareAtPrice
             };
             await ItemsClient.UpdateItemDetailsAsync(ItemId, data);
 
@@ -541,6 +550,8 @@ else
     public string? Id { get; set; }
 
     public decimal? Price { get; set; }
+
+    public decimal? CompareAtPrice { get; set; }
 
     public IList<ItemGroupDto> Groups { get; set; }
 }

@@ -2597,6 +2597,11 @@
             "format": "decimal",
             "nullable": true
           },
+          "compareAtPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
           "groupId": {
             "type": "string",
             "nullable": true
@@ -2626,6 +2631,11 @@
             "nullable": true
           },
           "price": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "compareAtPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true
@@ -2885,6 +2895,11 @@
             "type": "number",
             "format": "decimal"
           },
+          "compareAtPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
           "attributes": {
             "type": "array",
             "items": {
@@ -2922,6 +2937,11 @@
           "price": {
             "type": "number",
             "format": "decimal"
+          },
+          "compareAtPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
           },
           "attributes": {
             "type": "array",

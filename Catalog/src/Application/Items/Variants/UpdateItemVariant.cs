@@ -47,6 +47,7 @@ public record UpdateItemVariant(string ItemId, string ItemVariantId, ApiUpdateIt
             variant.Name = request.Data.Name;
             variant.Description = request.Data.Description;
             variant.Price = request.Data.Price;
+            variant.CompareAtPrice = request.Data.CompareAtPrice;
 
             foreach (var v in request.Data.Attributes)
             {

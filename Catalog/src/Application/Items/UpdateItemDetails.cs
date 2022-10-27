@@ -29,6 +29,7 @@ public record UpdateItemDetails(string ItemId, ApiUpdateItemDetails Details) : I
             item.Description = request.Details.Description;
             item.Group = group;
             item.Price = request.Details.Price;
+            item.CompareAtPrice = request.Details.CompareAtPrice;
 
             await _context.SaveChangesAsync();
 
