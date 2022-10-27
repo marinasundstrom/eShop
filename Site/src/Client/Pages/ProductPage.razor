@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @inject IItemsClient ItemsClient
 @inject ICartsClient CartsClient
+@using System.Text.Json
 
 <SitePageTitle>Item</SitePageTitle>
 
@@ -60,7 +61,7 @@
                     </div>
 
                 <div class="form">
-                @foreach (var itemOptionGroups in itemOptions.GroupBy(x => x.Group?.Name))
+                @foreach (var itemOptionGroups in options.GroupBy(x => x.Group?.Name))
                 {
                     <h3 class="mt-4">@(itemOptionGroups.Key ?? "Options")</h3>
 
@@ -70,7 +71,7 @@
                             @if(itemOption.OptionType == OptionType.YesOrNo) 
                             {
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <InputCheckbox class="form-check-input" @bind-Value="itemOption.IsSelected" id="flexCheckDefault" />
                                     <label class="form-check-label" for="flexCheckDefault">
                                         @itemOption.Name
                                     </label>
@@ -78,18 +79,18 @@
                             }
                             else if(itemOption.OptionType == OptionType.Choice) 
                             {
-                                <select class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
+                                <InputSelect @bind-Value="itemOption.SelectedValue" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
                                     @* <option selected>None</option> *@
-                                    @foreach(var value in itemOption.Values) 
+                                    @foreach(var value in itemOption.Values!) 
                                     {
                                         <option value="@value.Id">@value.Name</option>
                                     }
-                                </select>
+                                </InputSelect>
                                 <label for="exampleInputEmail1">@itemOption.Name</label>
                             }
                             else if(itemOption.OptionType == OptionType.NumericalValue) 
                             {           
-                                <input type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter value" min="@itemOption.MinNumericalValue" step="1" max="@itemOption.MaxNumericalValue" >
+                                <InputNumber @bind-Value="itemOption.NumericalValue" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter value" min="@itemOption.MinNumericalValue" step="1" max="@itemOption.MaxNumericalValue" />
                                 <label for="exampleInputEmail1">@itemOption.Name</label>
                             }
                         </div>
@@ -154,6 +155,7 @@
     IEnumerable<OptionDto>? itemOptions;
     IEnumerable<AttributeDto>? itemAttributes;
     ItemsResultOfItemDto? itemVariantResults;
+    List<OptionVM> options = new List<OptionVM>();
 
     int quantity = 1;
     bool hasAddedToCart = false;
@@ -168,7 +170,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        persistingSubscription = 
+        persistingSubscription =
             ApplicationState.RegisterOnPersisting(PersistItems);
 
         if (!ApplicationState.TryTakeFromJson<SiteItemDto>(
@@ -210,6 +212,29 @@
         {
             itemVariantResults = restored4!;
         }
+
+        foreach(var option in itemOptions)
+        {
+            options.Add(new OptionVM
+            {
+                Id = option.Id,
+                Name = option.Name,
+                Description = option.Description,
+                Group = option.Group,
+                OptionType = option.OptionType,
+                Price = option.Price,
+                ItemId = option.ItemId,
+                IsSelected = option.IsSelected,
+                Values = option.Values,
+                SelectedValue = option.DefaultValue?.Id,
+                MinNumericalValue = option.MinNumericalValue,
+                MaxNumericalValue = option.MaxNumericalValue,
+                NumericalValue = option.DefaultNumericalValue,
+                TextValue = option.DefaultTextValue,
+                TextValueMaxLength = option.TextValueMaxLength,
+                TextValueMinLength = option.TextValueMinLength
+            });
+        }
     }
 
     private Task PersistItems()
@@ -221,11 +246,29 @@
         return Task.CompletedTask;
     }
 
-    async Task AddItemToCart() 
+    async Task AddItemToCart()
     {
-        await CartsClient.AddItemToCartAsync("test", new AddCartItemDto() {
+        await CartsClient.AddItemToCartAsync("test", new AddCartItemDto()
+        {
             ItemId = item.Id,
-            Quantity = quantity
+            Quantity = quantity,
+            Data = JsonSerializer.Serialize(options.Select(x =>
+            {
+                return new Option
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    OptionType = (int)x.OptionType,
+                    ItemId = x.ItemId,
+                    IsSelected = x.IsSelected,
+                    SelectedValue = x.SelectedValue,
+                    NumericalValue = x.NumericalValue,
+                    TextValue = x.TextValue
+                };
+            }), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            })
         });
 
         hasAddedToCart = true;
@@ -235,4 +278,58 @@
     {
         persistingSubscription.Dispose();
     }
-}
+
+    public class OptionVM
+    {
+        public string Id { get; set; } = null!;
+
+        public string Name { get; set; } = null!;
+
+        public string Description { get; set; } = null!;
+
+        public OptionType OptionType { get; set; }
+
+        public OptionGroupDto Group { get; set; } = null!;
+
+        public string? ItemId { get; set; }
+
+        public decimal? Price { get; set; }
+
+        public bool IsSelected { get; set; }
+
+        public IEnumerable<OptionValueDto>? Values { get; set; }
+
+        public string? SelectedValue { get; set; }
+
+        public int? MinNumericalValue { get; set; }
+
+        public int? MaxNumericalValue { get; set; }
+
+        public int? NumericalValue { get; set; }
+
+        public string? TextValue { get; set; }
+
+        public int? TextValueMinLength { get; set; }
+
+        public int? TextValueMaxLength { get; set; }
+    }
+
+    public class Option
+    {
+        public string Id { get; set; } = null!;
+
+        public string Name { get; set; } = null!;
+
+        public int OptionType { get; set; }
+
+        public string? ItemId { get; set; }
+
+        public string? TextValue { get; set; }
+
+        public int? NumericalValue { get; set; }
+
+        public bool? IsSelected { get; set; }
+
+        public string? SelectedValue { get; set; }
+    }
+    }

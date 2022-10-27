@@ -19,12 +19,12 @@ public class Cart : AuditableEntity, IAggregateRoot
 
     public IReadOnlyCollection<CartItem> Items => _items;
 
-    public CartItem AddCartItem(string? itemId, double quantity) 
+    public CartItem AddCartItem(string? itemId, double quantity, string? data) 
     {
-        CartItem? cartItem = _items.FirstOrDefault(x => x.ItemId == itemId);
+        CartItem? cartItem = _items.FirstOrDefault(x => x.ItemId == itemId && x.Data == data);
         if(cartItem is null) 
         {
-            cartItem = new CartItem(itemId, quantity);
+            cartItem = new CartItem(itemId, quantity, data);
             _items.Add(cartItem);
         }
         else 

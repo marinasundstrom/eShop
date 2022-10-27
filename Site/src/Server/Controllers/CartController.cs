@@ -44,7 +44,7 @@ public class CartsController : ControllerBase
         {
             var item = await _itemsClient.GetItemAsync(cartItem.ItemId, cancellationToken);
 
-            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, 0), (int)cartItem.Quantity, 0));
+            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, 0), (int)cartItem.Quantity, 0, cartItem.Data));
         }
 
         return new SiteCartDto(cart.Id, items);
@@ -72,7 +72,8 @@ public class CartsController : ControllerBase
 
         var dto2 = new YourBrand.Sales.CreateCartItemRequest() {
             ItemId = dto.ItemId,
-            Quantity = dto.Quantity
+            Quantity = dto.Quantity,
+            Data = dto.Data
         };
         await _cartsClient.AddCartItemAsync(id, dto2, cancellationToken);
 
@@ -104,7 +105,7 @@ public class CartsController : ControllerBase
     }
 }
 
-public record AddCartItemDto(string? ItemId, int Quantity);
+public record AddCartItemDto(string? ItemId, int Quantity, string? Data);
 
 public record SiteItemDto(string Id, string Name, string? Description, SiteItemGroupDto Group, string? Image, decimal Price, decimal? CompareAtPrice, int? Available);
 
@@ -112,4 +113,4 @@ public record SiteItemGroupDto(string Id, string Name);
 
 public record SiteCartDto(string Id, IEnumerable<SiteCartItemDto> Items);
 
-public record SiteCartItemDto(string Id, SiteItemDto Item, int Quantity, decimal Total);
+public record SiteCartItemDto(string Id, SiteItemDto Item, int Quantity, decimal Total, string? Data);

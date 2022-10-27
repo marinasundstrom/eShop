@@ -584,6 +584,60 @@
         }
       }
     },
+    "/v1/Carts/{id}/Items/{itemId}/Data": {
+      "put": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_UpdateCartItemData",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "data",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Carts/{id}/Items/{itemId}": {
       "delete": {
         "tags": [
@@ -1538,6 +1592,10 @@
             "type": "number",
             "format": "double"
           },
+          "data": {
+            "type": "string",
+            "nullable": true
+          },
           "created": {
             "type": "string",
             "format": "date-time"
@@ -1637,6 +1695,10 @@
           "quantity": {
             "type": "number",
             "format": "double"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

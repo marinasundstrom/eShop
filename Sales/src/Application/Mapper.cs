@@ -22,7 +22,7 @@ public static class Mappings
 
     public static CartDto ToDto(this Cart cart) => new (cart.Id, cart.Items.Select(x => x.ToDto()), cart.Created, cart.CreatedBy?.ToDto(), cart.LastModified, cart.LastModifiedBy?.ToDto());
 
-    public static CartItemDto ToDto(this CartItem cartItem) => new (cartItem.Id, cartItem.ItemId, cartItem.Quantity, cartItem.Created, cartItem.CreatedBy?.ToDto(), cartItem.LastModified, cartItem.LastModifiedBy?.ToDto());
+    public static CartItemDto ToDto(this CartItem cartItem) => new (cartItem.Id, cartItem.ItemId, cartItem.Quantity, cartItem.Data, cartItem.Created, cartItem.CreatedBy?.ToDto(), cartItem.LastModified, cartItem.LastModifiedBy?.ToDto());
 
     public static AddressDto ToDto(this Domain.ValueObjects.Address address) => new ()
     {

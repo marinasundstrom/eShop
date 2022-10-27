@@ -5,7 +5,7 @@ using YourBrand.Sales.Application.Carts.Dtos;
 
 namespace YourBrand.Sales.Application.Carts.Items.Commands;
 
-public sealed record AddCartItem(string CartId, string? ItemId, double Quantity) : IRequest<Result<CartItemDto>>
+public sealed record AddCartItem(string CartId, string? ItemId, double Quantity, string? Data) : IRequest<Result<CartItemDto>>
 {
     public sealed class Validator : AbstractValidator<AddCartItem>
     {
@@ -41,7 +41,7 @@ public sealed record AddCartItem(string CartId, string? ItemId, double Quantity)
                 return Result.Failure<CartItemDto>(Errors.Carts.CartNotFound);
             }
 
-            var cartItem = cart.AddCartItem(request.ItemId, request.Quantity);
+            var cartItem = cart.AddCartItem(request.ItemId, request.Quantity, request.Data);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

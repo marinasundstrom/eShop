@@ -19,7 +19,7 @@ partial class CartsController
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CartItemDto>> AddCartItem(string id, CreateCartItemRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new AddCartItem(id, request.ItemId, request.Quantity), cancellationToken);
+        var result = await mediator.Send(new AddCartItem(id, request.ItemId, request.Quantity, request.Data), cancellationToken);
         return result.Handle(
             onSuccess: data => Ok(data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
@@ -34,6 +34,15 @@ partial class CartsController
         return this.HandleResult(result);
     }
 
+    [HttpPut("{id}/Items/{itemId}/Data")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult> UpdateCartItemData(string id, string itemId, string? data, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new UpdateCartItemData(id, itemId, data), cancellationToken);
+        return this.HandleResult(result);
+    }
+
     [HttpDelete("{id}/Items/{itemId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
@@ -44,4 +53,4 @@ partial class CartsController
     }
 }
 
-public sealed record CreateCartItemRequest(string? ItemId, double Quantity);
+public sealed record CreateCartItemRequest(string? ItemId, double Quantity, string? Data);

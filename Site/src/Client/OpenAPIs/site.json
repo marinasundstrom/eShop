@@ -902,6 +902,9 @@
           "type": "number",
           "format": "double"
         },
+        "data": {
+          "type": "string"
+        },
         "created": {
           "type": "string",
           "format": "date-time"
@@ -1001,6 +1004,9 @@
         "total": {
           "type": "number",
           "format": "decimal"
+        },
+        "data": {
+          "type": "string"
         }
       }
     },
@@ -1069,6 +1075,9 @@
         "quantity": {
           "type": "integer",
           "format": "int32"
+        },
+        "data": {
+          "type": "string"
         }
       }
     },
