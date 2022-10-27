@@ -33,6 +33,8 @@ public sealed record CreateOrder(string? CustomerId, BillingDetailsDto BillingDe
         public async Task<Result<OrderDto>> Handle(CreateOrder request, CancellationToken cancellationToken)
         {
             var order = new Order();
+            order.OrderNo = await orderRepository.GetAll().CountAsync() + 1;
+            order.StatusId = 3;
 
             order.CustomerId = request.CustomerId;
 
@@ -81,12 +83,12 @@ public sealed record CreateOrder(string? CustomerId, BillingDetailsDto BillingDe
             }
             */
 
-            await domainEventDispatcher.Dispatch(new OrderCreated(order.Id), cancellationToken);
+            await domainEventDispatcher.Dispatch(new OrderCreated(order.OrderNo), cancellationToken);
 
             order = await orderRepository.GetAll()
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
-                .FirstAsync(x => x.Id == order.Id, cancellationToken);
+                .FirstAsync(x => x.OrderNo == order.OrderNo, cancellationToken);
 
             return Result.Success(order!.ToDto());
         }

@@ -11,6 +11,203 @@
     }
   ],
   "paths": {
+    "/v1/OrderStatuses": {
+      "get": {
+        "tags": [
+          "OrderStatuses"
+        ],
+        "operationId": "OrderStatuses_GetOrderStatuses",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "x-position": 2
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 3
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SortDirection"
+                    }
+                  ]
+                }
+              ]
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemsResultOfOrderStatusDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "OrderStatuses"
+        ],
+        "operationId": "OrderStatuses_CreateOrderStatus",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderStatusDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderStatusDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/OrderStatuses/{id}": {
+      "get": {
+        "tags": [
+          "OrderStatuses"
+        ],
+        "operationId": "OrderStatuses_GetOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OrderStatusDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "OrderStatuses"
+        ],
+        "operationId": "OrderStatuses_UpdateOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderStatusDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "OrderStatuses"
+        ],
+        "operationId": "OrderStatuses_DeleteOrderStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/v1/Carts": {
       "get": {
         "tags": [
@@ -443,12 +640,9 @@
             "name": "status",
             "in": "query",
             "schema": {
-              "nullable": true,
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/OrderStatusDto"
-                }
-              ]
+              "type": "integer",
+              "format": "int32",
+              "nullable": true
             },
             "x-position": 1
           },
@@ -612,8 +806,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -662,8 +856,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -727,8 +921,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -738,7 +932,8 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/OrderStatusDto"
+                "type": "integer",
+                "format": "int32"
               }
             }
           },
@@ -774,8 +969,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -820,8 +1015,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -872,8 +1067,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           },
@@ -935,8 +1130,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           },
@@ -1210,6 +1405,68 @@
   },
   "components": {
     "schemas": {
+      "ItemsResultOfOrderStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderStatusDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "OrderStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Ascending",
+          "Descending"
+        ],
+        "enum": [
+          "Ascending",
+          "Descending"
+        ]
+      },
+      "CreateOrderStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "createWarehouse": {
+            "type": "boolean"
+          }
+        }
+      },
+      "UpdateOrderStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "ItemsResultOfCartDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1365,18 +1622,6 @@
           3
         ]
       },
-      "SortDirection": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Ascending",
-          "Descending"
-        ],
-        "enum": [
-          "Ascending",
-          "Descending"
-        ]
-      },
       "CreateCartRequest": {
         "type": "object",
         "additionalProperties": false
@@ -1415,8 +1660,9 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string"
+          "orderNo": {
+            "type": "integer",
+            "format": "int32"
           },
           "date": {
             "type": "string",
@@ -1500,20 +1746,6 @@
             ]
           }
         }
-      },
-      "OrderStatusDto": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Draft",
-          "Placed",
-          "Canceled"
-        ],
-        "enum": [
-          0,
-          1,
-          2
-        ]
       },
       "BillingDetailsDto": {
         "type": "object",

@@ -5,13 +5,13 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Items.Commands;
 
-public sealed record CreateOrderItem(string OrderId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity) : IRequest<Result<OrderItemDto>>
+public sealed record CreateOrderItem(int OrderNo, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity) : IRequest<Result<OrderItemDto>>
 {
     public sealed class Validator : AbstractValidator<CreateOrderItem>
     {
         public Validator()
         {
-            RuleFor(x => x.OrderId).NotEmpty().MaximumLength(60);
+            RuleFor(x => x.OrderNo);
 
             RuleFor(x => x.Description).NotEmpty().MaximumLength(240);
         }
@@ -32,7 +32,7 @@ public sealed record CreateOrderItem(string OrderId, string Description, string?
 
         public async Task<Result<OrderItemDto>> Handle(CreateOrderItem request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.FindByIdAsync(request.OrderId, cancellationToken);
+            var order = await orderRepository.FindByIdAsync(request.OrderNo, cancellationToken);
 
             if (order is null)
             {

@@ -7,7 +7,7 @@ public interface IOrderRepository : IRepository<Order>
 {
     IQueryable<Order> GetAll();
     IQueryable<Order> GetAll(ISpecification<Order> specification);
-    Task<Order?> FindByIdAsync(string id, CancellationToken cancellationToken = default);
+    Task<Order?> FindByIdAsync(int id, CancellationToken cancellationToken = default);
     void Add(Order item);
     void Remove(Order item);
 }

@@ -1,6 +1,6 @@
 namespace YourBrand.Sales.Domain.Entities;
 
-public class OrderItem : AuditableEntity, IAggregateRoot
+public class OrderItem : AuditableEntity
 {
     protected OrderItem()
     {

@@ -73,7 +73,7 @@
 
     [CascadingParameter] MudDialogInstance MudDialog { get; set; } = null!;
 
-    [Parameter] public string? OrderId { get; set; }
+    [Parameter] public int? OrderId { get; set; }
 
     [Parameter] public OrderItemViewModel? Model { get; set; } = null!;
 
@@ -90,12 +90,12 @@
         if(Model.Id == null)
         {
             var dto = Model.ToCreateOrderItemRequest();
-            item = await OrdersClient.CreateOrderItemAsync(OrderId, dto);
+            item = await OrdersClient.CreateOrderItemAsync(OrderId.GetValueOrDefault(), dto);
         }
         else
         {
             var dto = Model.ToUpdateOrderItemRequest();
-            item = await OrdersClient.UpdateOrderItemAsync(OrderId, Model.Id, dto);         
+            item = await OrdersClient.UpdateOrderItemAsync(OrderId.GetValueOrDefault(), Model.Id, dto);         
         }
 
         MudDialog.Close(DialogResult.Ok(item.ToModel()));

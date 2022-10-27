@@ -1,3 +1,3 @@
 ﻿namespace YourBrand.Sales.Domain.Events;
 
-public sealed record OrderCreated(string OrderId) : DomainEvent;
+public sealed record OrderCreated(int OrderNo) : DomainEvent;

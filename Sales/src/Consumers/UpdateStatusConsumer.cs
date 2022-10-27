@@ -17,6 +17,6 @@ public sealed class UpdateStatusConsumer : IConsumer<UpdateStatus>
     {
         var message = context.Message;
 
-        await mediator.Send(new Application.Orders.Commands.UpdateStatus(message.Id, (Application.Orders.Dtos.OrderStatusDto)message.Status));
+        //await mediator.Send(new Application.Orders.Commands.UpdateStatus(message, null!));
     }
 }

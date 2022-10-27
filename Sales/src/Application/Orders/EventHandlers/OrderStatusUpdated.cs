@@ -22,18 +22,18 @@ public sealed class OrderStatusUpdatedEventHandler : IDomainEventHandler<OrderSt
 
     public async Task Handle(OrderStatusUpdated notification, CancellationToken cancellationToken)
     {
-        var order = await orderRepository.FindByIdAsync(notification.OrderId, cancellationToken);
+        var order = await orderRepository.FindByIdAsync(notification.OrderNo, cancellationToken);
 
         if (order is null)
             return;
 
-        await orderNotificationService.StatusUpdated(order.Id, (OrderStatusDto)order.Status);
+        //await orderNotificationService.StatusUpdated(order.OrderNo, 1);
 
         if (order.AssigneeId is not null && order.LastModifiedById != order.AssigneeId)
         {/*
             await emailService.SendEmail(order.AssigneeId!.Email,
-                $"Status of \"{order.Title}\" [{order.Id}] changed to {notification.NewStatus}.",
-                $"{order.LastModifiedBy!.Name} changed status of \"{order.Title}\" [{order.Id}] from {notification.OldStatus} to {notification.NewStatus}."); */
+                $"Status of \"{order.Title}\" [{order.OrderNo}] changed to {notification.NewStatus}.",
+                $"{order.LastModifiedBy!.Name} changed status of \"{order.Title}\" [{order.OrderNo}] from {notification.OldStatus} to {notification.NewStatus}."); */
         }
     }
 }

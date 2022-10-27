@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using YourBrand.Sales.Domain.Enums;
 using YourBrand.Sales.Domain.Events;
 
 namespace YourBrand.Sales.Domain.Entities;
@@ -8,30 +7,30 @@ public class Order : AuditableEntity, IAggregateRoot
 {
     HashSet<OrderItem> _items = new HashSet<OrderItem>();
 
-    protected Order()
+    public Order()
     {
+        StatusId = 1;
     }
 
-    public Order(OrderStatus status = OrderStatus.Draft)
-    {
-        Status = status;
-    }
+    public int OrderNo { get; set; }
 
-    public string Id { get; private set; } = Guid.NewGuid().ToString();
+    public string CompanyId { get; private set; } = "ACME";
 
     public DateTime Date { get; private set; } = DateTime.Now;
 
-    public OrderStatus Status { get; private set; }
+    public OrderStatus Status { get; private set; } = null!;
 
-    public bool UpdateStatus(OrderStatus status)
+    public int StatusId { get; set; } 
+
+    public bool UpdateStatus(int status)
     {
-        var oldStatus = Status;
+        var oldStatus = StatusId;
         if (status != oldStatus)
         {
-            Status = status;
+            StatusId = status;
 
-            AddDomainEvent(new OrderUpdated(Id));
-            AddDomainEvent(new OrderStatusUpdated(Id, status, oldStatus));
+            //AddDomainEvent(new OrderUpdated(Id));
+            //AddDomainEvent(new OrderStatusUpdated(Id, status, oldStatus));
 
             return true;
         }
@@ -49,7 +48,7 @@ public class Order : AuditableEntity, IAggregateRoot
         if (userId != oldAssigneeId)
         {
             AssigneeId = userId;
-            AddDomainEvent(new OrderAssignedUserUpdated(Id, userId, oldAssigneeId));
+            //AddDomainEvent(new OrderAssignedUserUpdated(OrderNo, userId, oldAssigneeId));
 
             return true;
         }

@@ -1,8 +1,11 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+using YourBrand.Sales.Application;
+
 namespace YourBrand.Sales.Application.Orders.Dtos;
 
-public enum OrderStatusDto
-{
-    Draft,
-    Placed,
-    Canceled
-}
+public record OrderStatusDto
+(
+    int Id,
+    string Name
+);

@@ -17,11 +17,11 @@ public sealed class OrderUpdatedEventHandler : IDomainEventHandler<OrderUpdated>
 
     public async Task Handle(OrderUpdated notification, CancellationToken cancellationToken)
     {
-        var order = await orderRepository.FindByIdAsync(notification.OrderId, cancellationToken);
+        var order = await orderRepository.FindByIdAsync(notification.OrderNo, cancellationToken);
 
         if (order is null)
             return;
 
-        await orderNotificationService.Updated(order.Id);
+        //await orderNotificationService.Updated(order.OrderNo);
     }
 }

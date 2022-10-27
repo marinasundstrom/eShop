@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using YourBrand.Sales.Application.Common;
 using YourBrand.Sales.Application.Carts.Dtos;
-using YourBrand.Sales.Domain.Enums;
 
 namespace YourBrand.Sales.Application.Carts.Queries;
 

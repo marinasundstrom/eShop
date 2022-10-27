@@ -4,7 +4,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record UpdateStatus(string Id, OrderStatusDto Status) : IRequest<Result>
+public sealed record UpdateStatus(int Id, int StatusId) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<UpdateStatus>
     {
@@ -34,7 +34,7 @@ public sealed record UpdateStatus(string Id, OrderStatusDto Status) : IRequest<R
                 return Result.Failure(Errors.Orders.OrderNotFound);
             }
 
-            order.UpdateStatus((Domain.Enums.OrderStatus)request.Status);
+            order.UpdateStatus(request.StatusId);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

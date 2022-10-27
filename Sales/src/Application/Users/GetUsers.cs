@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using YourBrand.Sales.Application.Common;
-using YourBrand.Sales.Domain.Enums;
 
 namespace YourBrand.Sales.Application.Users;
 

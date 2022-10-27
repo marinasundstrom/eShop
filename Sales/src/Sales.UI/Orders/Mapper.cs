@@ -12,7 +12,7 @@ public static class Mapper
     {
         var model = new OrderViewModel
         {
-            Id = dto.Id,
+            Id = dto.OrderNo,
             Status = dto.Status,
         };
 

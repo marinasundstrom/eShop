@@ -1,10 +1,11 @@
 @page "/orders/new"
-@page "/orders/{Id}"
+@page "/orders/{Id:int}"
 @using Microsoft.AspNetCore.SignalR.Client;
 @using System.ComponentModel.DataAnnotations
 @using YourBrand.Sales.Orders
 @inject NavigationManager NavigationManager
 @inject IOrdersClient OrdersClient
+@inject IOrderStatusesClient OrderStatusesClient
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @using YourBrand.Sales.Client
@@ -22,7 +23,7 @@
                     Download
                 </MudButton>
 
-            @if (order.Status == OrderStatusDto.Draft)
+            @if (order.Status.Id == 1)
             {
                         <MudButton StartIcon="@Icons.Filled.Delete" OnClick="async (e) => await DeleteOrder(order)">
                             Delete
@@ -46,7 +47,7 @@
 
                 <MudItem xs="12" sm="12" md="6" lg="3">
                     <div class="d-flex">
-                        <MudField Label="Status">@Model.Status</MudField>
+                        <MudField Label="Status">@Model.Status.Name</MudField>
                         <MudIconButton Icon="@Icons.Filled.Edit" Class="justify-end"
                                    OnClick="async () => await UpdateOrderStatus()"></MudIconButton>
                     </div>
@@ -107,7 +108,7 @@
 
         <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true" Class="mt-8 mb-4">Items</MudText>
 
-    @if (Model.Status == OrderStatusDto.Draft)
+    @if (Model.Status.Id == 1)
     {
                 <MudButton Variant="Variant.Filled" OnClick="AddItem" Class="mb-2">Add item</MudButton>
     }
@@ -123,7 +124,7 @@
                 <MudTh>VAT Rate</MudTh>
                 <MudTh>VAT</MudTh>
                 <MudTh>Total</MudTh>
-                @if (Model.Status == OrderStatusDto.Draft)
+                @if (Model.Status.Id == 1)
                 {
                     <MudTh></MudTh>
                 }
@@ -137,7 +138,7 @@
                 <MudTd DataLabel="VAT Rate">@(orderItem.VatRate * 100)%</MudTd>
                 <MudTd DataLabel="VAT">@orderItem.Vat</MudTd>
                 <MudTd DataLabel="Line Total">@orderItem.LineTotal.FormatCurrency(order.Currency)</MudTd>
-                @if (Model.Status == OrderStatusDto.Draft)
+                @if (Model.Status.Id == 1)
                 {
                     <MudTd>
                         <MudIconButton Icon="@Icons.Filled.Delete" OnClick="async () => await DeleteItem(orderItem)" />
@@ -157,7 +158,7 @@
     bool loading = false;
 
     [Parameter]
-    public string? Id { get; set; }
+    public int? Id { get; set; }
 
     [Required]
     public OrderViewModel Model { get; set;  }
@@ -166,7 +167,7 @@
     {
         if (Id is not null)
         {
-            order = await OrdersClient.GetOrderByIdAsync(Id);
+            order = await OrdersClient.GetOrderByIdAsync(Id.GetValueOrDefault());
 
             Model = order.ToModel();
         }
@@ -208,7 +209,7 @@
 
     private async Task UpdateOrderItem(OrderItemViewModel model)
     {
-        if(Model.Status != OrderStatusDto.Draft) 
+        if(Model.Status.Id == 1) 
         {
             return;
         }
@@ -227,7 +228,7 @@
 
     public async Task UpdateOrderStatus()
     {
-        string orderId = Id;
+        int orderId = Id.GetValueOrDefault();
 
         var dialogParameters = new DialogParameters();
         dialogParameters.Add(nameof(SetStatusDialog.OrderId), orderId);
@@ -250,7 +251,7 @@
         if (!result.GetValueOrDefault())
             return;
 
-        await OrdersClient.DeleteOrderAsync(order.Id);
+        await OrdersClient.DeleteOrderAsync(order.OrderNo);
 
         NavigationManager.NavigateTo("/orders");
     }
@@ -262,7 +263,7 @@
         if (!result.GetValueOrDefault())
             return;
 
-        await OrdersClient.DeleteOrderItemAsync(Id, orderItem.Id);
+        await OrdersClient.DeleteOrderItemAsync(Id.GetValueOrDefault(), orderItem.Id);
 
         Model.Items.Remove(orderItem);
     }

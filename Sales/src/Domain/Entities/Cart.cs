@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using YourBrand.Sales.Domain.Enums;
 using YourBrand.Sales.Domain.Events;
 
 namespace YourBrand.Sales.Domain.Entities;

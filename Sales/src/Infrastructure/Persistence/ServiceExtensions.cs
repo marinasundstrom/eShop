@@ -30,6 +30,8 @@ public static class ServiceExtensions
 #endif
         });
 
+        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
         services.AddScoped<AuditableEntitySaveChangesInterceptor>();
         services.AddScoped<OutboxSaveChangesInterceptor>();
 

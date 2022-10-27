@@ -13,23 +13,23 @@ public class OrderNotificationService : IOrderNotificationService
         this.hubsContext = hubsContext;
     }
 
-    public async Task Created(string orderId)
+    public async Task Created(int orderNo)
     {
-        await hubsContext.Clients.All.Created(orderId);
+        await hubsContext.Clients.All.Created(orderNo);
     }
 
-    public async Task Updated(string orderId)
+    public async Task Updated(int orderNo)
     {
-        await hubsContext.Clients.All.Updated(orderId);
+        await hubsContext.Clients.All.Updated(orderNo);
     }
 
-    public async Task Deleted(string orderId)
+    public async Task Deleted(int orderNo)
     {
-        await hubsContext.Clients.All.Deleted(orderId);
+        await hubsContext.Clients.All.Deleted(orderNo);
     }
 
-    public async Task StatusUpdated(string orderId, OrderStatusDto status)
+    public async Task StatusUpdated(int orderNo, OrderStatusDto status)
     {
-        await hubsContext.Clients.All.StatusUpdated(orderId, status);
+        await hubsContext.Clients.All.StatusUpdated(orderNo, status);
     }
 }

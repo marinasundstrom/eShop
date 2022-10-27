@@ -17,7 +17,7 @@ public sealed class OrderDeletedEventHandler : IDomainEventHandler<OrderDeleted>
 
     public async Task Handle(OrderDeleted notification, CancellationToken cancellationToken)
     {
-        await orderNotificationService.Deleted(notification.OrderId);
+        await orderNotificationService.Deleted(notification.OrderNo);
     }
 }
 

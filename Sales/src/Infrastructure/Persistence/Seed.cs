@@ -11,6 +11,14 @@ public static class Seed
     {
         context.Carts.Add(new Cart("test"));
 
+        context.OrderStatuses.Add(new OrderStatus("Draft"));
+        context.OrderStatuses.Add(new OrderStatus("Pending Payment"));
+        context.OrderStatuses.Add(new OrderStatus("Processing"));
+        context.OrderStatuses.Add(new OrderStatus("On Hold"));
+        context.OrderStatuses.Add(new OrderStatus("Shipped"));
+        context.OrderStatuses.Add(new OrderStatus("Completed"));
+        context.OrderStatuses.Add(new OrderStatus("Canceled"));
+
         await context.SaveChangesAsync();
     }
 }

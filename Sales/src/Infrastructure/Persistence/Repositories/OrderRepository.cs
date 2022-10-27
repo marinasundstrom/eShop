@@ -21,19 +21,21 @@ public sealed class OrderRepository : IOrderRepository
         return dbSet.AsQueryable();
     }
 
-    public async Task<Order?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
+    public async Task<Order?> FindByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         return await dbSet
+            .Include(i => i.Status)
             .Include(i => i.Items)
             .Include(i => i.Assignee)
             .Include(i => i.CreatedBy)
             .Include(i => i.LastModifiedBy)
-            .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+            .FirstOrDefaultAsync(x => x.OrderNo.Equals(id), cancellationToken);
     }
 
     public IQueryable<Order> GetAll(ISpecification<Order> specification)
     {
         return dbSet
+            .Include(i => i.Status)
             .Include(i => i.Items)
             .Include(i => i.Assignee)
             .Include(i => i.CreatedBy)

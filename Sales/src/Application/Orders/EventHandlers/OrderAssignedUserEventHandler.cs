@@ -18,7 +18,7 @@ public sealed class OrderAssignedUserEventHandler : IDomainEventHandler<OrderAss
 
     public async Task Handle(OrderAssignedUserUpdated notification, CancellationToken cancellationToken)
     {
-        var order = await orderRepository.FindByIdAsync(notification.OrderId, cancellationToken);
+        var order = await orderRepository.FindByIdAsync(notification.OrderNo, cancellationToken);
 
         if (order is null)
             return;
@@ -28,8 +28,8 @@ public sealed class OrderAssignedUserEventHandler : IDomainEventHandler<OrderAss
             /*
             await emailService.SendEmail(
                 order.AssigneeId!.Email,
-                $"You were assigned to \"{order.Title}\" [{order.Id}].",
-                $"{order.LastModifiedBy!.Name} assigned {order.AssigneeId.Name} to \"{order.Title}\" [{order.Id}]."); */
+                $"You were assigned to \"{order.Title}\" [{order.OrderNo}].",
+                $"{order.LastModifiedBy!.Name} assigned {order.AssigneeId.Name} to \"{order.Title}\" [{order.OrderNo}]."); */
         }
     }
 }

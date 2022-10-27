@@ -4,7 +4,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record UpdateAssignedUser(string Id, string? UserId) : IRequest<Result>
+public sealed record UpdateAssignedUser(int Id, string? UserId) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<UpdateAssignedUser>
     {

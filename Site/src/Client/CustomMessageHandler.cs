@@ -27,7 +27,6 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
 
         try 
         {
-
             if (!absPath.Contains("Token") && !absPath.Contains("Authentication"))
             {
                 var token = await _refreshTokenService.TryRefreshToken();

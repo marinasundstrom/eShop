@@ -3,7 +3,7 @@ using MediatR;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record DeleteOrder(string Id) : IRequest<Result>
+public sealed record DeleteOrder(int Id) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<DeleteOrder>
     {
@@ -35,7 +35,7 @@ public sealed record DeleteOrder(string Id) : IRequest<Result>
 
             orderRepository.Remove(order);
 
-            order.AddDomainEvent(new OrderDeleted(order.Id));
+            order.AddDomainEvent(new OrderDeleted(order.OrderNo));
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

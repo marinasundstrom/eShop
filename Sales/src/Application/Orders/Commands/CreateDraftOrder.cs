@@ -33,6 +33,7 @@ public sealed record CreateDraftOrder() : IRequest<Result<OrderDto>>
         public async Task<Result<OrderDto>> Handle(CreateDraftOrder request, CancellationToken cancellationToken)
         {
             var order = new Order();
+            order.OrderNo = await orderRepository.GetAll().CountAsync() + 1;
 
             order.VatIncluded = true;
 
@@ -40,12 +41,12 @@ public sealed record CreateDraftOrder() : IRequest<Result<OrderDto>>
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await domainEventDispatcher.Dispatch(new OrderCreated(order.Id), cancellationToken);
+            await domainEventDispatcher.Dispatch(new OrderCreated(order.OrderNo), cancellationToken);
 
             order = await orderRepository.GetAll()
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
-                .FirstAsync(x => x.Id == order.Id, cancellationToken);
+                .FirstAsync(x => x.OrderNo == order.OrderNo, cancellationToken);
 
             return Result.Success(order!.ToDto());
         }

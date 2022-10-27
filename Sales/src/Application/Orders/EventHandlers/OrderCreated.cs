@@ -18,12 +18,12 @@ public sealed class OrderCreatedEventHandler : IDomainEventHandler<OrderCreated>
 
     public async Task Handle(OrderCreated notification, CancellationToken cancellationToken)
     {
-        var order = await orderRepository.FindByIdAsync(notification.OrderId, cancellationToken);
+        var order = await orderRepository.FindByIdAsync(notification.OrderNo, cancellationToken);
 
         if (order is null)
             return;
 
-        await orderNotificationService.Created(order.Id);
+        //await orderNotificationService.Created(order.OrderNo);
     }
 }
 

@@ -313,15 +313,8 @@
             "type": "integer",
             "name": "status",
             "in": "query",
-            "x-schema": {
-              "$ref": "#/definitions/OrderStatusDto"
-            },
-            "x-nullable": true,
-            "enum": [
-              0,
-              1,
-              2
-            ]
+            "format": "int32",
+            "x-nullable": true
           },
           {
             "type": "string",
@@ -395,11 +388,12 @@
         ],
         "parameters": [
           {
-            "type": "string",
+            "type": "integer",
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": true
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -419,11 +413,12 @@
         "operationId": "Orders_DeleteOrder",
         "parameters": [
           {
-            "type": "string",
+            "type": "integer",
             "name": "id",
             "in": "path",
             "required": true,
-            "x-nullable": true
+            "format": "int32",
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -1203,7 +1198,7 @@
     "OrderDto": {
       "type": "object",
       "required": [
-        "id",
+        "orderNo",
         "date",
         "status",
         "currency",
@@ -1214,8 +1209,9 @@
         "created"
       ],
       "properties": {
-        "id": {
-          "type": "string"
+        "orderNo": {
+          "type": "integer",
+          "format": "int32"
         },
         "date": {
           "type": "string",
@@ -1274,18 +1270,20 @@
       }
     },
     "OrderStatusDto": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "Draft",
-        "Placed",
-        "Canceled"
+      "type": "object",
+      "required": [
+        "id",
+        "name"
       ],
-      "enum": [
-        0,
-        1,
-        2
-      ]
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
     },
     "OrderItemDto": {
       "type": "object",

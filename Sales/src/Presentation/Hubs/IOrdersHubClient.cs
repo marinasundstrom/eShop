@@ -4,11 +4,11 @@ namespace YourBrand.Sales.Presentation.Hubs;
 
 public interface IOrdersHubClient
 {
-    Task Created(string orderId);
+    Task Created(int orderNo);
 
-    Task Updated(string orderId);
+    Task Updated(int orderNo);
 
-    Task Deleted(string orderId);
+    Task Deleted(int orderNo);
 
-    Task StatusUpdated(string orderId, OrderStatusDto status);
+    Task StatusUpdated(int orderNo, OrderStatusDto status);
 }

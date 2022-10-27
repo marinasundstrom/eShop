@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Sales.Infrastructure.Persistence;
 
-public sealed class ApplicationDbContext : DbContext, IUnitOfWork
+public sealed class ApplicationDbContext : DbContext, IUnitOfWork, IApplicationDbContext
 {
     public ApplicationDbContext(
         DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -52,6 +52,8 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork
     public DbSet<Order> Orders { get; set; }
 
     public DbSet<OrderItem> OrderItems { get; set; }
+
+    public DbSet<OrderStatus> OrderStatuses { get; set; }
 
     public DbSet<Cart> Carts { get; set; }
 
