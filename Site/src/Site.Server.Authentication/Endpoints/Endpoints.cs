@@ -34,9 +34,7 @@ public static class Endpoints
             user = new User
             {
                 CustomerId = customer.Id,
-                Email = customer.Email,
-                RefreshToken = string.Empty,
-                RefreshTokenExpiryTime = DateTime.Now
+                Email = customer.Email
             };
             await customerService.AddUser(user);
         }

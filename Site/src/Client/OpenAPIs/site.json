@@ -320,8 +320,7 @@
             "enum": [
               0,
               1,
-              2,
-              3
+              2
             ]
           },
           {
@@ -749,6 +748,68 @@
         }
       }
     },
+    "/api/User/profile": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetProfile",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserProfileDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/User/orders": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetOrders",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "format": "int32",
+            "default": 1,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "pageSize",
+            "in": "query",
+            "format": "int32",
+            "default": 10,
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ItemsResultOfOrderDto"
+            }
+          }
+        }
+      }
+    },
     "/api/WeatherForecast": {
       "get": {
         "tags": [
@@ -1143,13 +1204,22 @@
       "type": "object",
       "required": [
         "id",
+        "date",
         "status",
+        "currency",
         "items",
+        "subTotal",
+        "vat",
+        "total",
         "created"
       ],
       "properties": {
         "id": {
           "type": "string"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
         },
         "status": {
           "$ref": "#/definitions/OrderStatusDto"
@@ -1157,11 +1227,35 @@
         "assigneeId": {
           "$ref": "#/definitions/UserDto"
         },
+        "customerId": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetailsDto"
+        },
+        "shippingDetails": {
+          "$ref": "#/definitions/ShippingDetailsDto"
+        },
         "items": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/OrderItemDto"
           }
+        },
+        "subTotal": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "vat": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "total": {
+          "type": "number",
+          "format": "decimal"
         },
         "created": {
           "type": "string",
@@ -1184,15 +1278,13 @@
       "description": "",
       "x-enumNames": [
         "Draft",
-        "Open",
-        "Archived",
+        "Placed",
         "Canceled"
       ],
       "enum": [
         0,
         1,
-        2,
-        3
+        2
       ]
     },
     "OrderItemDto": {
@@ -1202,6 +1294,7 @@
         "description",
         "unitPrice",
         "quantity",
+        "vatRate",
         "total",
         "created"
       ],
@@ -1223,6 +1316,10 @@
           "format": "decimal"
         },
         "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "vatRate": {
           "type": "number",
           "format": "double"
         },
@@ -1613,6 +1710,30 @@
         },
         "isMainAttribute": {
           "type": "boolean"
+        }
+      }
+    },
+    "UserProfileDto": {
+      "type": "object",
+      "required": [
+        "customerNo",
+        "firstName",
+        "lastName",
+        "ssn"
+      ],
+      "properties": {
+        "customerNo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "ssn": {
+          "type": "string"
         }
       }
     },

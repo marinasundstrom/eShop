@@ -72,7 +72,7 @@ public class TokenService : ITokenService
             issuer: _jwtSettings["Issuer"],
             audience: _jwtSettings["Audience"],
             claims: claims,
-            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings["Jwt:ExpiryTime"])),
+            expires: DateTime.Now.AddMinutes(Convert.ToDouble(_jwtSettings["ExpiryTime"])),
             signingCredentials: signingCredentials);
 
         return tokenOptions;
@@ -98,8 +98,8 @@ public class TokenService : ITokenService
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_jwtSettings["Key"])),
             ValidateLifetime = false,
-            ValidIssuer = _jwtSettings["Jwt:Issuer"],
-            ValidAudience = _jwtSettings["Jwt:Audience"],
+            ValidIssuer = _jwtSettings["Issuer"],
+            ValidAudience = _jwtSettings["Audience"],
         };
 
         var tokenHandler = new JwtSecurityTokenHandler();

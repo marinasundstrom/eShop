@@ -29,8 +29,8 @@ public sealed partial class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<OrderDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]
-    public async Task<ItemsResult<OrderDto>> GetOrders(OrderStatusDto? status, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
-        => await mediator.Send(new GetOrders(status, assigneeId, page, pageSize, sortBy, sortDirection), cancellationToken);
+    public async Task<ItemsResult<OrderDto>> GetOrders(OrderStatusDto? status, string? customerId, string? ssn, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+        => await mediator.Send(new GetOrders(status, customerId, ssn, assigneeId, page, pageSize, sortBy, sortDirection), cancellationToken);
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDto))]

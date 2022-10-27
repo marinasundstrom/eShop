@@ -20,6 +20,8 @@ public class HttpInterceptorService
     {
         var absPath = e.Request.RequestUri.AbsolutePath;
 
+        Console.WriteLine(absPath);
+
         if (!absPath.Contains("Token") && !absPath.Contains("Authentication"))
         {
             var token = await _refreshTokenService.TryRefreshToken();

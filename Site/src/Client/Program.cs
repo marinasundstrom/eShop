@@ -11,14 +11,16 @@ builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(build
 
 builder.Services.AddHttpClient("Site", (sp, http) => {
     http.BaseAddress =  new Uri(builder.HostEnvironment.BaseAddress);
-    http.EnableIntercept(sp);
-});
+    //http.EnableIntercept(sp);
+}).AddHttpMessageHandler<CustomMessageHandler>();
+
+builder.Services.AddScoped<CustomMessageHandler>();
 
 builder.Services.AddAuthServices();
 
 builder.Services.AddServices(builder.Configuration);
 
-builder.Services.AddHttpClientInterceptor();
+//builder.Services.AddHttpClientInterceptor();
 
 builder.Services.AddAuthorizationCore();
 

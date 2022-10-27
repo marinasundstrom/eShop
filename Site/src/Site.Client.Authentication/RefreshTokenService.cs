@@ -20,6 +20,9 @@ public class RefreshTokenService
 
         var user = authState.User;
         var exp = user.FindFirst(c => c.Type.Equals("exp")).Value;
+
+        Console.WriteLine(exp);
+
         var expTime = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(exp));
         var timeUTC = DateTime.UtcNow;
         var diff = expTime - timeUTC;

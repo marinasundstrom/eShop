@@ -6,7 +6,7 @@ using YourBrand.Sales.Domain.Enums;
 
 namespace YourBrand.Sales.Application.Orders.Queries;
 
-public record GetOrders(OrderStatusDto? Status, string? AssigneeId, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<OrderDto>>
+public record GetOrders(OrderStatusDto? Status, string? CustomerId, string? SSN, string? AssigneeId, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<OrderDto>>
 {
     public class Handler : IRequestHandler<GetOrders, ItemsResult<OrderDto>>
     {
@@ -26,6 +26,16 @@ public record GetOrders(OrderStatusDto? Status, string? AssigneeId, int Page = 1
                 query = query.Where(x => x.Status == (OrderStatus)request.Status);
             }
 
+            if (request.CustomerId is not null)
+            {
+                query = query.Where(x => x.CustomerId == request.CustomerId);
+            }
+
+            if (request.SSN is not null)
+            {
+                query = query.Where(x => x.BillingDetails!.SSN == request.SSN);
+            }
+
             if (request.AssigneeId is not null)
             {
                 query = query.Where(x => x.AssigneeId == request.AssigneeId);
@@ -43,6 +53,7 @@ public record GetOrders(OrderStatusDto? Status, string? AssigneeId, int Page = 1
             }
 
             var orders = await query
+                .Include(i => i.Items)
                 .Include(i => i.Assignee)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
