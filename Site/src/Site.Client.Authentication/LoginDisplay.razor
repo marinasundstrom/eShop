@@ -9,7 +9,7 @@
         </Authorized>
         <Authorized>
             <div class="d-flex mt-2">
-                <a class="btn nav-link" href="user/profile">@context.User!.Identity!.Name</a>
+                <a class="btn nav-link" href="user/profile"><i class="fa fa-user"></i></a>
                 <button class="btn nav-link" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Sign out</button>
             </div>
         </Authorized>
@@ -23,6 +23,6 @@
     async Task BeginSignOut()
     {
         await AuthenticationService.Logout();
-        Navigation.NavigateTo("/logout");
+        Navigation.NavigateTo("/");
     }
 }

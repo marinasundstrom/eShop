@@ -88,6 +88,11 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public void Calculate()
     {
+        foreach(var item in Items) 
+        {
+            item.Total = item.UnitPrice * (decimal)item.Quantity;
+        }
+
         VatRate = 0.25;
         Vat = VatIncluded ? Items.Select(x => x.Total.GetVatFromTotal(x.VatRate)).Sum() : Items.Sum(x => (decimal)x.VatRate * x.Total);
         Total = Items.Sum(x => x.Total);

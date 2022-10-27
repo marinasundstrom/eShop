@@ -1,4 +1,5 @@
 @page "/user/profile"
+@attribute [Authorize]
 @inject IUserClient UserClient
 
 <SitePageTitle>Profile</SitePageTitle>
@@ -24,8 +25,20 @@
         @foreach (var order in ordersResult.Items)
         {
             <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#@($"order-{i}")" aria-expanded="@(i == 1 ? "true" : "false")" aria-controls="@($"order-{i}")">
+                <h2 class="accordion-header" id="@($"heading-order-{i}")">
+                    <button class="accordion-button @(i != 1 ? "collapsed" : string.Empty)" type="button" data-bs-toggle="collapse" data-bs-target="#@($"order-{i}")" aria-expanded="@(i == 1 ? "true" : "false")" aria-controls="@($"order-{i}")">
+                            @if(order.Status == OrderStatusDto.Draft) 
+                            {
+                                <i class="fa fa-edit me-3"></i>
+                            }
+                            else if(order.Status == OrderStatusDto.Placed) 
+                            {
+                                <i class="fa fa-file me-3"></i>
+                            }
+                            else if(order.Status == OrderStatusDto.Canceled) 
+                            {
+                                <i class="fa fa-ban me-3"></i>
+                            }
                             <strong class="me-3">
                                 #@order.Id 
                             </strong>
@@ -37,7 +50,7 @@
                             </span>
                     </button>
                 </h2>
-                <div id="@($"order-{i}")" class="accordion-collapse collapse @(i == 1 ? "show" :string.Empty)" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div id="@($"order-{i}")" class="accordion-collapse collapse @(i == 1 ? "show" : string.Empty)" aria-labelledby="@($"heading-order-{i}")" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         <table class="table table-striped table-hover">
                             <thead>

@@ -42,6 +42,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.2.22472.3" />
     <PackageReference Include="Blazor-Analytics" Version="3.11.0" />
     <PackageReference Include="Microsoft.AspNetCore.Components.DataAnnotations.Validation" Version="3.2.0-rc1.20223.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="7.0.0-rc.2.22476.2" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,5 +54,6 @@
 
   <ItemGroup>
     <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
+    <None Remove="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
   </ItemGroup>
 </Project>
