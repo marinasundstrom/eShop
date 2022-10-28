@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Application.Attributes;
 
 namespace YourBrand.Catalog.Application.Attributes;
 
@@ -27,7 +28,7 @@ public record GetAttributeValues(string AttributeId) : IRequest<IEnumerable<Attr
                 .Where(p => p.Attribute.Id == request.AttributeId)
                 .ToArrayAsync();
 
-            return options.Select(x => new AttributeValueDto(x.Id, x.Name, x.Seq));  
+            return options.Select(x => x.ToDto());  
         }
     }
 }

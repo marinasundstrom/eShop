@@ -6,6 +6,8 @@ using YourBrand.Catalog.Application.Common.Models;
 using YourBrand.Catalog.Application.Items.Groups;
 using YourBrand.Catalog.Application.Items.Variants;
 using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Options;
 
 namespace YourBrand.Catalog.Application.Items;
 
@@ -26,6 +28,12 @@ public record GetItems(bool IncludeUnlisted = false, bool GroupItems = true, str
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(pv => pv.Group)
+                .Include(pv => pv.Attributes)
+                .ThenInclude(pv => pv.Values)
+                .Include(pv => pv.Options)
+                .ThenInclude(pv => pv.Values)
+                .Include(pv => pv.Options)
+                .ThenInclude(pv => pv.DefaultValue)
                 .AsQueryable();
 
             if (!request.IncludeUnlisted)
@@ -54,25 +62,18 @@ public record GetItems(bool IncludeUnlisted = false, bool GroupItems = true, str
             {
                 query = query.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? YourBrand.Catalog.Application.SortDirection.Descending : YourBrand.Catalog.Application.SortDirection.Ascending);
             }
+            else 
+            {
+                query = query.OrderBy(x => x.Id);
+            }
 
             var items = await query
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize).AsQueryable()
                 .ToArrayAsync();
 
-            return new ItemsResult<ItemDto>(items.Select(item =>
-            {
-                return new ItemDto(item.Id, item.Name, item.Description,
-                    item.Group is not null ? new Groups.ItemGroupDto(item.Group.Id, item.Group.Name, item.Group.Description, item.Group?.Parent?.Id) : null,
-                    GetImageUrl(item.Image), item.Price.GetValueOrDefault(), item.CompareAtPrice, item.HasVariants, (ItemVisibility?)item.Visibility,
-                    item.AttributeValues.Select(x => x.ToDto()));
-            }),
+            return new ItemsResult<ItemDto>(items.Select(item => item.ToDto()),
             totalCount);
-        }
-
-        private static string? GetImageUrl(string? name)
-        {
-            return name is null ? null : $"http://127.0.0.1:10000/devstoreaccount1/images/{name}";
         }
     }
 }

@@ -36,9 +36,7 @@ public record GetOptions(bool IncludeChoices) : IRequest<IEnumerable<OptionDto>>
 
             var options = await query.ToArrayAsync();
 
-            return options.Select(x => new OptionDto(x.Id, x.Name, x.Description, (Application.OptionType)x.OptionType, x.Group == null ? null : new OptionGroupDto(x.Group.Id, x.Group.Name, x.Group.Description, x.Group.Seq, x.Group.Min, x.Group.Max), x.ItemId, x.Price, x.IsSelected,
-                x.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.ItemId, x.Price, x.Seq)),
-                x.DefaultValue == null ? null : new OptionValueDto(x.DefaultValue.Id, x.DefaultValue.Name, x.DefaultValue.ItemId, x.DefaultValue.Price, x.DefaultValue.Seq), x.MinNumericalValue, x.MaxNumericalValue, x.DefaultNumericalValue, x.TextValueMinLength, x.TextValueMaxLength, x.DefaultTextValue));     
+            return options.Select(x => x.ToDto());     
         }
     }
 }

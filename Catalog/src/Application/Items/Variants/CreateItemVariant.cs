@@ -4,7 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog.Domain;
 using YourBrand.Catalog.Domain.Entities;
-
+using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Options;
 namespace YourBrand.Catalog.Application.Items.Variants;
 
 public record CreateItemVariant(string ItemId, ApiCreateItemVariant Data) : IRequest<ItemDto>
@@ -67,10 +68,7 @@ public record CreateItemVariant(string ItemId, ApiCreateItemVariant Data) : IReq
 
             await _context.SaveChangesAsync();
 
-            return new ItemDto(variant.Id, variant.Name, variant.Description,
-                            variant.Group is not null ? new Groups.ItemGroupDto(variant.Group.Id, variant.Group.Name, variant.Group.Description, variant.Group?.Parent?.Id) : null,
-                            GetImageUrl(item.Image), variant.Price.GetValueOrDefault(), variant.CompareAtPrice, variant.HasVariants, (ItemVisibility?)variant.Visibility,
-                            variant.AttributeValues.Select(x => x.ToDto()));
+            return variant.ToDto();
         }
 
         private static string? GetImageUrl(string? name)

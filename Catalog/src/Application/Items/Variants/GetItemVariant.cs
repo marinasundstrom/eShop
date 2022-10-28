@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog.Application.Items.Variants;
 using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Options;
 
 namespace YourBrand.Catalog.Application.Items.Variants;
 
@@ -33,10 +35,7 @@ public record GetItemVariant(string ItemId, string ItemVariantId) : IRequest<Ite
 
             if(itemVariant is null) return null;
 
-            return new ItemDto(itemVariant.Id, itemVariant.Name, itemVariant.Description,
-                itemVariant is not null ? new Groups.ItemGroupDto(itemVariant.Id, itemVariant.Name, itemVariant.Description, null) : null,
-                GetImageUrl(itemVariant!.Image), itemVariant.Price.GetValueOrDefault(), itemVariant.CompareAtPrice, itemVariant.HasVariants, (ItemVisibility?)itemVariant.Visibility,
-                itemVariant.AttributeValues.Select(x => x.ToDto()));
+            return itemVariant.ToDto();
         }
 
         private static string? GetImageUrl(string? name)

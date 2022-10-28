@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog.Application.Common.Models;
 using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Options;
 
 namespace YourBrand.Catalog.Application.Items.Variants;
 
@@ -49,12 +51,7 @@ public record GetItemVariants(string ItemId,  int Page = 10, int PageSize = 10, 
                 .Take(request.PageSize).AsQueryable()
                 .ToArrayAsync();
 
-            return new ItemsResult<ItemDto>(variants.Select(item => {
-                return new ItemDto(item.Id, item.Name, item.Description,
-                    item.Group is not null ? new Groups.ItemGroupDto(item.Group.Id, item.Group.Name, item.Group.Description, item.Group?.Parent?.Id) : null,
-                                GetImageUrl(item.Image), item.Price.GetValueOrDefault(), item.CompareAtPrice, item.HasVariants, (ItemVisibility?)item.Visibility,
-                                item.AttributeValues.Select(x => x.ToDto()));
-            }), totalCount);
+            return new ItemsResult<ItemDto>(variants.Select(item => item.ToDto()), totalCount);
         }
     private static string? GetImageUrl(string? name)
     {

@@ -1,6 +1,8 @@
 using MediatR;
 
 using YourBrand.Catalog.Domain;
+using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Options;
 
 namespace YourBrand.Catalog.Application.Items.Variants;
 
@@ -24,15 +26,7 @@ public record FindItemVariant(string ItemId, Dictionary<string, string?> Selecte
 
             if (variant is null) return null;
 
-            return new ItemDto(variant.Id, variant.Name, variant.Description,
-                variant.Group is not null ? new Groups.ItemGroupDto(variant.Group.Id, variant.Group.Name, variant.Group.Description, null) : null,
-                GetImageUrl(variant.Image), variant.Price.GetValueOrDefault(), variant.CompareAtPrice, variant.HasVariants, (ItemVisibility?)variant.Visibility,
-                variant.AttributeValues.Select(x => x.ToDto()));
-        }
-
-        private static string? GetImageUrl(string? name)
-        {
-            return name is null ? null : $"http://127.0.0.1:10000/devstoreaccount1/images/{name}";
+            return variant.ToDto();
         }
     }
 }

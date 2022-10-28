@@ -1,7 +1,8 @@
 using MediatR;
 
 using YourBrand.Catalog.Domain;
-
+using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Options;
 namespace YourBrand.Catalog.Application.Items.Variants;
 
 public record FindItemVariants(string ItemId, Dictionary<string, string?> SelectedOptions) : IRequest<IEnumerable<ItemDto>>
@@ -25,10 +26,7 @@ public record FindItemVariants(string ItemId, Dictionary<string, string?> Select
                 .OrderBy(x => x.Id)
                 .Select(item =>
                 {
-                    return new ItemDto(item.Id, item.Name, item.Description,
-                        item.Group is not null ? new Groups.ItemGroupDto(item.Group.Id, item.Group.Name, item.Group.Description, item.Group?.Parent?.Id) : null,
-                        GetImageUrl(item.Image), item.Price.GetValueOrDefault(), item.CompareAtPrice, item.HasVariants, (ItemVisibility?)item.Visibility,
-                        item.AttributeValues.Select(x => x.ToDto()));
+                    return item.ToDto();
                 });
         }
 
