@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.SignalR;
 using Site.Server.Hubs;
 using Site.Shared;
 using YourBrand.Sales;
+using System.Text.Json;
 
 namespace Site.Server.Controllers;
 
@@ -44,7 +45,42 @@ public class CartsController : ControllerBase
         {
             var item = await _itemsClient.GetItemAsync(cartItem.ItemId, cancellationToken);
 
-            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, 0), (int)cartItem.Quantity, 0, cartItem.Data));
+            var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            });
+
+            var price = item.Price;
+            var compareAtPrice = item.CompareAtPrice;
+
+            List<string> optionTexts = new List<string>() { item.Description };
+
+            foreach(var option in options) 
+            {
+                var opt = item.Options.FirstOrDefault(x => x.Id == option.Id);
+
+                if(opt is not null) 
+                {
+                    if(option.IsSelected.GetValueOrDefault()) 
+                    {
+                        price += option.Price.GetValueOrDefault();
+                        compareAtPrice += option.Price.GetValueOrDefault();
+
+                        optionTexts.Add(option.Name);
+                    }
+                    else if (option.SelectedValueId is not null)
+                    {
+                        var value = opt.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
+                        
+                        price += value.Price.GetValueOrDefault();
+                        compareAtPrice += value.Price.GetValueOrDefault();
+
+                        optionTexts.Add(value.Name);
+                    }
+                }
+            }
+
+            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, string.Join(", ", optionTexts), new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, price, compareAtPrice, 0), (int)cartItem.Quantity, 0, cartItem.Data));
         }
 
         return new SiteCartDto(cart.Id, items);
@@ -75,6 +111,7 @@ public class CartsController : ControllerBase
             Quantity = dto.Quantity,
             Data = dto.Data
         };
+
         await _cartsClient.AddCartItemAsync(id, dto2, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
@@ -114,3 +151,24 @@ public record SiteItemGroupDto(string Id, string Name);
 public record SiteCartDto(string Id, IEnumerable<SiteCartItemDto> Items);
 
 public record SiteCartItemDto(string Id, SiteItemDto Item, int Quantity, decimal Total, string? Data);
+
+public class Option
+{
+    public string Id { get; set; } = null!;
+
+    public string Name { get; set; } = null!;
+
+    public int OptionType { get; set; }
+
+    public string? ItemId { get; set; }
+
+    public decimal? Price { get; set; }
+
+    public string? TextValue { get; set; }
+
+    public int? NumericalValue { get; set; }
+
+    public bool? IsSelected { get; set; }
+
+    public string? SelectedValueId { get; set; }
+}

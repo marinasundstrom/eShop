@@ -7,7 +7,7 @@
 name: commerce
 
 services:
-  - name: catalog
+  - name: catalog-web
     project: Catalog/src/Web/Web.csproj
     bindings:
     - name: http

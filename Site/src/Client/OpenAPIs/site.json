@@ -1621,6 +1621,8 @@
         "name",
         "price",
         "hasVariants",
+        "attributes2",
+        "options",
         "attributes"
       ],
       "properties": {
@@ -1652,6 +1654,18 @@
         },
         "visibility": {
           "$ref": "#/definitions/ItemVisibility"
+        },
+        "attributes2": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttributeDto"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionDto"
+          }
         },
         "attributes": {
           "type": "array",

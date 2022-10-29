@@ -2499,6 +2499,18 @@
               }
             ]
           },
+          "attributes2": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttributeDto"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OptionDto"
+            }
+          },
           "attributes": {
             "type": "array",
             "items": {

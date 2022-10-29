@@ -79,7 +79,7 @@
                             }
                             else if(itemOption.OptionType == OptionType.Choice) 
                             {
-                                <InputSelect @bind-Value="itemOption.SelectedValue" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
+                                <InputSelect @bind-Value="itemOption.SelectedValueId" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
                                     @* <option selected>None</option> *@
                                     @foreach(var value in itemOption.Values!) 
                                     {
@@ -226,7 +226,7 @@
                 ItemId = option.ItemId,
                 IsSelected = option.IsSelected,
                 Values = option.Values,
-                SelectedValue = option.DefaultValue?.Id,
+                SelectedValueId = option.DefaultValue?.Id,
                 MinNumericalValue = option.MinNumericalValue,
                 MaxNumericalValue = option.MaxNumericalValue,
                 NumericalValue = option.DefaultNumericalValue,
@@ -260,8 +260,9 @@
                     Name = x.Name,
                     OptionType = (int)x.OptionType,
                     ItemId = x.ItemId,
+                    Price = x.Price,
                     IsSelected = x.IsSelected,
-                    SelectedValue = x.SelectedValue,
+                    SelectedValueId = x.SelectedValueId,
                     NumericalValue = x.NumericalValue,
                     TextValue = x.TextValue
                 };
@@ -299,7 +300,7 @@
 
         public IEnumerable<OptionValueDto>? Values { get; set; }
 
-        public string? SelectedValue { get; set; }
+        public string? SelectedValueId { get; set; }
 
         public int? MinNumericalValue { get; set; }
 
@@ -324,12 +325,14 @@
 
         public string? ItemId { get; set; }
 
+        public decimal? Price { get; set; }
+
         public string? TextValue { get; set; }
 
         public int? NumericalValue { get; set; }
 
         public bool? IsSelected { get; set; }
 
-        public string? SelectedValue { get; set; }
+        public string? SelectedValueId { get; set; }
     }
-    }
+}
