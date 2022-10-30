@@ -12,9 +12,9 @@ partial class ItemsController : Controller
 {
 
     [HttpGet("Groups")]
-    public async Task<ActionResult<IEnumerable<ItemGroupDto>>> GetItemGroups(bool includeWithUnlistedItems = false)
+    public async Task<ActionResult<IEnumerable<ItemGroupDto>>> GetItemGroups(string? parentGroupId = null, bool includeWithUnlistedItems = false, bool includeJustTopLevel = true)
     {
-        return Ok(await _mediator.Send(new GetItemGroups(includeWithUnlistedItems)));
+        return Ok(await _mediator.Send(new GetItemGroups(parentGroupId, includeWithUnlistedItems, includeJustTopLevel)));
     }
 
     [HttpPost("Groups")]

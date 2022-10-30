@@ -91,7 +91,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = await ItemsClient.GetItemGroupsAsync();
+        itemGroups = await ItemsClient.GetItemGroupsAsync(null);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -74,7 +74,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = await ItemsClient.GetItemGroupsAsync(false);
+        itemGroups = await ItemsClient.GetItemGroupsAsync(null, false, true);
 
         await OnPageChanged(1);
     }

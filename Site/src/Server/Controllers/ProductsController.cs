@@ -83,8 +83,8 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("Categories")]
-    public async Task<ICollection<ItemGroupDto>?> GetItemGroups(CancellationToken cancellationToken = default)
+    public async Task<ICollection<ItemGroupDto>?> GetItemGroups(string? parentGroupId, CancellationToken cancellationToken = default)
     {
-        return await _itemsClient.GetItemGroupsAsync(false, cancellationToken);
+        return await _itemsClient.GetItemGroupsAsync(parentGroupId, false, true, cancellationToken);
     }
 }

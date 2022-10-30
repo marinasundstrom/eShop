@@ -729,6 +729,14 @@
           "application/json",
           "text/json"
         ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "parentGroupId",
+            "in": "query",
+            "x-nullable": true
+          }
+        ],
         "responses": {
           "200": {
             "x-nullable": false,
@@ -1648,6 +1656,10 @@
         "compareAtPrice": {
           "type": "number",
           "format": "decimal"
+        },
+        "quantityAvailable": {
+          "type": "integer",
+          "format": "int32"
         },
         "hasVariants": {
           "type": "boolean"

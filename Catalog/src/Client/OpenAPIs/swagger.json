@@ -987,13 +987,31 @@
         "operationId": "Items_GetItemGroups",
         "parameters": [
           {
+            "name": "parentGroupId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
             "name": "includeWithUnlistedItems",
             "in": "query",
             "schema": {
               "type": "boolean",
               "default": false
             },
-            "x-position": 1
+            "x-position": 2
+          },
+          {
+            "name": "includeJustTopLevel",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 3
           }
         ],
         "responses": {

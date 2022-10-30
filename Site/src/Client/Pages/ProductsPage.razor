@@ -10,6 +10,16 @@
 <div class="container">
     <h1>@(itemGroup?.Name ?? "Items")</h1>
 
+    @if(subGroups is not null) 
+    {
+        <div class="mb-3">
+            @foreach(var group in subGroups) 
+            {
+                <a href="@($"/items/{itemGroup?.Id}/{group?.Id}")"><h5 class="badge rounded-pill text-bg-secondary">@group.Name</h5></a>
+            }
+        </div>
+    }
+
     @if (itemResults is not null)
     {
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -49,6 +59,7 @@
 @code {
     ItemGroupDto? itemGroup;
     IEnumerable<ItemGroupDto>? itemGroups;
+    IEnumerable<ItemGroupDto>? subGroups;
     ItemsResultOfSiteItemDto? itemResults;
 
     int pageSize = 10;
@@ -90,7 +101,7 @@
         if (!ApplicationState.TryTakeFromJson<IEnumerable<ItemGroupDto>>(
             "itemGroups", out var restored0))
         {
-            itemGroups = await ItemsClient.GetItemGroupsAsync();
+            itemGroups = await ItemsClient.GetItemGroupsAsync(null);
         }
         else
         {
@@ -100,6 +111,8 @@
         if(GroupId is not null) 
         {
             itemGroup = itemGroups.FirstOrDefault(x => x.Id == GroupId);
+
+            subGroups = await ItemsClient.GetItemGroupsAsync(itemGroup?.Id);
         }
         else 
         {
