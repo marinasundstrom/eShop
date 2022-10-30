@@ -118,7 +118,7 @@
             <HeaderContent>
                 <MudTh>Description</MudTh>
                 <MudTh>Item Id</MudTh>
-                <MudTh>Unit Price (excl. VAT)</MudTh>
+                <MudTh>Unit Price</MudTh>
                 <MudTh>Quantity</MudTh>
                 <MudTh>Unit</MudTh>
                 <MudTh>VAT Rate</MudTh>
@@ -132,7 +132,7 @@
             <RowTemplate Context="orderItem">
                 <MudTd DataLabel="Description">@orderItem.Description</MudTd>
                 <MudTd DataLabel="Item Id">@orderItem.ItemId</MudTd>
-                <MudTd DataLabel="Unit Price (excl. VAT)">@orderItem.UnitPrice</MudTd>
+                <MudTd DataLabel="Unit Price">@orderItem.UnitPrice</MudTd>
                 <MudTd DataLabel="Quantity">@orderItem.Quantity</MudTd>
                 <MudTd DataLabel="Unit">@orderItem.Unit</MudTd>
                 <MudTd DataLabel="VAT Rate">@(orderItem.VatRate * 100)%</MudTd>

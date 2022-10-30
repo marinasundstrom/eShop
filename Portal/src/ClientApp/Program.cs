@@ -40,6 +40,7 @@ moduleBuilder.ConfigureServices();
 var navManager = app.Services
     .GetRequiredService<NavManager>();
 
+/*
 var resources = app.Services.GetRequiredService<IStringLocalizer<YourBrand.Portal.Resources>>();
 
 var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => resources["Administration"]);
@@ -58,6 +59,7 @@ group.CreateItem("setup", options =>
     options.Icon = MudBlazor.Icons.Material.Filled.Settings;
     options.Href = "/setup";
 });
+*/
 
 await app.Services.Localize();
 
