@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog.Domain;
 
-namespace YourBrand.Catalog.Application.Items.Options;
+namespace YourBrand.Catalog.Application.Items.Groups;
 
 public record DeleteItemGroup(string ItemGroupId) : IRequest
 {

@@ -10,15 +10,18 @@ public class ItemsController : ControllerBase
 {
     private readonly ILogger<ItemsController> _logger;
     private readonly YourBrand.Catalog.IItemsClient _itemsClient;
+    private readonly IItemGroupsClient itemGroupsClient;
     private readonly YourBrand.Inventory.IItemsClient _inventoryItemsClient;
 
     public ItemsController(
         ILogger<ItemsController> logger, 
         YourBrand.Catalog.IItemsClient itemsClient,
+        YourBrand.Catalog.IItemGroupsClient itemGroupsClient,
         YourBrand.Inventory.IItemsClient inventoryItemsClient)
     {
         _logger = logger;
         _itemsClient = itemsClient;
+        this.itemGroupsClient = itemGroupsClient;
         _inventoryItemsClient = inventoryItemsClient;
     }
 
@@ -85,6 +88,6 @@ public class ItemsController : ControllerBase
     [HttpGet("Categories")]
     public async Task<ICollection<ItemGroupDto>?> GetItemGroups(string? parentGroupId, CancellationToken cancellationToken = default)
     {
-        return await _itemsClient.GetItemGroupsAsync(parentGroupId, false, true, cancellationToken);
+        return await itemGroupsClient.GetItemGroupsAsync(parentGroupId, false, false, cancellationToken);
     }
 }

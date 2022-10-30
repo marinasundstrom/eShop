@@ -22,6 +22,12 @@ public static class ServiceExtensions
 
         builder?.Invoke(b);
 
+        var b2 = services
+            .AddHttpClient(nameof(ItemGroupsClient), configureClient)
+            .AddTypedClient<IItemGroupsClient>((http, sp) => new ItemGroupsClient(http));
+
+        builder?.Invoke(b2);
+
         return services;
     }
 

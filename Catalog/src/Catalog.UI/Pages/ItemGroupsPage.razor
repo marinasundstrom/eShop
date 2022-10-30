@@ -1,5 +1,6 @@
 ﻿@page "/items/groups"
 @inject IItemsClient ItemsClient
+@inject IItemGroupsClient ItemGroupsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
@@ -41,7 +42,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = (await ItemsClient.GetItemGroupsAsync(true)).ToList();
+        itemGroups = (await ItemGroupsClient.GetItemGroupsAsync(null, true, false)).ToList();
     }
 
     async Task CreateGroup()
@@ -81,7 +82,7 @@
             return;
         }
 
-        await ItemsClient.DeleteItemGroupAsync(itemGroup.Id);
+        await ItemGroupsClient.DeleteItemGroupAsync(itemGroup.Id);
 
         itemGroups.Remove(itemGroup);
     }

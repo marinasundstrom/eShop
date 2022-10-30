@@ -1,5 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @inject IItemsClient ItemsClient
+@inject IItemGroupsClient ItemGroupsClient
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
@@ -47,7 +48,7 @@
             Name = Name,
             Description = Description,
         };
-        var result = await ItemsClient.UpdateItemGroupAsync(ItemGroup.Id, data);
+        var result = await ItemGroupsClient.UpdateItemGroupAsync(ItemGroup.Id, data);
         Modal.Close(DialogResult.Ok(result));
     }
 

@@ -1,5 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @inject IItemsClient ItemsClient
+@inject IItemGroupsClient ItemGroupsClient
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
@@ -63,7 +64,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var groups = await ItemsClient.GetItemGroupsAsync(true);
+        var groups = await ItemGroupsClient.GetItemGroupsAsync(null, true, true);
         Groups = groups.ToList();
         Group = groups.First();
     }

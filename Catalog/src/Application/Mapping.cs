@@ -11,7 +11,7 @@ public static class Mapping
     public static ItemDto ToDto(this Domain.Entities.Item item)
     {
          return new ItemDto(item.Id, item.Name, item.Description,
-                item.Group is not null ? new ItemGroupDto(item.Group.Id, item.Group.Name, item.Group.Description, item.Group?.Parent?.Id) : null,
+                item.Group?.ToDto(),
                 GetImageUrl(item.Image), 
                 item.Price.GetValueOrDefault(), 
                 item.CompareAtPrice, 
@@ -21,6 +21,11 @@ public static class Mapping
                 item.Attributes.Select(x => x.ToDto()),
                 item.Options.Select(x => x.ToDto()),
                 item.AttributeValues.Select(x => x.ToDto()));
+    }
+
+    public static ItemGroupDto ToDto(this Domain.Entities.ItemGroup itemGroup)
+    {
+         return new ItemGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup.Parent?.Id);
     }
  
     private static string? GetImageUrl(string? name)

@@ -63,21 +63,39 @@
         }
       }
     },
-    "/v1/Options": {
+    "/v1/ItemGroups": {
       "get": {
         "tags": [
-          "Options"
+          "ItemGroups"
         ],
-        "operationId": "Options_GetOptions",
+        "operationId": "ItemGroups_GetItemGroups",
         "parameters": [
           {
-            "name": "includeChoices",
+            "name": "parentGroupId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "includeWithUnlistedItems",
             "in": "query",
             "schema": {
               "type": "boolean",
               "default": false
             },
-            "x-position": 1
+            "x-position": 2
+          },
+          {
+            "name": "includeJustTopLevel",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "x-position": 3
           }
         ],
         "responses": {
@@ -86,7 +104,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OptionDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ItemGroupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ItemGroups"
+        ],
+        "operationId": "ItemGroups_CreateItemGroup",
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiCreateItemGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemGroupDto"
                 }
               }
             }
@@ -94,15 +145,15 @@
         }
       }
     },
-    "/v1/Options/{optionId}/Values": {
+    "/v1/ItemGroups/{id}": {
       "get": {
         "tags": [
-          "Options"
+          "ItemGroups"
         ],
-        "operationId": "Options_GetOptionValues",
+        "operationId": "ItemGroups_GetItemGroup",
         "parameters": [
           {
-            "name": "optionId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -118,7 +169,80 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OptionValueDto"
+                  "$ref": "#/components/schemas/ItemGroupDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ItemGroups"
+        ],
+        "operationId": "ItemGroups_UpdateItemGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiUpdateItemGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemGroupDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ItemGroups"
+        ],
+        "operationId": "ItemGroups_DeleteItemGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -962,163 +1086,6 @@
               "$ref": "#/components/schemas/ItemVisibility"
             },
             "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Items/Groups": {
-      "get": {
-        "tags": [
-          "Items"
-        ],
-        "operationId": "Items_GetItemGroups",
-        "parameters": [
-          {
-            "name": "parentGroupId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "includeWithUnlistedItems",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 2
-          },
-          {
-            "name": "includeJustTopLevel",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": true
-            },
-            "x-position": 3
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ItemGroupDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Items"
-        ],
-        "operationId": "Items_CreateItemGroup",
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemGroup"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemGroupDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Items/Groups/{itemGroupId}": {
-      "put": {
-        "tags": [
-          "Items"
-        ],
-        "operationId": "Items_UpdateItemGroup",
-        "parameters": [
-          {
-            "name": "itemGroupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemGroup"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemGroupDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Items"
-        ],
-        "operationId": "Items_DeleteItemGroup",
-        "parameters": [
-          {
-            "name": "itemGroupId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
           }
         ],
         "responses": {
@@ -2121,6 +2088,69 @@
           }
         }
       }
+    },
+    "/v1/Options": {
+      "get": {
+        "tags": [
+          "Options"
+        ],
+        "operationId": "Options_GetOptions",
+        "parameters": [
+          {
+            "name": "includeChoices",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Options/{optionId}/Values": {
+      "get": {
+        "tags": [
+          "Options"
+        ],
+        "operationId": "Options_GetOptionValues",
+        "parameters": [
+          {
+            "name": "optionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptionValueDto"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2220,7 +2250,7 @@
           }
         }
       },
-      "OptionDto": {
+      "ItemGroupDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2234,97 +2264,16 @@
             "type": "string",
             "nullable": true
           },
-          "optionType": {
-            "$ref": "#/components/schemas/OptionType"
-          },
-          "group": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/OptionGroupDto"
-              }
-            ]
-          },
-          "itemId": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "isSelected": {
-            "type": "boolean"
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OptionValueDto"
-            }
-          },
-          "defaultValue": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/OptionValueDto"
-              }
-            ]
-          },
-          "minNumericalValue": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "maxNumericalValue": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "defaultNumericalValue": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "textValueMinLength": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "textValueMaxLength": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "defaultTextValue": {
+          "parentGroupId": {
             "type": "string",
             "nullable": true
           }
         }
       },
-      "OptionType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "YesOrNo",
-          "Choice",
-          "NumericalValue",
-          "TextValue"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
-      },
-      "OptionGroupDto": {
+      "ApiCreateItemGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string"
-          },
           "name": {
             "type": "string"
           },
@@ -2332,19 +2281,25 @@
             "type": "string",
             "nullable": true
           },
-          "seq": {
-            "type": "integer",
-            "format": "int32",
+          "parentGroupId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ApiUpdateItemGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
             "nullable": true
           },
-          "min": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "max": {
-            "type": "integer",
-            "format": "int32",
+          "parentGroupId": {
+            "type": "string",
             "nullable": true
           }
         }
@@ -2542,7 +2497,19 @@
           }
         }
       },
-      "ItemGroupDto": {
+      "ItemVisibility": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Unlisted",
+          "Listed"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "OptionDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2556,23 +2523,120 @@
             "type": "string",
             "nullable": true
           },
-          "parentGroupId": {
+          "optionType": {
+            "$ref": "#/components/schemas/OptionType"
+          },
+          "group": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OptionGroupDto"
+              }
+            ]
+          },
+          "itemId": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "isSelected": {
+            "type": "boolean"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OptionValueDto"
+            }
+          },
+          "defaultValue": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OptionValueDto"
+              }
+            ]
+          },
+          "minNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "maxNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMinLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMaxLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultTextValue": {
             "type": "string",
             "nullable": true
           }
         }
       },
-      "ItemVisibility": {
+      "OptionType": {
         "type": "integer",
         "description": "",
         "x-enumNames": [
-          "Unlisted",
-          "Listed"
+          "YesOrNo",
+          "Choice",
+          "NumericalValue",
+          "TextValue"
         ],
         "enum": [
           0,
-          1
+          1,
+          2,
+          3
         ]
+      },
+      "OptionGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "seq": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "max": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
       },
       "ItemVariantAttributeDto": {
         "type": "object",
@@ -2682,40 +2746,6 @@
                 "$ref": "#/components/schemas/ItemVisibility"
               }
             ]
-          }
-        }
-      },
-      "ApiCreateItemGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ApiUpdateItemGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
           }
         }
       },

@@ -1,5 +1,6 @@
 ﻿@page "/items"
 @inject IItemsClient ItemsClient
+@inject IItemGroupsClient ItemGroupsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
@@ -74,7 +75,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = await ItemsClient.GetItemGroupsAsync(null, false, true);
+        itemGroups = await ItemGroupsClient.GetItemGroupsAsync(null, false, true);
 
         await OnPageChanged(1);
     }

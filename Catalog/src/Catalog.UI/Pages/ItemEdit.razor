@@ -1,6 +1,7 @@
 ﻿@page "/items/{itemId}/edit"
 @inject NavigationManager NavigationManager
 @inject IItemsClient ItemsClient
+@inject IItemGroupsClient ItemGroupsClient
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @using System.ComponentModel.DataAnnotations
@@ -327,7 +328,7 @@ else
         attributes = (await ItemsClient.GetItemAttributesAsync(ItemId)).ToList();
         options = (await ItemsClient.GetItemOptionsAsync(ItemId, null)).ToList();
 
-        var groups = await ItemsClient.GetItemGroupsAsync(true);
+        var groups = await ItemGroupsClient.GetItemGroupsAsync(null, true, true);
         Groups = groups.ToList();
 
         Name = item.Name;

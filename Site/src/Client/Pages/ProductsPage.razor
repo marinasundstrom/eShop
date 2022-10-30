@@ -112,7 +112,7 @@
         {
             itemGroup = itemGroups.FirstOrDefault(x => x.Id == GroupId);
 
-            subGroups = await ItemsClient.GetItemGroupsAsync(itemGroup?.Id);
+            subGroups = await ItemsClient.GetItemGroupsAsync(GroupId!);
         }
         else 
         {
