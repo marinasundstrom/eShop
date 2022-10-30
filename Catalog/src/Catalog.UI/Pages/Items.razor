@@ -46,7 +46,7 @@
                                     <MudText Typo="Typo.body2">@item.Description</MudText>
                                 </MudCardContent>
                                 <MudCardActions>
-                                    <MudText Typo="Typo.body2">@item.Price.ToString("c") <span class="ms-2 me-3" style="text-decoration: line-through; color: red;">@item.CompareAtPrice?.ToString("c")</span></MudText>
+                                    <MudText Typo="Typo.body2"><span class="ms-2 me-3" style="text-decoration: line-through; color: gray;">@item.CompareAtPrice?.ToString("c")</span> @item.Price.ToString("c")</MudText>
                                     <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/items/{item.Id}/edit")">Learn More</MudButton>
                                 </MudCardActions>
                             </MudCard>

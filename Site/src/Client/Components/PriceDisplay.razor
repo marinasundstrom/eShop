@@ -1,23 +1,24 @@
 @using System.Globalization 
 
+@if (CompareAtPrice != null)
+{
+    <span class="text-muted" style="text-decoration: line-through; @(Big ? "font-size: 24px;" : "font-size: 14px"); color: gray !important; margin-right: 10px">@FormatPrice(CompareAtPrice.GetValueOrDefault())</span>
+}
+
 @if (Price == 0)
 {
-    <span style="color: red; font-weight: bold">Free</span>
+    <span style="color: red; font-weight: bold; margin-left: 10px; ">Free</span>
 }
 else
 {
-    @if (CompareAtPrice == null)
+    @if (CompareAtPrice is null)
     {
         <span style="font-weight: bold">@FormatPrice(Price)</span>
     }
     else
     {
-        <span style="margin-right: 10px; font-weight: bold">@FormatPrice(Price)</span>
+        <span style="font-weight: bold; color: red;">@FormatPrice(Price)</span>
     }
-}
-@if (CompareAtPrice != null)
-{
-    <span class="text-muted" style="text-decoration: line-through; @(Big ? "font-size: 24px;" : "font-size: 14px"); color: red !important">@FormatPrice(CompareAtPrice.GetValueOrDefault())</span>
 }
 
 @code {
