@@ -46,8 +46,8 @@ public class WarehouseItem : AuditableEntity
 
         QuantityOnHand = quantity;
 
-        AddDomainEvent(new WarehouseItemQuantityOnHandUpdated(Id, WarehouseId, QuantityOnHand, oldQuantityOnHand));
-        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, WarehouseId, QuantityAvailable, oldQuantityAvailable));
+        AddDomainEvent(new WarehouseItemQuantityOnHandUpdated(Id, ItemId, WarehouseId, QuantityOnHand, oldQuantityOnHand));
+        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, ItemId, WarehouseId, QuantityAvailable, oldQuantityAvailable));
     }
 
     public void Receive(int quantity)
@@ -57,8 +57,8 @@ public class WarehouseItem : AuditableEntity
 
         QuantityOnHand += quantity;
 
-        AddDomainEvent(new WarehouseItemQuantityOnHandUpdated(Id, WarehouseId, QuantityOnHand, oldQuantityOnHand));
-        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, WarehouseId, QuantityAvailable, oldQuantityAvailable));
+        AddDomainEvent(new WarehouseItemQuantityOnHandUpdated(Id, ItemId, WarehouseId, QuantityOnHand, oldQuantityOnHand));
+        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, ItemId, WarehouseId, QuantityAvailable, oldQuantityAvailable));
     }
 
     /// <summary>
@@ -81,9 +81,9 @@ public class WarehouseItem : AuditableEntity
             //AddDomainEvent(new WarehouseItemQuantityReservedUpdated(Id, WarehouseId, quantity));
         }
 
-        AddDomainEvent(new WarehouseItemsPicked(Id, WarehouseId, quantity));
-        AddDomainEvent(new WarehouseItemQuantityOnHandUpdated(Id, WarehouseId, QuantityOnHand, oldQuantityOnHand));
-        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, WarehouseId, QuantityAvailable, oldQuantityAvailable));
+        AddDomainEvent(new WarehouseItemsPicked(Id, ItemId, WarehouseId, quantity));
+        AddDomainEvent(new WarehouseItemQuantityOnHandUpdated(Id, ItemId, WarehouseId, QuantityOnHand, oldQuantityOnHand));
+        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, ItemId, WarehouseId, QuantityAvailable, oldQuantityAvailable));
     }
 
     public void Ship(int quantity, bool fromPicked = false)
@@ -94,10 +94,10 @@ public class WarehouseItem : AuditableEntity
         if(fromPicked) 
         {
             QuantityPicked -= quantity;
-            AddDomainEvent(new WarehouseItemsPicked(Id, WarehouseId, quantity));
+            AddDomainEvent(new WarehouseItemsPicked(Id, ItemId, WarehouseId, quantity));
         }
 
-        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, WarehouseId, QuantityAvailable, oldQuantityAvailable));
+        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, ItemId, WarehouseId, QuantityAvailable, oldQuantityAvailable));
     }
 
     /// <summary>
@@ -112,8 +112,8 @@ public class WarehouseItem : AuditableEntity
 
         QuantityReserved += quantity;
 
-        AddDomainEvent(new WarehouseItemsReserved(Id, WarehouseId, quantity));
-        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, WarehouseId, QuantityAvailable, oldQuantityAvailable));
+        AddDomainEvent(new WarehouseItemsReserved(Id, ItemId, WarehouseId, quantity));
+        AddDomainEvent(new WarehouseItemQuantityAvailableUpdated(Id, ItemId, WarehouseId, QuantityAvailable, oldQuantityAvailable));
     }
 
     /// <summary>

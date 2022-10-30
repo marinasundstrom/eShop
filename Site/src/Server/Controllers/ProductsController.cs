@@ -29,14 +29,16 @@ public class ItemsController : ControllerBase
         List<SiteItemDto> items = new List<SiteItemDto>();
         foreach(var item in result.Items) 
         {
+            /*
             int? available = null;
             try 
             {
                 var inventoryItem = await _inventoryItemsClient.GetItemAsync(item.Id, cancellationToken);
                 available = inventoryItem.QuantityAvailable;
             } catch {}
+            */
 
-            items.Add(new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, available));
+            items.Add(new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable));
         }
         return new ItemsResult<SiteItemDto>(items, result.TotalItems);
     }
@@ -45,13 +47,15 @@ public class ItemsController : ControllerBase
     public async Task<SiteItemDto?> GetItem(string id, CancellationToken cancellationToken = default)
     {
         var item = await _itemsClient.GetItemAsync(id, cancellationToken);
+        /*
         int? available = null;
         try 
         {
             var inventoryItem = await _inventoryItemsClient.GetItemAsync(item.Id, cancellationToken);
             available = inventoryItem.QuantityAvailable;
         } catch {}
-        return new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, available);
+        */
+        return new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable);
     }
 
     [HttpGet("{id}/Attributes")]

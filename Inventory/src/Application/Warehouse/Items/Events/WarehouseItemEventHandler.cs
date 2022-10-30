@@ -3,6 +3,8 @@ using YourBrand.Inventory.Domain.Events;
 using YourBrand.Inventory.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using YourBrand.Inventory.Application.Common;
+using YourBrand.Inventory.Contracts;
+using MassTransit;
 
 namespace YourBrand.Inventory.Application.Warehouses.Items.Events;
 
@@ -14,10 +16,12 @@ public class WarehouseItemEventHandler
   IDomainEventHandler<WarehouseItemQuantityAvailableUpdated>
 {
     private readonly IApplicationDbContext _context;
+    private readonly IPublishEndpoint publishEndpoint;
 
-    public WarehouseItemEventHandler(IApplicationDbContext context)
+    public WarehouseItemEventHandler(IApplicationDbContext context, IPublishEndpoint publishEndpoint)
     {
         _context = context;
+        this.publishEndpoint = publishEndpoint;
     }
 
     public async Task Handle(WarehouseItemCreated notification, CancellationToken cancellationToken)
@@ -38,6 +42,6 @@ public class WarehouseItemEventHandler
 
     public async Task Handle(WarehouseItemQuantityAvailableUpdated notification, CancellationToken cancellationToken)
     {
-
+        await publishEndpoint.Publish(new QuantityAvailableChanged(notification.ItemId, notification.WarehouseId, notification.Quantity));
     }
 }

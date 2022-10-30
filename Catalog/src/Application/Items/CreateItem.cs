@@ -25,7 +25,9 @@ public record CreateItem(string? Id, string Name, bool HasVariants, string? Desc
         public async Task<ItemDto?> Handle(CreateItem request, CancellationToken cancellationToken)
         {
             var group = await _context.ItemGroups
-            .FirstOrDefaultAsync(x => x.Id == request.GroupId);
+                .Include(x => x.Attributes)
+                .Include(x => x.Options)
+                .FirstOrDefaultAsync(x => x.Id == request.GroupId);
 
             var item = new Item()
             {
@@ -36,6 +38,16 @@ public record CreateItem(string? Id, string Name, bool HasVariants, string? Desc
                 Price = request.Price,
                 HasVariants = request.HasVariants
             };
+
+            foreach(var attribute in group!.Attributes) 
+            {
+                item.Attributes.Add(attribute);
+            }
+
+            foreach(var option in group.Options) 
+            {
+                item.Options.Add(option);
+            }
 
             if (request.Visibility == null)
             {

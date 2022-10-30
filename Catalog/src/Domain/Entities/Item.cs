@@ -28,6 +28,8 @@ public class Item : IAggregateRoot
 
     public decimal? CompareAtPrice { get; set; }
 
+    public int? QuantityAvailable { get; set; }
+
     public decimal? ShippingFee { get; set; }
 
     public bool HasVariants { get; set; } = false;

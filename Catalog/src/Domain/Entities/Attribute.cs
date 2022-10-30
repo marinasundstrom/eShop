@@ -10,6 +10,8 @@ public class Attribute : IAggregateRoot
 
     public AttributeGroup? Group { get; set; }
 
+    public ItemGroup? ItemGroup { get; set; }
+
     public bool ForVariant { get; set; }
 
     public bool IsMainAttribute { get; set; }

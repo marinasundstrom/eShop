@@ -4,8 +4,9 @@
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
 
-    <MudDialog>
+    <MudDialog DisableSidePadding="true">
         <DialogContent>
+            <MudContainer Style="max-height: 300px; overflow-y: scroll">
 
             <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
@@ -26,10 +27,12 @@
 
             @if (!HasVariants)
             {
-                <MudTextField Label="Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
+                <MudTextField Label="Item Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
 
                 <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
             }
+
+            </MudContainer>
 
         </DialogContent>
         <DialogActions>

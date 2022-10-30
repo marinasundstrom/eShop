@@ -4,7 +4,7 @@ namespace YourBrand.Inventory.Infrastructure.Persistence.Outbox;
 
 public sealed class OutboxMessage
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } = Guid.NewGuid();
 
     public DateTime OccurredOnUtc { get; set; }
 

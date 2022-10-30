@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>YourBrand.Customers.Contracts</RootNamespace>
+    <AssemblyName>Customers.Contracts</AssemblyName>
   </PropertyGroup>
 
 </Project>

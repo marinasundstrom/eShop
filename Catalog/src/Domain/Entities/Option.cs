@@ -14,6 +14,8 @@ public class Option : IAggregateRoot
 
     public OptionGroup? Group { get; set; }
 
+    public ItemGroup? ItemGroup { get; set; }
+
     public OptionType OptionType { get; set; } = OptionType.Choice;
 
     public bool IsRequired { get; set; }

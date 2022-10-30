@@ -2488,6 +2488,11 @@
             "format": "decimal",
             "nullable": true
           },
+          "quantityAvailable": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "hasVariants": {
             "type": "boolean"
           },

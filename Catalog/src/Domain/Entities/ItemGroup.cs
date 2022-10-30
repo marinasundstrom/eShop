@@ -17,4 +17,8 @@ public class ItemGroup : IAggregateRoot
     public List<ItemGroup> SubGroups { get; } = new List<ItemGroup>();
 
     public List<Item> Items { get; } = new List<Item>();
+
+    public List<Attribute> Attributes { get; } = new List<Attribute>();
+
+    public List<Option> Options { get; } = new List<Option>();
 }
