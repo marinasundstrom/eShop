@@ -9,9 +9,9 @@
             style="margin-right: 10px; height: 32px;" /> *@
             
         <div>
-            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-md-none" 
+            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
                 href="basket" target="_blank">
-                <CartDisplay />
+                <CartNavItem DisableDropDown="true" SmallIcon="true" />
             </a>
         
             <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" @onclick="ToggleOpen">
@@ -76,8 +76,9 @@
                     <Site.Client.Authentication.LoginDisplay />
                 </li>
 
-                <CartNavItem />
-
+                <li class="nav-item dropdown">
+                    <CartNavItem />
+                </li>
             </ol>
         </div>
     </div>

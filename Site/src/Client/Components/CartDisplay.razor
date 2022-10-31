@@ -1,5 +1,5 @@
 <button type="button" class="btn position-relative p-0">
-  <span class="fa fa-2x fa-shopping-basket"></span>
+  <span class="fa @(SmallIcon ? string.Empty : "fa-2x") fa-shopping-basket"></span>
   @if(NoOfItems > 0) 
   {
     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
@@ -12,4 +12,8 @@
 @code {
     [Parameter]
     public int NoOfItems { get; set; }
+
+
+    [Parameter]
+    public bool SmallIcon { get; set; }
 }

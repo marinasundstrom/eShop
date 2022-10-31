@@ -2,10 +2,11 @@
 @inject ICartsClient CartsClient
 @inject NavigationManager NavigationManager
 
-<li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-        <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" />
-    </a>
+<a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="@(DisableDropDown ? string.Empty : "dropdown")" aria-expanded="false">
+    <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" SmallIcon="SmallIcon" />
+</a>
+@if(!DisableDropDown) 
+{
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10px; width: 350px">
         @if(cart is not null) 
         {
@@ -36,12 +37,18 @@
             }
         }
     </ul>
-</li>
+}
 
 @code 
 {
     SiteCartDto? cart;
     HubConnection hubConnection = null!;
+
+    [Parameter]
+    public bool SmallIcon { get; set; }
+
+    [Parameter]
+    public bool DisableDropDown { get; set; }
 
     protected override async Task OnInitializedAsync() 
     {
