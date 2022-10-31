@@ -5,7 +5,6 @@
 @inject IItemsClient ItemsClient
 @inject ICartsClient CartsClient
 @inject IJSRuntime JS
-@using System.Text.Json
 
 <SitePageTitle>Item</SitePageTitle>
 
@@ -62,22 +61,33 @@
                     </div>
 
                 <div class="form">
-                @foreach (var itemOptionGroups in options.GroupBy(x => x.Group?.Name))
+                @foreach (var optionGroup in optionGroups)
                 {
-                    <h3 class="mt-4">@(itemOptionGroups.Key ?? "Options")</h3>
+                    <h3 class="mt-4">@(optionGroup.Name ?? "Options")</h3>
 
-                    @foreach (var itemOption in itemOptionGroups)
+                    @if(optionGroup.Max is not null) 
+                    { 
+                        <small class="text-muted">Max @optionGroup.Max</small>
+                    }
+
+                    @foreach (var itemOption in optionGroup.Options)
                     {
                         <div class="form-floating mb-3 mt-3">
                             @if(itemOption.OptionType == OptionType.YesOrNo) 
                             {
                                 <div class="form-check">
-                                    <InputCheckbox class="form-check-input" Value="@itemOption.IsSelected" ValueExpression="() => itemOption.IsSelected" ValueChanged="async (v) => { itemOption.IsSelected = v; await UpdateUrl(); }" id="flexCheckDefault" />
+                                    <InputCheckbox class="form-check-input" 
+                                        Value="@itemOption.IsSelected" 
+                                        ValueExpression="() => itemOption.IsSelected" 
+                                        ValueChanged="async (v) => { itemOption.IsSelected = v; await UpdateUrl(); }" 
+                                        id="flexCheckDefault" 
+                                        disabled=@(!itemOption.IsSelected && optionGroup.Options.Count(x => x.IsSelected) >= optionGroup.Max) />
+
                                     <label class="form-check-label" for="flexCheckDefault">
                                         @itemOption.Name
                                     </label>
                                 </div>
-                            }
+                            } 
                             else if(itemOption.OptionType == OptionType.Choice) 
                             {
                                 <InputSelect TValue="string?" Value="@itemOption.SelectedValueId" ValueExpression="() => itemOption.SelectedValueId" ValueChanged="async (v) => { itemOption.SelectedValueId = v; await UpdateUrl(); }" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
@@ -150,240 +160,3 @@
         </div>
     }
  </article>
-
-@code {
-    SiteItemDto? item;
-    IEnumerable<OptionDto>? itemOptions;
-    IEnumerable<AttributeDto>? itemAttributes;
-    ItemsResultOfItemDto? itemVariantResults;
-    List<OptionVM> options = new List<OptionVM>();
-
-    int quantity = 1;
-    bool hasAddedToCart = false;
-
-    private PersistingComponentStateSubscription persistingSubscription;
-
-    [Parameter]
-    public string GroupId { get; set; }
-
-    [Parameter]
-    public string Id { get; set; }
-
-    [Parameter]
-    [SupplyParameterFromQuery(Name = "d")]
-    public string? Data { get; set; }
-
-    string? d = null;
-
-    protected override async Task OnInitializedAsync()
-    {
-        persistingSubscription =
-            ApplicationState.RegisterOnPersisting(PersistItems);
-
-        if (!ApplicationState.TryTakeFromJson<SiteItemDto>(
-            "item", out var restored))
-        {
-            item = await ItemsClient.GetItemAsync(Id);
-        }
-        else
-        {
-            item = restored!;
-        }
-
-        if (!ApplicationState.TryTakeFromJson<IEnumerable<OptionDto>>(
-            "itemOptions", out var restored2))
-        {
-            itemOptions = await ItemsClient.GetItemOptionsAsync(Id);
-        }
-        else
-        {
-            itemOptions = restored2!;
-        }
-
-        if (!ApplicationState.TryTakeFromJson<IEnumerable<AttributeDto>>(
-            "itemAttributes", out var restored3))
-        {
-            itemAttributes = await ItemsClient.GetItemAttributesAsync(Id);
-        }
-        else
-        {
-            itemAttributes = restored3!;
-        }
-
-        if (!ApplicationState.TryTakeFromJson<ItemsResultOfItemDto>(
-            "itemVariants", out var restored4))
-        {
-            itemVariantResults = await ItemsClient.GetItemVariantsAsync(Id, 1, 10, null, null, null);
-        }
-        else
-        {
-            itemVariantResults = restored4!;
-        }
-
-        foreach(var option in itemOptions)
-        {
-            options.Add(new OptionVM
-            {
-                Id = option.Id,
-                Name = option.Name,
-                Description = option.Description,
-                Group = option.Group,
-                OptionType = option.OptionType,
-                Price = option.Price,
-                ItemId = option.ItemId,
-                IsSelected = option.IsSelected,
-                Values = option.Values,
-                SelectedValueId = option.DefaultValue?.Id,
-                MinNumericalValue = option.MinNumericalValue,
-                MaxNumericalValue = option.MaxNumericalValue,
-                NumericalValue = option.DefaultNumericalValue,
-                TextValue = option.DefaultTextValue,
-                TextValueMaxLength = option.TextValueMaxLength,
-                TextValueMinLength = option.TextValueMinLength
-            });
-        }
-
-        if(Data is not null && Data != d) 
-        {
-            var str = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Data));
-            var options2 = Deserialize(str);
-
-            foreach (var option in options2) 
-            {
-                var o = options.FirstOrDefault(x => x.Id == option.Id);
-
-                if(o is not null) 
-                {
-                    o.IsSelected = option.IsSelected.GetValueOrDefault();
-                    o.SelectedValueId = option.SelectedValueId;
-                    o.NumericalValue = option.NumericalValue;
-                    o.TextValue = option.TextValue;
-                }
-            }
-
-            d = Data;
-        }
-    }
-
-    private Task PersistItems()
-    {
-        ApplicationState.PersistAsJson("item", item);
-        ApplicationState.PersistAsJson("itemOptions", itemOptions);
-        ApplicationState.PersistAsJson("itemVariants", itemVariantResults);
-
-        return Task.CompletedTask;
-    }
-
-    async Task AddItemToCart()
-    {
-        await CartsClient.AddItemToCartAsync("test", new AddCartItemDto()
-        {
-            ItemId = item.Id,
-            Quantity = quantity,
-            Data = Serialize()
-        });
-
-        hasAddedToCart = true;
-    }
-
-    void IDisposable.Dispose()
-    {
-        persistingSubscription.Dispose();
-    }
-
-    public class OptionVM
-    {
-        public string Id { get; set; } = null!;
-
-        public string Name { get; set; } = null!;
-
-        public string Description { get; set; } = null!;
-
-        public OptionType OptionType { get; set; }
-
-        public OptionGroupDto Group { get; set; } = null!;
-
-        public string? ItemId { get; set; }
-
-        public decimal? Price { get; set; }
-
-        public bool IsSelected { get; set; }
-
-        public IEnumerable<OptionValueDto>? Values { get; set; }
-
-        public string? SelectedValueId { get; set; }
-
-        public int? MinNumericalValue { get; set; }
-
-        public int? MaxNumericalValue { get; set; }
-
-        public int? NumericalValue { get; set; }
-
-        public string? TextValue { get; set; }
-
-        public int? TextValueMinLength { get; set; }
-
-        public int? TextValueMaxLength { get; set; }
-    }
-
-    public class Option
-    {
-        public string Id { get; set; } = null!;
-
-        public string Name { get; set; } = null!;
-
-        public int OptionType { get; set; }
-
-        public string? ItemId { get; set; }
-
-        public decimal? Price { get; set; }
-
-        public string? TextValue { get; set; }
-
-        public int? NumericalValue { get; set; }
-
-        public bool? IsSelected { get; set; }
-
-        public string? SelectedValueId { get; set; }
-    }
-
-    async Task UpdateUrl() 
-    {
-        string data = Serialize();
-        data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
-
-        await JS.InvokeVoidAsync("skipScroll");
-
-        NavigationManager.NavigateTo($"/items/{GroupId}/{Id}?d={data}", forceLoad: false, replace: true);
-    }
-
-    string Serialize() 
-    {
-        return JsonSerializer.Serialize(options.Select(x =>
-            {
-                return new Option
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    OptionType = (int)x.OptionType,
-                    ItemId = x.ItemId,
-                    Price = x.Price,
-                    IsSelected = x.IsSelected,
-                    SelectedValueId = x.SelectedValueId,
-                    NumericalValue = x.NumericalValue,
-                    TextValue = x.TextValue
-                };
-            }), new JsonSerializerOptions
-            {
-                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
-            });
-    }
-
-    IEnumerable<Option> Deserialize(string str) 
-    {
-        return JsonSerializer.Deserialize<IEnumerable<Option>>(str, new JsonSerializerOptions
-            {
-                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
-            });
-    }
-}
