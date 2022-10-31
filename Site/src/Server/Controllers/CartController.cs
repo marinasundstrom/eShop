@@ -77,6 +77,13 @@ public class CartsController : ControllerBase
 
                         optionTexts.Add(value.Name);
                     }
+                    else if (option.NumericalValue is not null)
+                    {
+                        //price += option.Price.GetValueOrDefault();
+                        //compareAtPrice += option.Price.GetValueOrDefault();
+
+                        optionTexts.Add($"{option.NumericalValue} {option.Name}");
+                    }
                 }
             }
 

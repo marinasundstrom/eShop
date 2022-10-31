@@ -47,7 +47,7 @@ public class CheckoutController : ControllerBase
             var item = await itemsClient2.GetItemAsync(cartItem.ItemId, cancellationToken);
 
             items.Add(new CreateOrderItemDto {
-                    Description = item.Description,
+                    Description = $"{item.Name} - {item.Description}",
                     ItemId = cartItem.ItemId,
                     UnitPrice = item.Price,
                     VatRate = 0.25,

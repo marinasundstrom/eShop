@@ -40,6 +40,16 @@ public class UserController : ControllerBase
         return new UserProfileDto(customer.Id, customer.FirstName, customer.LastName, customer.Ssn);
     }
 
+    [HttpGet("addresses")]
+    public async Task<IEnumerable<YourBrand.Customers.AddressDto>> GetAddresses(CancellationToken cancellation)
+    {
+        var customerId = int.Parse(httpContext.User.Claims.First(x => x.Type == "CustomerId")?.Value!);
+
+        var customer = await customersClient.GetCustomerAsync(customerId, cancellation);
+
+        return new [] { customer.Address };
+    }
+
     [HttpGet("orders")]
     public async Task<ItemsResultOfOrderDto> GetOrders(int page = 1, int pageSize = 10, CancellationToken cancellation = default)
     {
