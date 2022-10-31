@@ -74,3 +74,21 @@ window.scrollToTop = function () {
         behavior: 'smooth'
     });
 }
+
+const origScrollTo = window.scrollTo;
+
+window.shouldSkip = false;
+
+window.skipScroll = function() {
+    window.shouldSkip = true;
+}
+
+window.scrollTo = function (x, y) {
+    if (x === 0 && y === 0 && window.shouldSkip)
+    {
+        window.shouldSkip = false;
+        return;
+    }
+
+    return origScrollTo.apply(this, arguments);
+};

@@ -4,6 +4,7 @@
 @inject NavigationManager NavigationManager
 @inject IItemsClient ItemsClient
 @inject ICartsClient CartsClient
+@inject IJSRuntime JS
 @using System.Text.Json
 
 <SitePageTitle>Item</SitePageTitle>
@@ -71,7 +72,7 @@
                             @if(itemOption.OptionType == OptionType.YesOrNo) 
                             {
                                 <div class="form-check">
-                                    <InputCheckbox class="form-check-input" @bind-Value="itemOption.IsSelected" id="flexCheckDefault" />
+                                    <InputCheckbox class="form-check-input" Value="@itemOption.IsSelected" ValueExpression="() => itemOption.IsSelected" ValueChanged="async (v) => { itemOption.IsSelected = v; await UpdateUrl(); }" id="flexCheckDefault" />
                                     <label class="form-check-label" for="flexCheckDefault">
                                         @itemOption.Name
                                     </label>
@@ -79,7 +80,7 @@
                             }
                             else if(itemOption.OptionType == OptionType.Choice) 
                             {
-                                <InputSelect @bind-Value="itemOption.SelectedValueId" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
+                                <InputSelect TValue="string?" Value="@itemOption.SelectedValueId" ValueExpression="() => itemOption.SelectedValueId" ValueChanged="async (v) => { itemOption.SelectedValueId = v; await UpdateUrl(); }" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
                                     @* <option selected>None</option> *@
                                     @foreach(var value in itemOption.Values!) 
                                     {
@@ -90,7 +91,7 @@
                             }
                             else if(itemOption.OptionType == OptionType.NumericalValue) 
                             {           
-                                <InputNumber @bind-Value="itemOption.NumericalValue" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter value" min="@itemOption.MinNumericalValue" step="1" max="@itemOption.MaxNumericalValue" />
+                                <InputNumber TValue="int?" Value="@itemOption.NumericalValue" ValueExpression="() => itemOption.NumericalValue" ValueChanged="async (v) => { itemOption.NumericalValue = v; await UpdateUrl(); }" type="number" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter value" min="@itemOption.MinNumericalValue" step="1" max="@itemOption.MaxNumericalValue" />
                                 <label for="exampleInputEmail1">@itemOption.Name</label>
                             }
                         </div>
@@ -168,6 +169,12 @@
     [Parameter]
     public string Id { get; set; }
 
+    [Parameter]
+    [SupplyParameterFromQuery(Name = "d")]
+    public string? Data { get; set; }
+
+    string? d = null;
+
     protected override async Task OnInitializedAsync()
     {
         persistingSubscription =
@@ -235,6 +242,27 @@
                 TextValueMinLength = option.TextValueMinLength
             });
         }
+
+        if(Data is not null && Data != d) 
+        {
+            var str = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Data));
+            var options2 = Deserialize(str);
+
+            foreach (var option in options2) 
+            {
+                var o = options.FirstOrDefault(x => x.Id == option.Id);
+
+                if(o is not null) 
+                {
+                    o.IsSelected = option.IsSelected.GetValueOrDefault();
+                    o.SelectedValueId = option.SelectedValueId;
+                    o.NumericalValue = option.NumericalValue;
+                    o.TextValue = option.TextValue;
+                }
+            }
+
+            d = Data;
+        }
     }
 
     private Task PersistItems()
@@ -252,24 +280,7 @@
         {
             ItemId = item.Id,
             Quantity = quantity,
-            Data = JsonSerializer.Serialize(options.Select(x =>
-            {
-                return new Option
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    OptionType = (int)x.OptionType,
-                    ItemId = x.ItemId,
-                    Price = x.Price,
-                    IsSelected = x.IsSelected,
-                    SelectedValueId = x.SelectedValueId,
-                    NumericalValue = x.NumericalValue,
-                    TextValue = x.TextValue
-                };
-            }), new JsonSerializerOptions
-            {
-                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
-            })
+            Data = Serialize()
         });
 
         hasAddedToCart = true;
@@ -334,5 +345,45 @@
         public bool? IsSelected { get; set; }
 
         public string? SelectedValueId { get; set; }
+    }
+
+    async Task UpdateUrl() 
+    {
+        string data = Serialize();
+        data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+
+        await JS.InvokeVoidAsync("skipScroll");
+
+        NavigationManager.NavigateTo($"/items/{GroupId}/{Id}?d={data}", forceLoad: false, replace: true);
+    }
+
+    string Serialize() 
+    {
+        return JsonSerializer.Serialize(options.Select(x =>
+            {
+                return new Option
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    OptionType = (int)x.OptionType,
+                    ItemId = x.ItemId,
+                    Price = x.Price,
+                    IsSelected = x.IsSelected,
+                    SelectedValueId = x.SelectedValueId,
+                    NumericalValue = x.NumericalValue,
+                    TextValue = x.TextValue
+                };
+            }), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            });
+    }
+
+    IEnumerable<Option> Deserialize(string str) 
+    {
+        return JsonSerializer.Deserialize<IEnumerable<Option>>(str, new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            });
     }
 }
