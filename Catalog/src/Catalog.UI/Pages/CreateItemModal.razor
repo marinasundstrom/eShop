@@ -11,6 +11,8 @@
 
             <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
+            <MudTextField Label="Item Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
+
             <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
             @if (Groups is not null)
@@ -28,8 +30,6 @@
 
             @if (!HasVariants)
             {
-                <MudTextField Label="Item Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
-
                 <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
             }
 
@@ -73,6 +73,7 @@
     {
         ApiCreateItem data = new()
         {
+            Id = Id,
             Name = Name,
             HasVariants = HasVariants,
             Description = Description,

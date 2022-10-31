@@ -60,6 +60,8 @@ else
 
                                 <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
+                                <MudField Label="Id" Class="mb-6" Variant="Variant.Outlined" HelperText="Cannot be changed">@Id</MudField>
+
                                 <MudTextField Lines="3" Class="mb-6" Label="Description" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
                                 @if (Groups is not null)
@@ -75,8 +77,6 @@ else
 
                                 @if (!item.HasVariants)
                                 {
-                                    <MudTextField Label="Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
-
                                     <MudGrid>
                                         <MudItem xs="12" sm="12" md="6" lg="6">
                                             <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
