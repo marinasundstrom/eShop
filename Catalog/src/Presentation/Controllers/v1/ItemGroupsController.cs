@@ -22,11 +22,10 @@ public partial class ItemGroupsController : Controller
     }
     
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ItemGroupDto>>> GetItemGroups(string? parentGroupId = null, bool includeWithUnlistedItems = false, bool includeJustTopLevel = true, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<IEnumerable<ItemGroupDto>>> GetItemGroups(string? parentGroupId = null, bool includeWithUnlistedItems = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetItemGroups(parentGroupId, includeWithUnlistedItems, includeJustTopLevel), cancellationToken));
+        return Ok(await _mediator.Send(new GetItemGroups(parentGroupId, includeWithUnlistedItems, IncludeHidden), cancellationToken));
     }
-
 
     [HttpGet("{id}")]
     public async Task<ActionResult<ItemGroupDto>> GetItemGroup(string id, CancellationToken cancellationToken = default)

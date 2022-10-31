@@ -50,7 +50,7 @@
                     @foreach (var group in itemGroups)
                     {
                         <li class="nav-item">
-                            <NavLink class="nav-link" href="@($"items/{group.Id}")">@group.Name</NavLink>
+                            <NavLink class="nav-link" href="@($"groups/{group.Id}")">@group.Name</NavLink>
                         </li>
                     }
                 }
@@ -91,7 +91,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = await ItemsClient.GetItemGroupsAsync(null);
+        itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)

@@ -23,10 +23,10 @@ public partial class ItemsController : Controller
 
     [HttpGet]
     public async Task<ActionResult<ItemsResult<ItemDto>>> GetItems(
-        bool includeUnlisted = false, bool groupItems = true, string? groupId = null,
+        bool includeUnlisted = false, bool groupItems = true, string? groupId = null, string? group2Id = null, string? group3Id = null,
         int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Application.Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetItems(includeUnlisted, groupItems, groupId, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
+        return Ok(await _mediator.Send(new GetItems(includeUnlisted, groupItems, groupId, group2Id, group3Id, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
     }
 
     [HttpGet("{itemId}")]

@@ -32,7 +32,7 @@ public record UpdateItemGroup(string ItemGroupId, ApiUpdateItemGroup Data) : IRe
 
             await _context.SaveChangesAsync();
 
-            return new ItemGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup?.Parent?.Id);
+            return itemGroup.ToDto();
         }
     }
 }

@@ -116,7 +116,7 @@
 
     private async Task<TableData<ItemDto>> ServerReload(TableState state)
     {
-        var result = await ItemsClient.GetItemsAsync(true, true, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
+        var result = await ItemsClient.GetItemsAsync(true, true, null, null, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
 
         return new TableData<ItemDto>() { TotalItems = result.TotalItems, Items = result.Items };
     }

@@ -42,7 +42,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = (await ItemGroupsClient.GetItemGroupsAsync(null, true, false)).ToList();
+        itemGroups = (await ItemGroupsClient.GetItemGroupsAsync(null, true, true)).ToList();
     }
 
     async Task CreateGroup()

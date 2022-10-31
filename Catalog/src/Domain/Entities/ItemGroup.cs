@@ -14,9 +14,15 @@ public class ItemGroup : IAggregateRoot
 
     public string? Image { get; set; }
 
+    public bool Hidden { get; set; }
+
     public List<ItemGroup> SubGroups { get; } = new List<ItemGroup>();
 
     public List<Item> Items { get; } = new List<Item>();
+
+    public List<Item> Items2 { get; } = new List<Item>();
+
+    public List<Item> Items3 { get; } = new List<Item>();
 
     public List<Attribute> Attributes { get; } = new List<Attribute>();
 

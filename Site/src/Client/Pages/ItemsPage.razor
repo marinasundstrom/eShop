@@ -1,5 +1,7 @@
-﻿@page "/items"
-@page "/items/{groupId}"
+﻿@page "/groups"
+@page "/groups/{groupId}"
+@page "/groups/{groupId}/{group2Id}"
+@page "/groups/{groupId}/{group2Id}/{group3Id}"
 @implements IDisposable
 @inject IItemsClient ItemsClient
 @inject PersistentComponentState ApplicationState
@@ -13,9 +15,21 @@
     @if(subGroups is not null) 
     {
         <div class="mb-3">
+            <a href="/groups/@GroupId">
+                <h5 style="display: inline-block;">
+                    <span class="badge rounded-pill text-bg-secondary me-2">All</span>
+                </h5>
+            </a>
+
             @foreach(var group in subGroups) 
             {
-                <a href="@($"/items/{itemGroup?.Id}/{group?.Id}")"><h5 class="badge rounded-pill text-bg-secondary">@group.Name</h5></a>
+                var path = GetPath(group);
+
+                <a href="@path">
+                    <h5 style="display: inline-block;">
+                        <span class="badge rounded-pill text-bg-@SelectedStyle(path) me-2">@group.Name</span>
+                    </h5>
+                </a>
             }
         </div>
     }
@@ -71,6 +85,12 @@
     public string? GroupId { get; set; }
 
     [Parameter]
+    public string? Group2Id { get; set; }
+
+    [Parameter]
+    public string? Group3Id { get; set; }
+
+    [Parameter]
     [SupplyParameterFromQuery]
     public int? Page { get; set; } = 1;
 
@@ -101,7 +121,7 @@
         if (!ApplicationState.TryTakeFromJson<IEnumerable<ItemGroupDto>>(
             "itemGroups", out var restored0))
         {
-            itemGroups = await ItemsClient.GetItemGroupsAsync(null);
+            itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
         }
         else
         {
@@ -112,7 +132,7 @@
         {
             itemGroup = itemGroups.FirstOrDefault(x => x.Id == GroupId);
 
-            subGroups = await ItemsClient.GetItemGroupsAsync(GroupId!);
+            subGroups = await ItemsClient.GetItemGroupsAsync(GroupId!, true);
         }
         else 
         {
@@ -120,11 +140,9 @@
         }
 
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteItemDto>(
-        "itemResults", out var restored))
+            "itemResults", out var restored))
         {
-            string itemGroupId = null; // "c2cd6fdd-e765-4838-9188-76a3c0e5ce5d";
-
-            itemResults = await ItemsClient.GetItemsAsync(GroupId, Page.GetValueOrDefault(), pageSize, null, null, null);
+            itemResults = await ItemsClient.GetItemsAsync(GroupId, Group2Id, Group3Id, Page.GetValueOrDefault(), pageSize, null, null, null);
         }
         else
         {
@@ -136,6 +154,7 @@
             totalPages = 1;
             return;
         }
+
         totalPages = (int)Math.Ceiling((double)(itemResults.TotalItems / pageSize));
     }
 
@@ -161,4 +180,26 @@
         */
     }
 
+    private string GetPath(ItemGroupDto group) 
+    {
+        var str = new System.Text.StringBuilder();
+
+        str.Append("/groups");
+
+        GetPath(str, group);
+
+        return str.ToString();
+    }
+
+    private void GetPath(System.Text.StringBuilder sb, ItemGroupDto group) 
+    {
+        if(group.Parent is not null) 
+        {
+            GetPath(sb, group.Parent);
+        }
+
+        sb.Append($"/{group.Id}");
+    }
+
+    public string SelectedStyle(string path) => NavigationManager.Uri.Contains(path) ? "primary" : "secondary";
 }

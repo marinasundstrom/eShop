@@ -297,137 +297,6 @@
         }
       }
     },
-    "/api/Orders": {
-      "get": {
-        "tags": [
-          "Orders"
-        ],
-        "operationId": "Orders_GetOrders",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "type": "integer",
-            "name": "status",
-            "in": "query",
-            "format": "int32",
-            "x-nullable": true
-          },
-          {
-            "type": "string",
-            "name": "assigneeId",
-            "in": "query",
-            "x-nullable": true
-          },
-          {
-            "type": "integer",
-            "name": "page",
-            "in": "query",
-            "format": "int32",
-            "default": 1,
-            "x-nullable": false
-          },
-          {
-            "type": "integer",
-            "name": "pageSize",
-            "in": "query",
-            "format": "int32",
-            "default": 10,
-            "x-nullable": false
-          },
-          {
-            "type": "string",
-            "name": "searchString",
-            "in": "query",
-            "x-nullable": true
-          },
-          {
-            "type": "string",
-            "name": "sortBy",
-            "in": "query",
-            "x-nullable": true
-          },
-          {
-            "type": "integer",
-            "name": "sortDirection",
-            "in": "query",
-            "x-schema": {
-              "$ref": "#/definitions/SortDirection"
-            },
-            "x-nullable": true,
-            "enum": [
-              0,
-              1
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "x-nullable": false,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ItemsResultOfOrderDto"
-            }
-          }
-        }
-      }
-    },
-    "/api/Orders/{id}": {
-      "get": {
-        "tags": [
-          "Orders"
-        ],
-        "operationId": "Orders_GetOrder",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "format": "int32",
-            "x-nullable": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "x-nullable": false,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/OrderDto"
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Orders"
-        ],
-        "operationId": "Orders_DeleteOrder",
-        "parameters": [
-          {
-            "type": "integer",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "format": "int32",
-            "x-nullable": false
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/api/Items": {
       "get": {
         "tags": [
@@ -443,6 +312,18 @@
           {
             "type": "string",
             "name": "itemGroupId",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "itemGroup2Id",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "itemGroup3Id",
             "in": "query",
             "x-nullable": true
           },
@@ -735,6 +616,13 @@
             "name": "parentGroupId",
             "in": "query",
             "x-nullable": true
+          },
+          {
+            "type": "boolean",
+            "name": "includeWithUnlisted",
+            "in": "query",
+            "default": false,
+            "x-nullable": false
           }
         ],
         "responses": {
@@ -747,6 +635,137 @@
                 "$ref": "#/definitions/ItemGroupDto"
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Orders": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_GetOrders",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "status",
+            "in": "query",
+            "format": "int32",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "assigneeId",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "page",
+            "in": "query",
+            "format": "int32",
+            "default": 1,
+            "x-nullable": false
+          },
+          {
+            "type": "integer",
+            "name": "pageSize",
+            "in": "query",
+            "format": "int32",
+            "default": 10,
+            "x-nullable": false
+          },
+          {
+            "type": "string",
+            "name": "searchString",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "sortBy",
+            "in": "query",
+            "x-nullable": true
+          },
+          {
+            "type": "integer",
+            "name": "sortDirection",
+            "in": "query",
+            "x-schema": {
+              "$ref": "#/definitions/SortDirection"
+            },
+            "x-nullable": true,
+            "enum": [
+              0,
+              1
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ItemsResultOfOrderDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Orders/{id}": {
+      "get": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_GetOrder",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/OrderDto"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Orders"
+        ],
+        "operationId": "Orders_DeleteOrder",
+        "parameters": [
+          {
+            "type": "integer",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "format": "int32",
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
@@ -1193,171 +1212,6 @@
         }
       }
     },
-    "ItemsResultOfOrderDto": {
-      "type": "object",
-      "required": [
-        "items",
-        "totalItems"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/OrderDto"
-          }
-        },
-        "totalItems": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "OrderDto": {
-      "type": "object",
-      "required": [
-        "orderNo",
-        "date",
-        "status",
-        "currency",
-        "items",
-        "subTotal",
-        "vat",
-        "total",
-        "created"
-      ],
-      "properties": {
-        "orderNo": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "date": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "status": {
-          "$ref": "#/definitions/OrderStatusDto"
-        },
-        "assigneeId": {
-          "$ref": "#/definitions/UserDto"
-        },
-        "customerId": {
-          "type": "string"
-        },
-        "currency": {
-          "type": "string"
-        },
-        "billingDetails": {
-          "$ref": "#/definitions/BillingDetailsDto"
-        },
-        "shippingDetails": {
-          "$ref": "#/definitions/ShippingDetailsDto"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/OrderItemDto"
-          }
-        },
-        "subTotal": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "vat": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "total": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "createdBy": {
-          "$ref": "#/definitions/UserDto"
-        },
-        "lastModified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastModifiedBy": {
-          "$ref": "#/definitions/UserDto"
-        }
-      }
-    },
-    "OrderStatusDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
-      "properties": {
-        "id": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "OrderItemDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "description",
-        "unitPrice",
-        "quantity",
-        "vatRate",
-        "total",
-        "created"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "description": {
-          "type": "string"
-        },
-        "itemId": {
-          "type": "string"
-        },
-        "unit": {
-          "type": "string"
-        },
-        "unitPrice": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "quantity": {
-          "type": "number",
-          "format": "double"
-        },
-        "vatRate": {
-          "type": "number",
-          "format": "double"
-        },
-        "total": {
-          "type": "number",
-          "format": "decimal"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "createdBy": {
-          "$ref": "#/definitions/UserDto"
-        },
-        "lastModified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastModifiedBy": {
-          "$ref": "#/definitions/UserDto"
-        }
-      }
-    },
     "ItemsResultOfSiteItemDto": {
       "type": "object",
       "required": [
@@ -1703,8 +1557,8 @@
         "description": {
           "type": "string"
         },
-        "parentGroupId": {
-          "type": "string"
+        "parent": {
+          "$ref": "#/definitions/ItemGroupDto"
         }
       }
     },
@@ -1743,6 +1597,171 @@
         },
         "isMainAttribute": {
           "type": "boolean"
+        }
+      }
+    },
+    "ItemsResultOfOrderDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "totalItems"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderDto"
+          }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "OrderDto": {
+      "type": "object",
+      "required": [
+        "orderNo",
+        "date",
+        "status",
+        "currency",
+        "items",
+        "subTotal",
+        "vat",
+        "total",
+        "created"
+      ],
+      "properties": {
+        "orderNo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "status": {
+          "$ref": "#/definitions/OrderStatusDto"
+        },
+        "assigneeId": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "customerId": {
+          "type": "string"
+        },
+        "currency": {
+          "type": "string"
+        },
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetailsDto"
+        },
+        "shippingDetails": {
+          "$ref": "#/definitions/ShippingDetailsDto"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OrderItemDto"
+          }
+        },
+        "subTotal": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "vat": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "total": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "$ref": "#/definitions/UserDto"
+        }
+      }
+    },
+    "OrderStatusDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "OrderItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "description",
+        "unitPrice",
+        "quantity",
+        "vatRate",
+        "total",
+        "created"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "itemId": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "unitPrice": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "quantity": {
+          "type": "number",
+          "format": "double"
+        },
+        "vatRate": {
+          "type": "number",
+          "format": "double"
+        },
+        "total": {
+          "type": "number",
+          "format": "decimal"
+        },
+        "created": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "createdBy": {
+          "$ref": "#/definitions/UserDto"
+        },
+        "lastModified": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastModifiedBy": {
+          "$ref": "#/definitions/UserDto"
         }
       }
     },

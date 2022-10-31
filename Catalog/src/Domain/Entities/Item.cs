@@ -16,6 +16,10 @@ public class Item : IAggregateRoot
 
     public ItemGroup? Group { get; set; }
 
+    public ItemGroup? Group2 { get; set; }
+
+    public ItemGroup? Group3 { get; set; }
+
     public string? Description { get; set; } = null!;
 
     public string? ManufacturerItemId { get; set; }

@@ -89,11 +89,11 @@
             "x-position": 2
           },
           {
-            "name": "includeJustTopLevel",
+            "name": "IncludeHidden",
             "in": "query",
             "schema": {
               "type": "boolean",
-              "default": true
+              "default": false
             },
             "x-position": 3
           }
@@ -840,6 +840,24 @@
             "x-position": 3
           },
           {
+            "name": "group2Id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "group3Id",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
             "name": "page",
             "in": "query",
             "schema": {
@@ -847,7 +865,7 @@
               "format": "int32",
               "default": 0
             },
-            "x-position": 4
+            "x-position": 6
           },
           {
             "name": "pageSize",
@@ -857,7 +875,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 5
+            "x-position": 7
           },
           {
             "name": "searchString",
@@ -866,7 +884,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 6
+            "x-position": 8
           },
           {
             "name": "sortBy",
@@ -875,7 +893,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 7
+            "x-position": 9
           },
           {
             "name": "sortDirection",
@@ -892,7 +910,7 @@
                 }
               ]
             },
-            "x-position": 8
+            "x-position": 10
           }
         ],
         "responses": {
@@ -2264,9 +2282,13 @@
             "type": "string",
             "nullable": true
           },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ItemGroupDto"
+              }
+            ]
           }
         }
       },

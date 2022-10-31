@@ -25,7 +25,7 @@ public static class Mapping
 
     public static ItemGroupDto ToDto(this Domain.Entities.ItemGroup itemGroup)
     {
-         return new ItemGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup.Parent?.Id);
+         return new ItemGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup.Parent?.ToDto());
     }
  
     private static string? GetImageUrl(string? name)

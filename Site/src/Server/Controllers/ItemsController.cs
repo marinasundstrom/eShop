@@ -26,9 +26,9 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ItemsResult<SiteItemDto>> GetItems(string? itemGroupId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResult<SiteItemDto>> GetItems(string? itemGroupId = null, string? itemGroup2Id = null, string? itemGroup3Id = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        var result = await _itemsClient.GetItemsAsync(false, true, itemGroupId, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
+        var result = await _itemsClient.GetItemsAsync(false, true, itemGroupId, itemGroup2Id, itemGroup3Id, page - 1, pageSize, searchString, sortBy, sortDirection, cancellationToken);
         List<SiteItemDto> items = new List<SiteItemDto>();
         foreach(var item in result.Items) 
         {
@@ -41,7 +41,7 @@ public class ItemsController : ControllerBase
             } catch {}
             */
 
-            items.Add(new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable));
+            items.Add(new SiteItemDto(item.Id, item.Name, item.Description, item.Group?.ToDto(), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable));
         }
         return new ItemsResult<SiteItemDto>(items, result.TotalItems);
     }
@@ -58,7 +58,7 @@ public class ItemsController : ControllerBase
             available = inventoryItem.QuantityAvailable;
         } catch {}
         */
-        return new SiteItemDto(item.Id, item.Name, item.Description, new SiteItemGroupDto(item.Group.Id, item.Group.Name), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable);
+        return new SiteItemDto(item.Id, item.Name, item.Description, item.Group?.ToDto(), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable);
     }
 
     [HttpGet("{id}/Attributes")]
@@ -86,8 +86,8 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("Categories")]
-    public async Task<ICollection<ItemGroupDto>?> GetItemGroups(string? parentGroupId, CancellationToken cancellationToken = default)
+    public async Task<ICollection<ItemGroupDto>?> GetItemGroups(string? parentGroupId, bool includeWithUnlisted = false, CancellationToken cancellationToken = default)
     {
-        return await itemGroupsClient.GetItemGroupsAsync(parentGroupId, false, false, cancellationToken);
+        return await itemGroupsClient.GetItemGroupsAsync(parentGroupId, includeWithUnlisted, false, cancellationToken);
     }
 }

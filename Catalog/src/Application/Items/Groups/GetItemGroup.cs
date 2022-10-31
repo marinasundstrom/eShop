@@ -21,7 +21,6 @@ public record GetItemGroup(string ItemGroupId) : IRequest<ItemGroupDto?>
         {
             var itemGroup = await _context.ItemGroups
                 .Include(x => x.Parent)
-                .Include(x => x.Items)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(x => x.Id == request.ItemGroupId);
 

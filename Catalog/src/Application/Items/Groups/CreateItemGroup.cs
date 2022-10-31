@@ -21,7 +21,7 @@ public record CreateItemGroup(string ItemId, ApiCreateItemGroup Data) : IRequest
         public async Task<ItemGroupDto> Handle(CreateItemGroup request, CancellationToken cancellationToken)
         {
             var parentGroup = await _context.ItemGroups
-            .FirstOrDefaultAsync(x => x.Id == request.Data.ParentGroupId);
+                .FirstOrDefaultAsync(x => x.Id == request.Data.ParentGroupId);
 
             var itemGroup = new ItemGroup()
             {
@@ -35,7 +35,7 @@ public record CreateItemGroup(string ItemId, ApiCreateItemGroup Data) : IRequest
 
             await _context.SaveChangesAsync();
 
-            return new ItemGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup?.Parent?.Id);
+            return itemGroup.ToDto();
 
         }
     }
