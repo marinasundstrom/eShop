@@ -73,12 +73,35 @@
                                         <td>@orderItem.ItemId</td>
                                         <td>@orderItem.Quantity @orderItem.Unit</td>
                                         <td>@orderItem.UnitPrice.ToString("c")</td>
-                                        <td>@orderItem.VatRate</td>
+                                        <td>@(orderItem.VatRate * 100)%</td>
                                         <td>@orderItem.Total.ToString("c")</td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+
+                        <div class="list-group-item d-flex justify-content-end">
+                            <div class="me-2">
+                                <div class="d-flex justify-content-between">
+                                    <span class="me-5">Total</span>
+                                    <strong>@order.Total.ToString("c")</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small class="me-5">Sub Total</small>
+                                    <small>@order.SubTotal.ToString("c")</small>
+                                </div>
+                                @*
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small class="me-5">Discount</small>
+                                    <small>@0m.ToString("c")</small>
+                                </div>
+                               *@ 
+                                <div class="d-flex justify-content-between mt-2">
+                                    <small class="me-5">VAT</small>
+                                    <small>@order.Vat.ToString("c")</small>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
