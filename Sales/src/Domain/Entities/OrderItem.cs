@@ -6,30 +6,30 @@ public class OrderItem : AuditableEntity
     {
     }
 
-    internal OrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity, decimal total)
+    internal OrderItem(string? itemId, string description, double quantity, string? unit, decimal unitPrice, decimal total, double vatRate)
     {
-        Description = description;
         ItemId = itemId;
+        Description = description;
+        Quantity = quantity;
         Unit = unit;
         UnitPrice = unitPrice;
-        VatRate = vatRate;
-        Quantity = quantity;
         Total = total;
+        VatRate = vatRate;
     }
 
     public string Id { get; private set; } = Guid.NewGuid().ToString();
 
+    public string? ItemId { get; set; } = null!;
+
     public string Description { get; set; } = null!;
 
-    public string? ItemId { get; set; } = null!;
+    public double Quantity { get; set; }
 
     public string? Unit { get; set; }
 
     public decimal UnitPrice { get; set; }
+    
+    public decimal Total { get; set; }
 
     public double VatRate { get; set; }
-
-    public double Quantity { get; set; }
-
-    public decimal Total { get; set; }
 }

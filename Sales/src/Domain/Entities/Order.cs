@@ -61,12 +61,14 @@ public class Order : AuditableEntity, IAggregateRoot
     public bool VatIncluded { get; set; }
 
     public string Currency { get; set; } = "SEK";
+    
+    public decimal SubTotal { get; set; } 
 
     public double VatRate { get; set; } 
 
-    public decimal Vat { get; set; }
+    public decimal? Vat { get; set; }
 
-    public decimal SubTotal { get; set; } 
+    public decimal Discount { get; set; } 
 
     public decimal Total { get; set; } 
 
@@ -78,7 +80,7 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public OrderItem AddOrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity) 
     {
-        var orderItem = new OrderItem(description, itemId, unit, unitPrice, vatRate, quantity, unitPrice * (decimal)quantity);
+        var orderItem = new OrderItem(itemId, description, quantity, unit, unitPrice,  unitPrice * (decimal)quantity, vatRate);
         _items.Add(orderItem);
         return orderItem;
     }
@@ -95,6 +97,6 @@ public class Order : AuditableEntity, IAggregateRoot
         VatRate = 0.25;
         Vat = VatIncluded ? Items.Select(x => x.Total.GetVatFromTotal(x.VatRate)).Sum() : Items.Sum(x => (decimal)x.VatRate * x.Total);
         Total = Items.Sum(x => x.Total);
-        SubTotal = VatIncluded ? (Total - Vat) : Total;
+        SubTotal = (VatIncluded ? (Total - Vat.GetValueOrDefault()) : Total);
     }
 }

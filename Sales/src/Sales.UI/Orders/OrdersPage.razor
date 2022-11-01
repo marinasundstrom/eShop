@@ -51,7 +51,7 @@
             <MudIconButton Icon="@Icons.Filled.FileDownload" Link="@($"/api/invoicing/orders/{order.OrderNo}/file")" @onclick:stopPropagation />
             @if (order.Status.Id == 1)
             {
-                <MudIconButton Icon="@Icons.Filled.Delete" OnClick="async (e) => await DeleteOrder(order)" />
+                <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Small" OnClick="async (e) => await DeleteOrder(order)" />
             }
         </MudTd>
     </RowTemplate>

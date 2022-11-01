@@ -10,7 +10,7 @@ public static class Mappings
     public static OrderDto ToDto(this Order order) => new OrderDto(order.OrderNo, order.Date, order.Status.ToDto(), order.Assignee?.ToDto(), order.CustomerId, order.Currency,
         order.BillingDetails?.ToDto(),
         order.ShippingDetails?.ToDto(),
-        order.Items.Select(x => x.ToDto()), order.SubTotal, order.Vat, order.Total, order.Created, order.CreatedBy?.ToDto(), order.LastModified, order.LastModifiedBy?.ToDto());
+        order.Items.Select(x => x.ToDto()), order.SubTotal, order.Vat.GetValueOrDefault(), order.Total, order.Created, order.CreatedBy?.ToDto(), order.LastModified, order.LastModifiedBy?.ToDto());
 
     public static OrderItemDto ToDto(this OrderItem orderItem) => new (orderItem.Id, orderItem.Description, orderItem.ItemId, orderItem.Unit, orderItem.UnitPrice, orderItem.Quantity, orderItem.VatRate, orderItem.Total, orderItem.Created, orderItem.CreatedBy?.ToDto(), orderItem.LastModified, orderItem.LastModifiedBy?.ToDto());
 
