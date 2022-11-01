@@ -67,10 +67,10 @@
                                 @foreach(var v in productViewModel.Variants)
                                 {
                                     <div>
-                                        <div class="card shadow-sm mt-4 me-2" @onclick="() => productViewModel.SelectVariant(v!)">
+                                        <div class="card shadow-sm mt-4 me-2" @onclick="async () => { productViewModel.SelectVariant(v!); await UpdateUrl(); }">
                                         @if ((v?.Image ?? productViewModel.Image) is not null)
                                         {
-                                            <img src="@(v?.Image ?? productViewModel.Image)" width="100" height="100%" alt="Mony the dog"/>
+                                            <img src="@(v?.Image ?? productViewModel.Image)" width="100" height="100%" alt="@v!.Name"/>
                                         }
                                         else
                                         {
@@ -81,7 +81,6 @@
                                 }  
                         </div>
                     }
-
 
                     @if(productViewModel.OptionGroups.Any()) 
                     {
@@ -172,11 +171,10 @@
                         }
                     }
                     </div>
-                    }
+                }
 
-
-                    @if(productViewModel.AttributeGroups.Any()) 
-    {
+                @if(productViewModel.AttributeGroups.Any()) 
+                {
                     <div class="form">
                     @foreach (var attributeGroup in productViewModel.AttributeGroups)
                     {
@@ -186,7 +184,7 @@
                         {
                             <div class="form-floating mb-3 mt-3">
                                 
-                                    <InputSelect TValue="string?" Value="@itemAttribute.SelectedValueId" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await productViewModel.Update(); }" class="form-select" aria-label="@itemAttribute.Name" placeholder="Choose option">
+                                    <InputSelect TValue="string?" Value="@itemAttribute.SelectedValueId" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await productViewModel.UpdateVariant(); await UpdateUrl(); }" class="form-select" aria-label="@itemAttribute.Name" placeholder="Choose option">
                                         @* <option selected>None</option> *@
                                         @foreach(var value in itemAttribute.Values!) 
                                         {
@@ -202,7 +200,7 @@
                         }
                     }
                     </div>
-    }
+                }
                 </section>
             </div>
     </article>

@@ -4,7 +4,7 @@ namespace Site.Client.Items.Item;
 
 public class ProductViewModel 
 {
-    private readonly IItemsClient itemsClient;
+    private IItemsClient itemsClient;
     private SiteItemDto? item;
     private SiteItemDto? variant;
     private IEnumerable<OptionDto>? itemOptions;
@@ -19,11 +19,13 @@ public class ProductViewModel
     {
     }
 
+    public void SetClient(IItemsClient itemsClient) => this.itemsClient = itemsClient;
+
     public string Id => Item?.Id ?? string.Empty;
 
     public string VariantId => Variant?.Id ?? string.Empty;
 
-    public string Name => Variant?.Name ?? Item?.Name ?? string.Empty;
+    public string Name => Item?.Name ?? string.Empty;
 
     public string Description => Variant?.Description ?? Item?.Description ?? string.Empty;
 
@@ -43,12 +45,26 @@ public class ProductViewModel
 
         if (Item.HasVariants)
         {
+            var selectedAttributeValues = AttributeGroups
+                .SelectMany(x => x.Attributes)
+                .Where(x => x.ForVariant)
+                .Where(x => !x.IsMainAttribute)
+                .Where(x => x.SelectedValueId is not null)
+                .ToDictionary(x => x.Id, x => x.SelectedValueId);
 
-        }
+            Variants.AddRange((await itemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributeValues)));
 
-        if(variantId is not null) 
-        {
-            var item = await itemsClient.GetItemAsync(variantId);
+            SiteItemDto? item;
+
+            if(variantId is not null) 
+            {
+                item = await itemsClient.GetItemAsync(variantId);
+            }
+            else 
+            {
+                var variants = (await itemsClient.GetItemVariantsAsync(Id, 1, 20, null, null, null)).Items;
+                item = await itemsClient.GetItemAsync(variants.First().Id);
+            }
 
             AttributeGroups.ForEach(x => x.Attributes.ForEach(x => x.SelectedValueId = null));
 
@@ -99,23 +115,14 @@ public class ProductViewModel
         Updated?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task Update()
+    public async Task UpdateVariant()
     {
         var selectedAttributes = AttributeGroups
            .SelectMany(x => x.Attributes)
            .Where(x => x.ForVariant)
            .Where(x => x.SelectedValueId is not null);
 
-        /*
-        variants = await ItemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributes
-            .Where(x => !x.IsMainAttribute)
-            .ToDictionary(x => x.Id, x => x.SelectedValueId)); */
-
-        try
-        {
-            variant = await itemsClient.FindItemVariantByAttributesAsync(Id, selectedAttributes.ToDictionary(x => x.Id, x => x.SelectedValueId));
-        }
-        catch {}
+        variant = await itemsClient.FindItemVariantByAttributesAsync(Id, selectedAttributes.ToDictionary(x => x.Id, x => x.SelectedValueId));
     }
 
     private void CreateOptionsVM() 

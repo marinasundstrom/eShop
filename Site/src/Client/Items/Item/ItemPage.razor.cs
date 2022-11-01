@@ -40,6 +40,7 @@ partial class ItemPage
         else
         {
             productViewModel = restored!;
+            productViewModel.SetClient(ItemsClient);
         }
 
         if(Data is not null) 
@@ -68,13 +69,13 @@ partial class ItemPage
 
         await JS.InvokeVoidAsync("skipScroll");
 
-        if(VariantId is not null) 
+        if(productViewModel!.VariantId is not null) 
         {
-            NavigationManager.NavigateTo($"/items/{Id}/{VariantId}?d={data}", replace: true);
+            NavigationManager.NavigateTo($"/items/{Id}/{productViewModel.VariantId}?d={data}", replace: true);
         }
         else 
         {
-            NavigationManager.NavigateTo($"/items/{Id}?d={data}", forceLoad: false, replace: true);
+            NavigationManager.NavigateTo($"/items/{Id}?d={data}", false, replace: true);
         }
     }
 
