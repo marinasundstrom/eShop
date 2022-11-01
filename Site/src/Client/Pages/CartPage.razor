@@ -16,7 +16,7 @@
                 {
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
-                            <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
+                            <h6 class="my-0">@cartItem.Item.Name</h6>
                             <small class="text-muted">@cartItem.Item.Description</small>
                             <div class="d-flex">
                                 <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />

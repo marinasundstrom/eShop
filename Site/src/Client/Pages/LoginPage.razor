@@ -38,6 +38,6 @@
     {
         await AuthenticationService.Login(new UserForAuthenticationDto() { SSN = SSN });
 
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/user/profile");
     }
 }

@@ -391,7 +391,7 @@ public static class Seed
         var valueSmall = new OptionValue
         {
             Id = Guid.NewGuid().ToString(),
-            Name = "Mild"
+            Name = "Mild sås"
         };
 
         option.Values.Add(valueSmall);
@@ -399,7 +399,7 @@ public static class Seed
         var valueMedium = new OptionValue
         {
             Id = Guid.NewGuid().ToString(),
-            Name = "Stark"
+            Name = "Stark sås"
         };
 
         option.Values.Add(valueMedium);
@@ -407,7 +407,7 @@ public static class Seed
         var valueLarge = new OptionValue
         {
             Id = Guid.NewGuid().ToString(),
-            Name = "Blandad"
+            Name = "Blandad sås"
         };
 
         option.DefaultValue = valueSmall;

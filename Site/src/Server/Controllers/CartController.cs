@@ -53,7 +53,7 @@ public class CartsController : ControllerBase
             var price = item.Price;
             var compareAtPrice = item.CompareAtPrice;
 
-            List<string> optionTexts = new List<string>() { item.Description };
+            List<string> optionTexts = new List<string>();
 
             foreach(var option in options) 
             {
@@ -66,7 +66,14 @@ public class CartsController : ControllerBase
                         price += option.Price.GetValueOrDefault();
                         compareAtPrice += option.Price.GetValueOrDefault();
 
-                        optionTexts.Add(option.Name);
+                        if(option.Price is not null) 
+                        {
+                            optionTexts.Add($"{option.Name} (+{option.Price?.ToString("c")})");
+                        }
+                        else 
+                        {
+                            optionTexts.Add(option.Name);
+                        }
                     }
                     else if (option.SelectedValueId is not null)
                     {
@@ -75,7 +82,14 @@ public class CartsController : ControllerBase
                         price += value.Price.GetValueOrDefault();
                         compareAtPrice += value.Price.GetValueOrDefault();
 
-                        optionTexts.Add(value.Name);
+                        if(value.Price is not null) 
+                        {
+                            optionTexts.Add($"{value.Name} (+{value.Price?.ToString("c")})");
+                        }
+                        else 
+                        {
+                            optionTexts.Add(value.Name);
+                        }  
                     }
                     else if (option.NumericalValue is not null)
                     {
@@ -87,7 +101,7 @@ public class CartsController : ControllerBase
                 }
             }
 
-            items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(), (int)cartItem.Quantity, (decimal)cartItem.Quantity * price, cartItem.Data));
+            items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(string.Join(", ", optionTexts)), (int)cartItem.Quantity, (decimal)cartItem.Quantity * price, cartItem.Data));
         }
 
         return new SiteCartDto(cart.Id, items);
