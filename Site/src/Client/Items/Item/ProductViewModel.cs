@@ -33,6 +33,12 @@ public class ProductViewModel
 
     public decimal Price => Variant?.Price ?? Item?.Price ?? 0;
 
+    public decimal Total => Price
+                + OptionGroups.SelectMany(x => x.Options)
+                .Where(x => x.IsSelected || x.SelectedValueId is not null)
+                .Select(x => x.Price.GetValueOrDefault() + (x.Values.FirstOrDefault(x3 => x3.Id == x?.SelectedValueId)?.Price ?? 0))
+                .Sum();
+
     public decimal? CompareAtPrice => Item?.CompareAtPrice;
 
     public int? Available => Variant?.Available ?? Item?.Available;
@@ -96,7 +102,6 @@ public class ProductViewModel
     public List<OptionGroupVM> OptionGroups { get; set; } = new List<OptionGroupVM>();
 
     public List<SiteItemDto> Variants { get; set; } = new List<SiteItemDto>();
-
 
     public void SelectVariant(SiteItemDto variant)
     {

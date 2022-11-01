@@ -54,9 +54,12 @@
                                         <p class="text-muted mt-2">@item.Available available</p> 
                                     }
                                 </div>
-                                <div>
-                                    <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
-                                </div>
+                                @if(!item.HasVariants) 
+                                {
+                                    <div>
+                                        <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
+                                    </div>
+                                }
                             </div>
                         </div>
                     </div>
