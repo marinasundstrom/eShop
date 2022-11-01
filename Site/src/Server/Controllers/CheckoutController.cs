@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Text.Json;
 using Site.Server.Hubs;
 using YourBrand.Inventory;
 using YourBrand.Sales;
@@ -42,17 +43,35 @@ public class CheckoutController : ControllerBase
 
         var items = new List<CreateOrderItemDto>();
 
-        foreach(var cartItem in cart.Items) 
+        foreach(var cartItem in cart.Items)
         {
             var item = await itemsClient2.GetItemAsync(cartItem.ItemId, cancellationToken);
 
-            items.Add(new CreateOrderItemDto {
-                    Description = $"{item.Name} - {item.Description}",
-                    ItemId = cartItem.ItemId,
-                    UnitPrice = item.Price,
-                    VatRate = 0.25,
-                    Quantity = cartItem.Quantity
-                });
+            var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+            });
+
+            decimal price = item.Price;
+
+            price += CalculatePrice(item, options);
+
+            /*
+            var price = item.Price
+                + options
+                .Where(x => x.IsSelected.GetValueOrDefault() || x.SelectedValueId is not null)
+                .Select(x => x.Price.GetValueOrDefault() + (x.Values.FirstOrDefault(x3 => x3.Id == x?.SelectedValueId)?.Price ?? 0))
+                .Sum();
+                */
+
+            items.Add(new CreateOrderItemDto
+            {
+                Description = $"{item.Name} - {item.Description}",
+                ItemId = cartItem.ItemId,
+                UnitPrice = price,
+                VatRate = 0.25,
+                Quantity = cartItem.Quantity
+            });
         }
 
         await _ordersClient.CreateOrderAsync(new YourBrand.Sales.CreateOrderRequest() {
@@ -65,6 +84,34 @@ public class CheckoutController : ControllerBase
         await cartsClient.ClearCartAsync(cart.Id);
 
         await cartHubContext.Clients.All.CartUpdated();
+    }
+
+    private static decimal CalculatePrice(YourBrand.Catalog.ItemDto item, IEnumerable<Option>? options)
+    {
+        decimal price = 0;
+        
+        foreach (var option in options!
+            .Where(x => x.IsSelected.GetValueOrDefault() || x.SelectedValueId is not null))
+        {
+            var o = item.Options.FirstOrDefault(x => x.Id == option.Id);
+            if (o is not null)
+            {
+                if (option.IsSelected.GetValueOrDefault())
+                {
+                    price += option.Price.GetValueOrDefault();
+                }
+                else if (option.SelectedValueId is not null)
+                {
+                    var sVal = o.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
+                    if (sVal is not null)
+                    {
+                        price += sVal.Price.GetValueOrDefault();
+                    }
+                }
+            }
+        }
+
+        return price;
     }
 }
 

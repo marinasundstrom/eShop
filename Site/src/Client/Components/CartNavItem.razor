@@ -20,12 +20,12 @@
                             <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
                             <small class="text-muted">@cartItem.Item.Description</small>
                         </div>
-                        <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
+                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
                     </li>   
                 }
                 <li class="list-group-item d-flex justify-content-between">
                 <span>Total</span>
-                <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
+                <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
                 </li>
             </ul>
             <li><a class="dropdown-item" href="basket"><i class="fa fa-shopping-basket me-2" style="color: black !important" /> Manage basket</a></li>

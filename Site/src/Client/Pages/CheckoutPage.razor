@@ -28,18 +28,18 @@
                             <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
                             <small class="text-muted">@cartItem.Item.Description</small>
                         </div>
-                        <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
+                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
                     </li>
 
                 }
                 <div class="list-group-item">
                 <li class="d-flex justify-content-between">
                     <span>Total</span>
-                    <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
+                    <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
                 </li>
                 <li class="d-flex justify-content-between mt-2">
                     <small>VAT incl.</small>
-                    <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price).GetVatFromTotal(0.25)).ToString("c"))</small>
+                    <small>@((cart.Items.Sum(x => x.Total).GetVatFromTotal(0.25)).ToString("c"))</small>
                 </li>
         </div>
         </ul>

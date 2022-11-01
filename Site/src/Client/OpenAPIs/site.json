@@ -1119,6 +1119,8 @@
         "id",
         "name",
         "price",
+        "attributes",
+        "options",
         "hasVariants",
         "variantAttributes"
       ],
@@ -1150,6 +1152,18 @@
           "type": "integer",
           "format": "int32"
         },
+        "attributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AttributeDto"
+          }
+        },
+        "options": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/OptionDto"
+          }
+        },
         "hasVariants": {
           "type": "boolean"
         },
@@ -1178,185 +1192,6 @@
           "$ref": "#/definitions/SiteItemGroupDto"
         }
       }
-    },
-    "ItemVariantAttributeDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name",
-        "value",
-        "isMainAttribute"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        },
-        "valueId": {
-          "type": "string"
-        },
-        "isMainAttribute": {
-          "type": "boolean"
-        }
-      }
-    },
-    "AddCartItemDto": {
-      "type": "object",
-      "required": [
-        "quantity"
-      ],
-      "properties": {
-        "itemId": {
-          "type": "string"
-        },
-        "quantity": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "data": {
-          "type": "string"
-        }
-      }
-    },
-    "CheckoutDto": {
-      "type": "object",
-      "required": [
-        "billingDetails",
-        "shippingDetails"
-      ],
-      "properties": {
-        "billingDetails": {
-          "$ref": "#/definitions/BillingDetailsDto"
-        },
-        "shippingDetails": {
-          "$ref": "#/definitions/ShippingDetailsDto"
-        }
-      }
-    },
-    "BillingDetailsDto": {
-      "type": "object",
-      "required": [
-        "firstName",
-        "lastName",
-        "phoneNumber",
-        "email",
-        "address"
-      ],
-      "properties": {
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "ssn": {
-          "type": "string"
-        },
-        "phoneNumber": {
-          "type": "string"
-        },
-        "email": {
-          "type": "string"
-        },
-        "address": {
-          "$ref": "#/definitions/AddressDto"
-        }
-      }
-    },
-    "AddressDto": {
-      "type": "object",
-      "required": [
-        "thoroughfare",
-        "postalCode",
-        "locality",
-        "subAdministrativeArea",
-        "administrativeArea",
-        "country"
-      ],
-      "properties": {
-        "thoroughfare": {
-          "type": "string"
-        },
-        "premises": {
-          "type": "string"
-        },
-        "subPremises": {
-          "type": "string"
-        },
-        "postalCode": {
-          "type": "string"
-        },
-        "locality": {
-          "type": "string"
-        },
-        "subAdministrativeArea": {
-          "type": "string"
-        },
-        "administrativeArea": {
-          "type": "string"
-        },
-        "country": {
-          "type": "string"
-        }
-      }
-    },
-    "ShippingDetailsDto": {
-      "type": "object",
-      "required": [
-        "firstName",
-        "lastName",
-        "address"
-      ],
-      "properties": {
-        "firstName": {
-          "type": "string"
-        },
-        "lastName": {
-          "type": "string"
-        },
-        "careOf": {
-          "type": "string"
-        },
-        "address": {
-          "$ref": "#/definitions/AddressDto"
-        }
-      }
-    },
-    "ItemsResultOfSiteItemDto": {
-      "type": "object",
-      "required": [
-        "items",
-        "totalItems"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/SiteItemDto"
-          }
-        },
-        "totalItems": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "SortDirection2": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "Desc",
-        "Asc"
-      ],
-      "enum": [
-        0,
-        1
-      ]
     },
     "AttributeDto": {
       "type": "object",
@@ -1571,6 +1406,185 @@
           "format": "int32"
         }
       }
+    },
+    "ItemVariantAttributeDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "value",
+        "isMainAttribute"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "valueId": {
+          "type": "string"
+        },
+        "isMainAttribute": {
+          "type": "boolean"
+        }
+      }
+    },
+    "AddCartItemDto": {
+      "type": "object",
+      "required": [
+        "quantity"
+      ],
+      "properties": {
+        "itemId": {
+          "type": "string"
+        },
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    },
+    "CheckoutDto": {
+      "type": "object",
+      "required": [
+        "billingDetails",
+        "shippingDetails"
+      ],
+      "properties": {
+        "billingDetails": {
+          "$ref": "#/definitions/BillingDetailsDto"
+        },
+        "shippingDetails": {
+          "$ref": "#/definitions/ShippingDetailsDto"
+        }
+      }
+    },
+    "BillingDetailsDto": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "phoneNumber",
+        "email",
+        "address"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "ssn": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/AddressDto"
+        }
+      }
+    },
+    "AddressDto": {
+      "type": "object",
+      "required": [
+        "thoroughfare",
+        "postalCode",
+        "locality",
+        "subAdministrativeArea",
+        "administrativeArea",
+        "country"
+      ],
+      "properties": {
+        "thoroughfare": {
+          "type": "string"
+        },
+        "premises": {
+          "type": "string"
+        },
+        "subPremises": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "subAdministrativeArea": {
+          "type": "string"
+        },
+        "administrativeArea": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "ShippingDetailsDto": {
+      "type": "object",
+      "required": [
+        "firstName",
+        "lastName",
+        "address"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "careOf": {
+          "type": "string"
+        },
+        "address": {
+          "$ref": "#/definitions/AddressDto"
+        }
+      }
+    },
+    "ItemsResultOfSiteItemDto": {
+      "type": "object",
+      "required": [
+        "items",
+        "totalItems"
+      ],
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/SiteItemDto"
+          }
+        },
+        "totalItems": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "SortDirection2": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Desc",
+        "Asc"
+      ],
+      "enum": [
+        0,
+        1
+      ]
     },
     "ItemsResultOfItemDto": {
       "type": "object",

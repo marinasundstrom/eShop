@@ -23,18 +23,18 @@
                                 <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
                             </div>
                         </div>
-                        <span class="text-muted">@((cartItem.Item.Price * cartItem.Quantity).ToString("c"))</span>
+                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
                     </li>   
                 }
                 <li class="list-group-item d-flex justify-content-end">
                     <div>
                         <li class="d-flex justify-content-between">
                             <span class="me-5">Total</span>
-                            <strong>@cart.Items.Sum(x => x.Quantity * x.Item.Price).ToString("c")</strong>
+                            <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
                         </li>
                         <li class="d-flex justify-content-between mt-2">
                             <small class="me-5">VAT incl.</small>
-                            <small>@((cart.Items.Sum(x => x.Quantity * x.Item.Price).GetVatFromTotal(0.25)).ToString("c"))</small>
+                            <small>@((cart.Items.Sum(x => x.Total).GetVatFromTotal(0.25)).ToString("c"))</small>
                         </li>
                     </div>
                 </li>
@@ -72,6 +72,7 @@
         }
         await CartsClient.UpdateCartItemQuantityAsync("test", cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
+        cartItem.Total = cartItem.Quantity * cartItem.Item.Price;
     }
 
     async Task DeleteItem(SiteCartItemDto cartItem)
