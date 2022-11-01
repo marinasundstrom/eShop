@@ -45,15 +45,6 @@ public class ProductViewModel
 
         if (Item.HasVariants)
         {
-            var selectedAttributeValues = AttributeGroups
-                .SelectMany(x => x.Attributes)
-                .Where(x => x.ForVariant)
-                .Where(x => !x.IsMainAttribute)
-                .Where(x => x.SelectedValueId is not null)
-                .ToDictionary(x => x.Id, x => x.SelectedValueId);
-
-            Variants.AddRange((await itemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributeValues)));
-
             SiteItemDto? item;
 
             if(variantId is not null) 
@@ -75,6 +66,15 @@ public class ProductViewModel
                 var x = attrs.FirstOrDefault(x => x.Id == attr.Id);
                 x.SelectedValueId = attr.ValueId;
             }
+
+            var selectedAttributeValues = AttributeGroups
+                .SelectMany(x => x.Attributes)
+                .Where(x => x.ForVariant)
+                .Where(x => !x.IsMainAttribute)
+                .Where(x => x.SelectedValueId is not null)
+                .ToDictionary(x => x.Id, x => x.SelectedValueId);
+
+            Variants.AddRange((await itemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributeValues)));
 
             SelectVariant(item);
         }
@@ -117,6 +117,18 @@ public class ProductViewModel
 
     public async Task UpdateVariant()
     {
+        var selectedAttributeValues = AttributeGroups
+            .SelectMany(x => x.Attributes)
+            .Where(x => x.ForVariant)
+            .Where(x => !x.IsMainAttribute)
+            .Where(x => x.SelectedValueId is not null)
+            .ToDictionary(x => x.Id, x => x.SelectedValueId);
+
+        var items = await itemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributeValues);
+        
+        Variants.Clear();
+        Variants.AddRange(items);
+
         var selectedAttributes = AttributeGroups
            .SelectMany(x => x.Attributes)
            .Where(x => x.ForVariant)

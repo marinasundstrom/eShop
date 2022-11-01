@@ -61,12 +61,12 @@
                             </div>
                         </div>
 
-                    @if (productViewModel.Variants is not null)
+                    @if (productViewModel.Variants is not null && productViewModel.Variants.Any())
                     {
                         <div class="d-flex">
                                 @foreach(var v in productViewModel.Variants)
                                 {
-                                    <div>
+                                    <div @key="v.Id">
                                         <div class="card shadow-sm mt-4 me-2" @onclick="async () => { productViewModel.SelectVariant(v!); await UpdateUrl(); }">
                                         @if ((v?.Image ?? productViewModel.Image) is not null)
                                         {
