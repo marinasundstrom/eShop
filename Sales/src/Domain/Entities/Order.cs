@@ -78,9 +78,9 @@ public class Order : AuditableEntity, IAggregateRoot
 
     public IReadOnlyCollection<OrderItem> Items => _items;
 
-    public OrderItem AddOrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity) 
+    public OrderItem AddOrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity, string? notes) 
     {
-        var orderItem = new OrderItem(itemId, description, quantity, unit, unitPrice,  unitPrice * (decimal)quantity, vatRate);
+        var orderItem = new OrderItem(itemId, description, quantity, unit, unitPrice,  unitPrice * (decimal)quantity, vatRate, notes);
         _items.Add(orderItem);
         return orderItem;
     }

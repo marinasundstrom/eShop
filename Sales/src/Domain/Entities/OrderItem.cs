@@ -6,7 +6,7 @@ public class OrderItem : AuditableEntity
     {
     }
 
-    internal OrderItem(string? itemId, string description, double quantity, string? unit, decimal unitPrice, decimal total, double vatRate)
+    internal OrderItem(string? itemId, string description, double quantity, string? unit, decimal unitPrice, decimal total, double vatRate, string? notes)
     {
         ItemId = itemId;
         Description = description;
@@ -15,6 +15,7 @@ public class OrderItem : AuditableEntity
         UnitPrice = unitPrice;
         Total = total;
         VatRate = vatRate;
+        Notes = notes;
     }
 
     public string Id { get; private set; } = Guid.NewGuid().ToString();
@@ -32,4 +33,6 @@ public class OrderItem : AuditableEntity
     public decimal Total { get; set; }
 
     public double VatRate { get; set; }
+
+    public string? Notes { get; set; }
 }

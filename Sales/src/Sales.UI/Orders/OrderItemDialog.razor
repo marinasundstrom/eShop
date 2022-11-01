@@ -60,6 +60,8 @@
 
             </MudGrid>
 
+            <MudTextField Label="Notes" Lines="5" @bind-Value="Model.Notes" For="() => Model.Notes" Class="mt-4"></MudTextField>
+
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="Cancel" Variant="Variant.Text">Cancel</MudButton>

@@ -693,10 +693,15 @@
           {
             "name": "status",
             "in": "query",
+            "style": "form",
+            "explode": true,
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "nullable": true
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
             },
             "x-position": 1
           },
@@ -1919,6 +1924,10 @@
             "type": "number",
             "format": "decimal"
           },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
           "created": {
             "type": "string",
             "format": "date-time"
@@ -1999,6 +2008,10 @@
           "quantity": {
             "type": "number",
             "format": "double"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2028,6 +2041,10 @@
           "vatRate": {
             "type": "number",
             "format": "double"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -2057,6 +2074,10 @@
           "vatRate": {
             "type": "number",
             "format": "double"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

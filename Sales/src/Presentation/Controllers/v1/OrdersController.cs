@@ -29,7 +29,7 @@ public sealed partial class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<OrderDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]
-    public async Task<ItemsResult<OrderDto>> GetOrders(int? status, string? customerId, string? ssn, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    public async Task<ItemsResult<OrderDto>> GetOrders([FromQueryAttribute] int[]? status, string? customerId, string? ssn, string? assigneeId, int page = 1, int pageSize = 10, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
         => await mediator.Send(new GetOrders(status, customerId, ssn, assigneeId, page, pageSize, sortBy, sortDirection), cancellationToken);
 
     [HttpGet("{id}")]

@@ -5,7 +5,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Items.Commands;
 
-public sealed record UpdateOrderItem(int OrderNo, string OrderItemId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity) : IRequest<Result<OrderItemDto>>
+public sealed record UpdateOrderItem(int OrderNo, string OrderItemId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity, string? Notes) : IRequest<Result<OrderItemDto>>
 {
     public sealed class Validator : AbstractValidator<UpdateOrderItem>
     {
@@ -52,6 +52,7 @@ public sealed record UpdateOrderItem(int OrderNo, string OrderItemId, string Des
             orderItem.UnitPrice = request.UnitPrice;
             orderItem.VatRate = request.VatRate;
             orderItem.Quantity = request.Quantity;
+            orderItem.Notes = request.Notes;
 
             order.Calculate();
 

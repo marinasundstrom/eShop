@@ -19,7 +19,7 @@ partial class OrdersController
     [ProducesDefaultResponseType]
     public async Task<ActionResult<OrderItemDto>> CreateOrderItem(int id, CreateOrderItemRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateOrderItem(id, request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity), cancellationToken);
+        var result = await mediator.Send(new CreateOrderItem(id, request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity, request.Notes), cancellationToken);
         return result.Handle(
             onSuccess: data => Ok(data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
@@ -30,7 +30,7 @@ partial class OrdersController
     [ProducesDefaultResponseType]
     public async Task<ActionResult<OrderItemDto>> UpdateOrderItem(int id, string itemId, UpdateOrderItemRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new UpdateOrderItem(id, itemId, request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity), cancellationToken);
+        var result = await mediator.Send(new UpdateOrderItem(id, itemId, request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity, request.Notes), cancellationToken);
         return result.Handle(
             onSuccess: data => Ok(data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
@@ -46,4 +46,4 @@ partial class OrdersController
     }
 }
 
-public record UpdateOrderItemRequest(string Description, string? ItemId, string? Unit, decimal UnitPrice, double Quantity, double VatRate);
+public record UpdateOrderItemRequest(string Description, string? ItemId, string? Unit, decimal UnitPrice, double Quantity, double VatRate, string? Notes);

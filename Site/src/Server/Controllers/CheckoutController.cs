@@ -56,6 +56,45 @@ public class CheckoutController : ControllerBase
 
             price += CalculatePrice(item, options);
 
+            List<string> optionTexts = new List<string>();
+
+            foreach(var option in options) 
+            {
+                var opt = item.Options.FirstOrDefault(x => x.Id == option.Id);
+
+                if(opt is not null) 
+                {
+                    if(option.IsSelected.GetValueOrDefault()) 
+                    {
+                        if(option.Price is not null) 
+                        {
+                            optionTexts.Add($"{option.Name} (+{option.Price?.ToString("c")})");
+                        }
+                        else 
+                        {
+                            optionTexts.Add(option.Name);
+                        }
+                    }
+                    else if (option.SelectedValueId is not null)
+                    {
+                        var value = opt.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
+
+                        if(value.Price is not null) 
+                        {
+                            optionTexts.Add($"{value.Name} (+{value.Price?.ToString("c")})");
+                        }
+                        else 
+                        {
+                            optionTexts.Add(value.Name);
+                        }              
+                    }
+                    else if (option.NumericalValue is not null)
+                    {
+                        optionTexts.Add($"{option.NumericalValue} {option.Name}");
+                    }
+                }
+            }
+
             /*
             var price = item.Price
                 + options
@@ -66,8 +105,9 @@ public class CheckoutController : ControllerBase
 
             items.Add(new CreateOrderItemDto
             {
-                Description = $"{item.Name} - {item.Description}",
+                Description = item.Name,
                 ItemId = cartItem.ItemId,
+                Notes = string.Join(", ", optionTexts),
                 UnitPrice = price,
                 VatRate = 0.25,
                 Quantity = cartItem.Quantity
@@ -89,7 +129,7 @@ public class CheckoutController : ControllerBase
     private static decimal CalculatePrice(YourBrand.Catalog.ItemDto item, IEnumerable<Option>? options)
     {
         decimal price = 0;
-        
+
         foreach (var option in options!
             .Where(x => x.IsSelected.GetValueOrDefault() || x.SelectedValueId is not null))
         {

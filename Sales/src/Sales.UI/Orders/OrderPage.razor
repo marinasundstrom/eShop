@@ -25,9 +25,9 @@
 
             @if (order.Status.Id == 1)
             {
-                        <MudButton StartIcon="@Icons.Filled.Delete" OnClick="async (e) => await DeleteOrder(order)">
-                            Delete
-                        </MudButton>
+                <MudButton StartIcon="@Icons.Filled.Delete" OnClick="async (e) => await DeleteOrder(order)">
+                    Delete
+                </MudButton>
             }
             </div>
 
@@ -103,6 +103,47 @@
                         <MudField Label="VAT">@Model.Vat.FormatCurrency(order.Currency)</MudField>
                     </MudItem>
 
+                    <MudItem xs="6" sm="6" md="3" lg="3">
+                        <MudField Label="Customer No">@order.CustomerId</MudField>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="12" md="12" lg="12">
+                        <MudField Label="Notes">@Model.Notes</MudField>
+                    </MudItem>
+
+                    @if(order.BillingDetails is not null) 
+                    {
+                        <MudItem xs="12" sm="6" md="3" lg="3">
+                            <MudText Typo="Typo.h5" Class="mb-1">Billing details</MudText>
+                            <MudText>@order.BillingDetails.FirstName @order.BillingDetails.LastName</MudText>
+                            <MudText>@order.BillingDetails.Ssn</MudText>
+
+                            @{
+                                var address = order.BillingDetails.Address;
+                            }
+                            <MudText Class="mt-2">@address.Thoroughfare @address.Premises @address.SubPremises</MudText>
+                            <MudText>@address.PostalCode @address.Locality</MudText>
+                            <MudText>@address.Country</MudText>
+                            
+                            <MudText Class="mt-2">@order.BillingDetails.PhoneNumber</MudText>
+                            <MudText>@order.BillingDetails.Email</MudText>
+                        </MudItem>
+                    }
+
+                    @if(order.ShippingDetails is not null) 
+                    {
+                        <MudItem xs="12" sm="6" md="3" lg="3">
+                            <MudText Typo="Typo.h5" Class="mb-1">Shipping details</MudText>
+                            <MudText>@order.ShippingDetails.FirstName @order.ShippingDetails.LastName</MudText>
+                            @{
+                                var address = order.ShippingDetails.Address;
+                            }
+                            <MudText class="mt-2">@address.Thoroughfare @address.Premises @address.SubPremises</MudText>
+                            <MudText>@address.PostalCode @address.Locality</MudText>
+                            <MudText>@address.Country</MudText>
+                        </MudItem>
+                    }
+
             </MudGrid>
         </MudPaper>
 
@@ -116,11 +157,11 @@
         <MudTable T="OrderItemViewModel" @ref="table" Items="Model.Items" Hover="true" Elevation="25"
               Breakpoint="Breakpoint.Sm" Loading="@loading" LoadingProgressColor="Color.Info" OnRowClick="async (e) => await UpdateOrderItem(e.Item)">
             <HeaderContent>
-                <MudTh>Description</MudTh>
                 <MudTh>Item Id</MudTh>
-                <MudTh>Unit Price</MudTh>
+                <MudTh>Description</MudTh>
                 <MudTh>Quantity</MudTh>
                 <MudTh>Unit</MudTh>
+                <MudTh>Unit Price</MudTh>
                 <MudTh>VAT Rate</MudTh>
                 <MudTh>VAT</MudTh>
                 <MudTh>Total</MudTh>
@@ -130,14 +171,14 @@
                 }
             </HeaderContent>
             <RowTemplate Context="orderItem">
-                <MudTd DataLabel="Description">@orderItem.Description</MudTd>
                 <MudTd DataLabel="Item Id">@orderItem.ItemId</MudTd>
-                <MudTd DataLabel="Unit Price">@orderItem.UnitPrice</MudTd>
+                <MudTd DataLabel="Description">@orderItem.Description</MudTd>
                 <MudTd DataLabel="Quantity">@orderItem.Quantity</MudTd>
                 <MudTd DataLabel="Unit">@orderItem.Unit</MudTd>
+                <MudTd DataLabel="Unit Price">@orderItem.UnitPrice.FormatCurrency(order.Currency)</MudTd>
                 <MudTd DataLabel="VAT Rate">@(orderItem.VatRate * 100)%</MudTd>
-                <MudTd DataLabel="VAT">@orderItem.Vat</MudTd>
-                <MudTd DataLabel="Line Total">@orderItem.LineTotal.FormatCurrency(order.Currency)</MudTd>
+                <MudTd DataLabel="VAT">@orderItem.Vat.FormatCurrency(order.Currency)</MudTd>
+                <MudTd DataLabel="Total">@orderItem.LineTotal.FormatCurrency(order.Currency)</MudTd>
                 @if (Model.Status.Id == 1)
                 {
                     <MudTd>
@@ -145,6 +186,22 @@
                     </MudTd>
                 }
             </RowTemplate>
+
+            <ChildRowContent>
+                @if(!string.IsNullOrEmpty(context.Notes))
+                {
+                <MudTr>
+                    <td colspan="8" class="mud-table-cell pa-0">
+                        <MudCard Elevation="0" Style="background-color: #f7f7f7;">
+                            <MudCardContent>
+                                <MudText Typo="Typo.body2">@context.Notes</MudText>
+                            </MudCardContent>
+                        </MudCard>
+                    </td>
+                </MudTr>
+                }
+            </ChildRowContent>
+
             <LoadingContent>
                 <MudText>Loading...</MudText>
             </LoadingContent>
@@ -240,8 +297,9 @@
 
         if (result.Cancelled) return;
 
-        Model.Status = (OrderStatusDto)result.Data;
+        await OrdersClient.UpdateStatusAsync(Id.GetValueOrDefault(), ((OrderStatusDto)result.Data).Id);
 
+        Model.Status = (OrderStatusDto)result.Data;
     }
 
     private async Task DeleteOrder(OrderDto order)

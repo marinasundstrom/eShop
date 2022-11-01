@@ -19,7 +19,7 @@ public class OrderViewModel
 
     public string? Reference { get; set; }
 
-    public string? Note { get; set; }
+    public string? Notes { get; set; }
 
     public DateTime? DueDate { get; set; }
 

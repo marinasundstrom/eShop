@@ -31,6 +31,7 @@ public static class Mapper
             Id = dto.Id,
             Description = dto.Description,
             ItemId = dto.ItemId,
+            Notes = dto.Notes,
             UnitPrice = dto.UnitPrice,
             Unit = dto.Unit,
             Quantity = dto.Quantity,
@@ -44,6 +45,7 @@ public static class Mapper
         {
             Description = vm.Description,
             ItemId = vm.ItemId,
+            Notes = vm.Notes,
             UnitPrice = vm.UnitPrice,
             Unit = vm.Unit,
             Quantity = vm.Quantity,
@@ -57,6 +59,7 @@ public static class Mapper
         {
             Description = dto.Description,
             ItemId = dto.ItemId,
+            Notes = dto.Notes,
             UnitPrice = dto.UnitPrice,
             Unit = dto.Unit,
             Quantity = dto.Quantity,

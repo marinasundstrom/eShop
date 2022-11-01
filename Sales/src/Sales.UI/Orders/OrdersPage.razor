@@ -21,10 +21,10 @@
                 }
             </MudSelect> *@
         <MudSpacer />
-        <MudSelect T="OrderStatusDto?" Label="Status" MultiSelection="true" @bind-Value="Status" SelectedValues="selectedStatuses" SelectedValuesChanged="OnSelectedValuesChanged" Class="mt-0">
+        <MudSelect T="OrderStatusDto?" Label="Status" MultiSelection="true" @bind-Value="Status" SelectedValues="selectedStatuses" SelectedValuesChanged="OnSelectedValuesChanged" ToStringFunc="(o) => o.Name" Class="mt-0">
             @foreach (var status in orderStatuses)
             {
-                <MudSelectItem T="OrderStatusDto?" Value="@status">@Enum.GetName(typeof(OrderStatusDto), status)</MudSelectItem>
+                <MudSelectItem T="OrderStatusDto?" Value="@status">@status.Name</MudSelectItem>
             }
         </MudSelect>
     </ToolBarContent>
@@ -71,18 +71,22 @@
     IEnumerable<OrderStatusDto> orderStatuses = new List<OrderStatusDto>();
     IEnumerable<OrderStatusDto?> selectedStatuses = new List<OrderStatusDto?>();
 
+    protected override async Task OnInitializedAsync() 
+    {
+        orderStatuses = (await OrderStatusesClient.GetOrderStatusesAsync(1, 100, null, null, null)).Items.ToList();
+    }
+
     private async Task<TableData<OrderDto>> ServerReload(TableState state)
     {
         loading = true;
 
         try
         {
-            orderStatuses = (await OrderStatusesClient.GetOrderStatusesAsync(state.Page + 1, state.PageSize, null, null, null)).Items.ToList();
-
-            var result = await OrdersClient.GetOrdersAsync(null, null, null, null, state.Page + 1, state.PageSize, null, null);
+            var result = await OrdersClient.GetOrdersAsync(selectedStatuses?.Select(x => x.Id), null, null, null, state.Page + 1, state.PageSize, null, null);
 
             return new TableData<OrderDto>() { TotalItems = result.TotalItems, Items = result.Items };
         }
+        catch { throw; }
         finally
         {
             loading = false;

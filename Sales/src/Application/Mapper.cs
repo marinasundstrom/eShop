@@ -12,7 +12,7 @@ public static class Mappings
         order.ShippingDetails?.ToDto(),
         order.Items.Select(x => x.ToDto()), order.SubTotal, order.Vat.GetValueOrDefault(), order.Total, order.Created, order.CreatedBy?.ToDto(), order.LastModified, order.LastModifiedBy?.ToDto());
 
-    public static OrderItemDto ToDto(this OrderItem orderItem) => new (orderItem.Id, orderItem.Description, orderItem.ItemId, orderItem.Unit, orderItem.UnitPrice, orderItem.Quantity, orderItem.VatRate, orderItem.Total, orderItem.Created, orderItem.CreatedBy?.ToDto(), orderItem.LastModified, orderItem.LastModifiedBy?.ToDto());
+    public static OrderItemDto ToDto(this OrderItem orderItem) => new (orderItem.Id, orderItem.Description, orderItem.ItemId, orderItem.Unit, orderItem.UnitPrice, orderItem.Quantity, orderItem.VatRate, orderItem.Total, orderItem.Notes, orderItem.Created, orderItem.CreatedBy?.ToDto(), orderItem.LastModified, orderItem.LastModifiedBy?.ToDto());
 
     public static OrderStatusDto ToDto(this OrderStatus orderStatus) => new (orderStatus.Id, orderStatus.Name);
 

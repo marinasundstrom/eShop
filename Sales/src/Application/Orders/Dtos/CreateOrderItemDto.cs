@@ -13,4 +13,6 @@ public sealed class CreateOrderItemDto
     public double VatRate { get; set; }
 
     public double Quantity { get; set; }
+
+    public string? Notes { get; set; }
 }

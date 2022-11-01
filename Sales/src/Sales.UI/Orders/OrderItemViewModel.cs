@@ -13,6 +13,8 @@ public class OrderItemViewModel
 
     public string? ItemId { get; set; }
 
+    public string? Notes { get; set; }
+
     [Required]
     public decimal UnitPrice { get; set; }
 
