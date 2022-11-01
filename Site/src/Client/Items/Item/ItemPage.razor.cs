@@ -4,16 +4,20 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Xml.Linq;
 using System.Text.Json;
+using Site.Client.Items.Item;
 
-namespace Site.Client.Pages;
+namespace Site.Client.Items.Item;
 
 partial class ItemPage
 {
     SiteItemDto? item;
+    SiteItemDto? variant;
+    IEnumerable<SiteItemDto>? variants;
     IEnumerable<OptionDto>? itemOptions;
     IEnumerable<AttributeDto>? itemAttributes;
     ItemsResultOfItemDto? itemVariantResults;
     List<OptionGroupVM> optionGroups = new List<OptionGroupVM>();
+    List<AttributeGroupVM> attributeGroups = new List<AttributeGroupVM>();
 
     int quantity = 1;
     bool hasAddedToCart = false;
@@ -25,6 +29,9 @@ partial class ItemPage
 
     [Parameter]
     public string Id { get; set; }
+
+    [Parameter]
+    public string? VariantId { get; set; }
 
     [Parameter]
     [SupplyParameterFromQuery(Name = "d")]
@@ -78,6 +85,43 @@ partial class ItemPage
         }
 
         CreateOptionsVM(itemOptions);
+        CreateAttributesVM(itemAttributes);
+
+        if (item.HasVariants)
+        {
+            // INFO: Duplicated 
+            var selectedAttributeValues = attributeGroups
+                .SelectMany(x => x.Attributes)
+                .Where(x => x.ForVariant)
+                .Where(x => !x.IsMainAttribute)
+                .Where(x => x.SelectedValueId is not null)
+                .ToDictionary(x => x.Id, x => x.SelectedValueId);
+
+
+            variants = await ItemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributeValues);
+          
+            //await Update(null!);
+
+            variant = variants.First();
+        }
+
+        if(VariantId is not null) 
+        {
+            var item = await ItemsClient.GetItemAsync(VariantId);
+
+            attributeGroups.ForEach(x => x.Attributes.ForEach(x => x.SelectedValueId = null));
+
+            var attrs = attributeGroups.SelectMany(x => x.Attributes);
+
+            foreach(var attr in item.VariantAttributes) 
+            {
+                var x = attrs.FirstOrDefault(x => x.Id == attr.Id);
+                x.SelectedValueId = attr.ValueId;
+            }
+
+            await SelectVariant(item);
+        }
+
         LoadData();
     }
 
@@ -97,7 +141,7 @@ partial class ItemPage
 
             foreach (var option in itemOptions.Where(x => x.Group?.Id == group.Id))
             {
-                group.Options.Add(new OptionVM
+                var o = new OptionVM
                 {
                     Id = option.Id,
                     Name = option.Name,
@@ -107,7 +151,6 @@ partial class ItemPage
                     Price = option.Price,
                     ItemId = option.ItemId,
                     IsSelected = option.IsSelected,
-                    Values = option.Values,
                     SelectedValueId = option.DefaultValue?.Id,
                     MinNumericalValue = option.MinNumericalValue,
                     MaxNumericalValue = option.MaxNumericalValue,
@@ -115,10 +158,57 @@ partial class ItemPage
                     TextValue = option.DefaultTextValue,
                     TextValueMaxLength = option.TextValueMaxLength,
                     TextValueMinLength = option.TextValueMinLength
-                });
+                };
+
+                o.Values.AddRange(option.Values.Select(x => new OptionValueVM
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    Price = x.Price
+                }));
+
+                group.Options.Add(o);
             }
 
             optionGroups.Add(group);
+        }
+    }
+
+    private void CreateAttributesVM(IEnumerable<AttributeDto> itemAttributes)
+    {
+        foreach (var attributeGroup in itemAttributes
+            .Select(x => x.Group ?? new AttributeGroupDto())
+            .DistinctBy(x => x.Id))
+        {
+            var group = new AttributeGroupVM()
+            {
+                Id = attributeGroup.Id,
+                Name = attributeGroup.Name
+            };
+
+            foreach (var attribute in itemAttributes.Where(x => x.Group?.Id == group.Id))
+            {
+                var attr = new AttributeVM
+                {
+                    Id = attribute.Id,
+                    Name = attribute.Name,
+                    ForVariant = attribute.ForVariant,
+                    IsMainAttribute = attribute.IsMainAttribute
+                };
+
+                group.Attributes.Add(attr);
+
+                attr.Values.AddRange(attribute.Values.Select(x => new AttributeValueVM
+                {
+                    Id = x.Id,
+                    Name = x.Name
+                }));
+
+                attr.SelectedValueId = attr.Values.FirstOrDefault()?.Id;
+
+            }
+
+            attributeGroups.Add(group);
         }
     }
 
@@ -161,7 +251,7 @@ partial class ItemPage
     {
         await CartsClient.AddItemToCartAsync("test", new AddCartItemDto()
         {
-            ItemId = item.Id,
+            ItemId = variant?.Id ?? item?.Id,
             Quantity = quantity,
             Data = Serialize()
         });
@@ -169,59 +259,9 @@ partial class ItemPage
         hasAddedToCart = true;
     }
 
-    void IDisposable.Dispose()
+    public void Dispose()
     {
         persistingSubscription.Dispose();
-    }
-
-    public class OptionGroupVM
-    {
-        public string Id { get; set; } = null!;
-
-        public string Name { get; set; } = null!;
-
-        public string Description { get; set; } = null!;
-
-        public int? Min { get; set; }
-
-        public int? Max { get; set; }
-
-        public List<OptionVM> Options { get; } = new List<OptionVM>();
-    }
-
-    public class OptionVM
-    {
-        public string Id { get; set; } = null!;
-
-        public string Name { get; set; } = null!;
-
-        public string Description { get; set; } = null!;
-
-        public OptionType OptionType { get; set; }
-
-        public OptionGroupDto Group { get; set; } = null!;
-
-        public string? ItemId { get; set; }
-
-        public decimal? Price { get; set; }
-
-        public bool IsSelected { get; set; }
-
-        public IEnumerable<OptionValueDto>? Values { get; set; }
-
-        public string? SelectedValueId { get; set; }
-
-        public int? MinNumericalValue { get; set; }
-
-        public int? MaxNumericalValue { get; set; }
-
-        public int? NumericalValue { get; set; }
-
-        public string? TextValue { get; set; }
-
-        public int? TextValueMinLength { get; set; }
-
-        public int? TextValueMaxLength { get; set; }
     }
 
     public class Option
@@ -252,7 +292,7 @@ partial class ItemPage
 
         await JS.InvokeVoidAsync("skipScroll");
 
-        NavigationManager.NavigateTo($"/items/{GroupId}/{Id}?d={data}", forceLoad: false, replace: true);
+        NavigationManager.NavigateTo($"/items/{Id}?d={data}", forceLoad: false, replace: true);
     }
 
     string Serialize()
@@ -283,6 +323,74 @@ partial class ItemPage
         {
             DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
         });
+    }
+
+    public decimal Total => item.Price
+                + optionGroups.SelectMany(x => x.Options)
+                .Where(x => x.IsSelected || x.SelectedValueId is not null)
+                .Select(x => x.Price.GetValueOrDefault() + (x.Values.FirstOrDefault(x2 => x2.Id == x?.SelectedValueId)?.Price ?? 0))
+                .Sum();
+
+    async Task SelectVariant(SiteItemDto variant)
+    {
+        if (this.variant?.Id == variant?.Id) return;
+
+        this.variant = variant;
+
+        var attributes = attributeGroups.SelectMany(x => x.Attributes);
+
+        foreach (var attr in variant.VariantAttributes)
+        {
+            var selectedAttr = attributes.First(x => x.Id == attr.Id);
+            selectedAttr.SelectedValueId = selectedAttr.Values.FirstOrDefault(x => x.Id == attr.ValueId)?.Id;
+        }
+
+        string data = Serialize();
+        data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+
+        //await JS.InvokeVoidAsync("skipScroll");
+
+        try 
+        {
+            NavigationManager.NavigateTo($"/items/{Id}/{variant.Id}?d={data}", replace: true);
+        }
+        catch {}
+
+        StateHasChanged();
+    }
+
+    async Task Update(AttributeVM attribute)
+    {
+        var selectedAttributes = attributeGroups
+           .SelectMany(x => x.Attributes)
+           .Where(x => x.ForVariant)
+           .Where(x => x.SelectedValueId is not null);
+
+        /*
+        variants = await ItemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributes
+            .Where(x => !x.IsMainAttribute)
+            .ToDictionary(x => x.Id, x => x.SelectedValueId)); */
+
+        try
+        {
+            variant = await ItemsClient.FindItemVariantByAttributesAsync(Id, selectedAttributes.ToDictionary(x => x.Id, x => x.SelectedValueId));
+
+            try
+            {
+                string data = Serialize();
+                data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(data));
+
+                NavigationManager.NavigateTo($"/items/{Id}/{variant.Id}?d={Data}", replace: true);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+        catch (ApiException exc)
+        {
+            //DialogService.ShowMessageBox("Variant not found", "Could not find a variant for the selected options. Please try again.");
+        }
     }
 }
 

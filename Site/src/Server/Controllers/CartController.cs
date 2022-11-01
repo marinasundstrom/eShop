@@ -87,7 +87,7 @@ public class CartsController : ControllerBase
                 }
             }
 
-            items.Add(new SiteCartItemDto(cartItem.Id, new SiteItemDto(item.Id, item.Name, string.Join(", ", optionTexts), item.Group?.ToDto(), item.Image, price, compareAtPrice, 0), (int)cartItem.Quantity, 0, cartItem.Data));
+            items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(), (int)cartItem.Quantity, 0, cartItem.Data));
         }
 
         return new SiteCartDto(cart.Id, items);
@@ -151,7 +151,7 @@ public class CartsController : ControllerBase
 
 public record AddCartItemDto(string? ItemId, int Quantity, string? Data);
 
-public record SiteItemDto(string Id, string Name, string? Description, SiteItemGroupDto Group, string? Image, decimal Price, decimal? CompareAtPrice, int? Available);
+public record SiteItemDto(string Id, string Name, string? Description, SiteItemGroupDto? Group, string? Image, decimal Price, decimal? CompareAtPrice, int? Available, bool HasVariants, IEnumerable<YourBrand.Catalog.ItemVariantAttributeDto> VariantAttributes);
 
 public record SiteItemGroupDto(string Id, string Name, SiteItemGroupDto? Parent);
 

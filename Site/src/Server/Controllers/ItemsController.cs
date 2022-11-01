@@ -41,7 +41,7 @@ public class ItemsController : ControllerBase
             } catch {}
             */
 
-            items.Add(new SiteItemDto(item.Id, item.Name, item.Description, item.Group?.ToDto(), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable));
+            items.Add(item.ToDto());
         }
         return new ItemsResult<SiteItemDto>(items, result.TotalItems);
     }
@@ -58,7 +58,7 @@ public class ItemsController : ControllerBase
             available = inventoryItem.QuantityAvailable;
         } catch {}
         */
-        return new SiteItemDto(item.Id, item.Name, item.Description, item.Group?.ToDto(), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable);
+        return item.ToDto();
     }
 
     [HttpGet("{id}/Attributes")]
@@ -80,9 +80,17 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost("{id}/Variants/Find")]
-    public async Task<ItemDto?> FindItemVariantByAttributes(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
+    public async Task<SiteItemDto?> FindItemVariantByAttributes(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
     {
-        return await _itemsClient.FindVariantByAttributeValuesAsync(id, attributes, cancellationToken);
+        var r = await _itemsClient.FindVariantByAttributeValuesAsync(id, attributes, cancellationToken);
+        return r?.ToDto();
+    }
+
+    [HttpPost("{id}/Variants/Find2")]
+    public async Task<IEnumerable<SiteItemDto>> FindItemVariantByAttributes2(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
+    {
+        var r = await _itemsClient.FindVariantByAttributeValues2Async(id, attributes, cancellationToken);
+        return r.Select(x => x.ToDto());
     }
 
     [HttpGet("Categories")]

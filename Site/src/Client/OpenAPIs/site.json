@@ -593,7 +593,58 @@
             "x-nullable": false,
             "description": "",
             "schema": {
-              "$ref": "#/definitions/ItemDto"
+              "$ref": "#/definitions/SiteItemDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/Items/{id}/Variants/Find2": {
+      "post": {
+        "tags": [
+          "Items"
+        ],
+        "operationId": "Items_FindItemVariantByAttributes2",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "name": "attributes",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/SiteItemDto"
+              }
             }
           }
         }
@@ -787,6 +838,31 @@
             "description": "",
             "schema": {
               "$ref": "#/definitions/UserProfileDto"
+            }
+          }
+        }
+      }
+    },
+    "/api/User/addresses": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "operationId": "User_GetAddresses",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AddressDto2"
+              }
             }
           }
         }
@@ -1042,8 +1118,9 @@
       "required": [
         "id",
         "name",
-        "group",
-        "price"
+        "price",
+        "hasVariants",
+        "variantAttributes"
       ],
       "properties": {
         "id": {
@@ -1072,6 +1149,15 @@
         "available": {
           "type": "integer",
           "format": "int32"
+        },
+        "hasVariants": {
+          "type": "boolean"
+        },
+        "variantAttributes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemVariantAttributeDto"
+          }
         }
       }
     },
@@ -1087,6 +1173,35 @@
         },
         "name": {
           "type": "string"
+        },
+        "parent": {
+          "$ref": "#/definitions/SiteItemGroupDto"
+        }
+      }
+    },
+    "ItemVariantAttributeDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "value",
+        "isMainAttribute"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "valueId": {
+          "type": "string"
+        },
+        "isMainAttribute": {
+          "type": "boolean"
         }
       }
     },
@@ -1574,32 +1689,6 @@
         1
       ]
     },
-    "ItemVariantAttributeDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name",
-        "value",
-        "isMainAttribute"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "value": {
-          "type": "string"
-        },
-        "valueId": {
-          "type": "string"
-        },
-        "isMainAttribute": {
-          "type": "boolean"
-        }
-      }
-    },
     "ItemsResultOfOrderDto": {
       "type": "object",
       "required": [
@@ -1788,6 +1877,63 @@
           "type": "string"
         }
       }
+    },
+    "AddressDto2": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "thoroughfare",
+        "postalCode",
+        "locality",
+        "subAdministrativeArea",
+        "administrativeArea",
+        "country"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "type": {
+          "$ref": "#/definitions/AddressType"
+        },
+        "thoroughfare": {
+          "type": "string"
+        },
+        "premises": {
+          "type": "string"
+        },
+        "subPremises": {
+          "type": "string"
+        },
+        "postalCode": {
+          "type": "string"
+        },
+        "locality": {
+          "type": "string"
+        },
+        "subAdministrativeArea": {
+          "type": "string"
+        },
+        "administrativeArea": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        }
+      }
+    },
+    "AddressType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Delivery",
+        "Billing"
+      ],
+      "enum": [
+        1,
+        2
+      ]
     },
     "WeatherForecast": {
       "type": "object",
