@@ -7,7 +7,6 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddAuthServices(this IServiceCollection services)
     {
-        services.AddScoped<HttpInterceptorService>();
         services.AddScoped<RefreshTokenService>();
         services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
         services.AddScoped<IAuthenticationService, AuthenticationService>();

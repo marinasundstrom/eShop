@@ -29,15 +29,25 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
         {
             if (!absPath.Contains("Token") && !absPath.Contains("Authentication"))
             {
-                var token = await _refreshTokenService.TryRefreshToken();
-                
+                string token;
+
+                try 
+                {
+                    token = await _refreshTokenService.TryRefreshToken();
+                }
+                catch(Exception exc) 
+                {
+                    Console.WriteLine(exc);
+
+                    token = await _refreshTokenService.TryRefreshToken();
+                }                
+
                 if (string.IsNullOrEmpty(token))
                 {
                     token = await localStorageService.GetItemAsync<string>("authToken");
                 }
 
                 request.Headers.Authorization = new AuthenticationHeaderValue("bearer", token);
-
             }
 
             return await base.SendAsync(request, cancellationToken);
