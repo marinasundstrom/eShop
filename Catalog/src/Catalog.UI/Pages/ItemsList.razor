@@ -42,6 +42,9 @@
             <MudTableSortLabel SortLabel="Price" T="ItemDto">Price</MudTableSortLabel>
         </MudTh>
         <MudTh>
+            <MudTableSortLabel SortLabel="CompareAtPrice" T="ItemDto">Compare At Price</MudTableSortLabel>
+        </MudTh>
+        <MudTh>
             <MudTableSortLabel SortLabel="Visibility" T="ItemDto">Visibility</MudTableSortLabel>
         </MudTh>
         <MudTh></MudTh>
@@ -70,6 +73,7 @@
         <MudTd DataLabel="Id">@context.Id</MudTd>
         <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : "No")</MudTd>
         <MudTd DataLabel="Price">@context.Price.ToString("c")</MudTd>
+        <MudTd DataLabel="Compare At Price">@context.CompareAtPrice?.ToString("c")</MudTd>
         <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" Link="@($"/items/{context.Id}/edit")" />
