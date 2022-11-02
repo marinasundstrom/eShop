@@ -90,8 +90,8 @@ public class ProductViewModel
 
     private async Task Load() 
     {
-        itemOptions = await itemsClient.GetItemOptionsAsync(Id);
-        itemAttributes = await itemsClient.GetItemAttributesAsync(Id);
+        itemOptions = Item!.Options;
+        itemAttributes = Item.Attributes;
 
         CreateOptionsVM();
         CreateAttributesVM();
