@@ -23,8 +23,6 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
     {
         var absPath = request.RequestUri.AbsolutePath;
 
-        Console.WriteLine(absPath);
-
         try 
         {
             if (!absPath.Contains("Token") && !absPath.Contains("Authentication"))
@@ -37,8 +35,6 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
                 }
                 catch(Exception exc) 
                 {
-                    Console.WriteLine(exc);
-
                     token = await _refreshTokenService.TryRefreshToken();
                 }                
 
