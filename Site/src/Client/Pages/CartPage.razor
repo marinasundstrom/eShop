@@ -59,8 +59,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Is Prerendering" + RenderingContext.IsPrerendering);
-
         if (RenderingContext.IsPrerendering)
             return;
 

@@ -38,10 +38,6 @@
                 <span class="mx-4 my-2">No items yet :(</span>
             }
         }
-        else 
-        {
-            <span class="mx-4 my-2">Cart not loaded.</span>
-        }
     </ul>
 }
 
@@ -59,8 +55,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine("Is Prerendering" + RenderingContext.IsPrerendering);
-
         if (RenderingContext.IsPrerendering)
             return;
 
