@@ -71,7 +71,7 @@
                                     {
                                         <tr>
                                             <td>@orderItem.Description</td>
-                                            <td>@orderItem.ItemId</td>
+                                            <td><a href="/items/@orderItem.ItemId">@orderItem.ItemId</a></td>
                                             <td>@orderItem.Quantity @orderItem.Unit</td>
                                             <td>@orderItem.UnitPrice.ToString("c")</td>
                                             <td>@(orderItem.VatRate * 100)%</td>
