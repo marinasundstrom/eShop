@@ -74,6 +74,12 @@
                     <ValidationMessage For="() => LastName" />
                 </div>
 
+                <div class="form-floating col-sm-6">
+                    <InputText class="form-control" @bind-Value="SSN" />
+                    <label for="ssn" class="form-label">SSN</label>
+                    <ValidationMessage For="() => SSN" />
+                </div>
+
                 <div class="form-floating col-12">
                     <InputText class="form-control" @bind-Value="Email" />
                     <label for="email" class="form-label">Email</label>
@@ -82,7 +88,7 @@
 
                 <div class="form-floating col-12">
                     <InputText class="form-control" @bind-Value="Phone" />
-                    <label for="email" class="form-label">Phone number</label>
+                    <label for="phoneNumber" class="form-label">Phone number</label>
                     <ValidationMessage For="() => Phone" />
                 </div>
 
@@ -208,6 +214,7 @@
 
             FirstName = profile.FirstName;
             LastName = profile.LastName;
+            SSN = profile.Ssn;
             Phone = profile.Phone;
             Email = profile.Email;
             BillingAddress.Thoroughfare = address.Thoroughfare;
@@ -230,6 +237,9 @@
 
     [Required]
     public string LastName { get; set; } = null!;
+    
+    [Required]
+    public string SSN { get; set; } = null!;
 
     [Required]
     [EmailAddress]
@@ -261,7 +271,7 @@
             {
                 FirstName = FirstName,
                 LastName = LastName,
-                Ssn = "19924234",
+                Ssn = SSN,
                 Email = Email,
                 PhoneNumber = Phone,
                 Address = Map(BillingAddress)

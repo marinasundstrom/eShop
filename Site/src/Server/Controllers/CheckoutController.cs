@@ -44,9 +44,11 @@ public class CheckoutController : ControllerBase
     [HttpPost]
     public async Task Checkout(CheckoutDto dto, CancellationToken cancellationToken = default)
     {
-        string customerId = currentUserService.CustomerNo.ToString();
+        var customerId = currentUserService.CustomerNo;
 
-        var cart = await cartsClient.GetCartByTagAsync($"cart-{customerId}");
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        var cart = await cartsClient.GetCartByTagAsync(tag);
 
         var items = new List<CreateOrderItemDto>();
 
@@ -122,7 +124,7 @@ public class CheckoutController : ControllerBase
         }
 
         await _ordersClient.CreateOrderAsync(new YourBrand.Sales.CreateOrderRequest() {
-            CustomerId = customerId,
+            CustomerId = customerId?.ToString(),
             BillingDetails = dto.BillingDetails,
             ShippingDetails = dto.ShippingDetails,
             Items = items.ToList()
