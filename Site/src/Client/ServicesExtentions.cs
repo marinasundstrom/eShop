@@ -1,6 +1,8 @@
 using System.Globalization;
 using Blazor.Analytics;
 using Blazored.LocalStorage;
+using Blazored.Modal;
+using Blazored.Toast;
 using Site.Services;
 namespace Site.Client;
 
@@ -31,6 +33,9 @@ public static class ServiceExtensions
         services.AddGoogleAnalytics(configuration["GoogleAnalytics:TrackingId"]);
 
         services.AddBlazoredLocalStorage();
+
+        services.AddBlazoredModal();
+        services.AddBlazoredToast();
 
         return services;
     }

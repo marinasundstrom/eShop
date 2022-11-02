@@ -18,8 +18,6 @@ builder.Services.AddAuthServices();
 
 builder.Services.AddServices(builder.Configuration);
 
-builder.Services.AddMediatR(typeof(Site.Components.CartDisplay)); ;
-
 //builder.Services.AddHttpClientInterceptor();
 
 builder.Services.AddAuthorizationCore();

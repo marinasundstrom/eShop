@@ -21,8 +21,23 @@
 </div>
 
 @code{
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
     async Task BeginSignOut()
     {
+        var options = new ModalOptions()
+        {
+            Position = ModalPosition.Middle,
+            HideCloseButton = true
+        };
+
+        var modalRef = Modal.Show<SignOutModal>("Sign out?", options);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled)
+            return;
+
         await AuthenticationService.Logout();
         await CartService.Reload();
         Navigation.NavigateTo("/");

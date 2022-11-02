@@ -239,3 +239,7 @@ header.main {
   cursor: pointer;
   box-shadow: rgba(144, 128, 128, 0.44) 1px 2px 4px 0px;
 }
+
+.bm-container {
+    z-index: 999999 !important;
+}

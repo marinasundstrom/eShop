@@ -4,6 +4,7 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Xml.Linq;
 using Site.Client.Items.Item;
+using Blazored.Toast.Services;
 
 namespace Site.Client.Items.Item;
 
@@ -25,6 +26,9 @@ partial class ItemPage
     [Parameter]
     [SupplyParameterFromQuery(Name = "d")]
     public string? Data { get; set; }
+
+    [Inject]
+    public IToastService ToastService { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -89,6 +93,8 @@ partial class ItemPage
         });
 
         hasAddedToCart = true;
+
+        ToastService.ShowInfo($"{productViewModel.Name} was added to your basket,", "Item added");
     }
     
     string Serialize() 
