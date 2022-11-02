@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @inject NavigationManager Navigation
-@inject IAuthenticationService AuthenticationService
+@inject Site.Client.Authentication.IAuthenticationService AuthenticationService
+@inject CartService CartService
 
 <div>
     <AuthorizeView>
@@ -23,6 +24,7 @@
     async Task BeginSignOut()
     {
         await AuthenticationService.Logout();
+        await CartService.Reload();
         Navigation.NavigateTo("/");
     }
 }

@@ -7,6 +7,7 @@ public class CartService
 {
     private readonly ICartClient cartClient;
     private readonly CartHubClient cartHubClient;
+    private bool initialized = false;
 
     public CartService(ICartClient cartClient, CartHubClient cartHubClient)
     {
@@ -16,9 +17,14 @@ public class CartService
     
     public async Task Start(string baseUri, string clientId) 
     {
-        cartHubClient.CartUpdated += OnCartUpdated;
+        if(!initialized) 
+        {
+            cartHubClient.CartUpdated += OnCartUpdated;
 
-        await cartHubClient.StartAsync(baseUri, clientId);
+            await cartHubClient.StartAsync(baseUri, clientId);
+
+            initialized = true;
+        }
     }
 
     private async void OnCartUpdated(object? sender, EventArgs eventArgs)

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Site.Client;
 using Site.Client.Authentication;
+using MediatR;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
@@ -16,6 +17,8 @@ builder.Services.AddScoped<CustomMessageHandler>();
 builder.Services.AddAuthServices();
 
 builder.Services.AddServices(builder.Configuration);
+
+builder.Services.AddMediatR(typeof(Site.Components.CartDisplay)); ;
 
 //builder.Services.AddHttpClientInterceptor();
 

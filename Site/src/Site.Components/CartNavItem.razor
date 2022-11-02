@@ -58,7 +58,7 @@
         if (RenderingContext.IsPrerendering)
             return;
 
-        if(!initialized)
+        if (!initialized)
         {
             CartService.CartUpdated += OnCartUpdated;
 
@@ -79,15 +79,15 @@
 
         Console.WriteLine("Test");
 
-        await InvokeAsync(async () => {
-            StateHasChanged();
-        });
+        await InvokeAsync(StateHasChanged);
     }
 
     public async Task DisposeAsync()
     {
         CartService.CartUpdated -= OnCartUpdated;
 
-        CartService.Stop();
+        await CartService.Stop();
+
+        initialized = false;
     }
 }
