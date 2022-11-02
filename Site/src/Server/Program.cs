@@ -199,6 +199,9 @@ using var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
 //context.Database.EnsureCreated();
 
+var renderingContext = scope.ServiceProvider.GetRequiredService<RenderingContext>();
+renderingContext.IsPrerendering = true;
+
 app.Run();
 
 public class User

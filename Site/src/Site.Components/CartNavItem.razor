@@ -1,7 +1,7 @@
 @using Microsoft.AspNetCore.SignalR.Client;
 @inject NavigationManager NavigationManager
 @inject CartService CartService
-@inject CartHubClient CartHubClient
+@inject Site.Client.RenderingContext RenderingContext
 
 <a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="@(DisableDropDown ? string.Empty : "dropdown")" aria-expanded="false">
     <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" SmallIcon="SmallIcon" />
@@ -35,8 +35,12 @@
             }
             else
             {
-                <span class="mx-4 my-2">No items yet :( </span>
+                <span class="mx-4 my-2">No items yet :(</span>
             }
+        }
+        else 
+        {
+            <span class="mx-4 my-2">Cart not loaded.</span>
         }
     </ul>
 }
@@ -44,7 +48,6 @@
 @code
 {
     SiteCartDto? cart;
-    HubConnection hubConnection = null!;
     bool initialized;
 
     [Parameter]
@@ -53,23 +56,35 @@
     [Parameter]
     public bool DisableDropDown { get; set; }
 
+
     protected override async Task OnInitializedAsync()
     {
-        if(!initialized) 
+        Console.WriteLine("Is Prerendering" + RenderingContext.IsPrerendering);
+
+        if (RenderingContext.IsPrerendering)
+            return;
+
+        if(!initialized)
         {
-            cart = await CartService.GetCartAsync();
+            CartService.CartUpdated += OnCartUpdated;
 
-            CartHubClient.CartUpdated += OnCartUpdated;
+            await CartService.Reload();
 
-            await CartHubClient.StartAsync(NavigationManager.BaseUri, "test");
+            await CartService.Start(NavigationManager.BaseUri, "test");
 
             initialized = true;
         }
     }
 
-    private async void OnCartUpdated(object? sender, EventArgs eventArgs)
+    private async Task OnCartUpdated()
     {
-        cart = await CartService.GetCartAsync();
+        if (RenderingContext.IsPrerendering)
+            return;
+
+        cart = CartService.Cart;
+
+        Console.WriteLine("Test");
+
         await InvokeAsync(async () => {
             StateHasChanged();
         });
@@ -77,8 +92,8 @@
 
     public async Task DisposeAsync()
     {
-        CartHubClient.CartUpdated -= OnCartUpdated;
+        CartService.CartUpdated -= OnCartUpdated;
 
-        await CartHubClient.DisposeAsync();
+        CartService.Stop();
     }
 }

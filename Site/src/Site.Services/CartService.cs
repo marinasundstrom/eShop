@@ -6,11 +6,50 @@ namespace Site.Services;
 public class CartService
 {
     private readonly ICartClient cartClient;
+    private readonly CartHubClient cartHubClient;
 
-    public CartService(ICartClient cartClient)
+    public CartService(ICartClient cartClient, CartHubClient cartHubClient)
     {
         this.cartClient = cartClient;
+        this.cartHubClient = cartHubClient;
+    }
+    
+    public async Task Start(string baseUri, string clientId) 
+    {
+        cartHubClient.CartUpdated += OnCartUpdated;
+
+        await cartHubClient.StartAsync(baseUri, clientId);
     }
 
-    public async Task<SiteCartDto> GetCartAsync() => await cartClient.GetCartAsync();
+    private async void OnCartUpdated(object? sender, EventArgs eventArgs)
+    {
+        await Reload();
+    }
+
+    public async Task Stop() 
+    {
+        cartHubClient.CartUpdated -= OnCartUpdated;
+
+        await cartHubClient.StopAsync();     
+    }
+
+    public async Task DisposeAsync()
+    {
+        cartHubClient.CartUpdated -= OnCartUpdated;
+
+        await cartHubClient.DisposeAsync();
+    }
+
+    public SiteCartDto? Cart { get; private set; }
+
+    public async Task Reload() 
+    {
+        Cart = await cartClient.GetCartAsync();
+
+        if(CartUpdated is null) return;
+
+        await CartUpdated.Invoke();
+    }
+
+    public Func<Task>? CartUpdated;
 }

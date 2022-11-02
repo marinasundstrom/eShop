@@ -21,6 +21,8 @@ public static class ServiceExtensions
             .AddTypedClient<IUserClient>((http, sp) => new UserClient(http));
 
         services.AddSiteServices();
+
+        services.AddSingleton<RenderingContext>();
          
         CultureInfo? culture = new("sv-SE");
         CultureInfo.DefaultThreadCurrentCulture = culture;

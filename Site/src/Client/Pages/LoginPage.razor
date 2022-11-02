@@ -4,6 +4,7 @@
 @page "/login"
 @inject IAuthenticationService AuthenticationService
 @inject NavigationManager NavigationManager
+@inject CartService CartService
 
 <SitePageTitle>Login</SitePageTitle>
 
@@ -37,6 +38,8 @@
     public async Task Login()
     {
         await AuthenticationService.Login(new UserForAuthenticationDto() { SSN = SSN });
+
+        await CartService.Reload();
 
         NavigationManager.NavigateTo("/user/profile");
     }

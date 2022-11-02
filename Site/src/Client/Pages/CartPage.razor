@@ -1,6 +1,7 @@
 @page "/basket"
 @inject ICartClient CartClient
 @inject NavigationManager NavigationManager
+@inject Site.Client.RenderingContext RenderingContext
 
 <SitePageTitle>Basket</SitePageTitle>
 
@@ -58,6 +59,11 @@
 
     protected override async Task OnInitializedAsync()
     {
+        Console.WriteLine("Is Prerendering" + RenderingContext.IsPrerendering);
+
+        if (RenderingContext.IsPrerendering)
+            return;
+
         cart = await CartClient.GetCartAsync();
     }
 
