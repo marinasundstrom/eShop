@@ -4,6 +4,7 @@ using Site.Server.Hubs;
 using Site.Shared;
 using YourBrand.Sales;
 using System.Text.Json;
+using Site.Server.Services;
 
 namespace Site.Server.Controllers;
 
@@ -15,17 +16,20 @@ public class CartsController : ControllerBase
     private readonly YourBrand.Sales.ICartsClient _cartsClient;
     private readonly YourBrand.Catalog.IItemsClient _itemsClient;
     private readonly IHubContext<CartHub, ICartHubClient> _cartHubContext;
+    private readonly ICurrentUserService currentUserService;
 
     public CartsController(
         ILogger<CartsController> logger, 
         YourBrand.Sales.ICartsClient cartsClient, 
         YourBrand.Catalog.IItemsClient itemsClient,
-        IHubContext<CartHub, ICartHubClient> cartHubContext)
+        IHubContext<CartHub, ICartHubClient> cartHubContext,
+        ICurrentUserService currentUserService)
     {
         _logger = logger;
         _cartsClient = cartsClient;
         _itemsClient = itemsClient;
         _cartHubContext = cartHubContext;
+        this.currentUserService = currentUserService;
     }
 
     [HttpGet]

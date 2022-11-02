@@ -20,6 +20,7 @@ using YourBrand.Customers.Client;
 using Site.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Site.Server.Authentication.Data;
+using Site.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -59,6 +60,8 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddAuthorization();
 
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScoped<IAuthenticationService, MockAuthenticationService>();

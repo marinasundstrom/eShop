@@ -4,6 +4,7 @@ using System.Text.Json;
 using Site.Server.Hubs;
 using YourBrand.Inventory;
 using YourBrand.Sales;
+using Site.Server.Services;
 
 namespace Site.Server.Controllers;
 
@@ -17,6 +18,7 @@ public class CheckoutController : ControllerBase
     private readonly IItemsClient itemsClient;
     private readonly YourBrand.Catalog.IItemsClient itemsClient2;
     private readonly IHubContext<CartHub, ICartHubClient> cartHubContext;
+    private readonly ICurrentUserService currentUserService;
 
     public CheckoutController(
         ILogger<CheckoutController> logger, 
@@ -24,7 +26,8 @@ public class CheckoutController : ControllerBase
         YourBrand.Sales.ICartsClient cartsClient,
         YourBrand.Inventory.IItemsClient itemsClient,
         YourBrand.Catalog.IItemsClient itemsClient2,
-        IHubContext<CartHub, ICartHubClient> cartHubContext)
+        IHubContext<CartHub, ICartHubClient> cartHubContext,
+        ICurrentUserService currentUserService)
     {
         _logger = logger;
         _ordersClient = ordersClient;
@@ -32,12 +35,13 @@ public class CheckoutController : ControllerBase
         this.itemsClient = itemsClient;
         this.itemsClient2 = itemsClient2;
         this.cartHubContext = cartHubContext;
+        this.currentUserService = currentUserService;
     }
 
     [HttpPost]
     public async Task Checkout(CheckoutDto dto, CancellationToken cancellationToken = default)
     {
-        string customerId = "1";
+        string customerId = currentUserService.CustomerNo.ToString();
 
         var cart = await cartsClient.GetCartByIdAsync("test");
 
