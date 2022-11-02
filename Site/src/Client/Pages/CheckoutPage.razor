@@ -2,6 +2,7 @@
 @using System.ComponentModel.DataAnnotations
 @inject ICartClient CartClient
 @inject ICheckoutClient CheckoutClient
+@inject IUserClient UserClient
 @inject NavigationManager NavigationManager
 
 <SitePageTitle>Checkout</SitePageTitle>
@@ -197,6 +198,31 @@
     protected override async Task OnInitializedAsync()
     {
         cart = await CartClient.GetCartAsync();
+
+        try 
+        {
+            var profile = await UserClient.GetProfileAsync();
+            var addresses = await UserClient.GetAddressesAsync();
+
+            var address = addresses.FirstOrDefault();
+
+            FirstName = profile.FirstName;
+            LastName = profile.LastName;
+            Phone = profile.Phone;
+            Email = profile.Email;
+            BillingAddress.Thoroughfare = address.Thoroughfare;
+            BillingAddress.Premises = address.Premises;
+            BillingAddress.SubPremises = address.SubPremises;
+            BillingAddress.PostalCode = address.PostalCode;
+            BillingAddress.Locality = address.Locality;
+            BillingAddress.SubAdministrativeArea = address.SubAdministrativeArea;
+            BillingAddress.AdministrativeArea = address.AdministrativeArea;
+            BillingAddress.Country = address.Country;
+        }
+        catch 
+        {
+
+        }
     }
 
     [Required]

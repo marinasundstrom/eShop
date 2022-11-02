@@ -38,7 +38,7 @@ public class UserController : ControllerBase
 
         var customer = await customersClient.GetCustomerAsync(customerId.GetValueOrDefault(), cancellation);
 
-        return new UserProfileDto(customer.Id, customer.FirstName, customer.LastName, customer.Ssn);
+        return new UserProfileDto(customer.Id, customer.FirstName, customer.LastName, customer.Ssn, customer.Email, customer.Phone, customer.PhoneMobile);
     }
 
     [HttpGet("addresses")]
@@ -64,4 +64,4 @@ public class UserController : ControllerBase
     }
 }
 
-public record UserProfileDto(int CustomerNo, string FirstName, string LastName, string SSN);
+public record UserProfileDto(int CustomerNo, string FirstName, string LastName, string SSN, string Email, string Phone, string PhoneMobile);

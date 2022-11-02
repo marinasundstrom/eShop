@@ -1637,7 +1637,10 @@
         "customerNo",
         "firstName",
         "lastName",
-        "ssn"
+        "ssn",
+        "email",
+        "phone",
+        "phoneMobile"
       ],
       "properties": {
         "customerNo": {
@@ -1651,6 +1654,15 @@
           "type": "string"
         },
         "ssn": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        },
+        "phoneMobile": {
           "type": "string"
         }
       }
