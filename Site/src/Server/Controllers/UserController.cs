@@ -36,7 +36,7 @@ public class UserController : ControllerBase
     {
         var customerId = currentUserService.CustomerNo;
 
-        var customer = await customersClient.GetCustomerAsync(customerId, cancellation);
+        var customer = await customersClient.GetCustomerAsync(customerId.GetValueOrDefault(), cancellation);
 
         return new UserProfileDto(customer.Id, customer.FirstName, customer.LastName, customer.Ssn);
     }
@@ -46,7 +46,7 @@ public class UserController : ControllerBase
     {
         var customerId = currentUserService.CustomerNo;
 
-        var customer = await customersClient.GetCustomerAsync(customerId, cancellation);
+        var customer = await customersClient.GetCustomerAsync(customerId.GetValueOrDefault(), cancellation);
 
         return new [] { customer.Address };
     }
@@ -56,7 +56,7 @@ public class UserController : ControllerBase
     {
         var customerId = currentUserService.CustomerNo;
 
-        var customer = await customersClient.GetCustomerAsync(customerId, cancellation);
+        var customer = await customersClient.GetCustomerAsync(customerId.GetValueOrDefault(), cancellation);
 
         var orders = await _ordersClient.GetOrdersAsync(null, null, customer.Ssn, null, 1, 10, null, null, cancellation);
 

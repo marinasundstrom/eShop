@@ -2,5 +2,5 @@
 
 public interface ICurrentUserService
 {
-    int CustomerNo { get; }
+    int? CustomerNo { get; }
 }

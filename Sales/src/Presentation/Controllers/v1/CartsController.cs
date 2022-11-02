@@ -43,12 +43,22 @@ public sealed partial class CartsController : ControllerBase
         return this.HandleResult(result);
     }
 
+    [HttpGet("GetByTag/{tag}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(CartDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<CartDto>> GetCartByTag(string tag, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetCartByTag(tag), cancellationToken);
+        return this.HandleResult(result);
+    }
+
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(CartDto))]
     [ProducesDefaultResponseType]
     public async Task<ActionResult<CartDto>> CreateCart(CreateCartRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateCart(), cancellationToken);
+        var result = await mediator.Send(new CreateCart(request.Tag), cancellationToken);
         return result.Handle(
             onSuccess: data => CreatedAtAction(nameof(GetCartById), new { id = data.Id }, data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
@@ -73,4 +83,4 @@ public sealed partial class CartsController : ControllerBase
     }
 }
 
-public sealed record CreateCartRequest();
+public sealed record CreateCartRequest(string? Tag);

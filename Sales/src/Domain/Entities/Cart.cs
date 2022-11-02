@@ -11,11 +11,14 @@ public class Cart : AuditableEntity, IAggregateRoot
     {
     }
 
-    public Cart(string userId)
+    public Cart(string? tag)
     {
+        Tag = tag;
     }
 
-    public string Id { get; private set; } = "test"; // Guid.NewGuid().ToString();
+    public string Id { get; private set; } = Guid.NewGuid().ToString();
+
+    public string? Tag { get; set; }
 
     public IReadOnlyCollection<CartItem> Items => _items;
 

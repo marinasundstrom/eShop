@@ -10,111 +10,16 @@
     "https"
   ],
   "paths": {
-    "/api/Carts": {
+    "/api/Cart": {
       "get": {
         "tags": [
-          "Carts"
+          "Cart"
         ],
-        "operationId": "Carts_GetCarts",
+        "operationId": "Cart_GetCart",
         "produces": [
           "text/plain",
           "application/json",
           "text/json"
-        ],
-        "parameters": [
-          {
-            "type": "integer",
-            "name": "status",
-            "in": "query",
-            "x-schema": {
-              "$ref": "#/definitions/CartStatusDto"
-            },
-            "x-nullable": true,
-            "enum": [
-              0,
-              1,
-              2,
-              3
-            ]
-          },
-          {
-            "type": "string",
-            "name": "assigneeId",
-            "in": "query",
-            "x-nullable": true
-          },
-          {
-            "type": "integer",
-            "name": "page",
-            "in": "query",
-            "format": "int32",
-            "default": 1,
-            "x-nullable": false
-          },
-          {
-            "type": "integer",
-            "name": "pageSize",
-            "in": "query",
-            "format": "int32",
-            "default": 10,
-            "x-nullable": false
-          },
-          {
-            "type": "string",
-            "name": "searchString",
-            "in": "query",
-            "x-nullable": true
-          },
-          {
-            "type": "string",
-            "name": "sortBy",
-            "in": "query",
-            "x-nullable": true
-          },
-          {
-            "type": "integer",
-            "name": "sortDirection",
-            "in": "query",
-            "x-schema": {
-              "$ref": "#/definitions/SortDirection"
-            },
-            "x-nullable": true,
-            "enum": [
-              0,
-              1
-            ]
-          }
-        ],
-        "responses": {
-          "200": {
-            "x-nullable": false,
-            "description": "",
-            "schema": {
-              "$ref": "#/definitions/ItemsResultOfCartDto"
-            }
-          }
-        }
-      }
-    },
-    "/api/Carts/{id}": {
-      "get": {
-        "tags": [
-          "Carts"
-        ],
-        "operationId": "Carts_GetCart",
-        "produces": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": true
-          }
         ],
         "responses": {
           "200": {
@@ -125,47 +30,20 @@
             }
           }
         }
-      },
-      "delete": {
-        "tags": [
-          "Carts"
-        ],
-        "operationId": "Carts_DeleteCart",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
       }
     },
-    "/api/Carts/{id}/Items": {
+    "/api/Cart/Items": {
       "post": {
         "tags": [
-          "Carts"
+          "Cart"
         ],
-        "operationId": "Carts_AddItemToCart",
+        "operationId": "Cart_AddItemToCart",
         "consumes": [
           "application/json",
           "text/json",
           "application/*+json"
         ],
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": true
-          },
           {
             "name": "dto",
             "in": "body",
@@ -184,18 +62,9 @@
       },
       "delete": {
         "tags": [
-          "Carts"
+          "Cart"
         ],
-        "operationId": "Carts_ClearCart",
-        "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": true
-          }
-        ],
+        "operationId": "Cart_ClearCart",
         "responses": {
           "200": {
             "description": ""
@@ -203,20 +72,13 @@
         }
       }
     },
-    "/api/Carts/{id}/Items/{itemId}/Quantity": {
+    "/api/Cart/Items/{itemId}/Quantity": {
       "put": {
         "tags": [
-          "Carts"
+          "Cart"
         ],
-        "operationId": "Carts_UpdateCartItemQuantity",
+        "operationId": "Cart_UpdateCartItemQuantity",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": true
-          },
           {
             "type": "string",
             "name": "itemId",
@@ -239,20 +101,13 @@
         }
       }
     },
-    "/api/Carts/{id}/Items/{itemId}": {
+    "/api/Cart/Items/{itemId}": {
       "delete": {
         "tags": [
-          "Carts"
+          "Cart"
         ],
-        "operationId": "Carts_RemoveItemFromCart",
+        "operationId": "Cart_RemoveItemFromCart",
         "parameters": [
-          {
-            "type": "string",
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "x-nullable": true
-          },
           {
             "type": "string",
             "name": "itemId",
@@ -360,7 +215,7 @@
             "name": "sortDirection",
             "in": "query",
             "x-schema": {
-              "$ref": "#/definitions/SortDirection2"
+              "$ref": "#/definitions/SortDirection"
             },
             "x-nullable": true,
             "enum": [
@@ -531,7 +386,7 @@
             "name": "sortDirection",
             "in": "query",
             "x-schema": {
-              "$ref": "#/definitions/SortDirection2"
+              "$ref": "#/definitions/SortDirection"
             },
             "x-nullable": true,
             "enum": [
@@ -696,6 +551,11 @@
           "Orders"
         ],
         "operationId": "Orders_GetOrders",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
         "produces": [
           "text/plain",
           "application/json",
@@ -703,11 +563,16 @@
         ],
         "parameters": [
           {
-            "type": "integer",
             "name": "status",
-            "in": "query",
-            "format": "int32",
-            "x-nullable": true
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-nullable": false
           },
           {
             "type": "string",
@@ -748,7 +613,7 @@
             "name": "sortDirection",
             "in": "query",
             "x-schema": {
-              "$ref": "#/definitions/SortDirection"
+              "$ref": "#/definitions/SortDirection2"
             },
             "x-nullable": true,
             "enum": [
@@ -935,138 +800,6 @@
     }
   },
   "definitions": {
-    "ItemsResultOfCartDto": {
-      "type": "object",
-      "required": [
-        "items",
-        "totalItems"
-      ],
-      "properties": {
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CartDto"
-          }
-        },
-        "totalItems": {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
-    },
-    "CartDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "items",
-        "created"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "items": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/CartItemDto"
-          }
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "createdBy": {
-          "$ref": "#/definitions/UserDto"
-        },
-        "lastModified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastModifiedBy": {
-          "$ref": "#/definitions/UserDto"
-        }
-      }
-    },
-    "CartItemDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "quantity",
-        "created"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "itemId": {
-          "type": "string"
-        },
-        "quantity": {
-          "type": "number",
-          "format": "double"
-        },
-        "data": {
-          "type": "string"
-        },
-        "created": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "createdBy": {
-          "$ref": "#/definitions/UserDto"
-        },
-        "lastModified": {
-          "type": "string",
-          "format": "date-time"
-        },
-        "lastModifiedBy": {
-          "$ref": "#/definitions/UserDto"
-        }
-      }
-    },
-    "UserDto": {
-      "type": "object",
-      "required": [
-        "id",
-        "name"
-      ],
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        }
-      }
-    },
-    "CartStatusDto": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "Draft",
-        "Open",
-        "Archived",
-        "Canceled"
-      ],
-      "enum": [
-        0,
-        1,
-        2,
-        3
-      ]
-    },
-    "SortDirection": {
-      "type": "integer",
-      "description": "",
-      "x-enumNames": [
-        "Ascending",
-        "Descending"
-      ],
-      "enum": [
-        0,
-        1
-      ]
-    },
     "SiteCartDto": {
       "type": "object",
       "required": [
@@ -1574,7 +1307,7 @@
         }
       }
     },
-    "SortDirection2": {
+    "SortDirection": {
       "type": "integer",
       "description": "",
       "x-enumNames": [
@@ -1812,6 +1545,21 @@
         }
       }
     },
+    "UserDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
     "OrderItemDto": {
       "type": "object",
       "required": [
@@ -1852,6 +1600,9 @@
           "type": "number",
           "format": "decimal"
         },
+        "notes": {
+          "type": "string"
+        },
         "created": {
           "type": "string",
           "format": "date-time"
@@ -1867,6 +1618,18 @@
           "$ref": "#/definitions/UserDto"
         }
       }
+    },
+    "SortDirection2": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Ascending",
+        "Descending"
+      ],
+      "enum": [
+        0,
+        1
+      ]
     },
     "UserProfileDto": {
       "type": "object",

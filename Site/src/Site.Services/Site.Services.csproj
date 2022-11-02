@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <OpenApiReference Include="OpenAPIs\site.json" Options="/UseBaseUrl:false /GenerateClientInterfaces:true /DateType:System.DateTime /DateTimeType:System.DateTime" CodeGenerator="NSwagCSharp" Namespace="Site.Client">
+      <SourceUri>https://localhost:8080/api/swagger/v1/swagger.json</SourceUri>
+      <ClassName>{controller}Client</ClassName>
+      <OutputPath>CommerceClient.cs</OutputPath>
+    </OpenApiReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.0-rc.2.*" />
+    <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.0-rc.2.22476.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="NSwag.ApiDescription.Client" Version="13.17.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta2" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-rc.2.22472.3" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.2.22472.3" />
+  </ItemGroup>
+
+</Project>

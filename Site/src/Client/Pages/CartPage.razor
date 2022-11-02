@@ -1,5 +1,5 @@
 @page "/basket"
-@inject ICartsClient CartsClient
+@inject ICartClient CartClient
 @inject NavigationManager NavigationManager
 
 <SitePageTitle>Basket</SitePageTitle>
@@ -58,7 +58,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        cart = await CartsClient.GetCartAsync("test");
+        cart = await CartClient.GetCartAsync();
     }
 
     async Task ItemQuantityChanged(SiteCartItemDto cartItem, int newQuantity)
@@ -66,25 +66,25 @@
         if(newQuantity == 0)
         {
             // Remove
-            await CartsClient.RemoveItemFromCartAsync("test", cartItem.Id);
+            await CartClient.RemoveItemFromCartAsync(cartItem.Id);
             cart!.Items.Remove(cartItem);
             return;
         }
-        await CartsClient.UpdateCartItemQuantityAsync("test", cartItem.Id, newQuantity);
+        await CartClient.UpdateCartItemQuantityAsync(cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
         cartItem.Total = cartItem.Quantity * cartItem.Item.Price;
     }
 
     async Task DeleteItem(SiteCartItemDto cartItem)
     {
-        await CartsClient.RemoveItemFromCartAsync(cart.Id, cartItem.Id);
+        await CartClient.RemoveItemFromCartAsync(cartItem.Id);
 
         cart!.Items.Remove(cartItem);
     }
 
     async Task ClearItems()
     {
-        await CartsClient.ClearCartAsync(cart.Id);
+        await CartClient.ClearCartAsync();
 
         cart!.Items.Clear();
     }

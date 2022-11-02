@@ -4,7 +4,7 @@ using YourBrand.Sales.Application.Carts.Dtos;
 
 namespace YourBrand.Sales.Application.Carts.Queries;
 
-public record GetCartById(string Id) : IRequest<Result<CartDto>>
+public record GetCartByTag(string Tag) : IRequest<Result<CartDto>>
 {
     public class Validator : AbstractValidator<GetCartById>
     {
@@ -14,7 +14,7 @@ public record GetCartById(string Id) : IRequest<Result<CartDto>>
         }
     }
 
-    public class Handler : IRequestHandler<GetCartById, Result<CartDto>>
+    public class Handler : IRequestHandler<GetCartByTag, Result<CartDto>>
     {
         private readonly ICartRepository cartRepository;
 
@@ -23,9 +23,9 @@ public record GetCartById(string Id) : IRequest<Result<CartDto>>
             this.cartRepository = cartRepository;
         }
 
-        public async Task<Result<CartDto>> Handle(GetCartById request, CancellationToken cancellationToken)
+        public async Task<Result<CartDto>> Handle(GetCartByTag request, CancellationToken cancellationToken)
         {
-            var cart = await cartRepository.FindByIdAsync(request.Id, cancellationToken);
+            var cart = await cartRepository.FindByTagAsync(request.Tag, cancellationToken);
 
             if (cart is null)
             {

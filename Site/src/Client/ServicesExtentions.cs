@@ -1,7 +1,7 @@
 using System.Globalization;
 using Blazor.Analytics;
 using Blazored.LocalStorage;
-
+using Site.Services;
 namespace Site.Client;
 
 public static class ServiceExtensions 
@@ -12,13 +12,15 @@ public static class ServiceExtensions
             .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
 
         services.AddHttpClient("Site")
-            .AddTypedClient<ICartsClient>((http, sp) => new CartsClient(http));
+            .AddTypedClient<ICartClient>((http, sp) => new CartClient(http));
 
         services.AddHttpClient("Site")
             .AddTypedClient<ICheckoutClient>((http, sp) => new CheckoutClient(http));
 
         services.AddHttpClient("Site")
             .AddTypedClient<IUserClient>((http, sp) => new UserClient(http));
+
+        services.AddSiteServices();
          
         CultureInfo? culture = new("sv-SE");
         CultureInfo.DefaultThreadCurrentCulture = culture;

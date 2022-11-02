@@ -11,6 +11,16 @@ public class CurrentUserService : ICurrentUserService
         httpContext = httpContextAccessor.HttpContext!;
     }
 
-    public int CustomerNo => int.Parse(httpContext.User.Claims.First(x => x.Type == "CustomerId")?.Value!);
+    public int? CustomerNo 
+    {
+        get 
+        {
+            var str = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "CustomerId")?.Value;
+            
+            if(str is null) return null;
+
+            return int.Parse(str);
+        }
+    }
 }
 

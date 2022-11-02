@@ -30,6 +30,15 @@ public sealed class CartRepository : ICartRepository
             .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
     }
 
+    public async Task<Cart?> FindByTagAsync(string tag, CancellationToken cancellationToken = default)
+    {
+        return await dbSet
+            .Include(i => i.Items)
+            .Include(i => i.CreatedBy)
+            .Include(i => i.LastModifiedBy)
+            .FirstOrDefaultAsync(x => x.Tag == tag, cancellationToken);
+    }
+
     public IQueryable<Cart> GetAll(ISpecification<Cart> specification)
     {
         return dbSet

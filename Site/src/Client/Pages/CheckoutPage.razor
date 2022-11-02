@@ -1,6 +1,6 @@
 @page "/Checkout"
 @using System.ComponentModel.DataAnnotations
-@inject ICartsClient CartsClient
+@inject ICartClient CartClient
 @inject ICheckoutClient CheckoutClient
 @inject NavigationManager NavigationManager
 
@@ -196,7 +196,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        cart = await CartsClient.GetCartAsync("test");
+        cart = await CartClient.GetCartAsync();
     }
 
     [Required]
@@ -222,7 +222,7 @@
 
     public async Task Submit()
     {
-        var cart = await CartsClient.GetCartAsync("test");
+        var cart = await CartClient.GetCartAsync();
 
         if(!cart.Items.Any())
         {

@@ -1,25 +1,24 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Site.Server.Hubs;
-using Site.Shared;
-using YourBrand.Sales;
-using System.Text.Json;
 using Site.Server.Services;
+using YourBrand.Sales;
 
 namespace Site.Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class CartsController : ControllerBase
+public class CartController : ControllerBase
 {
-    private readonly ILogger<CartsController> _logger;
+    private readonly ILogger<CartController> _logger;
     private readonly YourBrand.Sales.ICartsClient _cartsClient;
     private readonly YourBrand.Catalog.IItemsClient _itemsClient;
     private readonly IHubContext<CartHub, ICartHubClient> _cartHubContext;
     private readonly ICurrentUserService currentUserService;
 
-    public CartsController(
-        ILogger<CartsController> logger, 
+    public CartController(
+        ILogger<CartController> logger, 
         YourBrand.Sales.ICartsClient cartsClient, 
         YourBrand.Catalog.IItemsClient itemsClient,
         IHubContext<CartHub, ICartHubClient> cartHubContext,
@@ -31,17 +30,27 @@ public class CartsController : ControllerBase
         _cartHubContext = cartHubContext;
         this.currentUserService = currentUserService;
     }
-
-    [HttpGet]
-    public async Task<ItemsResultOfCartDto> GetCarts(YourBrand.Sales.CartStatusDto? status = null, string? assigneeId = null, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
-    {
-        return await _cartsClient.GetCartsAsync(status, assigneeId, page - 1, pageSize, sortBy, sortDirection, cancellationToken);
-    }
     
-    [HttpGet("{id}")]
-    public async Task<SiteCartDto?> GetCart(string id, CancellationToken cancellationToken = default)
+    [HttpGet]
+    public async Task<SiteCartDto?> GetCart(CancellationToken cancellationToken = default)
     {
-        var cart = await _cartsClient.GetCartByIdAsync(id, cancellationToken);
+        var customerId = currentUserService.CustomerNo;
+
+        CartDto cart;
+        
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        try 
+        {
+            cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
+        } 
+        catch
+        {
+            var request = new CreateCartRequest {
+                Tag = tag
+            };
+            cart = await _cartsClient.CreateCartAsync(request, cancellationToken);
+        }
         
         var items = new List<SiteCartItemDto>();
 
@@ -115,14 +124,8 @@ public class CartsController : ControllerBase
         */
     }
 
-    [HttpDelete("{id}")]
-    public async Task DeleteCartAsync(string id, CancellationToken cancellationToken = default)
-    {
-        await _cartsClient.DeleteCartAsync(id, cancellationToken);
-    }
-
-    [HttpPost("{id}/Items")]
-    public async Task AddItemToCart(string id, AddCartItemDto dto, CancellationToken cancellationToken = default)
+    [HttpPost("Items")]
+    public async Task AddItemToCart(AddCartItemDto dto, CancellationToken cancellationToken = default)
     {
         var item = await _itemsClient.GetItemAsync(dto.ItemId);
 
@@ -137,31 +140,55 @@ public class CartsController : ControllerBase
             Data = dto.Data
         };
 
-        await _cartsClient.AddCartItemAsync(id, dto2, cancellationToken);
+        var customerId = currentUserService.CustomerNo;
+
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
+
+        await _cartsClient.AddCartItemAsync(cart.Id, dto2, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
     }
 
-    [HttpPut("{id}/Items/{itemId}/Quantity")]
-    public async Task UpdateCartItemQuantity(string id, string itemId, int quantity, CancellationToken cancellationToken = default)
+    [HttpPut("Items/{itemId}/Quantity")]
+    public async Task UpdateCartItemQuantity(string itemId, int quantity, CancellationToken cancellationToken = default)
     {
-        await _cartsClient.UpdateCartItemQuantityAsync(id, itemId, quantity, cancellationToken);
+        var customerId = currentUserService.CustomerNo;
+
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
+
+        await _cartsClient.UpdateCartItemQuantityAsync(cart.Id, itemId, quantity, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
     }
 
-    [HttpDelete("{id}/Items/{itemId}")]
-    public async Task RemoveItemFromCart(string id, string itemId, CancellationToken cancellationToken = default)
+    [HttpDelete("Items/{itemId}")]
+    public async Task RemoveItemFromCart(string itemId, CancellationToken cancellationToken = default)
     {
-        await _cartsClient.RemoveCartItemAsync(id, itemId, cancellationToken);
+        var customerId = currentUserService.CustomerNo;
+
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
+
+        await _cartsClient.RemoveCartItemAsync(cart.Id, itemId, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
     }
 
-    [HttpDelete("{id}/Items")]
-    public async Task ClearCart(string id, CancellationToken cancellationToken = default)
+    [HttpDelete("Items")]
+    public async Task ClearCart(CancellationToken cancellationToken = default)
     {
-        await _cartsClient.ClearCartAsync(id, cancellationToken);
+        var customerId = currentUserService.CustomerNo;
+
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
+
+        await _cartsClient.ClearCartAsync(cart.Id, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
     }

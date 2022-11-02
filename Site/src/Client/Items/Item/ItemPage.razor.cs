@@ -81,7 +81,7 @@ partial class ItemPage
 
     async Task AddItemToCart()
     {
-        await CartsClient.AddItemToCartAsync("test", new AddCartItemDto()
+        await CartClient.AddItemToCartAsync(new AddCartItemDto()
         {
             ItemId = productViewModel?.Variant?.Id ?? productViewModel?.Item?.Id,
             Quantity = quantity,

@@ -5,7 +5,7 @@ using YourBrand.Sales.Application.Carts.Dtos;
 
 namespace YourBrand.Sales.Application.Carts.Commands;
 
-public sealed record CreateCart() : IRequest<Result<CartDto>>
+public sealed record CreateCart(string? Tag) : IRequest<Result<CartDto>>
 {
     public sealed class Validator : AbstractValidator<CreateCart>
     {
@@ -30,7 +30,7 @@ public sealed record CreateCart() : IRequest<Result<CartDto>>
 
         public async Task<Result<CartDto>> Handle(CreateCart request, CancellationToken cancellationToken)
         {
-            var cart = new Cart(string.Empty);
+            var cart = new Cart(request.Tag);
 
             cartRepository.Add(cart);
 
