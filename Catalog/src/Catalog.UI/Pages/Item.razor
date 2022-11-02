@@ -279,7 +279,7 @@
         }
         catch (ApiException exc)
         {
-            DialogService.ShowMessageBox("Variant not found", "Could not find a variant for the selected options. Please try again.");
+            await DialogService.ShowMessageBox("Variant not found", "Could not find a variant for the selected options. Please try again.");
         }
     }
 
