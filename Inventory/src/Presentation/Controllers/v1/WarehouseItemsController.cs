@@ -56,7 +56,7 @@ public class WarehouseItemsController : ControllerBase
     [HttpPut("{id}/Reserve")]
     public async Task ReserveItems(string warehouseId, string id, ReserveItemsDto dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new ReserveWarehouseItems(id, dto.Quantity), cancellationToken);
+        await _mediator.Send(new ReserveWarehouseItems2(warehouseId, id, dto.Quantity), cancellationToken);
     }
 
     [HttpPut("{id}/Pick")]

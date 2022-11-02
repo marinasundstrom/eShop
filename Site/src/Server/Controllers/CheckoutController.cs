@@ -16,6 +16,7 @@ public class CheckoutController : ControllerBase
     private readonly YourBrand.Sales.IOrdersClient _ordersClient;
     private readonly ICartsClient cartsClient;
     private readonly IItemsClient itemsClient;
+    private readonly IWarehouseItemsClient itemsClient1;
     private readonly YourBrand.Catalog.IItemsClient itemsClient2;
     private readonly IHubContext<CartHub, ICartHubClient> cartHubContext;
     private readonly ICurrentUserService currentUserService;
@@ -25,6 +26,7 @@ public class CheckoutController : ControllerBase
         YourBrand.Sales.IOrdersClient ordersClient, 
         YourBrand.Sales.ICartsClient cartsClient,
         YourBrand.Inventory.IItemsClient itemsClient,
+        YourBrand.Inventory.IWarehouseItemsClient itemsClient1,
         YourBrand.Catalog.IItemsClient itemsClient2,
         IHubContext<CartHub, ICartHubClient> cartHubContext,
         ICurrentUserService currentUserService)
@@ -33,6 +35,7 @@ public class CheckoutController : ControllerBase
         _ordersClient = ordersClient;
         this.cartsClient = cartsClient;
         this.itemsClient = itemsClient;
+        this.itemsClient1 = itemsClient1;
         this.itemsClient2 = itemsClient2;
         this.cartHubContext = cartHubContext;
         this.currentUserService = currentUserService;
@@ -43,7 +46,7 @@ public class CheckoutController : ControllerBase
     {
         string customerId = currentUserService.CustomerNo.ToString();
 
-        var cart = await cartsClient.GetCartByIdAsync("test");
+        var cart = await cartsClient.GetCartByTagAsync($"cart-{customerId}");
 
         var items = new List<CreateOrderItemDto>();
 
@@ -124,6 +127,18 @@ public class CheckoutController : ControllerBase
             ShippingDetails = dto.ShippingDetails,
             Items = items.ToList()
         }, cancellationToken);
+
+        foreach(var item in items) 
+        {
+            try 
+            {
+                await itemsClient1.ReserveItemsAsync("66189587-67b2-454a-b786-7b49b64fd242", item.ItemId, new ReserveItemsDto() { Quantity = (int)item.Quantity });
+            }
+            catch(Exception e) 
+            {
+
+            }
+        }
 
         await cartsClient.ClearCartAsync(cart.Id);
 
