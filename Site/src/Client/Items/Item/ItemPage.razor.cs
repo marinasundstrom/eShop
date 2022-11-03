@@ -38,8 +38,9 @@ partial class ItemPage
         if (!ApplicationState.TryTakeFromJson<ProductViewModel>(
             "productViewModel", out var restored))
         {
-            productViewModel = new ProductViewModel(ItemsClient);
-            await productViewModel.Initialize(Id, VariantId);
+            var pwm = new ProductViewModel(ItemsClient);
+            await pwm.Initialize(Id, VariantId);
+            productViewModel = pwm;
         }
         else
         {
@@ -94,7 +95,7 @@ partial class ItemPage
 
         hasAddedToCart = true;
 
-        ToastService.ShowInfo($"{productViewModel.Name} was added to your basket,", "Item added");
+        //ToastService.ShowInfo($"{productViewModel.Name} was added to your basket,", "Item added");
     }
     
     string Serialize() 
@@ -114,7 +115,6 @@ partial class ItemPage
 
         productViewModel!.LoadData(options!);
     }
-
 
     /*
     async Task UpdateUrl()
