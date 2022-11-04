@@ -35,6 +35,8 @@
                 <MudTextField Label="Id" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Id" For="() => Id" />
 
                 <MudNumericField Label="Price" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Price" For="() => Price" />
+
+                <MudCheckBox Label="Is selected" Class="mb-6" Variant="Variant.Outlined" @bind-Checked="IsSelected" For="() => IsSelected" />
             }
 
             @if (OptionType == OptionType.Choice)
@@ -81,6 +83,14 @@
                         </table>
                     }
                 </div>
+
+                <MudSelect T="OptionValueVM" Label="Default value" Class="mb-6" Variant="Variant.Outlined" @bind-Value="SelectedValue" ToStringFunc="x => x?.Name"
+                           For="() => SelectedValue">
+                    @foreach (var value in Values)
+                    {
+                        <MudSelectItem Value="@value">@value.Name</MudSelectItem>
+                    }
+                </MudSelect>
             }
 
         </DialogContent>
@@ -111,12 +121,16 @@
 
     public OptionGroupDto? Group { get; set; }
 
+    public bool IsSelected { get; set; }
+
     public string? Id { get; set; }
 
     public decimal? Price { get; set; }
 
     [ValidateComplexType]
     public List<OptionValueVM> Values { get; set; } = new List<OptionValueVM>();
+
+    public OptionValueVM? SelectedValue { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -125,6 +139,7 @@
         Name = Option.Name;
         Description = Option.Description;
         Group = Groups.FirstOrDefault(x => x?.Id == Option.Group?.Id);
+        IsSelected = Option.IsSelected;
         Price = Option.Price;
         Id = Option.Id;
         OptionType = Option.OptionType;
@@ -139,6 +154,8 @@
                 ItemId = value.ItemId
             });
         }
+
+        SelectedValue = Values.FirstOrDefault(x => x.Id == Option.DefaultValue?.Id);
     }
 
     void AddValue()
@@ -171,6 +188,7 @@
             OptionType = OptionType,
             Description = Description,
             GroupId = Group?.Id,
+            IsSelected = IsSelected,
             ItemId = Id,
             Price = Price,
             Values = Values.Select(x => new ApiUpdateItemOptionValue()
@@ -179,7 +197,8 @@
                 Name = x.Name,
                 ItemId = x.Id,
                 Price = x.Price
-            }).ToList()
+            }).ToList(),
+            DefaultOptionValueId = SelectedValue?.Id
         };
 
         var result = await ItemsClient.UpdateItemOptionAsync(ItemId, Option.Id, data);

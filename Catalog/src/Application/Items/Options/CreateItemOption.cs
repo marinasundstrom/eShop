@@ -33,6 +33,7 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
                 Description = request.Data.Description,
                 ItemId = request.Data.ItemId,
                 Group = group,
+                IsSelected = request.Data.IsSelected,
                 Price = request.Data.Price,
                 OptionType = (Domain.Enums.OptionType)request.Data.OptionType
             };
@@ -47,6 +48,8 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
 
                 option.Values.Add(value);
             }
+
+            option.DefaultValueId = option.Values.FirstOrDefault(x => x.Id == request.Data.DefaultOptionValueId)?.Id;
 
             item.Options.Add(option);
 

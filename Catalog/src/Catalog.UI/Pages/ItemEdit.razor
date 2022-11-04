@@ -273,6 +273,7 @@ else
                 <HeaderContent>
                     <MudTh>Name</MudTh>
                     <MudTh>Type</MudTh>
+                    <MudTh>Is selected</MudTh>
                     <MudTh>Price</MudTh>
                     <MudTh>Values</MudTh>
                     <MudTh>Default value</MudTh>
@@ -282,6 +283,7 @@ else
                 <RowTemplate Context="option">
                     <MudTd DataLabel="Name">@option.Name</MudTd>
                     <MudTd DataLabel="Type">@option.OptionType</MudTd>
+                    <MudTd DataLabel="Is selected">@option.IsSelected</MudTd>
                     <MudTd DataLabel="Price">@option.Price?.ToString("c")</MudTd>
                     <MudTd DataLabel="Values">@string.Join(", ", option.Values.Select(x => x.Name))</MudTd>
                     <MudTd DataLabel="Default value">@option.DefaultValue?.Name</MudTd>

@@ -74,18 +74,30 @@ public class CartController : ControllerBase
 
                 if(opt is not null) 
                 {
-                    if(option.IsSelected.GetValueOrDefault()) 
+                    if(option.OptionType == 0) 
                     {
-                        price += option.Price.GetValueOrDefault();
-                        compareAtPrice += option.Price.GetValueOrDefault();
+                        var isSelected = option.IsSelected.GetValueOrDefault();
 
-                        if(option.Price is not null) 
+                        if(!isSelected && isSelected != opt.IsSelected) 
                         {
-                            optionTexts.Add($"{option.Name} (+{option.Price?.ToString("c")})");
+                            optionTexts.Add($"No {option.Name}");
+
+                            continue;
                         }
-                        else 
+
+                        if(isSelected)
                         {
-                            optionTexts.Add(option.Name);
+                            price += option.Price.GetValueOrDefault();
+                            compareAtPrice += option.Price.GetValueOrDefault();
+
+                            if(option.Price is not null) 
+                            {
+                                optionTexts.Add($"{option.Name} (+{option.Price?.ToString("c")})");
+                            }
+                            else 
+                            {
+                                optionTexts.Add(option.Name);
+                            }
                         }
                     }
                     else if (option.SelectedValueId is not null)

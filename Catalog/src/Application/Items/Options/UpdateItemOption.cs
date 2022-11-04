@@ -37,6 +37,7 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
         option.Description = request.Data.Description;
         option.ItemId = request.Data.ItemId;
         option.Group = group;
+        option.IsSelected = request.Data.IsSelected;
         option.Price = request.Data.Price;
         option.OptionType = (Domain.Enums.OptionType)request.Data.OptionType;
 
@@ -62,6 +63,8 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
                 value.Price = v.Price;
             }
         }
+
+        option.DefaultValueId = option.Values.FirstOrDefault(x => x.Id == request.Data.DefaultOptionValueId)?.Id;
 
         foreach (var v in option.Values.ToList())
         {
