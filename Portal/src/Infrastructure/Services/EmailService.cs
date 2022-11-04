@@ -18,7 +18,7 @@ public class EmailService : IEmailService
 
     public async Task SendEmail(string recipient, string subject, string body)
     {
-        var message = new MailMessage(new MailAddress("noreply@todoapp-test.com", "Todo app"), new MailAddress(recipient));
+        var message = new MailMessage(new MailAddress("noreply@Portal-test.com", "Todo app"), new MailAddress(recipient));
         message.Subject = subject;
         message.Body = body;
         message.IsBodyHtml = true;

@@ -1,8 +1,14 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
-public class OptionGroup : IAggregateRoot
+public class OptionGroup : AggregateRoot<string>
 {
-    public string Id { get; set; } = null!;
+    protected OptionGroup() {}
+
+    public OptionGroup(string name) 
+        : base(Guid.NewGuid().ToString())
+    {
+        Name = name;
+    }
 
     public int? Seq { get; set; }
 

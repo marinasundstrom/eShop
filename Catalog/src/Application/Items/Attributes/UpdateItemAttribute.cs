@@ -43,9 +43,8 @@ public record UpdateItemAttribute(string ItemId, string AttributeId, ApiUpdateIt
             {
                 if (v.Id == null)
                 {
-                    var value = new AttributeValue
+                    var value = new AttributeValue(Guid.NewGuid().ToString())
                     {
-                        Id = Guid.NewGuid().ToString(),
                         Name = v.Name
                     };
 

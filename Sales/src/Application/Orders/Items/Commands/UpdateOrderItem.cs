@@ -5,13 +5,13 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Items.Commands;
 
-public sealed record UpdateOrderItem(int OrderNo, string OrderItemId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity, string? Notes) : IRequest<Result<OrderItemDto>>
+public sealed record UpdateOrderItem(string OrderId, string OrderItemId, string Description, string? ItemId, string? Unit, decimal UnitPrice, double VatRate, double Quantity, string? Notes) : IRequest<Result<OrderItemDto>>
 {
     public sealed class Validator : AbstractValidator<UpdateOrderItem>
     {
         public Validator()
         {
-            RuleFor(x => x.OrderNo);
+            RuleFor(x => x.OrderId);
 
             RuleFor(x => x.Description).NotEmpty().MaximumLength(240);
         }
@@ -32,7 +32,7 @@ public sealed record UpdateOrderItem(int OrderNo, string OrderItemId, string Des
 
         public async Task<Result<OrderItemDto>> Handle(UpdateOrderItem request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.FindByIdAsync(request.OrderNo, cancellationToken);
+            var order = await orderRepository.FindByIdAsync(request.OrderId, cancellationToken);
 
             if (order is null)
             {

@@ -27,7 +27,7 @@ public record CreateItemAttributeValue(string ItemId, string AttributeId, ApiCre
             var attribute = await _context.Attributes
                 .FirstAsync(x => x.Id == request.AttributeId);
 
-            var value = new AttributeValue
+            var value = new AttributeValue(Guid.NewGuid().ToString())
             {
                 Name = request.Data.Name
             };

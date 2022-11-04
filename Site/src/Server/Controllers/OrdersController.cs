@@ -25,13 +25,13 @@ public class OrdersController : ControllerBase
 
     
     [HttpGet("{id}")]
-    public async Task<OrderDto?> GetOrder(int id, CancellationToken cancellationToken = default)
+    public async Task<OrderDto?> GetOrder(string id, CancellationToken cancellationToken = default)
     {
         return await _ordersClient.GetOrderByIdAsync(id, cancellationToken);
     }
 
     [HttpDelete("{id}")]
-    public async Task DeleteOrderAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteOrderAsync(string id, CancellationToken cancellationToken = default)
     {
         await _ordersClient.DeleteOrderAsync(id, cancellationToken);
     }

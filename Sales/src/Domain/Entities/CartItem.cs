@@ -1,19 +1,18 @@
 namespace YourBrand.Sales.Domain.Entities;
 
-public class CartItem : AuditableEntity, IAggregateRoot
+public class CartItem : Entity<string>, IAuditable
 {
     protected CartItem()
     {
     }
 
     internal CartItem(string? itemId, double quantity, string? data)
+        : base(Guid.NewGuid().ToString())
     {
         ItemId = itemId;
         Quantity = quantity;
         Data = data;
     }
-
-    public string Id { get; private set; } = Guid.NewGuid().ToString();
 
     public string? ItemId { get; private set; } = null!;
 
@@ -31,4 +30,16 @@ public class CartItem : AuditableEntity, IAggregateRoot
     {
         Data = data;
     }
+
+    public User? CreatedBy { get; set; }
+
+    public string? CreatedById { get; set; }
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

@@ -1,6 +1,6 @@
 namespace YourBrand.Inventory.Domain.Entities;
 
-public class Warehouse : AuditableEntity
+public class Warehouse : Entity<string>, IAuditable
 {
     protected Warehouse() { }
 
@@ -11,8 +11,17 @@ public class Warehouse : AuditableEntity
         SiteId = siteId;
     }
 
-    public string Id { get; set; } = null!;
     public string Name { get; set; } = null!;
+
     public string SiteId { get; set; } = null!;
+
     public Site Site { get; set; } = null!;
+
+    public string? CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

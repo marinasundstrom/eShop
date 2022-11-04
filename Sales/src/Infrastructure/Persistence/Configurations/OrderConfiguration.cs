@@ -9,7 +9,7 @@ public sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.ToTable("Orders");
 
-        builder.HasKey(o => new { o.CompanyId , o.OrderNo });
+        //builder.HasKey(o => new { o.CompanyId , o.OrderNo });
 
         builder.OwnsOne(x => x.BillingDetails, x => x.OwnsOne(z => z.Address));
 

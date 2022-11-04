@@ -4,7 +4,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record UpdateStatus(int Id, int StatusId) : IRequest<Result>
+public sealed record UpdateStatus(string Id, int StatusId) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<UpdateStatus>
     {

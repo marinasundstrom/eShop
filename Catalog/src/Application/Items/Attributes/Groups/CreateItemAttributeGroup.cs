@@ -24,9 +24,8 @@ public record CreateItemAttributeGroup(string ItemId, ApiCreateItemAttributeGrou
             var item = await _context.Items
                 .FirstAsync(x => x.Id == request.ItemId);
 
-            var group = new AttributeGroup()
+            var group = new AttributeGroup(Guid.NewGuid().ToString())
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = request.Data.Name,
                 Description = request.Data.Description
             };

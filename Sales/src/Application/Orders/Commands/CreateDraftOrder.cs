@@ -41,7 +41,7 @@ public sealed record CreateDraftOrder() : IRequest<Result<OrderDto>>
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
-            await domainEventDispatcher.Dispatch(new OrderCreated(order.OrderNo), cancellationToken);
+            await domainEventDispatcher.Dispatch(new OrderCreated(order.Id), cancellationToken);
 
             order = await orderRepository.GetAll()
                 .Include(i => i.CreatedBy)

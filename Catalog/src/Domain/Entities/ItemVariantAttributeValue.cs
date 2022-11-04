@@ -1,9 +1,7 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
-public class ItemAttributeValue
+public class ItemAttributeValue : Entity<int>
 {
-    public int Id { get; set; }
-
     //public Item Item { get; set; } = null!;
 
     public Item Variant { get; set; } = null!;

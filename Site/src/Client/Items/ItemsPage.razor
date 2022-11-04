@@ -71,4 +71,12 @@
         <Pagination Class="mt-4" Page="@Page.GetValueOrDefault()" PageCount="@totalPages" PageChanged="OnPageChanged"
         Href="/blog" />
     }
+    else 
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
 </div>

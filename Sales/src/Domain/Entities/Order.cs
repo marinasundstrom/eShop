@@ -3,11 +3,11 @@ using YourBrand.Sales.Domain.Events;
 
 namespace YourBrand.Sales.Domain.Entities;
 
-public class Order : AuditableEntity, IAggregateRoot
+public class Order : AggregateRoot<string>, IAuditable
 {
     HashSet<OrderItem> _items = new HashSet<OrderItem>();
 
-    public Order()
+    public Order() : base(Guid.NewGuid().ToString())
     {
         StatusId = 1;
     }
@@ -99,4 +99,16 @@ public class Order : AuditableEntity, IAggregateRoot
         Total = Items.Sum(x => x.Total);
         SubTotal = (VatIncluded ? (Total - Vat.GetValueOrDefault()) : Total);
     }
+
+    public User? CreatedBy { get; set; }
+
+    public string? CreatedById { get; set; }
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

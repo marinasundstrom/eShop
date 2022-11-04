@@ -4,9 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using YourBrand.Catalog.Domain.Enums;
 
-public class Option : IAggregateRoot
+public class Option : Entity<string>
 {
-    public string Id { get; set; } = null!;
+    protected Option() { }
+
+    public Option(string name) 
+        : base(Guid.NewGuid().ToString())
+    {
+        Name = name;
+    }
 
     public string Name { get; set; } = null!;
 

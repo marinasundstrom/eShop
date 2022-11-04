@@ -44,10 +44,8 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
         {
             if (v.Id == null)
             {
-                var value = new OptionValue
+                var value = new OptionValue(v.Name)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = v.Name,
                     ItemId = v.ItemId,
                     Price = v.Price
                 };

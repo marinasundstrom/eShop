@@ -4,7 +4,7 @@ using YourBrand.Sales.Application.Orders.Dtos;
 
 namespace YourBrand.Sales.Application.Orders.Queries;
 
-public record GetOrderById(int Id) : IRequest<Result<OrderDto>>
+public record GetOrderById(string Id) : IRequest<Result<OrderDto>>
 {
     public class Validator : AbstractValidator<GetOrderById>
     {

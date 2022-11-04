@@ -1,9 +1,15 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
-public class AttributeGroup : IAggregateRoot
+public class AttributeGroup : Entity<string>
 {
-    public string Id { get; set; } = null!;
+    protected AttributeGroup() { }
 
+    public AttributeGroup(string name) 
+        : base(Guid.NewGuid().ToString())
+    {
+        Name = name;
+    }
+    
     public int? Seq { get; set; }
 
     public string Name { get; set; } = null!;

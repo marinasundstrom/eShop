@@ -24,7 +24,6 @@ public record UpdateItem(string Id, string NewId, string Name, string GroupId, s
 
             if (item is null) throw new Exception();
 
-            item.Id = request.NewId;
             item.Name = request.Name;
             item.GroupId = request.GroupId;
             item.Unit = request.Unit;

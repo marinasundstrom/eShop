@@ -3,13 +3,13 @@ using MediatR;
 
 namespace YourBrand.Sales.Application.Orders.Items.Commands;
 
-public sealed record DeleteOrderItem(int OrderNo, string OrdeItemId) : IRequest<Result>
+public sealed record DeleteOrderItem(string OrderId, string OrdeItemId) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<DeleteOrderItem>
     {
         public Validator()
         {
-            RuleFor(x => x.OrderNo).NotEmpty();
+            RuleFor(x => x.OrderId).NotEmpty();
 
             RuleFor(x => x.OrdeItemId).NotEmpty();
         }
@@ -28,7 +28,7 @@ public sealed record DeleteOrderItem(int OrderNo, string OrdeItemId) : IRequest<
 
         public async Task<Result> Handle(DeleteOrderItem request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.FindByIdAsync(request.OrderNo, cancellationToken);
+            var order = await orderRepository.FindByIdAsync(request.OrdeItemId, cancellationToken);
 
             if (order is null)
             {

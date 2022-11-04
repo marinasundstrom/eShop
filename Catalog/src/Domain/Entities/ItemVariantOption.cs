@@ -1,9 +1,7 @@
 namespace YourBrand.Catalog.Domain.Entities;
 
-public class ItemVariantOption
+public class ItemVariantOption: Entity<int>
 {
-    public int Id { get; set; }
-
     public string ItemId { get; set; } = null!;
 
     public Item Item{ get; set; } = null!;

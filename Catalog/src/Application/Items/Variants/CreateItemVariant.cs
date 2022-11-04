@@ -43,10 +43,8 @@ public record CreateItemVariant(string ItemId, ApiCreateItemVariant Data) : IReq
                     .ThenInclude(o => o.Values)
                 .FirstAsync(x => x.Id == request.ItemId);
 
-            var variant = new Item()
+            var variant = new Item(request.Data.Id ?? Guid.NewGuid().ToString(), request.Data.Name)
             {
-                Id = Guid.NewGuid().ToString(),
-                Name = request.Data.Name,
                 Description = request.Data.Description,
                 Price = request.Data.Price
             };

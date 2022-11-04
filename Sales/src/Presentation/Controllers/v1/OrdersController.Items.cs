@@ -17,7 +17,7 @@ partial class OrdersController
     [HttpPost("{id}/Items")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderItemDto))]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<OrderItemDto>> CreateOrderItem(int id, CreateOrderItemRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderItemDto>> CreateOrderItem(string id, CreateOrderItemRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new CreateOrderItem(id, request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity, request.Notes), cancellationToken);
         return result.Handle(
@@ -28,7 +28,7 @@ partial class OrdersController
     [HttpPut("{id}/Items")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderItemDto))]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<OrderItemDto>> UpdateOrderItem(int id, string itemId, UpdateOrderItemRequest request, CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderItemDto>> UpdateOrderItem(string id, string itemId, UpdateOrderItemRequest request, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new UpdateOrderItem(id, itemId, request.Description, request.ItemId, request.Unit, request.UnitPrice, request.VatRate, request.Quantity, request.Notes), cancellationToken);
         return result.Handle(
@@ -39,7 +39,7 @@ partial class OrdersController
     [HttpDelete("{id}/Items/{itemId}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> DeleteOrderItem(int id, string itemId, CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteOrderItem(string id, string itemId, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new DeleteOrderItem(id, itemId), cancellationToken);
         return this.HandleResult(result);

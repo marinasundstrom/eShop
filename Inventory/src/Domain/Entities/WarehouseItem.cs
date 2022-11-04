@@ -5,7 +5,7 @@ using YourBrand.Inventory.Domain.Enums;
 
 namespace YourBrand.Inventory.Domain.Entities;
 
-public class WarehouseItem : AuditableEntity
+public class WarehouseItem : Entity<string>, IAuditable
 {
     protected WarehouseItem() { }
 
@@ -18,8 +18,6 @@ public class WarehouseItem : AuditableEntity
         QuantityOnHand = quantityOnHand;
         QuantityThreshold = quantityThreshold;
     }
-
-    public string Id { get; set; } = null!;
 
     public Item Item { get; set; } = null!;
 
@@ -123,4 +121,12 @@ public class WarehouseItem : AuditableEntity
     public int QuantityAvailable => QuantityOnHand - QuantityReserved;
 
     public int QuantityThreshold { get; set; } = 10;
+
+    public string? CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

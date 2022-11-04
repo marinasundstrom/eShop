@@ -27,9 +27,8 @@ public record CreateItemAttribute(string ItemId, ApiCreateItemAttribute Data) : 
             var group = await _context.AttributeGroups
                 .FirstOrDefaultAsync(attribute => attribute.Id == request.Data.GroupId);
 
-            Domain.Entities.Attribute attribute = new()
+            Domain.Entities.Attribute attribute = new(Guid.NewGuid().ToString())
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = request.Data.Name,
                 Description = request.Data.Description,
                 Group = group,
@@ -39,9 +38,8 @@ public record CreateItemAttribute(string ItemId, ApiCreateItemAttribute Data) : 
 
             foreach (var v in request.Data.Values)
             {
-                var value = new AttributeValue
+                var value = new AttributeValue(Guid.NewGuid().ToString())
                 {
-                    Id = Guid.NewGuid().ToString(),
                     Name = v.Name
                 };
 

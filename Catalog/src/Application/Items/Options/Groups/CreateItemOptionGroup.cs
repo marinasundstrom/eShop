@@ -24,9 +24,8 @@ public record CreateItemOptionGroup(string ItemId, ApiCreateItemOptionGroup Data
             var item = await _context.Items
                 .FirstAsync(x => x.Id == request.ItemId);
 
-            var group = new OptionGroup()
+            var group = new OptionGroup(Guid.NewGuid().ToString())
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = request.Data.Name,
                 Description = request.Data.Description,
                 Min = request.Data.Min,

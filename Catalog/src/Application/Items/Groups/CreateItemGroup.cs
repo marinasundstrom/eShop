@@ -23,9 +23,8 @@ public record CreateItemGroup(string ItemId, ApiCreateItemGroup Data) : IRequest
             var parentGroup = await _context.ItemGroups
                 .FirstOrDefaultAsync(x => x.Id == request.Data.ParentGroupId);
 
-            var itemGroup = new ItemGroup()
+            var itemGroup = new ItemGroup(request.Data.Id ?? Guid.NewGuid().ToString(), request.Data.Name)
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = request.Data.Name,
                 Description = request.Data.Description,
                 Parent = parentGroup

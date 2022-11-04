@@ -27,9 +27,8 @@ public record CreateItemOptionValue(string ItemId, string OptionId, ApiCreateIte
             var option = await _context.Options
                 .FirstAsync(x => x.Id == request.OptionId);
 
-            var value = new OptionValue
+            var value = new OptionValue(request.Data.Name)
             {
-                Name = request.Data.Name,
                 ItemId = request.Data.ItemId,
                 Price = request.Data.Price
             };

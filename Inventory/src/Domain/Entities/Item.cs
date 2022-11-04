@@ -4,7 +4,7 @@ using YourBrand.Inventory.Domain.Enums;
 
 namespace YourBrand.Inventory.Domain.Entities;
 
-public class Item : AuditableEntity
+public class Item : Entity<string>, IAuditable
 {
     protected Item() { }
 
@@ -17,8 +17,6 @@ public class Item : AuditableEntity
         GroupId = groupId;
         Unit = unit;
     }
-
-    public string Id { get; set; } = null!;
 
     public string Name { get; set; } = null!;
     
@@ -39,4 +37,12 @@ public class Item : AuditableEntity
     public int QuantityAvailable => WarehouseItems.Sum(x => x.QuantityAvailable);
 
     public IReadOnlyCollection<WarehouseItem> WarehouseItems { get; } = new HashSet<WarehouseItem>();
+
+    public string? CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

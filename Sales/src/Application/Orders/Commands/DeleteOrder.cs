@@ -3,7 +3,7 @@ using MediatR;
 
 namespace YourBrand.Sales.Application.Orders.Commands;
 
-public sealed record DeleteOrder(int Id) : IRequest<Result>
+public sealed record DeleteOrder(string Id) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<DeleteOrder>
     {

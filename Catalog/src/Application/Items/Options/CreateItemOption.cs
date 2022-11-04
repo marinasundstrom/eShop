@@ -27,9 +27,8 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
             var group = await _context.OptionGroups
                 .FirstOrDefaultAsync(x => x.Id == request.Data.GroupId);
 
-            Option option = new()
+            Option option = new(Guid.NewGuid().ToString())
             {
-                Id = Guid.NewGuid().ToString(),
                 Name = request.Data.Name,
                 Description = request.Data.Description,
                 ItemId = request.Data.ItemId,
@@ -40,10 +39,8 @@ public record CreateItemOption(string ItemId, ApiCreateItemOption Data) : IReque
 
             foreach (var v in request.Data.Values)
             {
-                var value = new OptionValue
+                var value = new OptionValue(v.Name)
                 {
-                    Id = Guid.NewGuid().ToString(),
-                    Name = v.Name,
                     ItemId = v.ItemId,
                     Price = v.Price
                 };

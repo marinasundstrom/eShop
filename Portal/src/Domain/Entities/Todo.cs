@@ -3,20 +3,15 @@ using YourBrand.Portal.Domain.Events;
 
 namespace YourBrand.Portal.Domain.Entities;
 
-public class Todo : AuditableEntity, IAggregateRoot
+public class Todo : AggregateRoot<int>, IAuditable
 {
-    protected Todo()
-    {
-    }
-
     public Todo(string title, string? description, TodoStatus status = TodoStatus.NotStarted)
+        : base(0)
     {
         Title = title;
         Description = description;
         Status = status;
     }
-
-    public int Id { get; private set; }
 
     public string Title { get; private set; } = null!;
 
@@ -125,4 +120,16 @@ public class Todo : AuditableEntity, IAggregateRoot
 
         return false;
     }
+
+    public User CreatedBy { get; set; } = null!;
+
+    public string CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

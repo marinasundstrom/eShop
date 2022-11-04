@@ -1,8 +1,13 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
-public class ItemGroup : IAggregateRoot
+public class ItemGroup : Entity<string>
 {
-    public string Id { get; set; } = null!;
+    protected ItemGroup() {}
+
+    public ItemGroup(string id, string name) : base(id)
+    {
+        Name = name;
+    }
 
     public int? Seq { get; set; }
 

@@ -1,6 +1,6 @@
 namespace YourBrand.Inventory.Domain.Entities;
 
-public class Location : AuditableEntity
+public class Location : Entity<string>, IAuditable
 {
     protected Location() { }
 
@@ -14,10 +14,21 @@ public class Location : AuditableEntity
         Bin = part4;
     }
 
-    public string Id { get; set; } = null!;
     public string WarehouseId { get; } = null!;
+
     public string? Aisle { get; set; } // Aisle
+
     public string? Unit { get; set; } // Unit/Rack
+
     public string? Shelf { get; set; } // Shelf/Row
+
     public string? Bin { get; set; } // Bin
+
+    public string? CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

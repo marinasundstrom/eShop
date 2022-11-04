@@ -1,12 +1,9 @@
 namespace YourBrand.Sales.Domain.Entities;
 
-public class OrderItem : AuditableEntity
+public class OrderItem : Entity<string>, IAuditable
 {
-    protected OrderItem()
-    {
-    }
-
     internal OrderItem(string? itemId, string description, double quantity, string? unit, decimal unitPrice, decimal total, double vatRate, string? notes)
+        : base(Guid.NewGuid().ToString()) 
     {
         ItemId = itemId;
         Description = description;
@@ -17,8 +14,6 @@ public class OrderItem : AuditableEntity
         VatRate = vatRate;
         Notes = notes;
     }
-
-    public string Id { get; private set; } = Guid.NewGuid().ToString();
 
     public string? ItemId { get; set; } = null!;
 
@@ -35,4 +30,16 @@ public class OrderItem : AuditableEntity
     public double VatRate { get; set; }
 
     public string? Notes { get; set; }
+
+    public User? CreatedBy { get; set; }
+
+    public string? CreatedById { get; set; }
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

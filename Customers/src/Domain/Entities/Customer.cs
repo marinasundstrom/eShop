@@ -3,11 +3,14 @@ using YourBrand.Customers.Domain.Enums;
 
 namespace YourBrand.Customers.Domain.Entities;
 
-public abstract class Customer : AuditableEntity
+public abstract class Customer : AggregateRoot<int>, IAuditable
 {
     readonly HashSet<Address> _addresses = new HashSet<Address>();
 
-    public int Id { get; private set; }
+    public Customer() : base()
+    {
+
+    }
 
     public string Name { get; set; } = null!;
     
@@ -24,4 +27,12 @@ public abstract class Customer : AuditableEntity
     public void AddAddress(Address address) => _addresses.Add(address);
 
     public void RemoveAddress(Address address) => _addresses.Remove(address);
+
+    public string? CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

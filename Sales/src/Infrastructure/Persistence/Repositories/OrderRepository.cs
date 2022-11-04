@@ -21,7 +21,7 @@ public sealed class OrderRepository : IOrderRepository
         return dbSet.AsQueryable();
     }
 
-    public async Task<Order?> FindByIdAsync(int id, CancellationToken cancellationToken = default)
+    public async Task<Order?> FindByIdAsync(string id, CancellationToken cancellationToken = default)
     {
         return await dbSet
             .Include(i => i.Status)
@@ -29,7 +29,18 @@ public sealed class OrderRepository : IOrderRepository
             .Include(i => i.Assignee)
             .Include(i => i.CreatedBy)
             .Include(i => i.LastModifiedBy)
-            .FirstOrDefaultAsync(x => x.OrderNo.Equals(id), cancellationToken);
+            .FirstOrDefaultAsync(x => x.Id.Equals(id), cancellationToken);
+    }
+
+    public async Task<Order?> FindByNoAsync(int orderNo, CancellationToken cancellationToken = default)
+    {
+        return await dbSet
+            .Include(i => i.Status)
+            .Include(i => i.Items)
+            .Include(i => i.Assignee)
+            .Include(i => i.CreatedBy)
+            .Include(i => i.LastModifiedBy)
+            .FirstOrDefaultAsync(x => x.OrderNo.Equals(orderNo), cancellationToken);
     }
 
     public IQueryable<Order> GetAll(ISpecification<Order> specification)

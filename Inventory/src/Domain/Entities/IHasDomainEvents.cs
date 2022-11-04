@@ -1,13 +1,12 @@
-﻿namespace YourBrand.Inventory.Domain.Entities
+namespace YourBrand.Inventory.Domain.Entities;
+
+public interface IHasDomainEvents
 {
-    public interface IHasDomainEvents
-    {
-        IReadOnlyCollection<DomainEvent> DomainEvents { get; }
+    IReadOnlyCollection<DomainEvent> DomainEvents { get; }
 
-        void AddDomainEvent(DomainEvent domainEvent);
+    void AddDomainEvent(DomainEvent domainEvent);
 
-        void RemoveDomainEvent(DomainEvent domainEvent);
+    void RemoveDomainEvent(DomainEvent domainEvent);
 
-        void ClearDomainEvents();
-    }
+    void ClearDomainEvents();
 }

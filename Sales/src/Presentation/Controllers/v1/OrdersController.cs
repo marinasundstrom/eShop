@@ -36,9 +36,19 @@ public sealed partial class OrdersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDto))]
     [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult<OrderDto>> GetOrderById(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<OrderDto>> GetOrderById(string id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new GetOrderById(id), cancellationToken);
+        return this.HandleResult(result);
+    }
+
+    [HttpGet("GetOrderByNo/{orderNo}")]
+    [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(OrderDto))]
+    [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ProblemDetails))]
+    [ProducesDefaultResponseType]
+    public async Task<ActionResult<OrderDto>> GetOrderByNo(int orderNo, CancellationToken cancellationToken)
+    {
+        var result = await mediator.Send(new GetOrderByNo(orderNo), cancellationToken);
         return this.HandleResult(result);
     }
 
@@ -67,7 +77,7 @@ public sealed partial class OrdersController : ControllerBase
     [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> DeleteOrder(int id, CancellationToken cancellationToken)
+    public async Task<ActionResult> DeleteOrder(string id, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new DeleteOrder(id), cancellationToken);
         return this.HandleResult(result);
@@ -76,7 +86,7 @@ public sealed partial class OrdersController : ControllerBase
     [HttpPut("{id}/Status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> UpdateStatus(int id, [FromBody] int status, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateStatus(string id, [FromBody] int status, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new UpdateStatus(id, status), cancellationToken);
         return this.HandleResult(result);
@@ -85,7 +95,7 @@ public sealed partial class OrdersController : ControllerBase
     [HttpPut("{id}/AssignedUser")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> UpdateAssignedUser(int id, [FromBody] string? userId, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateAssignedUser(string id, [FromBody] string? userId, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new UpdateAssignedUser(id, userId), cancellationToken);
         return this.HandleResult(result);

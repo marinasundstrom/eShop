@@ -1,4 +1,4 @@
-﻿namespace YourBrand.Portal.Domain.Entities;
+namespace YourBrand.Portal.Domain.Entities;
 
 public interface IHasDomainEvents
 {

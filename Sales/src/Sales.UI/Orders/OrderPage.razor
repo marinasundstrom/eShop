@@ -1,5 +1,5 @@
 @page "/orders/new"
-@page "/orders/{Id:int}"
+@page "/orders/{OrderNo:int}"
 @using Microsoft.AspNetCore.SignalR.Client;
 @using System.ComponentModel.DataAnnotations
 @using YourBrand.Sales.Orders
@@ -215,16 +215,19 @@
     bool loading = false;
 
     [Parameter]
-    public int? Id { get; set; }
+    public int? OrderNo { get; set; }
+
+    [Parameter]
+    public string? Id { get; set; }
 
     [Required]
     public OrderViewModel Model { get; set;  }
 
     protected override async Task OnInitializedAsync()
     {
-        if (Id is not null)
+        if (OrderNo is not null)
         {
-            order = await OrdersClient.GetOrderByIdAsync(Id.GetValueOrDefault());
+            order = await OrdersClient.GetOrderByNoAsync(OrderNo.GetValueOrDefault());
 
             Model = order.ToModel();
         }
@@ -285,10 +288,8 @@
 
     public async Task UpdateOrderStatus()
     {
-        int orderId = Id.GetValueOrDefault();
-
         var dialogParameters = new DialogParameters();
-        dialogParameters.Add(nameof(SetStatusDialog.OrderId), orderId);
+        dialogParameters.Add(nameof(SetStatusDialog.OrderId), Id);
         dialogParameters.Add(nameof(SetStatusDialog.Status), Model.Status);
 
         var dialogRef = DialogService.Show<SetStatusDialog>("Update status", dialogParameters);
@@ -297,7 +298,7 @@
 
         if (result.Cancelled) return;
 
-        await OrdersClient.UpdateStatusAsync(Id.GetValueOrDefault(), ((OrderStatusDto)result.Data).Id);
+        await OrdersClient.UpdateStatusAsync(Id, ((OrderStatusDto)result.Data).Id);
 
         Model.Status = (OrderStatusDto)result.Data;
     }
@@ -309,7 +310,7 @@
         if (!result.GetValueOrDefault())
             return;
 
-        await OrdersClient.DeleteOrderAsync(order.OrderNo);
+        await OrdersClient.DeleteOrderAsync(order.Id);
 
         NavigationManager.NavigateTo("/orders");
     }
@@ -321,7 +322,7 @@
         if (!result.GetValueOrDefault())
             return;
 
-        await OrdersClient.DeleteOrderItemAsync(Id.GetValueOrDefault(), orderItem.Id);
+        await OrdersClient.DeleteOrderItemAsync(Id, orderItem.Id);
 
         Model.Items.Remove(orderItem);
     }

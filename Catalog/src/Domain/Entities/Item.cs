@@ -2,9 +2,14 @@
 
 namespace YourBrand.Catalog.Domain.Entities;
 
-public class Item : IAggregateRoot
+public class Item : AggregateRoot<string>
 {
-    public string Id { get; set; } = null!;
+    protected Item() {}
+
+    public Item(string id, string name) : base(id)
+    {
+        Name = name;
+    }
 
     public string Name { get; set; } = null!;
 

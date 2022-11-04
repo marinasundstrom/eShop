@@ -3,20 +3,15 @@ using YourBrand.Sales.Domain.Events;
 
 namespace YourBrand.Sales.Domain.Entities;
 
-public class Cart : AuditableEntity, IAggregateRoot
+public class Cart : AggregateRoot<string>, IAuditable
 {
     HashSet<CartItem> _items = new HashSet<CartItem>();
 
-    protected Cart()
-    {
-    }
-
     public Cart(string? tag)
+        : base(Guid.NewGuid().ToString())
     {
         Tag = tag;
     }
-
-    public string Id { get; private set; } = Guid.NewGuid().ToString();
 
     public string? Tag { get; set; }
 
@@ -43,4 +38,16 @@ public class Cart : AuditableEntity, IAggregateRoot
     {
         _items.Clear();
     }
+
+    public User? CreatedBy { get; set; }
+
+    public string? CreatedById { get; set; }
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

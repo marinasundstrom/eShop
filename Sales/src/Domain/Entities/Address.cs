@@ -3,14 +3,12 @@ using YourBrand.Sales.Domain.Events;
 
 namespace YourBrand.Sales.Domain.Entities;
 
-public class Address : AuditableEntity
+public class Address : Entity<string>, IAuditable
 {
     public Address()
     {
         Id = Guid.NewGuid().ToString();
     }
-
-    public string Id { get; private set; } = null!;
 
     // Street
     public string Thoroughfare { get; set; } = null!;
@@ -33,4 +31,16 @@ public class Address : AuditableEntity
     public string AdministrativeArea { get; set; } = null!;
 
     public string Country { get; set; } = null!;
+
+    public User? CreatedBy { get; set; }
+
+    public string? CreatedById { get; set; }
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

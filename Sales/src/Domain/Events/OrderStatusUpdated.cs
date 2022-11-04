@@ -2,4 +2,4 @@
 
 namespace YourBrand.Sales.Domain.Events;
 
-public sealed record OrderStatusUpdated(int OrderNo, OrderStatus NewStatus, OrderStatus OldStatus) : DomainEvent;
+public sealed record OrderStatusUpdated(string OrderId, OrderStatus NewStatus, OrderStatus OldStatus) : DomainEvent;

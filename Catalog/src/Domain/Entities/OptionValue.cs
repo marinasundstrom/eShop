@@ -1,8 +1,14 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
-public class OptionValue
+public class OptionValue : Entity<string>
 {
-    public string Id { get; set; } = null!;
+    protected OptionValue() {}
+
+    public OptionValue(string name) 
+        : base(Guid.NewGuid().ToString())
+    {
+        Name = name;
+    }
 
     public int? Seq { get; set; }
 

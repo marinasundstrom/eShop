@@ -17,7 +17,7 @@ public sealed class OrderUpdatedEventHandler : IDomainEventHandler<OrderUpdated>
 
     public async Task Handle(OrderUpdated notification, CancellationToken cancellationToken)
     {
-        var order = await orderRepository.FindByIdAsync(notification.OrderNo, cancellationToken);
+        var order = await orderRepository.FindByIdAsync(notification.OrderId, cancellationToken);
 
         if (order is null)
             return;

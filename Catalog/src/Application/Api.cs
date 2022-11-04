@@ -7,7 +7,7 @@ public record class ApiCreateItem(string Name, bool HasVariants, string? Descrip
 
 public record class ApiUpdateItemDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, string? GroupId);
 
-public record class ApiCreateItemGroup(string Name, string? Description, string? ParentGroupId);
+public record class ApiCreateItemGroup(string? Id, string Name, string? Description, string? ParentGroupId);
 
 public record class ApiUpdateItemGroup(string Name, string? Description, string? ParentGroupId);
 

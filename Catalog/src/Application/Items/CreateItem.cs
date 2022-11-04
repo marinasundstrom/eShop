@@ -29,9 +29,8 @@ public record CreateItem(string? Id, string Name, bool HasVariants, string? Desc
                 .Include(x => x.Options)
                 .FirstOrDefaultAsync(x => x.Id == request.GroupId);
 
-            var item = new Item()
+            var item = new Item(request.Id ?? Guid.NewGuid().ToString(), request.Name)
             {
-                Id =  request.Id ?? Guid.NewGuid().ToString(),
                 Name = request.Name,
                 Description = request.Description,
                 Group = group,

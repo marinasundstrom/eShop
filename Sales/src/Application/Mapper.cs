@@ -7,7 +7,7 @@ namespace YourBrand.Sales.Application;
 
 public static class Mappings
 {
-    public static OrderDto ToDto(this Order order) => new OrderDto(order.OrderNo, order.Date, order.Status.ToDto(), order.Assignee?.ToDto(), order.CustomerId, order.Currency,
+    public static OrderDto ToDto(this Order order) => new OrderDto(order.Id, order.OrderNo, order.Date, order.Status.ToDto(), order.Assignee?.ToDto(), order.CustomerId, order.Currency,
         order.BillingDetails?.ToDto(),
         order.ShippingDetails?.ToDto(),
         order.Items.Select(x => x.ToDto()), order.SubTotal, order.Vat.GetValueOrDefault(), order.Total, order.Created, order.CreatedBy?.ToDto(), order.LastModified, order.LastModifiedBy?.ToDto());

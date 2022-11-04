@@ -1,15 +1,21 @@
 namespace YourBrand.Inventory.Domain.Entities;
 
-public class ItemGroup : AuditableEntity
+public class ItemGroup : Entity<string>, IAuditable
 {
     protected ItemGroup() { }
 
-    public ItemGroup(string name)
+    public ItemGroup(string id)
     {
-        Name = name;
+        Id = id;
     }
 
-    public string Id { get; set; } = Guid.NewGuid().ToString();
-
     public string Name { get; set; } = null!;
+
+    public string? CreatedById { get; set; } = null!;
+
+    public DateTimeOffset Created { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }

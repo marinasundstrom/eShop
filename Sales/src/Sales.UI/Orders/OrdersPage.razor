@@ -111,7 +111,7 @@
         if (!result.GetValueOrDefault())
             return;
 
-        await OrdersClient.DeleteOrderAsync(order.OrderNo);
+        await OrdersClient.DeleteOrderAsync(order.Id);
         await table.ReloadServerData();
     }
 }

@@ -3,12 +3,7 @@ using YourBrand.Sales.Domain.Specifications;
 
 namespace YourBrand.Sales.Domain.Repositories;
 
-public interface ICartRepository : IRepository<Cart>
+public interface ICartRepository : IRepository<Cart, string>
 {
-    IQueryable<Cart> GetAll();
-    IQueryable<Cart> GetAll(ISpecification<Cart> specification);
-    Task<Cart?> FindByIdAsync(string id, CancellationToken cancellationToken = default);
     Task<Cart?> FindByTagAsync(string tag, CancellationToken cancellationToken = default);
-    void Add(Cart item);
-    void Remove(Cart item);
 }

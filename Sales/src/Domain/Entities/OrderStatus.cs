@@ -3,10 +3,15 @@ using YourBrand.Sales.Domain.Events;
 
 namespace YourBrand.Sales.Domain.Entities;
 
-public class OrderStatus : AuditableEntity
+public class OrderStatus : Entity<int>, IAuditable
 {
     protected OrderStatus()
     {
+    }
+
+    public OrderStatus(int id)
+    {
+        Id = id;
     }
 
     public OrderStatus(string name)
@@ -14,7 +19,17 @@ public class OrderStatus : AuditableEntity
         Name = name;
     }
 
-    public int Id { get; private set; }
-
     public string Name { get; set; } = null!;
+
+    public User? CreatedBy { get; set; }
+
+    public string? CreatedById { get; set; }
+
+    public DateTimeOffset Created { get; set; }
+
+    public User? LastModifiedBy { get; set; }
+
+    public string? LastModifiedById { get; set; }
+
+    public DateTimeOffset? LastModified { get; set; }
 }
