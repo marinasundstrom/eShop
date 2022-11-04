@@ -39,7 +39,7 @@
             return;
 
         await AuthenticationService.Logout();
-        await CartService.Reload();
+        await CartService.ReconnectAndReload();
         Navigation.NavigateTo("/");
     }
 }

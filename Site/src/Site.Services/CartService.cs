@@ -57,5 +57,11 @@ public class CartService
         await CartUpdated.Invoke();
     }
 
+    public async Task ReconnectAndReload() 
+    {
+        await cartHubClient.RestartAsync();
+        await Reload();
+    }
+
     public Func<Task>? CartUpdated;
 }

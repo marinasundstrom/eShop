@@ -39,7 +39,7 @@
     {
         await AuthenticationService.Login(new UserForAuthenticationDto() { SSN = SSN });
 
-        await CartService.Reload();
+        await CartService.ReconnectAndReload();
 
         NavigationManager.NavigateTo("/user/profile");
     }

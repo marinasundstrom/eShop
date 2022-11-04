@@ -77,7 +77,7 @@
         "tags": [
           "Cart"
         ],
-        "operationId": "Cart_UpdateItemToCart",
+        "operationId": "Cart_UpdateCartItem",
         "consumes": [
           "application/json",
           "text/json",

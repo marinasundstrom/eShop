@@ -135,7 +135,7 @@ public class CartController : ControllerBase
         return new CartDto(cart.Items.Select(ci => new CartItemDto()));
         */
     }
-    
+
     [HttpPost("Items")]
     public async Task AddItemToCart(AddCartItemDto dto, CancellationToken cancellationToken = default)
     {
@@ -160,11 +160,22 @@ public class CartController : ControllerBase
 
         await _cartsClient.AddCartItemAsync(cart.Id, dto2, cancellationToken);
 
-        await _cartHubContext.Clients.All.CartUpdated();
+        await UpdateCart();
+    }
+
+    private async Task UpdateCart() 
+    {
+        var customerId = currentUserService.CustomerNo;
+
+        var hubClient = customerId is not null 
+            ? _cartHubContext.Clients.Group($"customer-{customerId}") 
+            : _cartHubContext.Clients.All;
+        
+        await hubClient.CartUpdated();
     }
 
     [HttpPut("Items/{id}")]
-    public async Task UpdateItemToCart(string id, UpdateCartItemDto dto, CancellationToken cancellationToken = default)
+    public async Task UpdateCartItem(string id, UpdateCartItemDto dto, CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
 
@@ -178,7 +189,7 @@ public class CartController : ControllerBase
 
         await _cartsClient.UpdateCartItemDataAsync(cart.Id, cartItem.Id, dto.Data, cancellationToken);
 
-        await _cartHubContext.Clients.All.CartUpdated();
+        await UpdateCart();
     }
 
     [HttpPut("Items/{itemId}/Quantity")]
@@ -192,7 +203,7 @@ public class CartController : ControllerBase
 
         await _cartsClient.UpdateCartItemQuantityAsync(cart.Id, itemId, quantity, cancellationToken);
 
-        await _cartHubContext.Clients.All.CartUpdated();
+        await UpdateCart();
     }
 
     [HttpDelete("Items/{itemId}")]
@@ -206,7 +217,7 @@ public class CartController : ControllerBase
 
         await _cartsClient.RemoveCartItemAsync(cart.Id, itemId, cancellationToken);
 
-        await _cartHubContext.Clients.All.CartUpdated();
+        await UpdateCart();
     }
 
     [HttpDelete("Items")]
@@ -220,7 +231,7 @@ public class CartController : ControllerBase
 
         await _cartsClient.ClearCartAsync(cart.Id, cancellationToken);
 
-        await _cartHubContext.Clients.All.CartUpdated();
+        await UpdateCart();
     }
 }
 

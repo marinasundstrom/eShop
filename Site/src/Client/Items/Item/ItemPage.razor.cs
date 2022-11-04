@@ -130,7 +130,7 @@ partial class ItemPage
 
     async Task UpdateCartItem()
     {
-        await CartClient.UpdateItemToCartAsync(CartItemId, new UpdateCartItemDto() {
+        await CartClient.UpdateCartItemAsync(CartItemId, new UpdateCartItemDto() {
             Quantity = quantity,
             Data = Serialize()
         });

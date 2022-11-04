@@ -156,7 +156,18 @@ public class CheckoutController : ControllerBase
 
         await cartsClient.ClearCartAsync(cart.Id);
 
-        await cartHubContext.Clients.All.CartUpdated();
+        await UpdateCart();
+    }
+
+    private async Task UpdateCart() 
+    {
+        var customerId = currentUserService.CustomerNo;
+
+        var hubClient = customerId is not null 
+            ? cartHubContext.Clients.Group($"customer-{customerId}") 
+            : cartHubContext.Clients.All;
+        
+        await hubClient.CartUpdated();
     }
 
     private static decimal CalculatePrice(YourBrand.Catalog.ItemDto item, IEnumerable<Option>? options)

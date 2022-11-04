@@ -5,13 +5,21 @@ namespace Site.Services;
 public class CartHubClient
 {
     HubConnection hubConnection = null!;
+    private readonly IAccessTokenProvider accessTokenProvider;
+
+    public CartHubClient(IAccessTokenProvider accessTokenProvider) 
+    {
+        this.accessTokenProvider = accessTokenProvider;
+    }
 
     public async Task StartAsync(string baseUri, string clientId)
     {
         try
         {
             hubConnection = new HubConnectionBuilder()
-                .WithUrl($"{baseUri}hubs/cart?clientId={clientId}")
+                .WithUrl($"{baseUri}hubs/cart?clientId={clientId}", config => { 
+                    config.AccessTokenProvider = async () => await accessTokenProvider.GetAccessToken();
+                })
                 .WithAutomaticReconnect()
                 .Build();
 
@@ -61,6 +69,12 @@ public class CartHubClient
     public async Task StopAsync()
     {
         await hubConnection.StopAsync();
+    }
+
+    public async Task RestartAsync()
+    {
+        await hubConnection.StopAsync();
+        await hubConnection.StartAsync();
     }
 
     public async ValueTask DisposeAsync()

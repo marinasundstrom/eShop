@@ -25,6 +25,8 @@ public static class ServiceExtensions
         services.AddSiteServices();
 
         services.AddSingleton<RenderingContext>();
+
+        services.AddScoped<Site.Services.IAccessTokenProvider, Site.Client.AccessTokenProvider>();
          
         CultureInfo? culture = new("sv-SE");
         CultureInfo.DefaultThreadCurrentCulture = culture;
