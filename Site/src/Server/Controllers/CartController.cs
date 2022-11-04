@@ -135,7 +135,7 @@ public class CartController : ControllerBase
         return new CartDto(cart.Items.Select(ci => new CartItemDto()));
         */
     }
-
+    
     [HttpPost("Items")]
     public async Task AddItemToCart(AddCartItemDto dto, CancellationToken cancellationToken = default)
     {
@@ -159,6 +159,24 @@ public class CartController : ControllerBase
         var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
         await _cartsClient.AddCartItemAsync(cart.Id, dto2, cancellationToken);
+
+        await _cartHubContext.Clients.All.CartUpdated();
+    }
+
+    [HttpPut("Items/{id}")]
+    public async Task UpdateItemToCart(string id, UpdateCartItemDto dto, CancellationToken cancellationToken = default)
+    {
+        var customerId = currentUserService.CustomerNo;
+
+        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+
+        var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
+
+        var cartItem = cart.Items.First(x => x.Id == id);
+
+        await _cartsClient.UpdateCartItemQuantityAsync(cart.Id, cartItem.Id, dto.Quantity, cancellationToken);
+
+        await _cartsClient.UpdateCartItemDataAsync(cart.Id, cartItem.Id, dto.Data, cancellationToken);
 
         await _cartHubContext.Clients.All.CartUpdated();
     }
@@ -207,6 +225,8 @@ public class CartController : ControllerBase
 }
 
 public record AddCartItemDto(string? ItemId, int Quantity, string? Data);
+
+public record UpdateCartItemDto(int Quantity, string? Data);
 
 public record SiteItemDto(string Id, string Name, string? Description, SiteItemGroupDto? Group, string? Image, decimal Price, decimal? CompareAtPrice, int? Available, IEnumerable<YourBrand.Catalog.AttributeDto> Attributes, IEnumerable<YourBrand.Catalog.OptionDto> Options, bool HasVariants, IEnumerable<YourBrand.Catalog.ItemVariantAttributeDto> VariantAttributes);
 

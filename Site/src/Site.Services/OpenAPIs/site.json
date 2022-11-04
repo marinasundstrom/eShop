@@ -72,6 +72,42 @@
         }
       }
     },
+    "/api/Cart/Items/{id}": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "operationId": "Cart_UpdateItemToCart",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "x-nullable": true
+          },
+          {
+            "name": "dto",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateCartItemDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/Cart/Items/{itemId}/Quantity": {
       "put": {
         "tags": [
@@ -646,12 +682,11 @@
         ],
         "parameters": [
           {
-            "type": "integer",
+            "type": "string",
             "name": "id",
             "in": "path",
             "required": true,
-            "format": "int32",
-            "x-nullable": false
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -671,12 +706,11 @@
         "operationId": "Orders_DeleteOrder",
         "parameters": [
           {
-            "type": "integer",
+            "type": "string",
             "name": "id",
             "in": "path",
             "required": true,
-            "format": "int32",
-            "x-nullable": false
+            "x-nullable": true
           }
         ],
         "responses": {
@@ -1184,6 +1218,21 @@
         }
       }
     },
+    "UpdateCartItemDto": {
+      "type": "object",
+      "required": [
+        "quantity"
+      ],
+      "properties": {
+        "quantity": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    },
     "CheckoutDto": {
       "type": "object",
       "required": [
@@ -1458,6 +1507,7 @@
     "OrderDto": {
       "type": "object",
       "required": [
+        "id",
         "orderNo",
         "date",
         "status",
@@ -1469,6 +1519,9 @@
         "created"
       ],
       "properties": {
+        "id": {
+          "type": "string"
+        },
         "orderNo": {
           "type": "integer",
           "format": "int32"

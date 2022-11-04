@@ -21,6 +21,7 @@
                             <small class="text-muted">@cartItem.Item.Description</small>
                             <div class="d-flex">
                                 <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
+                                <button class="btn ms-2" @onclick="async () => await UpdateItem(cartItem)"><i class="fa fa-edit" /></button>
                                 <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
                             </div>
                         </div>
@@ -77,6 +78,11 @@
         await CartClient.UpdateCartItemQuantityAsync(cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
         cartItem.Total = cartItem.Quantity * cartItem.Item.Price;
+    }
+
+    async Task UpdateItem(SiteCartItemDto cartItem)
+    {
+        NavigationManager.NavigateTo($"/items/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
     }
 
     async Task DeleteItem(SiteCartItemDto cartItem)

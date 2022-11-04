@@ -24,11 +24,18 @@ partial class ItemPage
     public string? VariantId { get; set; }
 
     [Parameter]
+    [SupplyParameterFromQuery(Name = "cartItemId")]
+    public string? CartItemId { get; set; }
+
+    [Parameter]
     [SupplyParameterFromQuery(Name = "d")]
     public string? Data { get; set; }
 
     [Inject]
     public IToastService ToastService { get; set; } = null!;
+
+    [Inject]
+    public RenderingContext RenderingContext { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -46,6 +53,18 @@ partial class ItemPage
         {
             productViewModel = restored!;
             productViewModel.SetClient(ItemsClient);
+        }
+
+        if(!RenderingContext.IsPrerendering) 
+        {
+            if(CartItemId is not null) 
+            {
+                var cart = await CartClient.GetCartAsync();
+                var item = cart.Items.First(x => x.Id == CartItemId);
+                Data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(item.Data));
+
+                //Console.WriteLine(Data);
+            }
         }
 
         if(Data is not null) 
@@ -74,14 +93,25 @@ partial class ItemPage
 
         await JS.InvokeVoidAsync("skipScroll");
 
+        System.Text.StringBuilder sb = new ();
+        sb.Append($"/items/{Id}");
+
         if(productViewModel!.VariantId is not null) 
         {
-            NavigationManager.NavigateTo($"/items/{Id}/{productViewModel.VariantId}?d={data}", replace: true);
+            sb.Append($"/{productViewModel.VariantId}");
         }
-        else 
+
+        if(data is not null) 
         {
-            NavigationManager.NavigateTo($"/items/{Id}?d={data}", false, replace: true);
+            sb.Append($"?d={data}");
         }
+
+        if(CartItemId is not null) 
+        {
+            sb.Append($"&cartItemId={CartItemId}");
+        }
+        
+        NavigationManager.NavigateTo(sb.ToString(), replace: true);
     }
 
     async Task AddItemToCart()
@@ -96,6 +126,18 @@ partial class ItemPage
         hasAddedToCart = true;
 
         //ToastService.ShowInfo($"{productViewModel.Name} was added to your basket,", "Item added");
+    }
+
+    async Task UpdateCartItem()
+    {
+        await CartClient.UpdateItemToCartAsync(CartItemId, new UpdateCartItemDto() {
+            Quantity = quantity,
+            Data = Serialize()
+        });
+
+        hasAddedToCart = true;
+
+        ToastService.ShowInfo($"{productViewModel.Name} was updated in your basket,", "Item updated");
     }
     
     string Serialize() 
