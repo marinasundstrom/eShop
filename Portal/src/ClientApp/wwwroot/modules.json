@@ -18,5 +18,10 @@
     "Name": "Customers",
     "Assembly": "Customers.UI",
     "Enabled": true
+  },
+  {
+    "Name": "Marketing",
+    "Assembly": "Marketing.UI",
+    "Enabled": true
   }
 ]
