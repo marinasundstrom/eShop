@@ -52,7 +52,7 @@ namespace YourBrand.Sales.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Sales", (string)null);
                 });
 #pragma warning restore 612, 618
         }

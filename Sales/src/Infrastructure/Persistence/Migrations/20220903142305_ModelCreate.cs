@@ -10,7 +10,7 @@ public partial class ModelCreate : Migration
     protected override void Up(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.CreateTable(
-            name: "Orders",
+            name: "Sales",
             columns: table => new
             {
                 Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -31,6 +31,6 @@ public partial class ModelCreate : Migration
     protected override void Down(MigrationBuilder migrationBuilder)
     {
         migrationBuilder.DropTable(
-            name: "Orders");
+            name: "Sales");
     }
 }
