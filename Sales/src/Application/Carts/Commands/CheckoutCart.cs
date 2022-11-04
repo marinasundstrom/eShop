@@ -1,9 +1,9 @@
-﻿using FluentValidation;
+using FluentValidation;
 using MediatR;
 
 namespace YourBrand.Sales.Application.Carts.Commands;
 
-public sealed record ClearCart(string Id) : IRequest<Result>
+public sealed record CheckoutCart(string Id) : IRequest<Result>
 {
     public sealed class Validator : AbstractValidator<ClearCart>
     {
@@ -13,7 +13,7 @@ public sealed record ClearCart(string Id) : IRequest<Result>
         }
     }
 
-    public sealed class Handler : IRequestHandler<ClearCart, Result>
+    public sealed class Handler : IRequestHandler<CheckoutCart, Result>
     {
         private readonly ICartRepository cartRepository;
         private readonly IUnitOfWork unitOfWork;
@@ -24,7 +24,7 @@ public sealed record ClearCart(string Id) : IRequest<Result>
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(ClearCart request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(CheckoutCart request, CancellationToken cancellationToken)
         {
             var cart = await cartRepository.FindByIdAsync(request.Id, cancellationToken);
 
@@ -33,12 +33,7 @@ public sealed record ClearCart(string Id) : IRequest<Result>
                 return Result.Failure(Errors.Carts.CartNotFound);
             }
 
-            foreach(var cartItem in cart.Items) 
-            {
-                await cartRepository.DeleteCartItem(request.Id, cartItem.Id);
-            }
-
-            //cart.AddDomainEvent(new CartCleared(cart.Id));
+            cart.Checkout();
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

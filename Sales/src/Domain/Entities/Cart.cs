@@ -39,6 +39,14 @@ public class Cart : AggregateRoot<string>, IAuditable
         _items.Clear();
     }
 
+    public void Checkout()
+    {
+        foreach(var item in _items) 
+        {
+            item.CheckedOutAt = DateTimeOffset.UtcNow;
+        }
+    }
+
     public User? CreatedBy { get; set; }
 
     public string? CreatedById { get; set; }

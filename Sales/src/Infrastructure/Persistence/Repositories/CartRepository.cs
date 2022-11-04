@@ -57,4 +57,17 @@ public sealed class CartRepository : ICartRepository
     {
         dbSet.Remove(item);
     }
+
+    public async Task DeleteCartItem(string id, string itemId, CancellationToken cancellationToken = default) 
+    {
+        var cart = await dbSet
+            .Include(i => i.Items)
+            .Include(i => i.CreatedBy)
+            .Include(i => i.LastModifiedBy)
+            .FirstAsync(x => x.Id.Equals(id), cancellationToken);
+
+        var item = cart.Items.First(x => x.Id == itemId);
+
+        context.Set<CartItem>().Remove(item);
+    }
 }

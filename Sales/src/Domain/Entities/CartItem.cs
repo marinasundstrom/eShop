@@ -1,6 +1,6 @@
 namespace YourBrand.Sales.Domain.Entities;
 
-public class CartItem : Entity<string>, IAuditable
+public class CartItem : Entity<string>, IAuditable, ISoftDelete
 {
     protected CartItem()
     {
@@ -13,6 +13,8 @@ public class CartItem : Entity<string>, IAuditable
         Quantity = quantity;
         Data = data;
     }
+
+    public Cart? Cart { get; private set; }
 
     public string? ItemId { get; private set; } = null!;
 
@@ -42,4 +44,10 @@ public class CartItem : Entity<string>, IAuditable
     public string? LastModifiedById { get; set; }
 
     public DateTimeOffset? LastModified { get; set; }
+
+    public string? DeletedById { get; set; }
+
+    public DateTimeOffset? Deleted { get; set; }
+
+    public DateTimeOffset? CheckedOutAt { get; set; }
 }

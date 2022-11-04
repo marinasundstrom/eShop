@@ -154,6 +154,7 @@ public class CheckoutController : ControllerBase
             }
         }
 
+        await cartsClient.CheckoutAsync(cart.Id);
         await cartsClient.ClearCartAsync(cart.Id);
 
         await UpdateCart();

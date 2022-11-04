@@ -15,6 +15,8 @@ public class OrderItem : Entity<string>, IAuditable
         Notes = notes;
     }
 
+    public Order? Order { get; private set; }
+
     public string? ItemId { get; set; } = null!;
 
     public string Description { get; set; } = null!;

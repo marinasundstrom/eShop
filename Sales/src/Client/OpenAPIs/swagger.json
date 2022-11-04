@@ -582,6 +582,41 @@
         }
       }
     },
+    "/v1/Carts/{id}/Checkout": {
+      "post": {
+        "tags": [
+          "Carts"
+        ],
+        "operationId": "Carts_Checkout",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          },
+          "default": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Carts/{id}/Items/{itemId}/Quantity": {
       "put": {
         "tags": [
