@@ -34,6 +34,9 @@ await LoadModules(builder.Services);
 
 var app = builder.Build();
 
+var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
+moduleBuilder.ConfigureServices();
+
 var navManager = app.Services
     .GetRequiredService<NavManager>();
 
@@ -45,10 +48,8 @@ navManager.CreateItem("home", options =>
     options.Icon = MudBlazor.Icons.Material.Filled.Home;
     options.Href = "/";
     options.RequiresAuthorization = false;
+    options.Index = 0;
 });
-
-var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
-moduleBuilder.ConfigureServices();
 
 /*
 var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => resources["Administration"]);
