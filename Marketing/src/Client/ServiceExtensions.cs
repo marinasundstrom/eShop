@@ -9,11 +9,10 @@ public static class ServiceExtensions
     public static IServiceCollection AddMarketingClients(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
     {
         services
-            .AddMarketingClient(configureClient, builder)
             .AddContactsClient(configureClient, builder)
             .AddCampaignsClient(configureClient, builder)
-            .AddDiscountsClient(configureClient, builder);
-            //.AddAddressesClient(configureClient, builder);
+            .AddDiscountsClient(configureClient, builder)
+            .AddEventsClient(configureClient, builder);
 
         return services;
     }
@@ -51,15 +50,13 @@ public static class ServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddMarketingClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
+    public static IServiceCollection AddEventsClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
     {
-        /*
         var b = services
-            .AddHttpClient(nameof(MarketingClient) + "M", configureClient)
-            .AddTypedClient<IMarketingClient>((http, sp) => new MarketingClient(http));
+            .AddHttpClient(nameof(EventsClient) + "M", configureClient)
+            .AddTypedClient<IEventsClient>((http, sp) => new EventsClient(http));
 
         builder?.Invoke(b);
-        */
 
         return services;
     }

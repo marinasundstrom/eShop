@@ -22,6 +22,9 @@ public static class ServiceExtensions
         services.AddHttpClient("Site")
             .AddTypedClient<IUserClient>((http, sp) => new UserClient(http));
 
+        services.AddHttpClient("Site")
+            .AddTypedClient<IAnalyticsClient>((http, sp) => new AnalyticsClient(http));
+
         services.AddSiteServices();
 
         services.AddSingleton<RenderingContext>();

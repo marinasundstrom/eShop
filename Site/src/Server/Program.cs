@@ -21,6 +21,7 @@ using Site.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Site.Server.Authentication.Data;
 using Site.Server.Services;
+using YourBrand.Marketing.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -101,10 +102,6 @@ builder.Services.AddSalesClients((sp, httpClient) => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddHttpClient("Site", (sp, http) => {
-    http.BaseAddress = new Uri("https://localhost:6001/");
-});
-
 const string InventoryServiceUrl = $"https://localhost:5051";
 
 builder.Services.AddInventoryClients((sp, httpClient) => {
@@ -113,14 +110,18 @@ builder.Services.AddInventoryClients((sp, httpClient) => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddHttpClient("Site", (sp, http) => {
-    http.BaseAddress = new Uri("https://localhost:6001/");
-});
-
 const string CustomerServiceUrl = $"https://localhost:5071";
 
 builder.Services.AddCustomersClients((sp, httpClient) => {
     httpClient.BaseAddress = new Uri($"{CustomerServiceUrl}/");
+}, builder => {
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
+
+const string MarketingServiceUrl = $"https://localhost:5081";
+
+builder.Services.AddMarketingClients((sp, httpClient) => {
+    httpClient.BaseAddress = new Uri($"{MarketingServiceUrl}/");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });

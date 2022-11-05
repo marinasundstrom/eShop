@@ -1,0 +1,38 @@
+@page "/analytics"
+@inject IEventsClient EventsClient
+
+<PageTitle>Analytics</PageTitle>
+
+<MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true" Class="mt-4 mb-8">Analytics</MudText>
+
+<MudPaper Elevation="25" Class="pa-8">
+    <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true" Class="mt-4 mb-8">Viewed items</MudText>
+
+    <MudChart Class="mt-8" ChartType="ChartType.Line" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%" Height="350" ChartOptions="options"></MudChart>
+</MudPaper>
+
+@code 
+{
+    Data? data;
+
+    private ChartOptions options = new ChartOptions()
+    {
+        YAxisFormat = "0 views",
+        YAxisTicks = 10
+    };
+
+    public List<ChartSeries> Series = new List<ChartSeries>();
+    public string[] XAxisLabels = new string[0];
+
+    protected override async Task OnInitializedAsync()
+    {
+        data = await EventsClient.GetMostViewedItemsAsync(null, null);
+
+        XAxisLabels = data.Labels.ToArray();
+
+        foreach (var d in data.Series)
+        {
+            Series.Add(new ChartSeries() { Name = d.Name, Data = d.Data.Select(x => (double)x).ToArray() });
+        }
+    }
+}

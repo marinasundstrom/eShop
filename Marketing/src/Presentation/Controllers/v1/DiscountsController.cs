@@ -65,4 +65,3 @@ public record UpdateDiscountDto(string ProductId,
                 string ProductDescription, 
                 decimal OrdinaryPrice, 
                 double Percent);
-

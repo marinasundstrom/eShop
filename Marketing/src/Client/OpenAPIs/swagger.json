@@ -686,6 +686,73 @@
           }
         }
       }
+    },
+    "/v1/Events": {
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "operationId": "Events_RegisterEvent",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventData"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/Events/MostViewedItems": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "operationId": "Events_GetMostViewedItems",
+        "parameters": [
+          {
+            "name": "From",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "To",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date-time",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Data"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -1015,6 +1082,62 @@
           "percent": {
             "type": "number",
             "format": "double"
+          }
+        }
+      },
+      "EventData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "eventType": {
+            "$ref": "#/components/schemas/EventType"
+          },
+          "data": {
+            "type": "string"
+          }
+        }
+      },
+      "EventType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "PageViewed"
+        ],
+        "enum": [
+          1
+        ]
+      },
+      "Data": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "series": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Series"
+            }
+          }
+        }
+      },
+      "Series": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "number",
+              "format": "decimal"
+            }
           }
         }
       }

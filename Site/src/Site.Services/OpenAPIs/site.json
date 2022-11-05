@@ -10,6 +10,35 @@
     "https"
   ],
   "paths": {
+    "/api/Analytics": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_RegisterEvent",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventData"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/Cart": {
       "get": {
         "tags": [
@@ -834,6 +863,31 @@
     }
   },
   "definitions": {
+    "EventData": {
+      "type": "object",
+      "required": [
+        "eventType",
+        "data"
+      ],
+      "properties": {
+        "eventType": {
+          "$ref": "#/definitions/EventType"
+        },
+        "data": {
+          "type": "string"
+        }
+      }
+    },
+    "EventType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "PageViewed"
+      ],
+      "enum": [
+        1
+      ]
+    },
     "SiteCartDto": {
       "type": "object",
       "required": [

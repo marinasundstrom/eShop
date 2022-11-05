@@ -72,6 +72,14 @@ partial class ItemPage
             var str = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Data));
             Deserialize(str);
         }
+
+        if(!RenderingContext.IsPrerendering) 
+        {
+            await AnalyticsClient.RegisterEventAsync(new EventData {
+                EventType = EventType.PageViewed,
+                Data = System.Text.Json.JsonSerializer.Serialize(new { ItemId = Id })
+            });
+        }
     }
 
     private Task PersistItems()

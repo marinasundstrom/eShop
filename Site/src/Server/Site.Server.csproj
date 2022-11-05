@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\..\Catalog\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Inventory\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Marketing\src\Client\Client.csproj" />
     <ProjectReference Include="..\Site.Server.Authentication\Site.Server.Authentication.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
