@@ -1,5 +1,3 @@
-@implements IDisposable
-
 <MudNavGroup Title="@Group.Name" Icon="@Group.Icon" Expanded="Group.Expanded" ExpandedChanged="(v) =>  {  SaveCallback?.Invoke(v, Group); }">
     <NavItemListView Items="@Group.Items" SaveCallback="SaveCallback" />
 </MudNavGroup>
@@ -11,19 +9,4 @@
 
     [Parameter] 
     public Func<bool, NavGroup, bool>? SaveCallback { get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        Group.Changed += Changed;
-    }
-
-    private void Changed(INavItem navItem) 
-    {
-        Console.WriteLine("Changed {0}", navItem.Name);
-    }
-
-    public void Dispose() 
-    {
-        Group.Changed -= Changed;
-    }
 }

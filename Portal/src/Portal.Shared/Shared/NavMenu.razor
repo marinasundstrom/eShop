@@ -9,7 +9,7 @@
 <MudNavMenu>
     <MudSpacer />
 
-    <YourBrand.Portal.Navigation.NavItemListView Items="NavManager.Groups" SaveCallback="Save" />
+    <YourBrand.Portal.Navigation.NavItemListView Items="NavManager.Items" SaveCallback="Save" />
 </MudNavMenu>
 
 @code {
@@ -19,7 +19,7 @@
     {
         roles = await CurrentUserService.GetRoles();
 
-        foreach (var navGroup in NavManager.Groups)
+        foreach (var navGroup in NavManager.GetGroupsRecursive())
         {
             navGroup.Expanded = LocalStorageService.GetItem<bool>($"navmenu.{navGroup.Id.ToLower()}");
         }

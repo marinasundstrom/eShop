@@ -1,10 +1,8 @@
 ﻿namespace YourBrand.Portal.Navigation;
 
-public class NavGroup : INavItem
+public class NavGroup : NavItemsCollection, INavItem
 {
     private string? name;
-
-    private List<INavItem> _items = new List<INavItem>();
 
     public string Id { get; set; } = null!;
 
@@ -18,8 +16,6 @@ public class NavGroup : INavItem
 
     public Func<string>? NameFunc { get; set; }
 
-    public IReadOnlyList<INavItem> Items => _items;
-
     public bool Expanded { get; set; }
 
     public bool Visible { get; set; } = true;
@@ -27,6 +23,50 @@ public class NavGroup : INavItem
     public bool RequiresAuthorization { get; set; }
 
     public IEnumerable<string>? Roles { get; set; }
+
+}
+
+public abstract class NavItemsCollection 
+{
+    private List<INavItem> _items = new List<INavItem>();
+
+    public IReadOnlyList<INavItem> Items => _items;
+
+    public event EventHandler? Updated = default!;
+
+    public IEnumerable<NavGroup> GetGroupsRecursive() 
+    {
+        foreach(var group in Items.OfType<NavGroup>()) 
+        {
+            yield return group;
+
+            foreach(var group2 in group.GetGroupsRecursive()) 
+            {
+                yield return group2;
+            }
+        }
+    }
+
+    public NavGroup? GetGroup(string id) => _items.OfType<NavGroup>().FirstOrDefault(g => g.Id == id);
+
+    public NavGroup? GetGroup(string id, Action<NavGroupOptions> setup) 
+    {
+        var navGroup = GetGroup(id);
+
+        if(navGroup is null) return null;
+
+        NavGroupOptions options = new NavGroupOptions();
+        setup(options);
+
+        navGroup.Name = options.Name;
+        navGroup.NameFunc = options.NameFunc;
+        navGroup.RequiresAuthorization = options.RequiresAuthorization;
+        navGroup.Roles = options.Roles;
+
+        Updated?.Invoke(this, EventArgs.Empty);
+
+        return navGroup;
+    }
 
     public NavItem CreateItem(string id, string name, string icon, string href)
     {
@@ -39,7 +79,7 @@ public class NavGroup : INavItem
         };
         _items.Add(navItem);
         
-        Changed?.Invoke(navItem);
+        Updated?.Invoke(this, EventArgs.Empty);
         
         return navItem;
     }
@@ -55,7 +95,7 @@ public class NavGroup : INavItem
         };
         _items.Add(navItem);
         
-        Changed?.Invoke(navItem);
+        Updated?.Invoke(this, EventArgs.Empty);
         
         return navItem;
     }
@@ -76,12 +116,12 @@ public class NavGroup : INavItem
         };
         _items.Add(navItem);
         
-        Changed?.Invoke(navItem);
+        Updated?.Invoke(this, EventArgs.Empty);
         
         return navItem;
     }
 
-     public NavGroup CreateGroup(string id, string name, string icon)
+     public NavGroup CreateGroup(string id, string name, string? icon = null)
     {
         var navGroup = new NavGroup()
         {
@@ -91,12 +131,12 @@ public class NavGroup : INavItem
         };
         _items.Add(navGroup);
 
-        Changed?.Invoke(navGroup);
+        Updated?.Invoke(this, EventArgs.Empty);
         
         return navGroup;
     }
 
-    public NavGroup CreateGroup(string id, Func<string> name, string icon)
+    public NavGroup CreateGroup(string id, Func<string> name, string? icon = null)
     {
         var navGroup = new NavGroup()
         {
@@ -106,7 +146,7 @@ public class NavGroup : INavItem
         };
         _items.Add(navGroup);
 
-        Changed?.Invoke(navGroup);
+        Updated?.Invoke(this, EventArgs.Empty);
 
         return navGroup;
     }
@@ -126,12 +166,10 @@ public class NavGroup : INavItem
         };
         _items.Add(navGroup);
 
-        Changed?.Invoke(navGroup);
+        Updated?.Invoke(this, EventArgs.Empty);
         
         return navGroup;
     }
-
-    public Action<INavItem> Changed = default!;
 }
 
 public class NavItemOptions
