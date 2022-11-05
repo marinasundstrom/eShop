@@ -4,6 +4,8 @@
 @inject ICheckoutClient CheckoutClient
 @inject IUserClient UserClient
 @inject NavigationManager NavigationManager
+@inject Services.IAccessTokenProvider AccessTokenProvider
+@inject RenderingContext RenderingContext
 
 <SitePageTitle>Checkout</SitePageTitle>
 
@@ -203,33 +205,40 @@
 
     protected override async Task OnInitializedAsync()
     {
+        if(RenderingContext.IsPrerendering) return;
+
         cart = await CartClient.GetCartAsync();
 
-        try 
+        string? accessToken = await AccessTokenProvider.GetAccessToken();
+
+        if(accessToken is not null) 
         {
-            var profile = await UserClient.GetProfileAsync();
-            var addresses = await UserClient.GetAddressesAsync();
+            try 
+            {
+                var profile = await UserClient.GetProfileAsync();
+                var addresses = await UserClient.GetAddressesAsync();
 
-            var address = addresses.FirstOrDefault();
+                var address = addresses.FirstOrDefault();
 
-            FirstName = profile.FirstName;
-            LastName = profile.LastName;
-            SSN = profile.Ssn;
-            Phone = profile.Phone;
-            Email = profile.Email;
-            BillingAddress.Thoroughfare = address.Thoroughfare;
-            BillingAddress.Premises = address.Premises;
-            BillingAddress.SubPremises = address.SubPremises;
-            BillingAddress.PostalCode = address.PostalCode;
-            BillingAddress.Locality = address.Locality;
-            BillingAddress.SubAdministrativeArea = address.SubAdministrativeArea;
-            BillingAddress.AdministrativeArea = address.AdministrativeArea;
-            BillingAddress.Country = address.Country;
-            BillingAddress.Country = address.Country;
-        }
-        catch 
-        {
+                FirstName = profile.FirstName;
+                LastName = profile.LastName;
+                SSN = profile.Ssn;
+                Phone = profile.Phone;
+                Email = profile.Email;
+                BillingAddress.Thoroughfare = address.Thoroughfare;
+                BillingAddress.Premises = address.Premises;
+                BillingAddress.SubPremises = address.SubPremises;
+                BillingAddress.PostalCode = address.PostalCode;
+                BillingAddress.Locality = address.Locality;
+                BillingAddress.SubAdministrativeArea = address.SubAdministrativeArea;
+                BillingAddress.AdministrativeArea = address.AdministrativeArea;
+                BillingAddress.Country = address.Country;
+                BillingAddress.Country = address.Country;
+            }
+            catch 
+            {
 
+            }
         }
     }
 

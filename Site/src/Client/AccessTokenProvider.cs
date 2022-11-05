@@ -12,5 +12,5 @@ public sealed class AccessTokenProvider : Site.Services.IAccessTokenProvider
         this.localStorageService = localStorageService;
     }
 
-    public async Task<string> GetAccessToken() => await localStorageService.GetItemAsync<string>("authToken");
+    public async Task<string?> GetAccessToken() => await localStorageService.GetItemAsync<string?>("authToken");
 }
