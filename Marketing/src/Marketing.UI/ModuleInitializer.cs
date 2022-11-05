@@ -35,12 +35,18 @@ public class ModuleInitializer : IModuleInitializer
             options.RequiresAuthorization = true;
         });
 
-        group.CreateItem("discounts", () => resources["Discounts"], MudBlazor.Icons.Material.Filled.ListAlt, "/discounts");
+        group.CreateItem("discounts", () => resources["Discounts"], MudBlazor.Icons.Material.Filled.Discount, "/discounts");
+
+         group.CreateItem("analytics", () => resources["Analytics"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics");
+
+        /*
 
         group.CreateItem("contacts", () => resources["Contacts"], MudBlazor.Icons.Material.Filled.Person, "/contacts");
 
         var group2 = group.CreateGroup("campaigns", () => resources["Campaigns"], MudBlazor.Icons.Material.Filled.ListAlt);
 
         group2.CreateItem("list", () => resources["List"], MudBlazor.Icons.Material.Filled.ListAlt, "/campaigns");
+
+        */
     }
 }
