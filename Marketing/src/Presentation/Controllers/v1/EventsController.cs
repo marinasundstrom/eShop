@@ -27,9 +27,9 @@ public class EventsController : ControllerBase
     }
 
     [HttpGet("MostViewedItems")]
-    public async Task<Data> GetMostViewedItems(DateTime? From = null, DateTime? To = null, CancellationToken cancellationToken = default)
+    public async Task<Data> GetMostViewedItems(DateTime? From = null, DateTime? To = null, bool DistinctByClient = false, CancellationToken cancellationToken = default)
     {
-       return await _mediator.Send(new GetMostViewedItems(From, To), cancellationToken);
+       return await _mediator.Send(new GetMostViewedItems(From, To, DistinctByClient), cancellationToken);
     }
 }
 

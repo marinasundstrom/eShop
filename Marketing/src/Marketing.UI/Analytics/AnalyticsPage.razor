@@ -8,9 +8,9 @@
 <MudPaper Elevation="25" Class="pa-8">
     <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true" Class="mt-4 mb-8">Viewed items</MudText>
 
-     <MudText Align="Align.Center" Class="mt-4 mb-8">Unique views</MudText>
+    <MudCheckBox Checked="DistinctByClient" CheckedChanged="new Func<bool, Task>(DistinctByClientChanged)" Label="Distinct by clients" />
 
-    <MudChart Class="mt-8" ChartType="ChartType.Line" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%" Height="350" ChartOptions="options"></MudChart>
+    <MudChart Class="mt-8" ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%" Height="350" ChartOptions="options"></MudChart>
 </MudPaper>
 
 @code 
@@ -26,11 +26,26 @@
     public List<ChartSeries> Series = new List<ChartSeries>();
     public string[] XAxisLabels = new string[0];
 
+    public bool DistinctByClient { get; set;}
+
+    public async Task DistinctByClientChanged(bool value) 
+    {
+        DistinctByClient = value;
+        await LoadData();
+    }
+
     protected override async Task OnInitializedAsync()
     {
-        data = await EventsClient.GetMostViewedItemsAsync(null, null);
+        await LoadData();
+    }
+
+    private async Task LoadData() 
+    {
+        data = await EventsClient.GetMostViewedItemsAsync(null, null, DistinctByClient);
 
         XAxisLabels = data.Labels.ToArray();
+
+        if(Series.Any()) Series.Clear();
 
         foreach (var d in data.Series)
         {

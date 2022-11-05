@@ -6,7 +6,7 @@ using YourBrand.Marketing.Domain;
 namespace YourBrand.Marketing.Application.Analytics.Commands;
 
 
-public record GetMostViewedItems(DateTime? From = null, DateTime? To = null) : IRequest<Data>
+public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, bool DistinctByClient = false) : IRequest<Data>
 {
     public class Handler : IRequestHandler<GetMostViewedItems, Data>
     {
@@ -51,14 +51,21 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null) : I
 
                 foreach (var month in months)
                 {
-                    //var value = itemGroup
-                    //    .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
-                    //    .Count();
+                    int value = 0;
 
-                    var value = itemGroup
+                    if(request.DistinctByClient) 
+                    {
+                        value = itemGroup
                             .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
                             .DistinctBy(x => x.ClientId)
                             .Count();
+                    }
+                    else 
+                    {
+                        value = itemGroup
+                            .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
+                            .Count();
+                    }                    
 
                     values.Add((decimal)value);
                 }
