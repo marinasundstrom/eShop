@@ -239,7 +239,9 @@ public record AddCartItemDto(string? ItemId, int Quantity, string? Data);
 
 public record UpdateCartItemDto(int Quantity, string? Data);
 
-public record SiteItemDto(string Id, string Name, string? Description, SiteItemGroupDto? Group, string? Image, decimal Price, decimal? CompareAtPrice, int? Available, IEnumerable<YourBrand.Catalog.AttributeDto> Attributes, IEnumerable<YourBrand.Catalog.OptionDto> Options, bool HasVariants, IEnumerable<YourBrand.Catalog.ItemVariantAttributeDto> VariantAttributes);
+public record SiteItemDto(string Id, string Name, string? Description, SiteParentItemDto? Parent, SiteItemGroupDto? Group, string? Image, decimal Price, decimal? CompareAtPrice, int? Available, IEnumerable<YourBrand.Catalog.AttributeDto> Attributes, IEnumerable<YourBrand.Catalog.OptionDto> Options, bool HasVariants, IEnumerable<YourBrand.Catalog.ItemVariantAttributeDto> VariantAttributes);
+
+public record SiteParentItemDto(string Id, string Name, string? Description, SiteItemGroupDto? Group);
 
 public record SiteItemGroupDto(string Id, string Name, SiteItemGroupDto? Parent);
 

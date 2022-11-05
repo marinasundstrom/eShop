@@ -10,7 +10,11 @@ public static class Mapping
 {
     public static ItemDto ToDto(this Domain.Entities.Item item)
     {
-         return new ItemDto(item.Id, item.Name, item.Description,
+         return new ItemDto(
+                item.Id, 
+                item.Name, 
+                item.Description,
+                item.ParentItem?.ToDto2(),
                 item.Group?.ToDto(),
                 GetImageUrl(item.Image), 
                 item.Price.GetValueOrDefault(), 
@@ -21,6 +25,15 @@ public static class Mapping
                 item.Attributes.Select(x => x.ToDto()),
                 item.Options.Select(x => x.ToDto()),
                 item.AttributeValues.Select(x => x.ToDto()));
+    }
+
+    public static ParentItemDto ToDto2(this Domain.Entities.Item item)
+    {
+        return new ParentItemDto(
+                item.Id, 
+                item.Name, 
+                item.Description,
+                item.Group?.ToDto());
     }
 
     public static ItemGroupDto ToDto(this Domain.Entities.ItemGroup itemGroup)

@@ -20,10 +20,11 @@ public class ItemsService
             .AsSplitQuery()
             .AsNoTracking()
             .Include(pv => pv.ParentItem)
+                .ThenInclude(pv => pv!.Group)
             .Include(pv => pv.AttributeValues)
-            .ThenInclude(pv => pv.Attribute)
+                .ThenInclude(pv => pv.Attribute)
             .Include(pv => pv.AttributeValues)
-            .ThenInclude(pv => pv.Value)
+                .ThenInclude(pv => pv.Value)
             .Where(pv => pv.ParentItem!.Id == itemId)
             .AsQueryable();
 

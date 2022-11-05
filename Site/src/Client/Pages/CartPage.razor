@@ -82,7 +82,14 @@
 
     async Task UpdateItem(SiteCartItemDto cartItem)
     {
-        NavigationManager.NavigateTo($"/items/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+        if(cartItem.Item.Parent is null) 
+        {
+            NavigationManager.NavigateTo($"/items/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+        }
+        else 
+        {
+            NavigationManager.NavigateTo($"/items/{cartItem.Item?.Parent.Id}/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+        }
     }
 
     async Task DeleteItem(SiteCartItemDto cartItem)

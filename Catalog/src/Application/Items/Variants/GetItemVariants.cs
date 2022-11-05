@@ -43,10 +43,11 @@ public record GetItemVariants(string ItemId,  int Page = 10, int PageSize = 10, 
 
             var variants = await query
                 .Include(pv => pv.ParentItem)
+                    .ThenInclude(pv => pv!.Group)
                 .Include(pv => pv.AttributeValues)
-                .ThenInclude(pv => pv.Attribute)
+                    .ThenInclude(pv => pv.Attribute)
                 .Include(pv => pv.AttributeValues)
-                .ThenInclude(pv => pv.Value)
+                    .ThenInclude(pv => pv.Value)
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize).AsQueryable()
                 .ToArrayAsync();

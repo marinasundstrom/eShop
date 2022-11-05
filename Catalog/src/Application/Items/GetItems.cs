@@ -27,6 +27,8 @@ public record GetItems(bool IncludeUnlisted = false, bool GroupItems = true, str
             var query = _context.Items
                 .AsSplitQuery()
                 .AsNoTracking()
+                .Include(pv => pv.ParentItem)
+                .ThenInclude(pv => pv!.Group)
                 .Include(pv => pv.Group)
                 .Include(pv => pv.Attributes)
                 .ThenInclude(pv => pv.Values)

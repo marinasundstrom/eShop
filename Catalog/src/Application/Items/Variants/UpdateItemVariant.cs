@@ -33,6 +33,8 @@ public record UpdateItemVariant(string ItemId, string ItemVariantId, ApiUpdateIt
 
             var item = await _context.Items
                 .AsSplitQuery()
+                .Include(pv => pv.ParentItem)
+                    .ThenInclude(pv => pv!.Group)
                 .Include(pv => pv.Variants)
                     .ThenInclude(o => o.AttributeValues)
                     .ThenInclude(o => o.Attribute)

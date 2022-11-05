@@ -901,6 +901,9 @@
         "description": {
           "type": "string"
         },
+        "parent": {
+          "$ref": "#/definitions/SiteParentItemDto"
+        },
         "group": {
           "$ref": "#/definitions/SiteItemGroupDto"
         },
@@ -939,6 +942,27 @@
           "items": {
             "$ref": "#/definitions/ItemVariantAttributeDto"
           }
+        }
+      }
+    },
+    "SiteParentItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "group": {
+          "$ref": "#/definitions/SiteItemGroupDto"
         }
       }
     },
@@ -1408,6 +1432,9 @@
         "description": {
           "type": "string"
         },
+        "parent": {
+          "$ref": "#/definitions/ParentItemDto"
+        },
         "group": {
           "$ref": "#/definitions/ItemGroupDto"
         },
@@ -1449,6 +1476,27 @@
           "items": {
             "$ref": "#/definitions/ItemVariantAttributeDto"
           }
+        }
+      }
+    },
+    "ParentItemDto": {
+      "type": "object",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "group": {
+          "$ref": "#/definitions/ItemGroupDto"
         }
       }
     },

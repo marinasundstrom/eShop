@@ -2466,6 +2466,14 @@
             "type": "string",
             "nullable": true
           },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParentItemDto"
+              }
+            ]
+          },
           "group": {
             "nullable": true,
             "oneOf": [
@@ -2520,6 +2528,30 @@
             "items": {
               "$ref": "#/components/schemas/ItemVariantAttributeDto"
             }
+          }
+        }
+      },
+      "ParentItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "group": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ItemGroupDto"
+              }
+            ]
           }
         }
       },
