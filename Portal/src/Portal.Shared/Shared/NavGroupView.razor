@@ -1,28 +1,43 @@
 @using Navigation
 @inject YourBrand.Portal.Services.ICurrentUserService CurrentUserService
 
-<MudNavGroup Title="@NavGroup.Name" Expanded="NavGroup.Expanded" ExpandedChanged="(v) => SaveCallback(v, NavGroup)">
+<MudNavGroup Title="@NavGroup.Name" Icon="@NavGroup.Icon" Expanded="NavGroup.Expanded" ExpandedChanged="(v) => SaveCallback(v, NavGroup)">
     @foreach (var navItem in NavGroup.Items)
     {
-        @if (navItem.RequiresAuthorization)
-        {
-            if (navItem.Roles == null || IsInAnyRole(navItem.Roles))
+            if (navItem.RequiresAuthorization)
+            {
+                if (navItem.Roles is null || IsInAnyRole(navItem.Roles))
+                {
+                    if (navItem.Visible)
+                    {
+                        <AuthorizeView Roles="@(navItem.Roles == null ? null : string.Join(",", navItem.Roles))">
+                            @if(navItem is NavItem navItem1) 
+                            {
+                                <MudNavLink Icon="@navItem1.Icon" Href="@navItem1.Href">@navItem.Name</MudNavLink>
+                                
+                            }
+                            else if(navItem is NavGroup navGroup) 
+                            {
+                                <NavGroupView NavGroup="navGroup" SaveCallback="SaveCallback" />
+                            }               
+                        </AuthorizeView>
+                    }
+                }
+            }
+            else
             {
                 if (navItem.Visible)
                 {
-                    <AuthorizeView Roles="@(navItem.Roles == null ? null : string.Join(",", navItem.Roles))">
-                        <MudNavLink Icon="@navItem.Icon" Href="@navItem.Href">@navItem.Name</MudNavLink>
-                    </AuthorizeView>
+                    if(navItem is NavItem navItem1) 
+                    {
+                        <MudNavLink Icon="@navItem1.Icon" Href="@navItem1.Href">@navItem.Name</MudNavLink>
+                    }
+                    else if(navItem is NavGroup navGroup) 
+                    {
+                        <NavGroupView NavGroup="navGroup" SaveCallback="SaveCallback" />
+                    }
                 }
             }
-        }
-        else
-        {
-            if (navItem.Visible)
-            {
-                <MudNavLink Icon="@navItem.Icon" Href="@navItem.Href">@navItem.Name</MudNavLink>
-            }
-        }
     }
 </MudNavGroup>
 

@@ -1,12 +1,15 @@
 ﻿namespace YourBrand.Portal.Navigation;
 
-public class NavGroup
+public class NavGroup : INavItem
 {
     private string? name;
 
-    private List<NavItem> _items = new List<NavItem>();
+    private List<INavItem> _items = new List<INavItem>();
 
     public string Id { get; set; } = null!;
+
+    public string? Icon { get; set; }
+
 
     public string Name 
     { 
@@ -16,7 +19,7 @@ public class NavGroup
 
     public Func<string>? NameFunc { get; set; }
 
-    public IReadOnlyList<NavItem> Items => _items;
+    public IReadOnlyList<INavItem> Items => _items;
 
     public bool Expanded { get; set; }
 
@@ -68,6 +71,47 @@ public class NavGroup
         };
         _items.Add(navItem);
         return navItem;
+    }
+
+     public NavGroup CreateGroup(string id, string name, string icon)
+    {
+        var navGroup = new NavGroup()
+        {
+            Id = id,
+            Name = name,
+            Icon = icon
+        };
+        _items.Add(navGroup);
+        return navGroup;
+    }
+
+    public NavGroup CreateGroup(string id, Func<string> name, string icon)
+    {
+        var navGroup = new NavGroup()
+        {
+            Id = id,
+            NameFunc = name,
+            Icon = icon
+        };
+        _items.Add(navGroup);
+        return navGroup;
+    }
+
+    public NavGroup CreateGroup(string id, Action<NavItemOptions> setup)
+    {
+        NavItemOptions options = new NavItemOptions();
+        setup(options);
+
+        var navGroup = new NavGroup()
+        {
+            Id = id,
+            Name = options.Name,
+            NameFunc = options.NameFunc,
+            Icon = options.Icon,
+            RequiresAuthorization = options.RequiresAuthorization
+        };
+        _items.Add(navGroup);
+        return navGroup;
     }
 }
 

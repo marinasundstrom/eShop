@@ -1,6 +1,6 @@
 namespace YourBrand.Portal.Navigation;
 
-public class NavItem
+public class NavItem : INavItem
 {
     private string? name;
 
