@@ -10,7 +10,6 @@ public class NavGroup : INavItem
 
     public string? Icon { get; set; }
 
-
     public string Name 
     { 
         get => name ?? NameFunc?.Invoke() ?? throw new Exception();
@@ -39,6 +38,9 @@ public class NavGroup : INavItem
             Href = href
         };
         _items.Add(navItem);
+        
+        Changed?.Invoke(navItem);
+        
         return navItem;
     }
 
@@ -52,6 +54,9 @@ public class NavGroup : INavItem
             Href = href
         };
         _items.Add(navItem);
+        
+        Changed?.Invoke(navItem);
+        
         return navItem;
     }
 
@@ -70,6 +75,9 @@ public class NavGroup : INavItem
             RequiresAuthorization = options.RequiresAuthorization
         };
         _items.Add(navItem);
+        
+        Changed?.Invoke(navItem);
+        
         return navItem;
     }
 
@@ -82,6 +90,9 @@ public class NavGroup : INavItem
             Icon = icon
         };
         _items.Add(navGroup);
+
+        Changed?.Invoke(navGroup);
+        
         return navGroup;
     }
 
@@ -94,6 +105,9 @@ public class NavGroup : INavItem
             Icon = icon
         };
         _items.Add(navGroup);
+
+        Changed?.Invoke(navGroup);
+
         return navGroup;
     }
 
@@ -111,8 +125,13 @@ public class NavGroup : INavItem
             RequiresAuthorization = options.RequiresAuthorization
         };
         _items.Add(navGroup);
+
+        Changed?.Invoke(navGroup);
+        
         return navGroup;
     }
+
+    public Action<INavItem> Changed = default!;
 }
 
 public class NavItemOptions
