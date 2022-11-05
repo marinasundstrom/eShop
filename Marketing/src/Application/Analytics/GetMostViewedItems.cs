@@ -51,9 +51,14 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null) : I
 
                 foreach (var month in months)
                 {
+                    //var value = itemGroup
+                    //    .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
+                    //    .Count();
+
                     var value = itemGroup
-                        .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
-                        .Count();
+                            .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
+                            .DistinctBy(x => x.ClientId)
+                            .Count();
 
                     values.Add((decimal)value);
                 }

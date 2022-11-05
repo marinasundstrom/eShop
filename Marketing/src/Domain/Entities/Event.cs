@@ -19,6 +19,8 @@ public class Event : Entity<string>
         Data = data;
     }
 
+    public string ClientId { get; private set; } = "10";
+
     public EventType EventType { get; private set; }
     
     public DateTimeOffset DateTime { get; private set; } = DateTimeOffset.UtcNow;
