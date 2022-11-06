@@ -15,10 +15,26 @@ public static class ServiceExtensions
             .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
 
         services.AddHttpClient("Site")
-            .AddTypedClient<ICartClient>((http, sp) => new CartClient(http));
+            .AddTypedClient<ICartClient>((http, sp) => {
+                var renderingContext = sp.GetRequiredService<RenderingContext>();
+                if(!renderingContext.IsPrerendering) 
+                {
+                    var clientId = sp.GetRequiredService<ISyncLocalStorageService>().GetItem<string>("cid");
+                    http.DefaultRequestHeaders.Add("X-Client-Id", clientId);
+                }
+                return new CartClient(http);
+            });
 
         services.AddHttpClient("Site")
-            .AddTypedClient<ICheckoutClient>((http, sp) => new CheckoutClient(http));
+            .AddTypedClient<ICheckoutClient>((http, sp) => {
+                var renderingContext = sp.GetRequiredService<RenderingContext>();
+                if(!renderingContext.IsPrerendering) 
+                {
+                    var clientId = sp.GetRequiredService<ISyncLocalStorageService>().GetItem<string>("cid");
+                    http.DefaultRequestHeaders.Add("X-Client-Id", clientId);
+                }
+                return new CheckoutClient(http);
+            });
 
         services.AddHttpClient("Site")
             .AddTypedClient<IUserClient>((http, sp) => new UserClient(http));

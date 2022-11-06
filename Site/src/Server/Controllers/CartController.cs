@@ -35,10 +35,11 @@ public class CartController : ControllerBase
     public async Task<SiteCartDto?> GetCart(CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
+        var clientId = currentUserService.ClientId;
 
         CartDto cart;
         
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         try 
         {
@@ -151,10 +152,11 @@ public class CartController : ControllerBase
             Quantity = dto.Quantity,
             Data = dto.Data
         };
-
+        
         var customerId = currentUserService.CustomerNo;
-
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        var clientId = currentUserService.ClientId;
+        
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
@@ -166,10 +168,11 @@ public class CartController : ControllerBase
     private async Task UpdateCart() 
     {
         var customerId = currentUserService.CustomerNo;
-
+        var clientId = currentUserService.ClientId;
+        
         var hubClient = customerId is not null 
             ? _cartHubContext.Clients.Group($"customer-{customerId}") 
-            : _cartHubContext.Clients.All;
+            : _cartHubContext.Clients.Group($"cart-{clientId}");
         
         await hubClient.CartUpdated();
     }
@@ -178,8 +181,9 @@ public class CartController : ControllerBase
     public async Task UpdateCartItem(string id, UpdateCartItemDto dto, CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
-
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        var clientId = currentUserService.ClientId;
+        
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
@@ -196,8 +200,9 @@ public class CartController : ControllerBase
     public async Task UpdateCartItemQuantity(string itemId, int quantity, CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
-
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        var clientId = currentUserService.ClientId;
+        
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
@@ -210,8 +215,9 @@ public class CartController : ControllerBase
     public async Task RemoveItemFromCart(string itemId, CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
-
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        var clientId = currentUserService.ClientId;
+        
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
@@ -224,8 +230,9 @@ public class CartController : ControllerBase
     public async Task ClearCart(CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
-
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        var clientId = currentUserService.ClientId;
+        
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         var cart = await _cartsClient.GetCartByTagAsync(tag, cancellationToken);
 

@@ -45,8 +45,9 @@ public class CheckoutController : ControllerBase
     public async Task Checkout(CheckoutDto dto, CancellationToken cancellationToken = default)
     {
         var customerId = currentUserService.CustomerNo;
-
-        string tag = customerId is null ? "cart-test" : $"cart-{customerId}";
+        var clientId = currentUserService.ClientId;
+        
+        string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
         var cart = await cartsClient.GetCartByTagAsync(tag);
 
@@ -163,10 +164,11 @@ public class CheckoutController : ControllerBase
     private async Task UpdateCart() 
     {
         var customerId = currentUserService.CustomerNo;
-
+        var clientId = currentUserService.ClientId;
+        
         var hubClient = customerId is not null 
             ? cartHubContext.Clients.Group($"customer-{customerId}") 
-            : cartHubContext.Clients.All;
+            : cartHubContext.Clients.Group($"cart-{clientId}");
         
         await hubClient.CartUpdated();
     }

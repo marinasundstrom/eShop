@@ -22,5 +22,9 @@ public class CurrentUserService : ICurrentUserService
             return int.Parse(str);
         }
     }
+
+    public string? ClientId =>  httpContext?.Request.Headers["X-Client-Id"];
+
+    public string? SessionId =>  httpContext?.Request.Headers["X-Session-Id"];
 }
 

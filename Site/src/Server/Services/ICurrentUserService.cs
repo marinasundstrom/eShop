@@ -3,4 +3,8 @@
 public interface ICurrentUserService
 {
     int? CustomerNo { get; }
+
+    string? ClientId { get; }
+
+    string? SessionId { get; }
 }

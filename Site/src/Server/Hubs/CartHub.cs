@@ -14,7 +14,7 @@ public class CartHub : Hub<ICartHubClient>
         {
             if (httpContext.Request.Query.TryGetValue("clientId", out var clientId))
             {
-                await Groups.AddToGroupAsync(Context.ConnectionId, $"client-{clientId}");
+                await Groups.AddToGroupAsync(Context.ConnectionId, $"cart-{clientId}");
             }
 
             var customerIdStr = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "CustomerId")?.Value;

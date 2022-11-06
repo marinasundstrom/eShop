@@ -2,6 +2,7 @@
 @inject NavigationManager NavigationManager
 @inject CartService CartService
 @inject Site.Client.RenderingContext RenderingContext
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
 
 <a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="@(DisableDropDown ? string.Empty : "dropdown")" aria-expanded="false">
     <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" SmallIcon="SmallIcon" />
@@ -60,11 +61,13 @@
 
         if (!initialized)
         {
+            var clientId = await LocalStorageService.GetItemAsync<string>("cid");
+            
             CartService.CartUpdated += OnCartUpdated;
 
             await CartService.Reload();
 
-            await CartService.Start(NavigationManager.BaseUri, "test");
+            await CartService.Start(NavigationManager.BaseUri, clientId);
 
             initialized = true;
         }
