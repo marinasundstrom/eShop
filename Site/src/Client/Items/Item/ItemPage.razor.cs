@@ -75,7 +75,7 @@ partial class ItemPage
 
         if(!RenderingContext.IsPrerendering) 
         {
-            await AnalyticsClient.RegisterEventAsync(new EventData {
+            _ = AnalyticsClient.RegisterEventAsync(new EventData {
                 EventType = EventType.PageViewed,
                 Data = System.Text.Json.JsonSerializer.Serialize(new { ItemId = productViewModel.VariantId ?? productViewModel.Id })
             });
