@@ -253,7 +253,7 @@
         var model = new OrderItemViewModel();
 
         var dialogParameters = new DialogParameters();
-        dialogParameters.Add(nameof(OrderItemDialog.OrderId), Id);
+        dialogParameters.Add(nameof(OrderItemDialog.OrderId), order.Id);
 
         var dialogRef = DialogService.Show<OrderItemDialog>("New Item", dialogParameters);
 
@@ -275,7 +275,7 @@
         }
 
         var dialogParameters = new DialogParameters();
-        dialogParameters.Add(nameof(OrderItemDialog.OrderId), Id);
+        dialogParameters.Add(nameof(OrderItemDialog.OrderId), order.Id);
         dialogParameters.Add(nameof(OrderItemDialog.Model), model);
 
         var dialogRef = DialogService.Show<OrderItemDialog>("Update Item", dialogParameters);
@@ -289,7 +289,7 @@
     public async Task UpdateOrderStatus()
     {
         var dialogParameters = new DialogParameters();
-        dialogParameters.Add(nameof(SetStatusDialog.OrderId), Id);
+        dialogParameters.Add(nameof(SetStatusDialog.OrderId), order.Id);
         dialogParameters.Add(nameof(SetStatusDialog.Status), Model.Status);
 
         var dialogRef = DialogService.Show<SetStatusDialog>("Update status", dialogParameters);
@@ -298,7 +298,7 @@
 
         if (result.Cancelled) return;
 
-        await OrdersClient.UpdateStatusAsync(Id, ((OrderStatusDto)result.Data).Id);
+        await OrdersClient.UpdateStatusAsync(order.Id, ((OrderStatusDto)result.Data).Id);
 
         Model.Status = (OrderStatusDto)result.Data;
     }
@@ -322,7 +322,7 @@
         if (!result.GetValueOrDefault())
             return;
 
-        await OrdersClient.DeleteOrderItemAsync(Id, orderItem.Id);
+        await OrdersClient.DeleteOrderItemAsync(order.Id, orderItem.Id);
 
         Model.Items.Remove(orderItem);
     }

@@ -28,7 +28,7 @@ public sealed record DeleteOrderItem(string OrderId, string OrdeItemId) : IReque
 
         public async Task<Result> Handle(DeleteOrderItem request, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.FindByIdAsync(request.OrdeItemId, cancellationToken);
+            var order = await orderRepository.FindByIdAsync(request.OrderId, cancellationToken);
 
             if (order is null)
             {
