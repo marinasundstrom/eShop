@@ -33,8 +33,17 @@ public sealed class AnalyticsService
 
         if(sid is null) 
         {
-            sid = await analyticsClient.StartSessionAsync(cid);
-            await localStorageService.SetItemAsync("sid", sid);
+            try 
+            {
+                sid = await analyticsClient.StartSessionAsync(cid);
+                await localStorageService.SetItemAsync("sid", sid);
+            }
+            catch(Exception) 
+            {
+                await localStorageService.RemoveItemAsync("cid");
+
+                await Init();
+            }
         }
     }
 

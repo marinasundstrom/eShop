@@ -13,6 +13,8 @@ public class Client : Entity<string>
     {
         Browser = browser;
     }
+
+    public DateTimeOffset? Created { get; private set; } = DateTimeOffset.UtcNow;
     
     public string Browser { get; private set; } = default!;
 

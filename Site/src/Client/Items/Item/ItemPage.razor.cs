@@ -83,7 +83,11 @@ partial class ItemPage
     {
         await AnalyticsService.RegisterEvent(new EventData {
             EventType = EventType.PageViewed,
-            Data = System.Text.Json.JsonSerializer.Serialize(new { ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id })
+            Data = System.Text.Json.JsonSerializer.Serialize(new { 
+                ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id, 
+                Name = productViewModel.Name, 
+                IsEdit = CartItemId is not null 
+            })
         });
     } 
 
