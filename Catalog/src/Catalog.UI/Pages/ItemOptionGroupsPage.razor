@@ -3,7 +3,7 @@
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
-<PageTitle>Items</PageTitle>
+<AppPageTitle>Items</AppPageTitle>
 
 @if (item is null)
 {
@@ -11,7 +11,7 @@
 }
 else
 {
-    <PageTitle>@item.Name (@item.Id)</PageTitle>
+    <AppPageTitle>@item.Name (@item.Id)</AppPageTitle>
 
     <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">Option Groups</MudText>
 
