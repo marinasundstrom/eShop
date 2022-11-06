@@ -24,7 +24,7 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
                         .OrderBy(x => x.DateTime)
                         .AsNoTracking()
                         .AsSplitQuery()
-                        .ToListAsync();
+                        .ToListAsync(cancellationToken);
 
             List<DateTime> months = new();
 
@@ -43,9 +43,9 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
             var firstMonth = DateOnly.FromDateTime(firstDate);
             var lastMonth = DateOnly.FromDateTime(lastDate);
 
-            foreach (var itemGroup in events.GroupBy(x => x.Data).Take(10))
+            foreach (var eventGroup in events.GroupBy(x => x.Data).Take(10))
             {
-                var keyObj = System.Text.Json.JsonDocument.Parse(itemGroup.Key);
+                var keyObj = System.Text.Json.JsonDocument.Parse(eventGroup.Key);
 
                 List<decimal> values = new();
 
@@ -55,14 +55,14 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
 
                     if(request.DistinctByClient) 
                     {
-                        value = itemGroup
+                        value = eventGroup
                             .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
                             .DistinctBy(x => x.ClientId)
                             .Count();
                     }
                     else 
                     {
-                        value = itemGroup
+                        value = eventGroup
                             .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
                             .Count();
                     }                    
@@ -70,7 +70,7 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
                     values.Add((decimal)value);
                 }
 
-                series.Add(new Series(keyObj.RootElement.GetProperty("ItemId").GetString()!, values));
+                series.Add(new Series(keyObj.RootElement.GetProperty("Name").GetString()!, values));
             }
 
             return new Data(

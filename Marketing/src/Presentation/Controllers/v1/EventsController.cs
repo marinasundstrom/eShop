@@ -31,6 +31,12 @@ public class EventsController : ControllerBase
     {
        return await _mediator.Send(new GetMostViewedItems(From, To, DistinctByClient), cancellationToken);
     }
+
+    [HttpGet("GetSessionsCount")]
+    public async Task<Data> GetSessionsCount(DateTime? From = null, DateTime? To = null, bool DistinctByClient = false, CancellationToken cancellationToken = default)
+    {
+       return await _mediator.Send(new GetSessionsCount(From, To, DistinctByClient), cancellationToken);
+    }
 }
 
 public record EventData(EventType EventType, string Data);

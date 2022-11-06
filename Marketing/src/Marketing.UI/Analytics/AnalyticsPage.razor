@@ -10,23 +10,33 @@
 
     <MudCheckBox Checked="DistinctByClient" CheckedChanged="new Func<bool, Task>(DistinctByClientChanged)" Label="Distinct by clients" />
 
-    <MudChart Class="mt-8" ChartType="ChartType.Bar" ChartSeries="@Series" XAxisLabels="@XAxisLabels" Width="100%" Height="350" ChartOptions="options"></MudChart>
+    <Chart Series="@Series" XAxisLabels="@XAxisLabels" />
+</MudPaper>
+
+<MudPaper Elevation="25" Class="pa-8 mt-8">
+    <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true" Class="mt-4 mb-8">Sessions</MudText>
+
+    <MudCheckBox Checked="DistinctByClient2" CheckedChanged="new Func<bool, Task>(DistinctByClientChanged2)" Label="Distinct by clients" />
+
+    <Chart Series="@Series2" XAxisLabels="@XAxisLabels2" />
 </MudPaper>
 
 @code 
 {
     Data? data;
 
-    private ChartOptions options = new ChartOptions()
-    {
-        YAxisFormat = "0 views",
-        YAxisTicks = 10
-    };
 
     public List<ChartSeries> Series = new List<ChartSeries>();
     public string[] XAxisLabels = new string[0];
 
     public bool DistinctByClient { get; set;}
+
+
+    public List<ChartSeries> Series2 = new List<ChartSeries>();
+    public string[] XAxisLabels2 = new string[0];
+
+    public bool DistinctByClient2 { get; set;}
+
 
     public async Task DistinctByClientChanged(bool value) 
     {
@@ -34,14 +44,21 @@
         await LoadData();
     }
 
+    public async Task DistinctByClientChanged2(bool value) 
+    {
+        DistinctByClient2 = value;
+        await LoadData2();
+    }
+
     protected override async Task OnInitializedAsync()
     {
         await LoadData();
+        await LoadData2();
     }
 
     private async Task LoadData() 
     {
-        data = await EventsClient.GetMostViewedItemsAsync(null, null, DistinctByClient);
+        var data = await EventsClient.GetMostViewedItemsAsync(null, null, DistinctByClient);
 
         XAxisLabels = data.Labels.ToArray();
 
@@ -50,6 +67,20 @@
         foreach (var d in data.Series)
         {
             Series.Add(new ChartSeries() { Name = d.Name, Data = d.Data.Select(x => (double)x).ToArray() });
+        }
+    }
+
+    private async Task LoadData2() 
+    {
+        var data = await EventsClient.GetSessionsCountAsync(null, null, DistinctByClient2);
+
+        XAxisLabels2 = data.Labels.ToArray();
+
+        if(Series2.Any()) Series2.Clear();
+
+        foreach (var d in data.Series)
+        {
+            Series2.Add(new ChartSeries() { Name = d.Name, Data = d.Data.Select(x => (double)x).ToArray() });
         }
     }
 }
