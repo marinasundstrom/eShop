@@ -7,36 +7,35 @@
 <a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="@(DisableDropDown ? string.Empty : "dropdown")" aria-expanded="false">
     <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" SmallIcon="SmallIcon" />
 </a>
-@if (!DisableDropDown)
+@if(!DisableDropDown) 
 {
     <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="right: 10px; width: 350px">
-        @if (cart is not null)
+        @if(cart is not null) 
         {
-            if (cart.Items.Any())
+            if(cart.Items.Any()) 
             {
-                <ul class="list-group mb-3 mx-2">
-                    @foreach (var cartItem in cart.Items)
-                    {
-                        <li class="list-group-item d-flex justify-content-between lh-sm">
-                            <div>
-                                <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
-                                <small class="text-muted">@cartItem.Item.Description</small>
-                            </div>
-                            <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
-                        </li>
-
-                    }
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>Total</span>
-                        <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
-                    </li>
-                </ul>
-                <li><a class="dropdown-item" href="basket"><i class="fa fa-shopping-basket me-2" style="color: black !important" /> Manage basket</a></li>
-                <li><a class="dropdown-item" href="checkout"><i class="fa fa-credit-card me-2" style="color: black !important" /> Check out & Pay</a></li>
+            <ul class="list-group mb-3 mx-2">
+                @foreach (var cartItem in cart.Items)
+                {
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">@cartItem.Item.Name x @cartItem.Quantity</h6>
+                            <small class="text-muted">@cartItem.Item.Description</small>
+                        </div>
+                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
+                    </li>   
+                }
+                <li class="list-group-item d-flex justify-content-between">
+                <span>Total</span>
+                <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
+                </li>
+            </ul>
+            <li><a class="dropdown-item" href="basket"><i class="fa fa-shopping-basket me-2" style="color: black !important" /> Manage basket</a></li>
+            <li><a class="dropdown-item" href="checkout"><i class="fa fa-credit-card me-2" style="color: black !important" /> Check out & Pay</a></li>
             }
-            else
+            else 
             {
-                <span class="mx-4 my-2">No items yet :(</span>
+                <span class="mx-4 my-2">You have not added any items yet :( </span>
             }
         }
     </ul>
@@ -45,7 +44,8 @@
 @code
 {
     SiteCartDto? cart;
-    bool initialized;
+    static bool initialized;
+    static bool inializing;
 
     [Parameter]
     public bool SmallIcon { get; set; }
@@ -58,18 +58,24 @@
     {
         if (RenderingContext.IsPrerendering)
             return;
+        
+        CartService.CartUpdated += OnCartUpdated;
 
-        if (!initialized)
+        if (!initialized && !inializing)
         {
-            var clientId = await LocalStorageService.GetItemAsync<string>("cid");
-            
-            CartService.CartUpdated += OnCartUpdated;
+            inializing = true;
 
-            await CartService.Reload();
+            var clientId = await LocalStorageService.GetItemAsync<string>("cid");    
 
-            await CartService.Start(NavigationManager.BaseUri, clientId);
+            if(!CartService.IsConnected) 
+            {
+                await CartService.Reload();
 
-            initialized = true;
+                await CartService.Start(NavigationManager.BaseUri, clientId);
+                
+                initialized = true;
+                inializing = false;
+            }
         }
     }
 

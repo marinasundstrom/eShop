@@ -66,6 +66,8 @@ public class CartHubClient
 
     private void OnCartUpdated() => CartUpdated?.Invoke(this, EventArgs.Empty);
 
+    public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
     public async Task StopAsync()
     {
         await hubConnection.StopAsync();

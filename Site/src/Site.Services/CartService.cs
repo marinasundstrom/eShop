@@ -14,6 +14,8 @@ public class CartService
         this.cartClient = cartClient;
         this.cartHubClient = cartHubClient;
     }
+
+    public bool IsConnected => cartHubClient.IsConnected;
     
     public async Task Start(string baseUri, string clientId) 
     {
