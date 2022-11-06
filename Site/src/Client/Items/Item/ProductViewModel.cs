@@ -111,7 +111,7 @@ public class ProductViewModel
 
         var attributes = AttributeGroups.SelectMany(x => x.Attributes);
 
-        foreach (var attr in Variant.VariantAttributes)
+        foreach (var attr in variant.VariantAttributes)
         {
             var selectedAttr = attributes.First(x => x.Id == attr.Id);
             selectedAttr.SelectedValueId = selectedAttr.Values.FirstOrDefault(x => x.Id == attr.ValueId)?.Id;
