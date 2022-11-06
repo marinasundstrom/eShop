@@ -22,4 +22,10 @@ builder.Services.AddServices(builder.Configuration);
 
 builder.Services.AddAuthorizationCore();
 
-await builder.Build().RunAsync();
+var app =  builder.Build();
+
+var analyticsService = app.Services.GetRequiredService<Site.Services.AnalyticsService>();
+
+await analyticsService.Init();
+
+await app.RunAsync();

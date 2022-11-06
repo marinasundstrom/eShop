@@ -14,6 +14,10 @@ public interface IApplicationDbContext
 
     DbSet<Discount> Discounts { get; }
 
+    DbSet<Client> Clients { get; }
+
+    DbSet<Session> Sessions { get; }
+
     DbSet<Event> Events { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

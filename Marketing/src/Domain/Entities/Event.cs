@@ -12,14 +12,18 @@ public class Event : Entity<string>
 
 #nullable restore
 
-    public Event(EventType eventType, string data)
+    public Event(string clientId, string sessionId, EventType eventType, string data)
     : base(Guid.NewGuid().ToString())
     {
+        ClientId = clientId;
+        SessionId = sessionId;
         EventType = eventType;
         Data = data;
     }
 
-    public string ClientId { get; private set; } = "10";
+    public string ClientId { get; private set; } = default!;
+
+    public string SessionId { get; private set; } = default!;
 
     public EventType EventType { get; private set; }
     

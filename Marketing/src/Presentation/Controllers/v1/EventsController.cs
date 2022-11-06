@@ -21,9 +21,9 @@ public class EventsController : ControllerBase
 
 
     [HttpPost]
-    public async Task RegisterEvent(EventData dto, CancellationToken cancellationToken)
+    public async Task RegisterEvent([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, EventData dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new RegisterEventCommand(dto.EventType, dto.Data), cancellationToken);
+        await _mediator.Send(new RegisterEventCommand(clientId, sessionId, dto.EventType, dto.Data), cancellationToken);
     }
 
     [HttpGet("MostViewedItems")]
@@ -34,3 +34,43 @@ public class EventsController : ControllerBase
 }
 
 public record EventData(EventType EventType, string Data);
+
+[ApiController]
+[ApiVersion("1")]
+[Route("v{version:apiVersion}/[controller]")]
+public class SessionController : ControllerBase
+{
+    private readonly IMediator _mediator;
+
+    public SessionController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+
+    [HttpPost]
+    public async Task<string> InitSession([FromHeader(Name = "X-Client-Id")] string clientId, CancellationToken cancellationToken)
+    {
+        return await _mediator.Send(new InitSessionCommand(clientId), cancellationToken);
+    }
+}
+
+[ApiController]
+[ApiVersion("1")]
+[Route("v{version:apiVersion}/[controller]")]
+public class ClientController : ControllerBase
+{
+    private readonly IMediator _mediator;
+
+    public ClientController(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
+
+
+    [HttpPost]
+    public async Task<string> InitClient(CancellationToken cancellationToken)
+    {
+        return await _mediator.Send(new InitClientCommand(), cancellationToken);
+    }
+}

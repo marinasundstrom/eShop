@@ -693,6 +693,28 @@
           "Events"
         ],
         "operationId": "Events_RegisterEvent",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
         "requestBody": {
           "x-name": "dto",
           "content": {
@@ -703,7 +725,7 @@
             }
           },
           "required": true,
-          "x-position": 1
+          "x-position": 3
         },
         "responses": {
           "200": {
@@ -756,6 +778,58 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Data"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Session": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "operationId": "Session_InitSession",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Client": {
+      "post": {
+        "tags": [
+          "Client"
+        ],
+        "operationId": "Client_InitClient",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }

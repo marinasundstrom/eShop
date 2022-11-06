@@ -5,7 +5,7 @@ using YourBrand.Marketing.Domain;
 
 namespace YourBrand.Marketing.Application.Analytics.Commands;
 
-public record RegisterEventCommand(Domain.Enums.EventType EventType, string Data) : IRequest
+public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enums.EventType EventType, string Data) : IRequest
 {
     public class Handler : IRequestHandler<RegisterEventCommand>
     {
@@ -18,13 +18,9 @@ public record RegisterEventCommand(Domain.Enums.EventType EventType, string Data
 
         public async Task<Unit> Handle(RegisterEventCommand request, CancellationToken cancellationToken)
         {
-            context.Events.Add(new Event(request.EventType, request.Data));
+            context.Events.Add(new Event(request.ClientId, request.SessionId, request.EventType, request.Data));
             await context.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }
 }
-
-public record class Data(string[] Labels, IEnumerable<Series> Series);
-
-public record class Series(string Name, IEnumerable<decimal> Data);

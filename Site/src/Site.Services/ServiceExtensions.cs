@@ -9,6 +9,8 @@ public static class ServiceExtensions
         services.AddScoped<CartService>();
         services.AddScoped<CartHubClient>();
 
+        services.AddScoped<AnalyticsService>();
+
         return services;
     }
 }

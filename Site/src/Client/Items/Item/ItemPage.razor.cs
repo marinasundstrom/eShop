@@ -48,6 +48,8 @@ partial class ItemPage
             var pwm = new ProductViewModel(ItemsClient);
             await pwm.Initialize(Id, VariantId);
             productViewModel = pwm;
+
+            Console.WriteLine("Data01: {0}", productViewModel.Item);
         }
         else
         {
@@ -62,8 +64,6 @@ partial class ItemPage
                 var cart = await CartClient.GetCartAsync();
                 var item = cart.Items.First(x => x.Id == CartItemId);
                 Data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(item.Data));
-
-                //Console.WriteLine(Data);
             }
         }
 
@@ -75,10 +75,38 @@ partial class ItemPage
 
         if(!RenderingContext.IsPrerendering) 
         {
-            _ = AnalyticsClient.RegisterEventAsync(new EventData {
-                EventType = EventType.PageViewed,
-                Data = System.Text.Json.JsonSerializer.Serialize(new { ItemId = productViewModel.VariantId ?? productViewModel.Id })
-            });
+            _ = PageViewed();
+        }
+    }
+
+    private async Task PageViewed() 
+    {
+        await AnalyticsService.RegisterEvent(new EventData {
+            EventType = EventType.PageViewed,
+            Data = System.Text.Json.JsonSerializer.Serialize(new { ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id })
+        });
+    } 
+
+    async Task UpdateVariant() 
+    {
+        await productViewModel!.UpdateVariant();
+
+        await UpdateUrl(); 
+
+        _ = PageViewed();
+    }
+
+    async Task SelectVariant(SiteItemDto v)
+    {
+        var oldVariant = productViewModel!.Variant;
+
+        if(oldVariant?.Id != v.Id) 
+        {
+            productViewModel!.SelectVariant(v!); 
+
+            await UpdateUrl(); 
+
+            _ = PageViewed();
         }
     }
 

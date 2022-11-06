@@ -10,7 +10,7 @@
     "https"
   ],
   "paths": {
-    "/api/Analytics": {
+    "/api/Analytics/Event": {
       "post": {
         "tags": [
           "Analytics"
@@ -22,6 +22,20 @@
           "application/*+json"
         ],
         "parameters": [
+          {
+            "type": "string",
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "x-nullable": true
+          },
           {
             "name": "data",
             "in": "body",
@@ -35,6 +49,102 @@
         "responses": {
           "200": {
             "description": ""
+          }
+        }
+      }
+    },
+    "/api/Analytics": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_RegisterEvent2",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "x-nullable": true
+          },
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/EventData"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/Analytics/Client": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_CreateClient",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/Analytics/Session": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_StartSession",
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "x-nullable": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
