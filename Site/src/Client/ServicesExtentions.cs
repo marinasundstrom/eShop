@@ -60,6 +60,8 @@ public static class ServiceExtensions
         services.AddBlazoredModal();
         services.AddBlazoredToast();
 
+        services.AddGeolocationServices();
+
         return services;
     }
 }

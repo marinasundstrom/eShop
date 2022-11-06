@@ -27,13 +27,4 @@
 		<ProjectReference Include="..\Contracts\Contracts.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="Services\" />
-	  <None Remove="Microsoft.AspNetCore.Mvc.Versioning" />
-	  <None Remove="Controllers\v1\" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Services\" />
-	  <Folder Include="Controllers\v1\" />
-	</ItemGroup>
 </Project>

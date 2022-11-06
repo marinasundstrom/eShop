@@ -1,4 +1,5 @@
 using System;
+using YourBrand.Marketing.Domain.ValueObjects;
 
 namespace YourBrand.Marketing.Domain.Entities;
 
@@ -20,6 +21,8 @@ public class Session : Entity<string>
     public string ClientId { get; private set; }  = default!;
 
     public Client Client { get; private set; }  = default!;
+
+    public Coordinates? Coordinates  { get; set; }
 
     public DateTimeOffset StartTime { get; private set; } = DateTimeOffset.UtcNow;
 }

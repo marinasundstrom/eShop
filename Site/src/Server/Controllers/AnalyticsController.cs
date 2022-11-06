@@ -44,4 +44,10 @@ public class AnalyticsController : ControllerBase
     {
         return await sessionClient.InitSessionAsync(clientId, cancellationToken);
     }
+
+    [HttpPost("Session/Coordinates")]
+    public async Task RegisterCoordinatesAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, [FromBody] Coordinates coordinates, CancellationToken cancellationToken = default)
+    {
+        await sessionClient.RegisterCoordinatesAsync(clientId, sessionId, coordinates, cancellationToken);
+    }
 }

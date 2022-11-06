@@ -29,6 +29,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0-rc.2.22472.3" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
     <PackageReference Include="Blazored.SessionStorage" Version="2.2.0" />
+    <PackageReference Include="Blazor.Geolocation.WebAssembly" Version="2.0.11" />
   </ItemGroup>
 
 </Project>

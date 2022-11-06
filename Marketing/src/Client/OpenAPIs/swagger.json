@@ -868,6 +868,53 @@
         }
       }
     },
+    "/v1/Session/Coordinates": {
+      "post": {
+        "tags": [
+          "Session"
+        ],
+        "operationId": "Session_RegisterCoordinates",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "coordinates",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coordinates"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/v1/Client": {
       "post": {
         "tags": [
@@ -1274,6 +1321,20 @@
               "type": "number",
               "format": "decimal"
             }
+          }
+        }
+      },
+      "Coordinates": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
           }
         }
       }

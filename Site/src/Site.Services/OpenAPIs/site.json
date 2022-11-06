@@ -149,6 +149,49 @@
         }
       }
     },
+    "/api/Analytics/Session/Coordinates": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_RegisterCoordinates",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "x-nullable": true
+          },
+          {
+            "type": "string",
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "x-nullable": true
+          },
+          {
+            "name": "coordinates",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Coordinates"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/Cart": {
       "get": {
         "tags": [
@@ -999,6 +1042,23 @@
         1,
         2
       ]
+    },
+    "Coordinates": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude"
+      ],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "format": "float"
+        },
+        "longitude": {
+          "type": "number",
+          "format": "float"
+        }
+      }
     },
     "SiteCartDto": {
       "type": "object",

@@ -22,7 +22,7 @@ builder.Services.AddServices(builder.Configuration);
 
 builder.Services.AddAuthorizationCore();
 
-var app =  builder.Build();
+var app = builder.Build();
 
 var analyticsService = app.Services.GetRequiredService<Site.Services.AnalyticsService>();
 
