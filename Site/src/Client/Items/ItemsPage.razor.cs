@@ -43,6 +43,8 @@ partial class ItemsPage
 
     private async Task ItemGroupViewed() 
     {
+        Console.WriteLine(Environment.StackTrace);
+
         await AnalyticsService.RegisterEvent(new EventData {
             EventType = EventType.ItemGroupViewed,
             Data = System.Text.Json.JsonSerializer.Serialize(new {
@@ -64,11 +66,14 @@ partial class ItemsPage
 
     private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
     {
-        await LoadData();
+        if(e.Location.Contains("/groups")) 
+        {
+            await LoadData();
 
-        StateHasChanged();
+            StateHasChanged();
 
-        _ = ItemGroupViewed();
+            _ = ItemGroupViewed();
+        }
     }
 
     public async Task LoadData()
@@ -128,7 +133,7 @@ partial class ItemsPage
         return Task.CompletedTask;
     }
 
-    void IDisposable.Dispose()
+    public void Dispose()
     {
         persistingSubscription.Dispose();
         NavigationManager.LocationChanged -= OnLocationChanged;

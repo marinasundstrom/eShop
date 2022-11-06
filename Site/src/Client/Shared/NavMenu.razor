@@ -1,4 +1,5 @@
 ﻿@using Microsoft.JSInterop
+@implements IDisposable
 @inject IJSRuntime JS
 @inject IItemsClient ItemsClient
 @inject PersistentComponentState ApplicationState
@@ -123,5 +124,10 @@
             await JS.InvokeVoidAsync(
                 "initDropDown");
         }
+    }
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
     }
 }
