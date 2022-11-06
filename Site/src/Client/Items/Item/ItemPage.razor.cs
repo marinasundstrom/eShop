@@ -48,8 +48,6 @@ partial class ItemPage
             var pwm = new ProductViewModel(ItemsClient);
             await pwm.Initialize(Id, VariantId);
             productViewModel = pwm;
-
-            Console.WriteLine("Data01: {0}", productViewModel.Item);
         }
         else
         {

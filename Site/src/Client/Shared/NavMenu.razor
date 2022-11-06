@@ -1,6 +1,7 @@
 ﻿@using Microsoft.JSInterop
 @inject IJSRuntime JS
 @inject IItemsClient ItemsClient
+@inject PersistentComponentState ApplicationState
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-brand px-3">
     <div class="container">
@@ -85,6 +86,7 @@
 </nav>
 
 @code {
+    private PersistingComponentStateSubscription persistingSubscription;
     ICollection<ItemGroupDto>? itemGroups = null;
     bool isOpen = false;
 
@@ -92,7 +94,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
+
+        persistingSubscription =
+            ApplicationState.RegisterOnPersisting(PersistItems);
+
+        if (!ApplicationState.TryTakeFromJson< ICollection<ItemGroupDto>>(
+            "itemGroups", out var restored))
+        {
+            itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
+        }
+        else
+        {
+            itemGroups = restored!;
+        }
+    }
+
+    private Task PersistItems()
+    {
+        ApplicationState.PersistAsJson("itemGroups", itemGroups);
+
+        return Task.CompletedTask;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
