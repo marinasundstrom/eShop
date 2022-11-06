@@ -34,6 +34,32 @@ partial class ItemsPage
         NavigationManager.LocationChanged += OnLocationChanged;
 
         await LoadData();
+
+        if(!RenderingContext.IsPrerendering) 
+        {
+            _ = ItemGroupViewed();
+        }
+    }
+
+    private async Task ItemGroupViewed() 
+    {
+        await AnalyticsService.RegisterEvent(new EventData {
+            EventType = EventType.ItemGroupViewed,
+            Data = System.Text.Json.JsonSerializer.Serialize(new {
+                /* 
+                GroupId = itemGroup!.Id, 
+                Name = itemGroup.Name
+                */
+                GroupId = Group3Id ?? Group2Id ?? GroupId ?? itemGroup!.Id,
+                Name = GetGroupName() ?? itemGroup.Name
+            })
+        });
+    } 
+
+    private string? GetGroupName() 
+    {
+        var groupId = Group3Id ?? Group2Id ?? GroupId;
+        return subGroups.FirstOrDefault(x => x.Id ==  groupId)?.Name;
     }
 
     private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
@@ -41,6 +67,8 @@ partial class ItemsPage
         await LoadData();
 
         StateHasChanged();
+
+        _ = ItemGroupViewed();
     }
 
     public async Task LoadData()

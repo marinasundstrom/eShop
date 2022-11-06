@@ -1184,10 +1184,12 @@
         "type": "integer",
         "description": "",
         "x-enumNames": [
-          "PageViewed"
+          "ItemViewed",
+          "ItemGroupViewed"
         ],
         "enum": [
-          1
+          1,
+          2
         ]
       },
       "Data": {

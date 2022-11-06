@@ -75,14 +75,14 @@ partial class ItemPage
 
         if(!RenderingContext.IsPrerendering) 
         {
-            _ = PageViewed();
+            _ = ItemViewed();
         }
     }
 
-    private async Task PageViewed() 
+    private async Task ItemViewed() 
     {
         await AnalyticsService.RegisterEvent(new EventData {
-            EventType = EventType.PageViewed,
+            EventType = EventType.ItemViewed,
             Data = System.Text.Json.JsonSerializer.Serialize(new { 
                 ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id, 
                 Name = productViewModel.Name, 
@@ -97,7 +97,7 @@ partial class ItemPage
 
         await UpdateUrl(); 
 
-        _ = PageViewed();
+        _ = ItemViewed();
     }
 
     async Task SelectVariant(SiteItemDto v)
@@ -110,7 +110,7 @@ partial class ItemPage
 
             await UpdateUrl(); 
 
-            _ = PageViewed();
+            _ = ItemViewed();
         }
     }
 
