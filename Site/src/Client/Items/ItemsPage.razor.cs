@@ -43,8 +43,6 @@ partial class ItemsPage
 
     private async Task ItemGroupViewed() 
     {
-        Console.WriteLine(Environment.StackTrace);
-
         await AnalyticsService.RegisterEvent(new EventData {
             EventType = EventType.ItemGroupViewed,
             Data = System.Text.Json.JsonSerializer.Serialize(new {
