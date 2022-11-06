@@ -266,6 +266,38 @@
         }
       }
     },
+    "/v1/Client": {
+      "post": {
+        "tags": [
+          "Client"
+        ],
+        "operationId": "Client_InitClient",
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClientData"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Contacts": {
       "get": {
         "tags": [
@@ -729,7 +761,14 @@
         },
         "responses": {
           "200": {
-            "description": ""
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -914,38 +953,6 @@
           }
         }
       }
-    },
-    "/v1/Client": {
-      "post": {
-        "tags": [
-          "Client"
-        ],
-        "operationId": "Client_InitClient",
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ClientData"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -1070,6 +1077,15 @@
         "additionalProperties": false,
         "properties": {
           "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ClientData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "userAgent": {
             "type": "string"
           }
         }
@@ -1342,20 +1358,11 @@
         "properties": {
           "latitude": {
             "type": "number",
-            "format": "float"
+            "format": "double"
           },
           "longitude": {
             "type": "number",
-            "format": "float"
-          }
-        }
-      },
-      "ClientData": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "userAgent": {
-            "type": "string"
+            "format": "double"
           }
         }
       }

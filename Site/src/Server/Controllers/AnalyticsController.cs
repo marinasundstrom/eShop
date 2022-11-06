@@ -31,9 +31,18 @@ public class AnalyticsController : ControllerBase
 
     [HttpPost]
     [HttpPost("Event")]
-    public async Task RegisterEventAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, YourBrand.Marketing.EventData data, CancellationToken cancellationToken = default)
+    public async Task<string> RegisterEventAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, YourBrand.Marketing.EventData data, CancellationToken cancellationToken = default)
     {
-        await eventsClient.RegisterEventAsync(clientId, sessionId, data, cancellationToken);
+        try 
+        {
+            return await eventsClient.RegisterEventAsync(clientId, sessionId, data, cancellationToken);
+        }
+        catch(YourBrand.Marketing.ApiException exc) when (exc.StatusCode == 204) 
+        {
+            // This is OK!
+        }
+
+        return null!;
     }
 
     [HttpPost("Client")]

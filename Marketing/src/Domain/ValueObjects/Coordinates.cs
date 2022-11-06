@@ -1,3 +1,3 @@
 namespace YourBrand.Marketing.Domain.ValueObjects;
 
-public record Coordinates(float Latitude, float Longitude);
+public record Coordinates(double Latitude, double Longitude);

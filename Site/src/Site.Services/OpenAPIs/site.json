@@ -21,6 +21,11 @@
           "text/json",
           "application/*+json"
         ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -48,7 +53,11 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
@@ -64,6 +73,11 @@
           "text/json",
           "application/*+json"
         ],
+        "produces": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
         "parameters": [
           {
             "type": "string",
@@ -91,7 +105,11 @@
         ],
         "responses": {
           "200": {
-            "description": ""
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "type": "string"
+            }
           }
         }
       }
@@ -1052,11 +1070,11 @@
       "properties": {
         "latitude": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         },
         "longitude": {
           "type": "number",
-          "format": "float"
+          "format": "double"
         }
       }
     },

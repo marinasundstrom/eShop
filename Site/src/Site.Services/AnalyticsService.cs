@@ -50,22 +50,40 @@ public sealed class AnalyticsService
                 await Init();
             }
 
-            using var scope = serviceProvider.CreateScope();
-
-            var geolocationService = scope.ServiceProvider.GetRequiredService<Microsoft.JSInterop.IGeolocationService>();
-
-            geolocationService.GetCurrentPosition((args) => {
-                analyticsClient.RegisterCoordinatesAsync(cid, sid, new Coordinates() { 
-                    Latitude = (float)args.Coords.Latitude, 
-                    Longitude = (float)args.Coords.Longitude  
-                });
-                
-            }, (error) => {});
+            GetCoordinate();
         }
     }
 
     public async Task RegisterEvent(EventData eventData) 
     {
-        await analyticsClient.RegisterEventAsync(cid, sid, eventData);
+        try 
+        {
+            sid = await analyticsClient.RegisterEventAsync(cid, sid, eventData);
+            if(sid is not null) 
+            {
+                await sessionStorageService.SetItemAsync("sid", sid);
+
+                GetCoordinate();
+            }
+        }
+        catch(ApiException exc) when (exc.StatusCode == 204) 
+        {
+            // This is OK!
+        }
+    }
+
+    void GetCoordinate() 
+    {
+        using var scope = serviceProvider.CreateScope();
+
+        var geolocationService = scope.ServiceProvider.GetRequiredService<Microsoft.JSInterop.IGeolocationService>();
+
+        geolocationService.GetCurrentPosition((args) => {
+            analyticsClient.RegisterCoordinatesAsync(cid, sid, new Coordinates() { 
+                Latitude = (float)args.Coords.Latitude, 
+                Longitude = (float)args.Coords.Longitude  
+        });
+                
+        }, (error) => {});
     }
 }

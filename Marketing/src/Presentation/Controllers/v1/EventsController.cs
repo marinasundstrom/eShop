@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using YourBrand.Marketing.Application.Analytics;
 using YourBrand.Marketing.Application.Analytics.Commands;
 using YourBrand.Marketing.Domain.Enums;
@@ -21,9 +22,9 @@ public class EventsController : ControllerBase
 
 
     [HttpPost]
-    public async Task RegisterEvent([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, EventData dto, CancellationToken cancellationToken)
+    public async Task<string?> RegisterEvent([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, EventData dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new RegisterEventCommand(clientId, sessionId, dto.EventType, dto.Data), cancellationToken);
+        return await _mediator.Send(new RegisterEventCommand(clientId, sessionId, dto.EventType, dto.Data), cancellationToken);
     }
 
     [HttpGet("MostViewedItems")]
@@ -40,49 +41,5 @@ public class EventsController : ControllerBase
 }
 
 public record EventData(EventType EventType, string Data);
-
-[ApiController]
-[ApiVersion("1")]
-[Route("v{version:apiVersion}/[controller]")]
-public class SessionController : ControllerBase
-{
-    private readonly IMediator _mediator;
-
-    public SessionController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    [HttpPost]
-    public async Task<string> InitSession([FromHeader(Name = "X-Client-Id")] string clientId, CancellationToken cancellationToken)
-    {
-        return await _mediator.Send(new InitSessionCommand(clientId), cancellationToken);
-    }
-
-    [HttpPost("Coordinates")]
-    public async Task RegisterCoordinates([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, [FromBody] Domain.ValueObjects.Coordinates coordinates, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(new RegisterGeoLocation(clientId, sessionId, coordinates), cancellationToken);
-    }
-}
-
-[ApiController]
-[ApiVersion("1")]
-[Route("v{version:apiVersion}/[controller]")]
-public class ClientController : ControllerBase
-{
-    private readonly IMediator _mediator;
-
-    public ClientController(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    [HttpPost]
-    public async Task<string> InitClient(ClientData data, CancellationToken cancellationToken)
-    {
-        return await _mediator.Send(new InitClientCommand(data.UserAgent), cancellationToken);
-    }
-}
 
 public record ClientData(string UserAgent);

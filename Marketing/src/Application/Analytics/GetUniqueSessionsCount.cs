@@ -18,7 +18,7 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
         {
              var sessions = context.Sessions
                         .Include(x => x.Client)
-                        .OrderBy(x => x.StartTime)
+                        .OrderByDescending(x => x.Started)
                         .AsNoTracking()
                         .AsSplitQuery();
 
@@ -48,7 +48,7 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
                 if(request.DistinctByClient) 
                 {
                     value = await sessions
-                        .Where(e => e.StartTime.Year == month.Year && e.StartTime.Month == month.Month)
+                        .Where(e => e.Started.Year == month.Year && e.Started.Month == month.Month)
                         .GroupBy(x => x.Client).Select(x => x.FirstOrDefault())
                         .CountAsync();
 
@@ -56,7 +56,7 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
                 else 
                 {
                     value = await sessions
-                        .Where(e => e.StartTime.Year == month.Year && e.StartTime.Month == month.Month)
+                        .Where(e => e.Started.Year == month.Year && e.Started.Month == month.Month)
                         .CountAsync();
                 }   
 
