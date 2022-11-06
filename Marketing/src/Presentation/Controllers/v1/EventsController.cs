@@ -79,8 +79,10 @@ public class ClientController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<string> InitClient(CancellationToken cancellationToken)
+    public async Task<string> InitClient(ClientData data, CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new InitClientCommand(), cancellationToken);
+        return await _mediator.Send(new InitClientCommand(data.UserAgent), cancellationToken);
     }
 }
+
+public record ClientData(string UserAgent);

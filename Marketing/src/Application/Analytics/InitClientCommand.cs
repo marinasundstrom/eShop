@@ -2,7 +2,7 @@ using MediatR;
 
 namespace YourBrand.Marketing.Application.Analytics.Commands;
 
-public record InitClientCommand() : IRequest<string>
+public record InitClientCommand(string UserAgent) : IRequest<string>
 {
     public class Handler : IRequestHandler<InitClientCommand, string>
     {
@@ -18,9 +18,8 @@ public record InitClientCommand() : IRequest<string>
             int number = System.Security.Cryptography.RandomNumberGenerator.GetInt32(1000000, 2000000);
 
             string id = $"{number}.{DateTimeOffset.UtcNow.Ticks}";
-            string browser = "";
 
-            var client = new Client(id, browser);
+            var client = new Client(id, request.UserAgent);
 
             context.Clients.Add(client);
             await context.SaveChangesAsync(cancellationToken);

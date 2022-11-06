@@ -13,17 +13,20 @@ public class AnalyticsController : ControllerBase
     private readonly IClientClient clientClient;
     private readonly ISessionClient sessionClient;
     private readonly YourBrand.Marketing.IEventsClient eventsClient;
+    private readonly IHttpContextAccessor httpContextAccessor;
 
     public AnalyticsController(
         ILogger<AnalyticsController> logger,
         YourBrand.Marketing.IClientClient clientClient,
         YourBrand.Marketing.ISessionClient sessionClient,
-        YourBrand.Marketing.IEventsClient eventsClient)
+        YourBrand.Marketing.IEventsClient eventsClient,
+        IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
         this.clientClient = clientClient;
         this.sessionClient = sessionClient;
         this.eventsClient = eventsClient;
+        this.httpContextAccessor = httpContextAccessor;
     }
 
     [HttpPost]
@@ -36,7 +39,13 @@ public class AnalyticsController : ControllerBase
     [HttpPost("Client")]
     public async Task<string> CreateClient(CancellationToken cancellationToken = default)
     {
-        return await clientClient.InitClientAsync(cancellationToken);
+        var context = httpContextAccessor.HttpContext;
+
+        var userAgent = context!.Request.Headers.UserAgent.ToString();
+
+        return await clientClient.InitClientAsync(new ClientData() {
+            UserAgent = userAgent!
+        }, cancellationToken);
     }
 
     [HttpPost("Session")]
