@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+@inject RenderingContext RenderingContext
 
 <header class="main">
     <NavMenu />
@@ -12,4 +14,25 @@
     <small class="text-muted">© @DateTime.Now.Year Joe's Place - All rights reserved</small>
 </footer>
 
+<DataProtectionBanner Visible="!hasReadNote" VisibleChanged="NoticeDismissed" />
+
 <ScrollToTopButton />
+
+@code 
+{
+    bool hasReadNote = true;
+    string key = "HasReadNotice";
+
+    protected override async Task OnInitializedAsync() 
+    {
+        if(RenderingContext.IsPrerendering) return;
+
+        hasReadNote = await LocalStorageService.GetItemAsync<bool>(key);
+    }
+
+    private async Task NoticeDismissed(bool value) 
+    {
+        hasReadNote = true;
+        await LocalStorageService.SetItemAsync<bool>(key, hasReadNote);
+    }
+}
