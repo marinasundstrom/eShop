@@ -24,6 +24,7 @@ using YourBrand.Marketing.Web.Services;
 using Microsoft.Extensions.Azure;
 using Azure.Storage.Blobs;
 using Azure.Identity;
+using Microsoft.Extensions.Caching.Memory;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;
@@ -101,6 +102,8 @@ foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
 }
 
 builder.Services.AddSignalR();
+
+builder.Services.AddMemoryCache();
 
 builder.Services
     .AddHealthChecks()
