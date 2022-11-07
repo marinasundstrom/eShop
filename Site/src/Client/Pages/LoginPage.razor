@@ -28,19 +28,34 @@
 
         <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
 
+        @if(unauthenticated) 
+        {
+            <span style="color: red">You are not a customer</span>
+        }
+
     </EditForm>
 </div>
 
 @code {
+    bool unauthenticated = false;
+
     [Required]
     public string SSN { get; set; } = null!;
 
     public async Task Login()
     {
-        await AuthenticationService.Login(new UserForAuthenticationDto() { SSN = SSN });
+        unauthenticated = false;
 
-        await CartService.ReconnectAndReload();
+        var result = await AuthenticationService.Login(new Site.Client.Authentication.UserForAuthenticationDto() { SSN = SSN });
+        if(result.IsAuthSuccessful) 
+        {
+            await CartService.ReconnectAndReload();
 
-        NavigationManager.NavigateTo("/user/profile");
+            NavigationManager.NavigateTo("/user/profile");
+        }
+        else 
+        {
+            unauthenticated = true;
+        }
     }
 }

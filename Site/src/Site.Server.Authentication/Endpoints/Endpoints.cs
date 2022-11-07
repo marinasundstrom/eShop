@@ -13,8 +13,14 @@ public static class Endpoints
 {
     public static WebApplication AddAuthEndpoints(this WebApplication app)
     {
-        app.MapPost("/Authentication/Login", Login);
-        app.MapPost("/Token/Refresh", RefreshToken);
+        app.MapPost("/Authentication/Login", Login)
+            .Produces<AuthResponseDto>(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags("Authentication");
+
+        app.MapPost("/Token/Refresh", RefreshToken)
+            .WithTags("Token");
 
         return app;
     }
@@ -22,10 +28,17 @@ public static class Endpoints
     public static async Task<IResult> Login(ICustomersClient customersClient, ICustomerService customerService, ITokenService tokenService,
         [FromBody] UserForAuthenticationDto userForAuthentication)
     {
-        var customer = await customersClient.GetCustomerBySSNAsync(userForAuthentication.SSN);
 
-        if (customer == null)
-            return Results.Unauthorized();
+        CustomerDto? customer = null;
+
+        try
+        {
+            customer = await customersClient.GetCustomerBySSNAsync(userForAuthentication.SSN);
+        }
+        catch (ApiException exc) when (exc.StatusCode == 204)
+        {
+            return Results.NotFound();
+        }
 
         var user = await customerService.GetUserByCustomerId(customer.Id);
 

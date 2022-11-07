@@ -40,6 +40,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerDocument(c =>
 {
     c.Title = "Site API";
@@ -229,6 +231,7 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
+/*
 app.MapPost("/security/createToken",
 [AllowAnonymous] (User user) =>
 {
@@ -263,6 +266,7 @@ app.MapPost("/security/createToken",
     }
     return Results.Unauthorized();
 });
+*/
 
 app.AddAuthEndpoints();
 app.MapFallbackToPage("/_Host");

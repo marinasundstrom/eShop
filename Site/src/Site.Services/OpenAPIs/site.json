@@ -10,6 +10,75 @@
     "https"
   ],
   "paths": {
+    "/Authentication/Login": {
+      "post": {
+        "tags": [
+          "Authentication"
+        ],
+        "operationId": "PostAuthenticationLogin",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "userForAuthentication",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UserForAuthenticationDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "x-nullable": false,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/AuthResponseDto"
+            }
+          },
+          "401": {
+            "description": ""
+          },
+          "404": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/Token/Refresh": {
+      "post": {
+        "tags": [
+          "Token"
+        ],
+        "operationId": "PostTokenRefresh",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "tokenDto",
+            "in": "body",
+            "required": true,
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RefreshTokenDto"
+            },
+            "x-nullable": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/api/Analytics/Event": {
       "post": {
         "tags": [
@@ -1034,6 +1103,55 @@
     }
   },
   "definitions": {
+    "AuthResponseDto": {
+      "type": "object",
+      "required": [
+        "token",
+        "refreshToken",
+        "isAuthSuccessful",
+        "errorMessage"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        },
+        "isAuthSuccessful": {
+          "type": "boolean"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      }
+    },
+    "UserForAuthenticationDto": {
+      "type": "object",
+      "required": [
+        "ssn"
+      ],
+      "properties": {
+        "ssn": {
+          "type": "string"
+        }
+      }
+    },
+    "RefreshTokenDto": {
+      "type": "object",
+      "required": [
+        "token",
+        "refreshToken"
+      ],
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "refreshToken": {
+          "type": "string"
+        }
+      }
+    },
     "EventData": {
       "type": "object",
       "required": [
