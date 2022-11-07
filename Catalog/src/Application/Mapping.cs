@@ -43,6 +43,6 @@ public static class Mapping
  
     private static string? GetImageUrl(string? name)
     {
-        return name is null ? null : $"http://127.0.0.1:10000/devstoreaccount1/images/{name}";
+        return name is null ? null : $"/images/{name}";
     }
 }

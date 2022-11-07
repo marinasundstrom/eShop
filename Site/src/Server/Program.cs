@@ -52,6 +52,11 @@ builder.Services.AddSignalR();
 
 builder.Services.AddMemoryCache();
 
+// Add the reverse proxy capability to the server
+var proxyBuilder = builder.Services.AddReverseProxy();
+// Initialize the reverse proxy from the "ReverseProxy" section of configuration
+proxyBuilder.LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
+
 builder.Services
     .AddHealthChecks();
 
@@ -216,6 +221,8 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.MapReverseProxy();
 
 app.UseAuthentication();
 app.UseAuthorization();
