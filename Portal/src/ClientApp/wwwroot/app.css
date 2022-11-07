@@ -1,3 +1,5 @@
+@import '_content/Analytics.UI/Analytics.UI.bundle.scp.css';
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

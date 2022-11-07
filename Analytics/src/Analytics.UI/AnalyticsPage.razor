@@ -21,8 +21,16 @@
     <Chart Series="@Series2" XAxisLabels="@XAxisLabels2" />
 </MudPaper>
 
+<MudPaper Elevation="25" Class="pa-8 mt-8">
+    <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true" Class="mt-4 mb-8">Map</MudText>
+
+    <Map @ref="map" Coordinates="centerCoordinates" Zoom="8" />
+</MudPaper>
+
 @code 
 {
+    GeoCoordinates centerCoordinates = new GeoCoordinates(55.79819333412856, 13.603820800781252);
+    Map map = default!;
     Data? data;
 
 
@@ -38,13 +46,13 @@
     public bool DistinctByClient2 { get; set;}
 
 
-    public async Task DistinctByClientChanged(bool value) 
+    public async Task DistinctByClientChanged(bool value)
     {
         DistinctByClient = value;
         await LoadData();
     }
 
-    public async Task DistinctByClientChanged2(bool value) 
+    public async Task DistinctByClientChanged2(bool value)
     {
         DistinctByClient2 = value;
         await LoadData2();
@@ -54,9 +62,16 @@
     {
         await LoadData();
         await LoadData2();
+
+        var sessionCoordinates = await StatisticsClient.GetSessionCoordinatesAsync(null, null);
+        foreach (var d in sessionCoordinates)
+        {
+            var coord = d.Coordinates;
+            await map.AddMarker(new GeoCoordinates(coord.Latitude, coord.Longitude));
+        }
     }
 
-    private async Task LoadData() 
+    private async Task LoadData()
     {
         var data = await StatisticsClient.GetMostViewedItemsAsync(null, null, DistinctByClient);
 
@@ -70,7 +85,7 @@
         }
     }
 
-    private async Task LoadData2() 
+    private async Task LoadData2()
     {
         var data = await StatisticsClient.GetSessionsCountAsync(null, null, DistinctByClient2);
 

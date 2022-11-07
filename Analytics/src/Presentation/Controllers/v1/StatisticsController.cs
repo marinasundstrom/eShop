@@ -27,4 +27,10 @@ public class StatisticsController : ControllerBase
     {
        return await _mediator.Send(new GetSessionsCount(From, To, DistinctByClient), cancellationToken);
     }
+
+    [HttpGet("GetSessionCoordinates")]
+    public async Task<IEnumerable<SessionCoordinates>> GetSessionCoordinates(DateTime? From = null, DateTime? To = null, CancellationToken cancellationToken = default)
+    {
+        return await _mediator.Send(new GetSessionCoordinates(From, To), cancellationToken);
+    }
 }
