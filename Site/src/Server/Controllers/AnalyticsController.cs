@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using YourBrand.Catalog;
 using YourBrand.Marketing;
 using YourBrand.Marketing.Client;
+using System.Net;
 
 namespace Site.Server.Controllers;
 
@@ -60,12 +61,30 @@ public class AnalyticsController : ControllerBase
     [HttpPost("Session")]
     public async Task<string> StartSession([FromHeader(Name = "X-Client-Id")] string clientId, CancellationToken cancellationToken = default)
     {
-        return await sessionClient.InitSessionAsync(clientId, new YourBrand.Analytics.SessionData() { IpAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString() }, cancellationToken);
+        return await sessionClient.InitSessionAsync(clientId, new YourBrand.Analytics.SessionData() { IpAddress = HttpContext?.GetRemoteIPAddress()?.ToString() }, cancellationToken);
     }
 
     [HttpPost("Session/Coordinates")]
     public async Task RegisterCoordinatesAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, [FromBody] YourBrand.Analytics.Coordinates coordinates, CancellationToken cancellationToken = default)
     {
         await sessionClient.RegisterCoordinatesAsync(clientId, sessionId, coordinates, cancellationToken);
+    }
+}
+
+public static class HttpContextExtensions
+{
+    //https://gist.github.com/jjxtra/3b240b31a1ed3ad783a7dcdb6df12c36
+
+    public static IPAddress? GetRemoteIPAddress(this HttpContext context, bool allowForwarded = true)
+    {
+        if (allowForwarded)
+        {
+            string header = (context.Request.Headers["CF-Connecting-IP"].FirstOrDefault() ?? context.Request.Headers["X-Forwarded-For"].FirstOrDefault());
+            if (IPAddress.TryParse(header, out IPAddress ip))
+            {
+                return ip;
+            }
+        }
+        return context.Connection.RemoteIpAddress;
     }
 }
