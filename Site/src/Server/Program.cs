@@ -22,6 +22,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Site.Server.Authentication.Data;
 using Site.Server.Services;
 using YourBrand.Marketing.Client;
+using YourBrand.Analytics.Client;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,6 +123,18 @@ const string MarketingServiceUrl = $"https://localhost:5081";
 
 builder.Services.AddMarketingClients((sp, httpClient) => {
     httpClient.BaseAddress = new Uri($"{MarketingServiceUrl}/");
+}, builder => {
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
+
+builder.Services.AddHttpClient("Site", (sp, http) => {
+    http.BaseAddress = new Uri("https://localhost:6001/");
+});
+
+const string AnalyticsServiceUrl = $"https://localhost:5091";
+
+builder.Services.AddAnalyticsClients((sp, httpClient) => {
+    httpClient.BaseAddress = new Uri($"{AnalyticsServiceUrl}/");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });

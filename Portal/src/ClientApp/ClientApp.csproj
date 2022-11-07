@@ -57,6 +57,9 @@
 	  <ProjectReference Include="..\..\..\Marketing\src\Marketing.UI\Marketing.UI.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
+	   <ProjectReference Include="..\..\..\Analytics\src\Analytics.UI\Analytics.UI.csproj">
+	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+	  </ProjectReference>
 	</ItemGroup>
 
 </Project>

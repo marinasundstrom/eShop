@@ -57,12 +57,5 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Discount> Discounts { get; set; } = null!;
 
-
-    public DbSet<Client> Clients { get; set; } = null!;
-
-    public DbSet<Session> Sessions { get; set; } = null!;
-    
-    public DbSet<Event> Events { get; set; } = null!;
-
 #nullable restore
 }

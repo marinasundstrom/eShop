@@ -10,16 +10,16 @@ namespace Site.Server.Controllers;
 public class AnalyticsController : ControllerBase
 {
     private readonly ILogger<AnalyticsController> _logger;
-    private readonly IClientClient clientClient;
-    private readonly ISessionClient sessionClient;
-    private readonly YourBrand.Marketing.IEventsClient eventsClient;
+    private readonly YourBrand.Analytics.IClientClient clientClient;
+    private readonly YourBrand.Analytics.ISessionClient sessionClient;
+    private readonly YourBrand.Analytics.IEventsClient eventsClient;
     private readonly IHttpContextAccessor httpContextAccessor;
 
     public AnalyticsController(
         ILogger<AnalyticsController> logger,
-        YourBrand.Marketing.IClientClient clientClient,
-        YourBrand.Marketing.ISessionClient sessionClient,
-        YourBrand.Marketing.IEventsClient eventsClient,
+        YourBrand.Analytics.IClientClient clientClient,
+        YourBrand.Analytics.ISessionClient sessionClient,
+        YourBrand.Analytics.IEventsClient eventsClient,
         IHttpContextAccessor httpContextAccessor)
     {
         _logger = logger;
@@ -31,7 +31,7 @@ public class AnalyticsController : ControllerBase
 
     [HttpPost]
     [HttpPost("Event")]
-    public async Task<string> RegisterEventAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, YourBrand.Marketing.EventData data, CancellationToken cancellationToken = default)
+    public async Task<string> RegisterEventAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, YourBrand.Analytics.EventData data, CancellationToken cancellationToken = default)
     {
         try 
         {
@@ -52,7 +52,7 @@ public class AnalyticsController : ControllerBase
 
         var userAgent = context!.Request.Headers.UserAgent.ToString();
 
-        return await clientClient.InitClientAsync(new ClientData() {
+        return await clientClient.InitClientAsync(new YourBrand.Analytics.ClientData() {
             UserAgent = userAgent!
         }, cancellationToken);
     }
@@ -64,7 +64,7 @@ public class AnalyticsController : ControllerBase
     }
 
     [HttpPost("Session/Coordinates")]
-    public async Task RegisterCoordinatesAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, [FromBody] Coordinates coordinates, CancellationToken cancellationToken = default)
+    public async Task RegisterCoordinatesAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, [FromBody] YourBrand.Analytics.Coordinates coordinates, CancellationToken cancellationToken = default)
     {
         await sessionClient.RegisterCoordinatesAsync(clientId, sessionId, coordinates, cancellationToken);
     }

@@ -37,8 +37,6 @@ public class ModuleInitializer : IModuleInitializer
 
         group.CreateItem("discounts", () => resources["Discounts"], MudBlazor.Icons.Material.Filled.Discount, "/discounts");
 
-         group.CreateItem("analytics", () => resources["Analytics"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics");
-
         /*
 
         group.CreateItem("contacts", () => resources["Contacts"], MudBlazor.Icons.Material.Filled.Person, "/contacts");

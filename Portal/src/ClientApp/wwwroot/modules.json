@@ -23,5 +23,10 @@
     "Name": "Marketing",
     "Assembly": "Marketing.UI",
     "Enabled": true
+  },
+  {
+    "Name": "Analytics",
+    "Assembly": "Analytics.UI",
+    "Enabled": true
   }
 ]

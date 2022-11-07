@@ -21,15 +21,9 @@
     <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Inventory\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Marketing\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Analytics\src\Client\Client.csproj" />
     <ProjectReference Include="..\Site.Server.Authentication\Site.Server.Authentication.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Services\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

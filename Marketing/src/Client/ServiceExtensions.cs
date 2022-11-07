@@ -11,10 +11,7 @@ public static class ServiceExtensions
         services
             .AddContactsClient(configureClient, builder)
             .AddCampaignsClient(configureClient, builder)
-            .AddDiscountsClient(configureClient, builder)
-            .AddClientClient(configureClient, builder)
-            .AddSessionClient(configureClient, builder)
-            .AddEventsClient(configureClient, builder);
+            .AddDiscountsClient(configureClient, builder);
 
         return services;
     }
@@ -46,39 +43,6 @@ public static class ServiceExtensions
         var b = services
             .AddHttpClient(nameof(DiscountsClient) + "M", configureClient)
             .AddTypedClient<IDiscountsClient>((http, sp) => new DiscountsClient(http));
-
-        builder?.Invoke(b);
-
-        return services;
-    }
-
-    public static IServiceCollection AddEventsClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
-    {
-        var b = services
-            .AddHttpClient(nameof(EventsClient) + "M", configureClient)
-            .AddTypedClient<IEventsClient>((http, sp) => new EventsClient(http));
-
-        builder?.Invoke(b);
-
-        return services;
-    }
-
-    public static IServiceCollection AddClientClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
-    {
-        var b = services
-            .AddHttpClient(nameof(ClientClient) + "M", configureClient)
-            .AddTypedClient<IClientClient>((http, sp) => new ClientClient(http));
-
-        builder?.Invoke(b);
-
-        return services;
-    }
-
-    public static IServiceCollection AddSessionClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
-    {
-        var b = services
-            .AddHttpClient(nameof(SessionClient) + "M", configureClient)
-            .AddTypedClient<ISessionClient>((http, sp) => new SessionClient(http));
 
         builder?.Invoke(b);
 

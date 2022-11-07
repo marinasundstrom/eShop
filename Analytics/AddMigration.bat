@@ -1,0 +1,1 @@
+﻿dotnet ef migrations add <Name> --project src/Infrastructure/Infrastructure.csproj --startup-project src/Web/Web.csproj
