@@ -23,9 +23,9 @@
         map = await module.InvokeAsync<IJSObjectReference>("createMap", new[] { Coordinates.Latitude, Coordinates.Longitude }, Zoom);
     }
 
-    public async ValueTask AddMarker(GeoCoordinates coordinates)
+    public async ValueTask AddMarker(GeoCoordinates coordinates, string? text = null)
     {
-        await module.InvokeVoidAsync("addMarker", map, new[] { coordinates.Latitude, coordinates.Longitude });
+        await module.InvokeVoidAsync("addMarker", map, new[] { coordinates.Latitude, coordinates.Longitude }, text);
     }
 
     public async ValueTask DisposeAsync()

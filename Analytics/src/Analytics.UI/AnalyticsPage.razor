@@ -67,7 +67,7 @@
         foreach (var d in sessionCoordinates)
         {
             var coord = d.Coordinates;
-            await map.AddMarker(new GeoCoordinates(coord.Latitude, coord.Longitude));
+            await map.AddMarker(new GeoCoordinates(coord.Latitude, coord.Longitude), $"<b>Started:</b> {d.DateTime.ToLocalTime().ToString("g")}<br/><b>User Agent:</b> {d.UserAgent}");
         }
     }
 

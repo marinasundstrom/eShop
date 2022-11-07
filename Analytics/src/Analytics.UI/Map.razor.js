@@ -10,12 +10,14 @@ export function createMap(coordinates, zoom)
     return map;
 }
 
-export function addMarker(map, coordinates) 
+export function addMarker(map, coordinates, text) 
 {
-    L.marker(coordinates ?? [51.5, -0.09]).addTo(map);
-}
+    const marker = L.marker(coordinates ?? [51.5, -0.09]).addTo(map);
 
-/*
-    .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-    .openPopup();
-*/
+    if (text)
+    {
+        marker
+            .bindPopup(text);
+        //.openPopup();
+    }
+}
