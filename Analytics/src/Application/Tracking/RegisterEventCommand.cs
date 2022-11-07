@@ -34,7 +34,7 @@ public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enu
 
             if(DateTimeOffset.UtcNow > session.Expires) 
             {
-                session = new Session(request.ClientId, DateTimeOffset.UtcNow);
+                session = new Session(request.ClientId, session.IPAddress, DateTimeOffset.UtcNow);
 
                 context.Sessions.Add(session);
                 await context.SaveChangesAsync(cancellationToken);

@@ -20,9 +20,9 @@ public class SessionController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<string> InitSession([FromHeader(Name = "X-Client-Id")] string clientId, CancellationToken cancellationToken)
+    public async Task<string> InitSession([FromHeader(Name = "X-Client-Id")] string clientId, [FromBody] SessionData data, CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new InitSessionCommand(clientId), cancellationToken);
+        return await _mediator.Send(new InitSessionCommand(clientId, data.IPAddress), cancellationToken);
     }
 
     [HttpPost("Coordinates")]
@@ -35,3 +35,5 @@ public class SessionController : ControllerBase
 public record EventData(EventType EventType, string Data);
 
 public record ClientData(string UserAgent);
+
+public record SessionData(string? IPAddress);

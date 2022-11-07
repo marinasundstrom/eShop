@@ -60,7 +60,7 @@ public class AnalyticsController : ControllerBase
     [HttpPost("Session")]
     public async Task<string> StartSession([FromHeader(Name = "X-Client-Id")] string clientId, CancellationToken cancellationToken = default)
     {
-        return await sessionClient.InitSessionAsync(clientId, cancellationToken);
+        return await sessionClient.InitSessionAsync(clientId, new YourBrand.Analytics.SessionData() { IpAddress = HttpContext?.Connection?.RemoteIpAddress?.ToString() }, cancellationToken);
     }
 
     [HttpPost("Session/Coordinates")]

@@ -118,6 +118,18 @@
             "x-position": 1
           }
         ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionData"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
         "responses": {
           "200": {
             "description": "",
@@ -361,6 +373,16 @@
           1,
           2
         ]
+      },
+      "SessionData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "ipAddress": {
+            "type": "string",
+            "nullable": true
+          }
+        }
       },
       "Coordinates": {
         "type": "object",

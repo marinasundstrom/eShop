@@ -11,10 +11,11 @@ public class Session : Entity<string>
 
 #nullable restore
 
-    public Session(string clientId, DateTimeOffset started)
+    public Session(string clientId, string? ipAddress, DateTimeOffset started)
     : base(Guid.NewGuid().ToString())
     {
         ClientId = clientId;
+        IPAddress = ipAddress;
         Started = started;
         Expires = started.AddMinutes(30);
     }
@@ -22,6 +23,8 @@ public class Session : Entity<string>
     public string ClientId { get; private set; }  = default!;
 
     public Client Client { get; private set; }  = default!;
+
+    public string? IPAddress { get; private set; }
 
     public Coordinates? Coordinates  { get; set; }
 

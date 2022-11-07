@@ -2,7 +2,7 @@ using MediatR;
 
 namespace YourBrand.Analytics.Application.Tracking.Commands;
 
-public record InitSessionCommand(string ClientId) : IRequest<string>
+public record InitSessionCommand(string ClientId, string? IPAddress) : IRequest<string>
 {
     public class Handler : IRequestHandler<InitSessionCommand, string>
     {
@@ -15,7 +15,7 @@ public record InitSessionCommand(string ClientId) : IRequest<string>
 
         public async Task<string> Handle(InitSessionCommand request, CancellationToken cancellationToken)
         {
-            var session = new Session(request.ClientId, DateTimeOffset.UtcNow);
+            var session = new Session(request.ClientId, request.IPAddress, DateTimeOffset.UtcNow);
 
             context.Sessions.Add(session);
             await context.SaveChangesAsync(cancellationToken);
