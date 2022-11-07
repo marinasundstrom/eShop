@@ -61,6 +61,7 @@ partial class ItemPage
             {
                 var cart = await CartClient.GetCartAsync();
                 var item = cart.Items.First(x => x.Id == CartItemId);
+                quantity = item.Quantity;
                 Data = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(item.Data));
             }
         }
