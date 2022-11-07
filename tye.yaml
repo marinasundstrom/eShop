@@ -28,16 +28,6 @@ services:
       protocol: https
       port: 5001
 
-  - name: portal-client
-    project: Portal/src/ClientApp/ClientApp.csproj
-    bindings:
-    - name: http
-      protocol: http
-      port: 5020
-    - name: https
-      protocol: https
-      port: 5021
-
   - name: sales-web
     project: Sales/src/Web/Web.csproj
     bindings:

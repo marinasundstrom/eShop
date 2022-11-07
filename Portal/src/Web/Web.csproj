@@ -34,6 +34,10 @@
 		<PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="7.0.0-rc.2.*" />
 		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.0-rc.2.*" />
+   		<PackageReference Include="Yarp.ReverseProxy" Version="1.1.1" />
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0-rc.2.*" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0-rc.2.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="7.0.0-rc.2.*" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -41,6 +45,12 @@
 		<ProjectReference Include="..\Consumers\Consumers.csproj" />
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
 		<ProjectReference Include="..\Presentation\Presentation.csproj" />
+		<ProjectReference Include="..\ClientApp\ClientApp.csproj">
+		  <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+		</ProjectReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Microsoft.AspNetCore.Components.WebAssembly" />
+	</ItemGroup>
 </Project>

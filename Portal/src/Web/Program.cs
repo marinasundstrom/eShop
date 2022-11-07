@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.RateLimiting;
 using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Components.WebAssembly;
 using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenTelemetry.Resources;
@@ -38,12 +40,17 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://localhost:5021")
+                          policy.WithOrigins("https://localhost:5001")
                           .AllowAnyHeader().AllowAnyMethod();
                       });
 });
 
 // Add services to the container.
+
+// Add the reverse proxy capability to the server
+var proxyBuilder = builder.Services.AddReverseProxy();
+// Initialize the reverse proxy from the "ReverseProxy" section of configuration
+proxyBuilder.LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 builder.Services.AddHttpContextAccessor();
 
@@ -199,7 +206,12 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+
 app.UseRouting();
+
+app.MapReverseProxy();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -231,6 +243,8 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions()
 app.MapHubsForApp();
 
 app.UseRateLimiter();
+
+app.MapFallbackToFile("index.html");
 
 using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
 {
