@@ -49,8 +49,11 @@
                         <span class="me-3">
                             @order.Date.ToString("yyyy-MM-dd")
                         </span>
-                        <span>
+                        <span class="me-3" style="width: 90px">
                             @order.Total.ToString("c")
+                        </span>
+                        <span>
+                            @order.Status.Name
                         </span>
                     </button>
                 </h2>
