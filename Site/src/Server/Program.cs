@@ -27,6 +27,7 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
 using YourBrand.Marketing.Client;
 using YourBrand.Analytics.Client;
+using Microsoft.Extensions.Caching.Memory;
 
 // Define some important constants to initialize tracing with
 var serviceName = "YourBrand.Site";
@@ -46,6 +47,8 @@ builder.Services.AddSwaggerDocument(c =>
 });
 
 builder.Services.AddSignalR();
+
+builder.Services.AddMemoryCache();
 
 builder.Services
     .AddHealthChecks();

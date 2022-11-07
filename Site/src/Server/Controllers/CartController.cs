@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.SignalR;
 using Site.Server.Hubs;
 using Site.Server.Services;
 using YourBrand.Sales;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Site.Server.Controllers;
 
@@ -16,19 +17,22 @@ public class CartController : ControllerBase
     private readonly YourBrand.Catalog.IItemsClient _itemsClient;
     private readonly IHubContext<CartHub, ICartHubClient> _cartHubContext;
     private readonly ICurrentUserService currentUserService;
+    private readonly IMemoryCache memoryCache;
 
     public CartController(
         ILogger<CartController> logger, 
         YourBrand.Sales.ICartsClient cartsClient, 
         YourBrand.Catalog.IItemsClient itemsClient,
         IHubContext<CartHub, ICartHubClient> cartHubContext,
-        ICurrentUserService currentUserService)
+        ICurrentUserService currentUserService,
+        IMemoryCache memoryCache)
     {
         _logger = logger;
         _cartsClient = cartsClient;
         _itemsClient = itemsClient;
         _cartHubContext = cartHubContext;
         this.currentUserService = currentUserService;
+        this.memoryCache = memoryCache;
     }
     
     [HttpGet]
@@ -57,7 +61,13 @@ public class CartController : ControllerBase
 
         foreach(var cartItem in cart.Items) 
         {
-            var item = await _itemsClient.GetItemAsync(cartItem.ItemId, cancellationToken);
+            var item =  await memoryCache.GetOrCreateAsync(
+                    $"item-{cartItem.ItemId}", async options =>
+                    {
+                        options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
+
+                        return await _itemsClient.GetItemAsync(cartItem.ItemId, cancellationToken);
+                    });
 
             var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
             {
