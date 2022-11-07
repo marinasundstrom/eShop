@@ -9,6 +9,7 @@ name: eshop
 services:
   - name: catalog-web
     project: Catalog/src/Web/Web.csproj
+    replicas: 2
     bindings:
     - name: http
       protocol: http
@@ -79,6 +80,7 @@ services:
 
   - name: analytics-web
     project: Analytics/src/Web/Web.csproj
+    replicas: 2
     bindings:
     - name: http
       protocol: http
@@ -132,10 +134,10 @@ services:
     bindings:
     - name: http
       protocol: http
-      port: 5050
+      port: 5140
     - name: https
       protocol: https
-      port: 5051
+      port: 5141
 
   - name: identityservice
     project: IdentityService/IdentityService.csproj

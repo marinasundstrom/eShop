@@ -11,6 +11,8 @@ using YourBrand.Catalog.Client;
 using YourBrand.Sales.Client;
 using YourBrand.Inventory.Client;
 using System.Text;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
@@ -21,8 +23,14 @@ using Site.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
 using Site.Server.Authentication.Data;
 using Site.Server.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
 using YourBrand.Marketing.Client;
 using YourBrand.Analytics.Client;
+
+// Define some important constants to initialize tracing with
+var serviceName = "YourBrand.Site";
+var serviceVersion = "1.0.0";
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +46,30 @@ builder.Services.AddSwaggerDocument(c =>
 });
 
 builder.Services.AddSignalR();
+
+builder.Services
+    .AddHealthChecks();
+
+// Configure important OpenTelemetry settings, the console exporter, and instrumentation library
+builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
+{
+    tracerProviderBuilder
+        .AddConsoleExporter()
+        .AddZipkinExporter(o =>
+        {
+            o.Endpoint = new Uri("http://localhost:9411/api/v2/spans");
+            o.ExportProcessorType = OpenTelemetry.ExportProcessorType.Simple;
+        })
+        .AddSource(serviceName)
+        .AddSource("MassTransit")
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
+        .AddHttpClientInstrumentation()
+        .AddAspNetCoreInstrumentation()
+        .AddSqlClientInstrumentation()
+        .AddMassTransitInstrumentation();
+});
 
 builder.Services.AddAuthentication(options =>
 {
@@ -188,6 +220,11 @@ app.MapHub<Site.Server.Hubs.CartHub>("/hubs/cart");
 app.MapRazorPages();
 app.MapControllers();
 
+app.MapHealthChecks("/healthz", new HealthCheckOptions()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
 
 app.MapPost("/security/createToken",
 [AllowAnonymous] (User user) =>
