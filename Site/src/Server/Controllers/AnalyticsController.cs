@@ -37,11 +37,11 @@ public class AnalyticsController : ControllerBase
         {
             return await eventsClient.RegisterEventAsync(clientId, sessionId, data, cancellationToken);
         }
-        catch(YourBrand.Marketing.ApiException exc) when (exc.StatusCode == 204) 
+        catch(YourBrand.Analytics.ApiException exc) when (exc.StatusCode == 204) 
         {
-            // This is OK!
-        }
 
+        }
+        
         return null!;
     }
 
