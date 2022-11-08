@@ -976,22 +976,22 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "productId": {
+          "itemId": {
             "type": "string"
           },
-          "productName": {
+          "itemName": {
             "type": "string"
           },
-          "productDescription": {
+          "itemDescription": {
             "type": "string"
           },
-          "ordinaryPrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "percent": {
+          "percentage": {
             "type": "number",
             "format": "double"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
           }
         }
       },
@@ -999,22 +999,22 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "productId": {
+          "itemId": {
             "type": "string"
           },
-          "productName": {
+          "itemName": {
             "type": "string"
           },
-          "productDescription": {
+          "itemDescription": {
             "type": "string"
           },
-          "ordinaryPrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "percent": {
+          "percentage": {
             "type": "number",
             "format": "double"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
           }
         }
       }

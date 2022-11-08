@@ -83,7 +83,9 @@
 
             var dialogReference = DialogService.Show<DiscountDialog>(dto is null ? "New Discount" : $"Update {dto.Name}", parameters, new DialogOptions {
                 //FullScreen = true,
-                MaxWidth = MaxWidth.ExtraLarge
+                FullWidth = true,
+                MaxWidth = MaxWidth.Small,
+                DisableBackdropClick = true
             });
             var result = await dialogReference.Result;
 

@@ -41,7 +41,7 @@ public record GetDiscountsQuery(int Page = 0, int PageSize = 10, string? SearchS
 
             if (request.SearchString is not null)
             {
-                result = result.Where(o => o.ProductName.ToLower().Contains(request.SearchString.ToLower()));
+                result = result.Where(o => o.ItemName!.ToLower().Contains(request.SearchString.ToLower()));
             }
 
             var totalCount = await result.CountAsync(cancellationToken);
