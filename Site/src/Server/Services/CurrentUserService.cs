@@ -5,6 +5,7 @@ namespace Site.Server.Services;
 public class CurrentUserService : ICurrentUserService
 {
     private HttpContext httpContext;
+    string host;
 
     public CurrentUserService(IHttpContextAccessor httpContextAccessor)
     {
@@ -26,5 +27,18 @@ public class CurrentUserService : ICurrentUserService
     public string? ClientId =>  httpContext?.Request.Headers["X-Client-Id"];
 
     public string? SessionId =>  httpContext?.Request.Headers["X-Session-Id"];
+
+    public string? Host 
+    {
+        get 
+        {
+            var parts = httpContext?.Request.Host.Host.Split('.');
+            if(parts!.Count() > 2) 
+            {
+                return host ??= parts!.First(); 
+            }
+            return null;
+        }
+    }
 }
 

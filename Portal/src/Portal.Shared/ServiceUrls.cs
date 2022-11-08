@@ -15,4 +15,6 @@ public static class ServiceUrls
     public const string MarketingServiceUrl = $"{RootUrl}:5081";
 
     public const string AnalyticsServiceUrl = $"{RootUrl}:5091";
+
+    public const string StoreFrontServiceUrl = $"{RootUrl}:5151";
 }

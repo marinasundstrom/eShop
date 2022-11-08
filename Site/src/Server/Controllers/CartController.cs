@@ -41,6 +41,8 @@ public class CartController : ControllerBase
         var customerId = currentUserService.CustomerNo;
         var clientId = currentUserService.ClientId;
 
+        Console.WriteLine(currentUserService.Host);
+
         CartDto cart;
         
         string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";

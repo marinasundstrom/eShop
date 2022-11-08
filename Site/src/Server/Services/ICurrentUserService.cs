@@ -7,4 +7,6 @@ public interface ICurrentUserService
     string? ClientId { get; }
 
     string? SessionId { get; }
+
+    string? Host { get; }
 }
