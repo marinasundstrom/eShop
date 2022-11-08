@@ -79,6 +79,18 @@ services:
       protocol: https
       port: 5091
 
+  - name: storefront-web
+    project: StoreFront/src/Web/Web.csproj
+    bindings:
+    - name: http
+      host: "*.yourbrand.local"
+      protocol: http
+      port: 5150
+    - name: https
+      host: "*.yourbrand.local"
+      protocol: https
+      port: 5151
+
   - name: site
     project: Site/src/Server/Site.Server.csproj
     bindings:
