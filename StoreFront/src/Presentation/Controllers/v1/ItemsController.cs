@@ -54,7 +54,7 @@ public class ItemsController : ControllerBase
     [HttpGet("{id}/Variants")]
     public async Task<ItemsResult<SiteItemDto>> GetItemVariants(string id, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, YourBrand.Catalog.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await mediator.Send(new GetItemVariants(id, page - 1, pageSize, searchString, sortBy, sortDirection), cancellationToken);
+        return await mediator.Send(new GetItemVariants(id, page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
     }
 
     [HttpPost("{id}/Variants/Find")]
