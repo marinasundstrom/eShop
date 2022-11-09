@@ -17,6 +17,28 @@
           "Analytics"
         ],
         "operationId": "Analytics_RegisterEvent",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
         "requestBody": {
           "x-name": "data",
           "content": {
@@ -27,7 +49,7 @@
             }
           },
           "required": true,
-          "x-position": 1
+          "x-position": 3
         },
         "responses": {
           "200": {
@@ -49,6 +71,28 @@
           "Analytics"
         ],
         "operationId": "Analytics_RegisterEvent2",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
         "requestBody": {
           "x-name": "data",
           "content": {
@@ -59,7 +103,7 @@
             }
           },
           "required": true,
-          "x-position": 1
+          "x-position": 3
         },
         "responses": {
           "200": {

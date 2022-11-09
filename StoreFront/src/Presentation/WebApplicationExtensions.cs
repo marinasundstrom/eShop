@@ -7,7 +7,7 @@ public static class WebApplicationExtensions
 {
     public static WebApplication MapHubsForApp(this WebApplication app)
     {
-        app.MapHub<TodosHub>("/hubs/todos");
+        app.MapHub<CartHub>("/hubs/cart");
 
         return app;
     }

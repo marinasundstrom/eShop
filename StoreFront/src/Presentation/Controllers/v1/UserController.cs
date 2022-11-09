@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using YourBrand.StoreFront.Hubs;
 using YourBrand.Sales;
 using YourBrand.StoreFront.Application.Services;
 using Microsoft.Extensions.Logging;

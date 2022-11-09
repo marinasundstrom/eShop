@@ -28,9 +28,9 @@ public class AnalyticsController : ControllerBase
 
     [HttpPost]
     [HttpPost("Event")]
-    public async Task<string> RegisterEventAsync(YourBrand.Analytics.EventData data, CancellationToken cancellationToken = default)
+    public async Task<string> RegisterEventAsync([FromHeader(Name = "X-Client-Id")] string clientId, [FromHeader(Name = "X-Session-Id")] string sessionId, YourBrand.Analytics.EventData data, CancellationToken cancellationToken = default)
     {
-        return await mediator.Send(new RegisterEvent(data.EventType, data.Data), cancellationToken);
+        return await mediator.Send(new RegisterEvent(clientId, sessionId, data.EventType, data.Data), cancellationToken);
     }
 
     [HttpPost("Client")]

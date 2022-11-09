@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 
-namespace YourBrand.StoreFront.Hubs;
+namespace YourBrand.StoreFront.Presentation.Hubs;
 
 public class CartHub : Hub<ICartHubClient>
 {

@@ -129,29 +129,13 @@ builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScoped<IAuthenticationService, MockAuthenticationService>();
 builder.Services.AddScoped<AuthenticationStateProvider, MockAuthenticationStateProvider>();
 
-const string CatalogServiceUrl = $"https://localhost:5011";
+builder.Services.AddServices(builder.Configuration);
 
-builder.Services.AddCatalogClients((sp, httpClient) => {
-            httpClient.BaseAddress = new Uri($"{CatalogServiceUrl}/");
-        }, builder => {
-            //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-        });
+builder.Services.AddGoogleAnalytics("YOUR_GTAG_ID");
 
-const string SalesServiceUrl = $"https://localhost:5041";
-
-builder.Services.AddSalesClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{SalesServiceUrl}/");
-}, builder => {
-    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-});
-
-const string InventoryServiceUrl = $"https://localhost:5051";
-
-builder.Services.AddInventoryClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{InventoryServiceUrl}/");
-}, builder => {
-    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-});
+CultureInfo? culture = new("sv-SE");
+CultureInfo.DefaultThreadCurrentCulture = culture;
+CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 const string CustomerServiceUrl = $"https://localhost:5071";
 
@@ -161,43 +145,11 @@ builder.Services.AddCustomersClients((sp, httpClient) => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-const string MarketingServiceUrl = $"https://localhost:5081";
-
-builder.Services.AddMarketingClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{MarketingServiceUrl}/");
-}, builder => {
-    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-});
-
 builder.Services.AddHttpClient("Site", (sp, http) => {
-    http.BaseAddress = new Uri("https://localhost:6001/");
+    http.BaseAddress = new Uri("https://joes.yourbrand.local:5151/");
+    //http.EnableIntercept(sp);
 });
-
-const string AnalyticsServiceUrl = $"https://localhost:5091";
-
-builder.Services.AddAnalyticsClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{AnalyticsServiceUrl}/");
-}, builder => {
-    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-});
-
-builder.Services.AddHttpClient("Site", (sp, http) => {
-    http.BaseAddress = new Uri("https://localhost:6001/");
-});
-
-builder.Services.AddServices(builder.Configuration);
-
-var descriptorDbContext = builder.Services.FirstOrDefault(descriptor => descriptor.ServiceType == typeof(Site.Client.IItemsClient));
-builder.Services.Remove(descriptorDbContext);
-
-builder.Services.AddHttpClient("Site")
-            .AddTypedClient<Site.Client.IItemsClient>((http, sp) => new Site.Client.ItemsClient(http));
-
-builder.Services.AddGoogleAnalytics("YOUR_GTAG_ID");
-
-CultureInfo? culture = new("sv-SE");
-CultureInfo.DefaultThreadCurrentCulture = culture;
-CultureInfo.DefaultThreadCurrentUICulture = culture;
+//.AddHttpMessageHandler<CustomMessageHandler>();
 
 var app = builder.Build();
 
@@ -226,8 +178,6 @@ app.MapReverseProxy();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapHub<Site.Server.Hubs.CartHub>("/hubs/cart");
 
 app.MapRazorPages();
 app.MapControllers();

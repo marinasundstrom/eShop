@@ -3,7 +3,7 @@ using YourBrand.Analytics;
 
 namespace YourBrand.StoreFront.Application.Analytics;
 
-public sealed record RegisterEvent(EventType EventType, string Data) : IRequest<string>
+public sealed record RegisterEvent(string ClientId, string SessionId, EventType EventType, string Data) : IRequest<string>
 {
     sealed class Handler : IRequestHandler<RegisterEvent, string>
     {
@@ -22,7 +22,7 @@ public sealed record RegisterEvent(EventType EventType, string Data) : IRequest<
         {
             try
             {
-                return await eventsClient.RegisterEventAsync(currentUserService.ClientId, currentUserService.SessionId,
+                return await eventsClient.RegisterEventAsync(request.ClientId, request.SessionId,
                     new EventData { EventType = request.EventType, Data = request.Data }, cancellationToken);
             }
             catch (YourBrand.Analytics.ApiException exc) when (exc.StatusCode == 204)

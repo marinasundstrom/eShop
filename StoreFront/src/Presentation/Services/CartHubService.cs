@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using YourBrand.StoreFront.Application.Services;
-using YourBrand.StoreFront.Hubs;
+using YourBrand.StoreFront.Presentation.Hubs;
 
 namespace YourBrand.StoreFront.Presentation.Hubs;
 

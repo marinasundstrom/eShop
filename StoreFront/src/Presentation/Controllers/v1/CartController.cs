@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using YourBrand.StoreFront.Hubs;
 using YourBrand.StoreFront.Application.Services;
 using YourBrand.Sales;
 using Microsoft.Extensions.Caching.Memory;

@@ -277,7 +277,7 @@
 
         await CheckoutClient.CheckoutAsync(new CheckoutDto
         {
-            BillingDetails = new Site.Client.BillingDetailsDto
+            BillingDetails = new BillingDetailsDto
             {
                 FirstName = FirstName,
                 LastName = LastName,
@@ -287,14 +287,14 @@
                 Address = Map(BillingAddress)
             },
             ShippingDetails = ShipToSameAddress ?
-            new Site.Client.ShippingDetailsDto
+            new ShippingDetailsDto
             {
                 FirstName = FirstName,
                 LastName = LastName,
                 CareOf = string.Empty,
                 Address = Map(BillingAddress),
             }
-            : new Site.Client.ShippingDetailsDto
+            : new ShippingDetailsDto
             {
                 FirstName = ShippingDetails.FirstName,
                 LastName = ShippingDetails.LastName,
@@ -306,9 +306,9 @@
         NavigationManager.NavigateTo("/order/confirmation");
     }
 
-    private Site.Client.AddressDto Map(AddressModel address)
+    private AddressDto Map(AddressModel address)
     {
-        return new Site.Client.AddressDto
+        return new AddressDto
         {
             Thoroughfare = address.Thoroughfare,
             Premises = address.Premises,
