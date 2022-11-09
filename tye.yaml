@@ -9,7 +9,6 @@ name: eshop
 services:
   - name: catalog-web
     project: Catalog/src/Web/Web.csproj
-    replicas: 2
     bindings:
     - name: http
       protocol: http
@@ -70,7 +69,6 @@ services:
 
   - name: analytics-web
     project: Analytics/src/Web/Web.csproj
-    replicas: 2
     bindings:
     - name: http
       protocol: http
@@ -81,6 +79,7 @@ services:
 
   - name: storefront-web
     project: StoreFront/src/Web/Web.csproj
+    replicas: 2
     bindings:
     - name: http
       host: "*.yourbrand.local"
