@@ -68,50 +68,38 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-const string CatalogServiceUrl = $"https://localhost:5011";
-
 builder.Services.AddCatalogClients((sp, httpClient) => {
-            httpClient.BaseAddress = new Uri($"{CatalogServiceUrl}/");
-        }, builder => {
-            //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-        });
-
-const string SalesServiceUrl = $"https://localhost:5041";
+    httpClient.BaseAddress = configuration.GetServiceUri("catalog-web", "https");
+}, builder => {
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
 
 builder.Services.AddSalesClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{SalesServiceUrl}/");
+    httpClient.BaseAddress = configuration.GetServiceUri("sales-web", "https");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
-
-const string InventoryServiceUrl = $"https://localhost:5051";
 
 builder.Services.AddInventoryClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{InventoryServiceUrl}/");
+    httpClient.BaseAddress = configuration.GetServiceUri("inventory-web", "https");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
-
-const string CustomerServiceUrl = $"https://localhost:5071";
 
 builder.Services.AddCustomersClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{CustomerServiceUrl}/");
+    httpClient.BaseAddress = configuration.GetServiceUri("customers-web", "https");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
-
-const string MarketingServiceUrl = $"https://localhost:5081";
 
 builder.Services.AddMarketingClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{MarketingServiceUrl}/");
+    httpClient.BaseAddress = configuration.GetServiceUri("marketing-web" ,"https");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-const string AnalyticsServiceUrl = $"https://localhost:5091";
-
 builder.Services.AddAnalyticsClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{AnalyticsServiceUrl}/");
+    httpClient.BaseAddress = configuration.GetServiceUri("analytics-web", "https");
 }, builder => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
