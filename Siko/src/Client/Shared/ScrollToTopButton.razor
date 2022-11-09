@@ -1,0 +1,10 @@
+@inject IJSRuntime JSRuntime
+
+<button @onclick="OnScrollToTopClick" id="scrollTopButton" class="btn btn-secondary" title="Go to top"><i class="fa fa-arrow-up"></i></button>
+
+@code {
+    private async Task OnScrollToTopClick(MouseEventArgs ev)
+    {
+        await JSRuntime.InvokeVoidAsync("scrollToTop");
+    }
+}

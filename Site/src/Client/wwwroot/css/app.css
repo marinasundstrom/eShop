@@ -6,7 +6,7 @@ body {
   margin: 0;
   padding: 0;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
   font-family: 'Roboto', sans-serif;
 
   overflow-x: hidden;
@@ -199,7 +199,7 @@ header.main {
   border-color: #8050d3;
 }
 
-.navbar .fa,  .navbar .fab {
+.navbar .fa-shopping-basket {
   color: white !important;
 }
 

@@ -1,0 +1,156 @@
+﻿@using Microsoft.JSInterop
+@implements IDisposable
+@inject IJSRuntime JS
+@inject IItemsClient ItemsClient
+@inject PersistentComponentState ApplicationState
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-light px-3">
+    <div class="container">
+        <a href="/"><img src="/logo.png" class="me-4" alt="Siko AB" /></a>
+            
+        <div>
+            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
+                href="basket" target="_blank">
+                <CartNavItem DisableDropDown="true" SmallIcon="true" />
+            </a>
+        
+            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" @onclick="ToggleOpen">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collapse offcanvas-collapse bg-brand @(isOpen ? "open" : null)" id="navbarsExampleDefault" @onclick="ToggleOpen">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <NavLink class="nav-link" href="" Match=@NavLinkMatch.All>Hem</NavLink>
+                </li>
+
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="groups">Produkter</NavLink>
+                </li>
+                @*
+        <li class="nav-item">
+            <NavLink class="nav-link" href="items">Items</NavLink>
+        </li>
+                *@
+
+                @* <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="items" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Items
+            </a>
+            @if(itemGroups is not null)
+            {
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    @foreach (var group in itemGroups)
+                    {
+                        <li><a class="dropdown-item" href="@($"categories/{group.Id}")">@group.Name</a></li>
+                    }
+                </ul>
+            }
+        </li> *@
+
+            </ul>
+
+            <ol class="navbar-nav flex-row flex-wrap ms-md-auto list-inline list-unstyled" style="margin: 0;">
+
+                <li class="nav-item list-inline-item">
+                    <form class="d-flex" role="search" style="height: 80%; margin-top: 6px;" @onclick:preventDefault @onclick:stopPropagation>
+
+                        <div class="input-group">
+                            <input class="form-control border-end-0 border" type="search" placeholder="Sök här" id="example-search-input">
+                            <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-1 border ms-n5" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </li>
+
+                @*
+            <li class="nav-item list-inline-item">
+                <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"
+                    href="#" title="Twitter" target="_blank">
+                    <i class="fab fa-2x fa-facebook"></i>
+                </a>
+            </li>
+
+            <li class="nav-item list-inline-item">
+                <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"
+                    href="#" target="_blank">
+                    <i class="fab fa-2x fa-youtube"></i>
+                </a>
+            </li>
+                *@
+
+                <li class="nav-item list-inline-item">
+                    <LoginDisplay />
+                </li>
+
+                <li class="nav-item dropdown">
+                    <CartNavItem />
+                </li>
+            </ol>
+        </div>
+    </div>
+</nav>
+
+<div class="nav-scroller bg-body shadow-sm mb-4">
+    <div class="container">
+        <nav class="nav" aria-label="Secondary navigation">
+            @if (itemGroups is not null)
+            {
+                @foreach (var group in itemGroups)
+                {
+                    <NavLink class="nav-link" href="@($"groups/{group.Id}")">@group.Name</NavLink>
+                }
+            }
+        </nav>
+    </div>
+</div>
+
+
+@code {
+    private PersistingComponentStateSubscription persistingSubscription;
+    ICollection<ItemGroupDto>? itemGroups = null;
+    bool isOpen = false;
+
+    void ToggleOpen() => isOpen = !isOpen;
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        persistingSubscription =
+            ApplicationState.RegisterOnPersisting(PersistItems);
+
+        if (!ApplicationState.TryTakeFromJson< ICollection<ItemGroupDto>>(
+            "itemGroups", out var restored))
+        {
+            itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
+        }
+        else
+        {
+            itemGroups = restored!;
+        }
+    }
+
+    private Task PersistItems()
+    {
+        ApplicationState.PersistAsJson("itemGroups", itemGroups);
+
+        return Task.CompletedTask;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync(
+                "initDropDown");
+        }
+    }
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
+    }
+}

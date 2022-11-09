@@ -4,6 +4,7 @@ using MediatR;
 using YourBrand.Catalog;
 using YourBrand.StoreFront.Application.Carts;
 using YourBrand.StoreFront.Application.Common.Models;
+using YourBrand.StoreFront.Application.Services;
 
 namespace YourBrand.StoreFront.Application.Items;
 
@@ -23,21 +24,24 @@ public sealed record GetItems(
         private readonly YourBrand.Catalog.IItemsClient _itemsClient;
         private readonly IItemGroupsClient itemGroupsClient;
         private readonly YourBrand.Inventory.IItemsClient _inventoryItemsClient;
+        private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Catalog.IItemsClient itemsClient,
             YourBrand.Catalog.IItemGroupsClient itemGroupsClient,
-            YourBrand.Inventory.IItemsClient inventoryItemsClient)
+            YourBrand.Inventory.IItemsClient inventoryItemsClient,
+            ICurrentUserService currentUserService)
         {
 
             _itemsClient = itemsClient;
             this.itemGroupsClient = itemGroupsClient;
             _inventoryItemsClient = inventoryItemsClient;
+            this.currentUserService = currentUserService;
         }
 
         public async Task<ItemsResult<SiteItemDto>> Handle(GetItems request, CancellationToken cancellationToken)
         {
-            var result = await _itemsClient.GetItemsAsync(
+            var result = await _itemsClient.GetItemsAsync(currentUserService.Host,
                 false, true, request.ItemGroupId, request.ItemGroup2Id,
                 request.ItemGroup3Id, request.Page - 1, request.PageSize, request.SearchString,
                 request.SortBy, request.SortDirection, cancellationToken);

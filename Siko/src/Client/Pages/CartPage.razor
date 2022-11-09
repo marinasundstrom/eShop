@@ -1,0 +1,108 @@
+@page "/basket"
+@inject ICartClient CartClient
+@inject NavigationManager NavigationManager
+@inject Site.Client.RenderingContext RenderingContext
+
+<SitePageTitle>Basket</SitePageTitle>
+
+<div class="container">
+    <h1>Basket</h1>
+
+    @if(cart is not null) 
+    {
+        @if(cart.Items.Any()) 
+        {
+            <ul class="list-group mb-3 my-3 p-3 bg-body rounded shadow-sm">
+                @foreach (var cartItem in cart.Items)
+                {
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0">@cartItem.Item.Name</h6>
+                            <small class="text-muted">@cartItem.Item.Description</small>
+                            <div class="d-flex">
+                                <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
+                                <button class="btn ms-2" @onclick="async () => await UpdateItem(cartItem)"><i class="fa fa-edit" /></button>
+                                <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
+                            </div>
+                        </div>
+                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
+                    </li>   
+                }
+                <li class="list-group-item d-flex justify-content-end">
+                    <div>
+                        <li class="d-flex justify-content-between">
+                            <span class="me-5">Total</span>
+                            <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
+                        </li>
+                        <li class="d-flex justify-content-between mt-2">
+                            <small class="me-5">VAT incl.</small>
+                            <small>@((cart.Items.Sum(x => x.Total).GetVatFromTotal(0.25)).ToString("c"))</small>
+                        </li>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-secondary me-2" @onclick="async () => await ClearItems()"><i class="fa fa-trash" /> Clear basket</button>
+                <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
+            </div>
+        }
+        else 
+        {
+            <p>No items here :(</p>
+        }
+    }
+</div>
+
+@code 
+{
+    SiteCartDto? cart;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (RenderingContext.IsPrerendering)
+            return;
+
+        cart = await CartClient.GetCartAsync();
+    }
+
+    async Task ItemQuantityChanged(SiteCartItemDto cartItem, int newQuantity)
+    {
+        if(newQuantity == 0)
+        {
+            // Remove
+            await CartClient.RemoveItemFromCartAsync(cartItem.Id);
+            cart!.Items.Remove(cartItem);
+            return;
+        }
+        await CartClient.UpdateCartItemQuantityAsync(cartItem.Id, newQuantity);
+        cartItem.Quantity = newQuantity;
+        cartItem.Total = cartItem.Quantity * cartItem.Item.Price;
+    }
+
+    async Task UpdateItem(SiteCartItemDto cartItem)
+    {
+        if(cartItem.Item.Parent is null) 
+        {
+            NavigationManager.NavigateTo($"/items/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+        }
+        else 
+        {
+            NavigationManager.NavigateTo($"/items/{cartItem.Item?.Parent.Id}/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+        }
+    }
+
+    async Task DeleteItem(SiteCartItemDto cartItem)
+    {
+        await CartClient.RemoveItemFromCartAsync(cartItem.Id);
+
+        cart!.Items.Remove(cartItem);
+    }
+
+    async Task ClearItems()
+    {
+        await CartClient.ClearCartAsync();
+
+        cart!.Items.Clear();
+    }
+}

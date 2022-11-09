@@ -12,5 +12,7 @@ public interface ICurrentUserService
 
     string? UserAgent { get; }
 
+    string? Host { get; }
+
     string? GetRemoteIPAddress(bool allowForwarded = true);
 }

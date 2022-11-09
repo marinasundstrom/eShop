@@ -1,0 +1,21 @@
+﻿<div>
+    <EditForm Model="@this" OnValidSubmit="Ok">
+        <div class="modal-body">
+            <p>You are about to sign out. Are you sure?</p>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-primary me-2" type="submit">Yes</button>
+            <button class="btn btn-secondary" @onclick="Cancel">No</button>
+         </div>
+    </EditForm>
+</div>
+
+@code {
+    [CascadingParameter] BlazoredModalInstance BlazoredModal { get; set; } = default!;
+
+    protected override void OnInitialized() => BlazoredModal.SetTitle("Sign out?");
+
+    private async Task Ok() => await BlazoredModal.CloseAsync(ModalResult.Ok());
+    private async Task Cancel() => await BlazoredModal.CancelAsync();
+}

@@ -34,7 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Site.Shared.csproj" />
     <ProjectReference Include="..\Site.Client.Authentication\Site.Client.Authentication.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
@@ -43,12 +42,4 @@
     </ProjectReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
-    <None Remove="Microsoft.AspNetCore.Components.WebAssembly.Authentication" />
-    <None Remove="MediatR" />
-    <None Remove="MediatR.Extensions.Microsoft.DependencyInjection" />
-    <None Remove="Blazored.Modal" />
-    <None Remove="Blazored.Toast" />
-  </ItemGroup>
 </Project>

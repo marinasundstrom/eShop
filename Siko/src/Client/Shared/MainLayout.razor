@@ -1,0 +1,38 @@
+﻿@inherits LayoutComponentBase
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+@inject RenderingContext RenderingContext
+
+<header class="main">
+    <NavMenu />
+</header>
+
+<main role="main" class="container">
+    @Body
+</main>
+
+<footer class="pt-3 px-4 my-5 mx-auto container text-center border-top">
+    <small class="text-muted">© @DateTime.Now.Year Siko AB - All rights reserved</small>
+</footer>
+
+<DataProtectionBanner Visible="!hasReadNote" VisibleChanged="NoticeDismissed" />
+
+<ScrollToTopButton />
+
+@code 
+{
+    bool hasReadNote = true;
+    string key = "HasReadNotice";
+
+    protected override async Task OnInitializedAsync() 
+    {
+        if(RenderingContext.IsPrerendering) return;
+
+        hasReadNote = await LocalStorageService.GetItemAsync<bool>(key);
+    }
+
+    private async Task NoticeDismissed(bool value) 
+    {
+        hasReadNote = true;
+        await LocalStorageService.SetItemAsync<bool>(key, hasReadNote);
+    }
+}

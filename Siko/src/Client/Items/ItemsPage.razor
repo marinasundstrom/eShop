@@ -1,0 +1,84 @@
+﻿@page "/groups"
+@page "/groups/{groupId}"
+@page "/groups/{groupId}/{group2Id}"
+@page "/groups/{groupId}/{group2Id}/{group3Id}"
+@implements IDisposable
+@inject IItemsClient ItemsClient
+@inject PersistentComponentState ApplicationState
+@inject NavigationManager NavigationManager
+@inject AnalyticsService AnalyticsService
+@inject RenderingContext RenderingContext
+
+<SitePageTitle>Items</SitePageTitle>
+
+<div class="container">
+    <h1>@(itemGroup?.Name ?? "Items")</h1>
+
+    @if(subGroups is not null) 
+    {
+        <div class="mb-3">
+            <a href="/groups/@GroupId">
+                <h5 style="display: inline-block;">
+                    <span class="badge rounded-pill text-bg-secondary me-2">All</span>
+                </h5>
+            </a>
+
+            @foreach(var group in subGroups) 
+            {
+                var path = GetPath(group);
+
+                <a href="@path">
+                    <h5 style="display: inline-block;">
+                        <span class="badge rounded-pill text-bg-@SelectedStyle(path) me-2">@group.Name</span>
+                    </h5>
+                </a>
+            }
+        </div>
+    }
+
+    @if (itemResults is not null)
+    {
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            @foreach (var item in itemResults.Items)
+            {
+                <div class="col">
+                    <a href="/items/@item.Id" style="all: unset; cursor: pointer;">
+                    <div class="card shadow-sm">
+                        <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image"
+                        style="object-fit: cover;" />
+                        <div class="card-body">
+                            <h5 class="card-title">@item.Name</h5>
+                            <p class="card-text">@item.Description</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    @if(item.Available is not null) 
+                                    {
+                                        <p class="text-muted mt-2">@item.Available available</p> 
+                                    }
+                                </div>
+                                @if(!item.HasVariants) 
+                                {
+                                    <div>
+                                        <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    </a>
+                </div>
+            }
+        </div>
+
+        <Pagination Class="mt-4" Page="@Page.GetValueOrDefault()" PageCount="@totalPages" PageChanged="OnPageChanged"
+        Href="/blog" />
+    }
+    else 
+    {
+        <div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+</div>

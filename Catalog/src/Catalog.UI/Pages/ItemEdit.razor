@@ -328,7 +328,7 @@ else
         attributes = (await ItemsClient.GetItemAttributesAsync(ItemId)).ToList();
         options = (await ItemsClient.GetItemOptionsAsync(ItemId, null)).ToList();
 
-        var groups = await ItemGroupsClient.GetItemGroupsAsync(null, true, true);
+        var groups = await ItemGroupsClient.GetItemGroupsAsync(null, null, true, true);
         Groups = groups.ToList();
 
         Name = item.Name;

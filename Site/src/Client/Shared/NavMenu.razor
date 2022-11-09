@@ -56,6 +56,20 @@
                 }
             </ul>
             <ol class="navbar-nav flex-row flex-wrap ms-md-auto list-inline list-unstyled" style="margin: 0;">
+
+                <li class="nav-item list-inline-item">
+                    <form class="d-flex" role="search" style="height: 80%; margin-top: 6px;" @onclick:preventDefault @onclick:stopPropagation>
+
+                        <div class="input-group">
+                            <input class="form-control border-end-0 border" type="search" placeholder="Search" id="example-search-input">
+                            <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-1 border ms-n5" type="button">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+
+                    </form>
+                </li>
+
                 @*
         <li class="nav-item list-inline-item">
             <a class="nav-link menu-link me-0 py-2 text-decoration-none text-uppercase"

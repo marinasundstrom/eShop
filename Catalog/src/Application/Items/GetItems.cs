@@ -11,7 +11,7 @@ using YourBrand.Catalog.Application.Options;
 
 namespace YourBrand.Catalog.Application.Items;
 
-public record GetItems(bool IncludeUnlisted = false, bool GroupItems = true, string? GroupId = null, string? Group2Id = null, string? Group3Id = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ItemDto>>
+public record GetItems(string? ShopId = null, bool IncludeUnlisted = false, bool GroupItems = true, string? GroupId = null, string? Group2Id = null, string? Group3Id = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ItemDto>>
 {
     public class Handler : IRequestHandler<GetItems, ItemsResult<ItemDto>>
     {
@@ -37,6 +37,11 @@ public record GetItems(bool IncludeUnlisted = false, bool GroupItems = true, str
                 .Include(pv => pv.Options)
                 .ThenInclude(pv => pv.DefaultValue)
                 .AsQueryable();
+
+            if (request.ShopId is not null)
+            {
+                query = query.Where(x => x.ShopId == request.ShopId);
+            }
 
             if (!request.IncludeUnlisted)
             {

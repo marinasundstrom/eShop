@@ -6,7 +6,7 @@ using YourBrand.Catalog.Domain;
 
 namespace YourBrand.Catalog.Application.Items.Groups;
 
-public record GetItemGroups(string? ParentGroupId, bool IncludeWithUnlistedItems, bool IncludeHidden) : IRequest<IEnumerable<ItemGroupDto>>
+public record GetItemGroups(string? ShopId, string? ParentGroupId, bool IncludeWithUnlistedItems, bool IncludeHidden) : IRequest<IEnumerable<ItemGroupDto>>
 {
     public class Handler : IRequestHandler<GetItemGroups, IEnumerable<ItemGroupDto>>
     {
@@ -23,6 +23,11 @@ public record GetItemGroups(string? ParentGroupId, bool IncludeWithUnlistedItems
                     .AsQueryable();
 
             query = query.Where(x => x.Parent!.Id == request.ParentGroupId);
+
+            if (request.ShopId is not null) 
+            {
+                query = query.Where(x => x.ShopId == request.ShopId);
+            }
 
             if (!request.IncludeHidden) 
             {

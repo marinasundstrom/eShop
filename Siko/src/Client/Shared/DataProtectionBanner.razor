@@ -1,0 +1,25 @@
+@if(Visible) 
+{
+    <div id="cb-cookie-banner" class="alert alert-dark text-center mb-0 fadeInBottom" role="alert">
+        &#x1F36A; This website collects data to ensure you get the best experience on our website.
+        <a href="https://www.cookiesandyou.com/" target="blank">Learn more</a>
+        <button type="button" class="btn btn-primary btn-sm ms-3" @onclick="ToggleVisible">
+            I Got It
+        </button>
+    </div>
+}
+
+@code 
+{
+    [Parameter]
+    public bool Visible { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> VisibleChanged { get; set; }
+
+    public async Task ToggleVisible() 
+    {
+        Visible = !Visible;
+        await VisibleChanged.InvokeAsync(Visible);
+    } 
+}

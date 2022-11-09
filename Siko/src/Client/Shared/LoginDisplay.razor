@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject NavigationManager Navigation
+@inject Site.Client.Authentication.IAuthenticationService AuthenticationService
+@inject CartService CartService
+
+<div>
+    <AuthorizeView>
+        <Authorized>
+
+        </Authorized>
+        <Authorized>
+            <div class="d-flex mt-2">
+                <a class="btn nav-link" href="user/profile"><i class="fa fa-user"></i></a>
+                <button class="btn nav-link" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Sign out</button>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <a class="nav-link mt-2" href="/login"><i class="fa fa-sign-in-alt me-2" /> Mitt konto</a>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
+@code{
+    [CascadingParameter] public IModalService Modal { get; set; } = default!;
+
+    async Task BeginSignOut()
+    {
+        var options = new ModalOptions()
+        {
+            Position = ModalPosition.Middle,
+            HideCloseButton = true
+        };
+
+        var modalRef = Modal.Show<SignOutModal>("Sign out?", options);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled)
+            return;
+
+        await AuthenticationService.Logout();
+        await CartService.ReconnectAndReload();
+        Navigation.NavigateTo("/");
+    }
+}

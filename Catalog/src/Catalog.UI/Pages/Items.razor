@@ -80,14 +80,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = await ItemGroupsClient.GetItemGroupsAsync(null, true, true);
+        itemGroups = await ItemGroupsClient.GetItemGroupsAsync(null, null, true, true);
 
         await OnPageChanged(1);
     }
 
     async Task OnPageChanged(int page)
     {
-        var result = await ItemsClient.GetItemsAsync(false, true, GroupId, null, null, page - 1, pageSize, null, null, null);
+        var result = await ItemsClient.GetItemsAsync(null, false, true, GroupId, null, null, page - 1, pageSize, null, null, null);
         items = result.Items;
         
         this.pages = (int)Math.Ceiling((double)result.TotalItems / (double)pageSize);

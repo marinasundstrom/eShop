@@ -11,6 +11,8 @@ public class Item : AggregateRoot<string>
         Name = name;
     }
 
+    public string? ShopId { get; private set; }
+
     public string Name { get; set; } = null!;
 
     public string? Substitle { get; set; }

@@ -5,9 +5,6 @@ using System.Net.Http;
 using System.Globalization;
 using Blazor.Analytics;
 using Site.Client;
-using YourBrand.Catalog.Client;
-using YourBrand.Sales.Client;
-using YourBrand.Inventory.Client;
 using System.Text;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -20,8 +17,6 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Site.Server.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
-using YourBrand.Marketing.Client;
-using YourBrand.Analytics.Client;
 using Microsoft.Extensions.Caching.Memory;
 using Site.Client.Authentication;
 

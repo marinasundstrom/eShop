@@ -79,7 +79,6 @@ services:
 
   - name: storefront-web
     project: StoreFront/src/Web/Web.csproj
-    replicas: 2
     bindings:
     - name: http
       host: "*.yourbrand.local"
@@ -99,6 +98,16 @@ services:
     - name: https
       protocol: https
       port: 6001
+
+  - name: siko-web
+    project: Siko/src/Server/Siko.Server.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 6020
+    - name: https
+      protocol: https
+      port: 6021
 
   - name: mssql
     image: mcr.microsoft.com/azure-sql-edge:latest
