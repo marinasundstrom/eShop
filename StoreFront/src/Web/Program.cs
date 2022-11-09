@@ -265,20 +265,13 @@ builder.Services.AddRateLimiter(options =>
         };
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
-        
-    options.AddTokenBucketLimiter("MyControllerPolicy", options =>
-    {
-        options.TokenLimit = 5;
-        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        
-        #if DEBUG
-        options.QueueLimit = 1;
-        #else
-        options.QueueLimit = 1000;
-        #endif
 
-        options.ReplenishmentPeriod = TimeSpan.FromSeconds(5);
-        options.TokensPerPeriod = 1;
+    options.AddFixedWindowLimiter ("feeds", options => {
+        options.PermitLimit = 5;
+        options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        options.QueueLimit = 0;
+        options.Window = TimeSpan.FromSeconds (2);
+        options .AutoReplenishment = false;
     });
 });
 
