@@ -32,6 +32,10 @@ using YourBrand.Inventory.Client;
 using YourBrand.Customers.Client;
 using YourBrand.Marketing.Client;
 using YourBrand.Analytics.Client;
+using System.Text;
+using YourBrand.StoreFront.Authentication;
+using YourBrand.StoreFront.Authentication.Endpoints;
+using YourBrand.StoreFront.Authentication.Data;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;
@@ -60,9 +64,9 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddEndpointsApiExplorer();
 
-// FOoo
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 const string CatalogServiceUrl = $"https://localhost:5011";
 
@@ -112,8 +116,6 @@ builder.Services.AddAnalyticsClients((sp, httpClient) => {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-// EMD
-
 builder.Services.AddApiVersioning(options =>
         {
             options.AssumeDefaultVersionWhenUnspecified = true;
@@ -160,6 +162,8 @@ foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
     });
 }
 
+builder.Services.AddAuthServices(builder.Configuration);
+
 builder.Services.AddSignalR();
 
 builder.Services.AddMemoryCache();
@@ -168,42 +172,43 @@ builder.Services
     .AddHealthChecks()
     .AddDbContextCheck<ApplicationDbContext>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
-                    {
-                        options.Authority = "https://localhost:5041";
-                        options.Audience = "myapi";
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(o =>
+{
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey
+        (Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]!)),
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = false,
+        ValidateIssuerSigningKey = true
+    };
 
-                        options.TokenValidationParameters = new TokenValidationParameters()
-                        {
-                            NameClaimType = "name"
-                        };
+    o.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
 
-                        options.Events = new JwtBearerEvents
-                        {
-                            OnTokenValidated = context =>
-                            {
-                                // Add the access_token as a claim, as we may actually need it
-                                var accessToken = context.SecurityToken as JwtSecurityToken;
-                                if (accessToken != null)
-                                {
-                                    ClaimsIdentity? identity = context?.Principal?.Identity as ClaimsIdentity;
-                                    if (identity != null)
-                                    {
-                                        identity.AddClaim(new Claim("access_token", accessToken.RawData));
-                                    }
-                                }
-
-                                return Task.CompletedTask;
-                            }
-                        };
-
-                        //options.TokenValidationParameters.ValidateAudience = false;
-
-                        //options.Audience = "openid";
-
-                        //options.TokenValidationParameters.ValidTypes = new[] { "at+jwt" };
-                    });
+            // If the request is for our hub...
+            var path = context.HttpContext.Request.Path;
+            if (!string.IsNullOrEmpty(accessToken) &&
+                (path.StartsWithSegments("/hubs")))
+            {
+                // Read the token out of the query string
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
+    };
+});
 
 builder.Services.AddAuthorization();
 
@@ -300,6 +305,8 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.AddAuthEndpoints();
+
 app.MapControllers();
 
 app.MapHealthChecks("/healthz", new HealthCheckOptions()
@@ -307,6 +314,7 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions()
     Predicate = _ => true,
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
+
 
 app.MapHubsForApp();
 
@@ -350,6 +358,10 @@ using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().Creat
         return;
     }
 }
+
+using var scope2 = app.Services.CreateScope();
+var context2 = scope2.ServiceProvider.GetRequiredService<UsersContext>();
+//context2.Database.EnsureCreated();
 
 app.Run();
 

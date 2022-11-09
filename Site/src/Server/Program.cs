@@ -5,8 +5,6 @@ using System.Net.Http;
 using System.Globalization;
 using Blazor.Analytics;
 using Site.Client;
-using Site.Server.Authentication;
-using Site.Server.Authentication.Endpoints;
 using YourBrand.Catalog.Client;
 using YourBrand.Sales.Client;
 using YourBrand.Inventory.Client;
@@ -18,16 +16,14 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-using YourBrand.Customers.Client;
-using Site.Client.Authentication;
 using Microsoft.AspNetCore.Components.Authorization;
-using Site.Server.Authentication.Data;
 using Site.Server.Services;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using HealthChecks.UI.Client;
 using YourBrand.Marketing.Client;
 using YourBrand.Analytics.Client;
 using Microsoft.Extensions.Caching.Memory;
+using Site.Client.Authentication;
 
 // Define some important constants to initialize tracing with
 var serviceName = "YourBrand.Site";
@@ -125,7 +121,6 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-builder.Services.AddAuthServices(builder.Configuration);
 builder.Services.AddScoped<IAuthenticationService, MockAuthenticationService>();
 builder.Services.AddScoped<AuthenticationStateProvider, MockAuthenticationStateProvider>();
 
@@ -136,14 +131,6 @@ builder.Services.AddGoogleAnalytics("YOUR_GTAG_ID");
 CultureInfo? culture = new("sv-SE");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
-
-const string CustomerServiceUrl = $"https://localhost:5071";
-
-builder.Services.AddCustomersClients((sp, httpClient) => {
-    httpClient.BaseAddress = new Uri($"{CustomerServiceUrl}/");
-}, builder => {
-    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
-});
 
 builder.Services.AddHttpClient("Site", (sp, http) => {
     http.BaseAddress = new Uri("https://joes.yourbrand.local:5151/");
@@ -188,57 +175,11 @@ app.MapHealthChecks("/healthz", new HealthCheckOptions()
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
 });
 
-/*
-app.MapPost("/security/createToken",
-[AllowAnonymous] (User user) =>
-{
-    if (user.UserName == "joydip" && user.Password == "joydip123")
-    {
-        var issuer = builder.Configuration["Jwt:Issuer"];
-        var audience = builder.Configuration["Jwt:Audience"];
-        var key = Encoding.ASCII.GetBytes
-        (builder.Configuration["Jwt:Key"]!);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new[]
-            {
-                new Claim("Id", Guid.NewGuid().ToString()),
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Email, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti,
-                Guid.NewGuid().ToString())
-             }),
-            Expires = DateTime.UtcNow.AddMinutes(5),
-            Issuer = issuer,
-            Audience = audience,
-            SigningCredentials = new SigningCredentials
-            (new SymmetricSecurityKey(key),
-            SecurityAlgorithms.HmacSha512Signature)
-        };
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        var jwtToken = tokenHandler.WriteToken(token);
-        var stringToken = tokenHandler.WriteToken(token);
-        return Results.Ok(stringToken);
-    }
-    return Results.Unauthorized();
-});
-*/
-
-app.AddAuthEndpoints();
 app.MapFallbackToPage("/_Host");
 
 using var scope = app.Services.CreateScope();
-var context = scope.ServiceProvider.GetRequiredService<UsersContext>();
-//context.Database.EnsureCreated();
 
 var renderingContext = scope.ServiceProvider.GetRequiredService<RenderingContext>();
 renderingContext.IsPrerendering = true;
 
 app.Run();
-
-public class User
-{
-    public string UserName { get; set; }
-    public string Password { get; set; }
-}

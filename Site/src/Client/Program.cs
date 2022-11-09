@@ -18,8 +18,6 @@ builder.Services.AddAuthServices();
 
 builder.Services.AddServices(builder.Configuration);
 
-//builder.Services.AddHttpClientInterceptor();
-
 builder.Services.AddAuthorizationCore();
 
 var app = builder.Build();

@@ -28,14 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Client\Site.Client.csproj" />
     <ProjectReference Include="..\Shared\Site.Shared.csproj" />
     <ProjectReference Include="..\..\..\Catalog\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Inventory\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Marketing\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Analytics\src\Client\Client.csproj" />
-    <ProjectReference Include="..\Site.Server.Authentication\Site.Server.Authentication.csproj">
+    <ProjectReference Include="..\Client\Site.Client.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

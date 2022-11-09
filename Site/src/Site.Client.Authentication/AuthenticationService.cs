@@ -27,7 +27,7 @@ public class AuthenticationService : IAuthenticationService
     {
         var content = JsonSerializer.Serialize(userForAuthentication);
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-        var authResult = await _client.PostAsync("authentication/login", bodyContent);
+        var authResult = await _client.PostAsync("https://joes.yourbrand.local:5151/authentication/login", bodyContent);
 
         if(authResult.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
@@ -64,7 +64,7 @@ public class AuthenticationService : IAuthenticationService
         var refreshToken = await _localStorage.GetItemAsync<string>("refreshToken");
         var tokenDto = JsonSerializer.Serialize(new RefreshTokenDto { Token = token, RefreshToken = refreshToken });
         var bodyContent = new StringContent(tokenDto, Encoding.UTF8, "application/json");
-        var refreshResult = await _client.PostAsync("token/refresh", bodyContent);
+        var refreshResult = await _client.PostAsync("https://joes.yourbrand.local:5151/token/refresh", bodyContent);
         var refreshContent = await refreshResult.Content.ReadAsStringAsync();
 
         var result = JsonSerializer.Deserialize<AuthResponseDto>(refreshContent, _options);
