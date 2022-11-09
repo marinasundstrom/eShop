@@ -361,7 +361,9 @@ using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().Creat
 
 using var scope2 = app.Services.CreateScope();
 var context2 = scope2.ServiceProvider.GetRequiredService<UsersContext>();
+//context2.Database.EnsureDeleted();
 //context2.Database.EnsureCreated();
+
 
 app.Run();
 

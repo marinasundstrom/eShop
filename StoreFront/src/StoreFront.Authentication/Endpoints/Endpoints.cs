@@ -57,12 +57,16 @@ public static class Endpoints
         var tokenOptions = tokenService.GenerateTokenOptions(signingCredentials, claims);
         var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-        user.RefreshToken = tokenService.GenerateRefreshToken();
-        user.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+        var refreshToken = new UserRefreshToken();
+
+        refreshToken.RefreshToken = tokenService.GenerateRefreshToken();
+        refreshToken.RefreshTokenExpiryTime = DateTime.Now.AddDays(7);
+
+        user.RefreshTokens.Add(refreshToken);
 
         await customerService.UpdateUser(user);
 
-        return Results.Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token, RefreshToken = user.RefreshToken });
+        return Results.Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token, RefreshToken = refreshToken.RefreshToken });
     }
 
     public static async Task<IResult> RefreshToken(ICustomerService customerService, ITokenService tokenService,
@@ -79,7 +83,14 @@ public static class Endpoints
 
         var user = await customerService.GetUserByCustomerId(customerId);
 
-        if (user == null || user.RefreshToken != tokenDto.RefreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
+        if(user is null)
+        {
+            return Results.BadRequest(new AuthResponseDto { IsAuthSuccessful = false, ErrorMessage = "Invalid client request" });
+        }
+
+        var refreshToken = user.RefreshTokens.FirstOrDefault(x => x.RefreshToken == tokenDto.RefreshToken);
+
+        if (refreshToken is null || refreshToken.RefreshToken != tokenDto.RefreshToken || refreshToken.RefreshTokenExpiryTime <= DateTime.Now)
             return Results.BadRequest(new AuthResponseDto { IsAuthSuccessful = false, ErrorMessage = "Invalid client request" });
 
         var signingCredentials = tokenService.GetSigningCredentials();
@@ -87,11 +98,11 @@ public static class Endpoints
         var tokenOptions = tokenService.GenerateTokenOptions(signingCredentials, claims);
         var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-        user.RefreshToken = tokenService.GenerateRefreshToken();
+        refreshToken.RefreshToken = tokenService.GenerateRefreshToken();
 
         await customerService.UpdateUser(user);
 
-        return Results.Ok(new AuthResponseDto { Token = token, RefreshToken = user.RefreshToken, IsAuthSuccessful = true });
+        return Results.Ok(new AuthResponseDto { Token = token, RefreshToken = refreshToken.RefreshToken, IsAuthSuccessful = true });
     }
 
     /*

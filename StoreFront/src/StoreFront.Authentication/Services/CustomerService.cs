@@ -22,7 +22,9 @@ public class CustomerService : ICustomerService
 
     public async Task<User?> GetUserByCustomerId(int customerId, CancellationToken cancellationToken = default)
     {
-        return await usersContext.Users.FirstOrDefaultAsync(x => x.CustomerId == customerId, cancellationToken);
+        return await usersContext.Users
+            .Include(x => x.RefreshTokens)
+            .FirstOrDefaultAsync(x => x.CustomerId == customerId, cancellationToken);
 
     }
 

@@ -11,4 +11,6 @@ public class UsersContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
+
+    public DbSet<UserRefreshToken> UserRefreshTokens { get; set; } = null!;
 }
