@@ -6,11 +6,23 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-brand px-3">
     <div class="container">
-        <a href="/"><img src="/logo.png" class="me-4" alt="Your Brand" /></a>
+        <a href="/">
+            <img src="/logo.png" class="me-4" alt="Your Brand" />
+        </a>
             
-        <div>
+        <div style="color: white">
             <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="basket" target="_blank">
+                href="search">
+                <i class="fa fa-search"></i>
+            </a>
+            
+            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
+                href="user/profile">
+                <i class="fa fa-user"></i>
+            </a>
+            
+            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
+                href="#">
                 <CartNavItem DisableDropDown="true" SmallIcon="true" />
             </a>
         
@@ -41,7 +53,7 @@
                 }
             </ul>
 
-            <ul class="navbar-nav d-flex mb-2 mb-lg-0">
+            <ul class="navbar-nav d-flex mb-2 mb-lg-0 d-none d-md-flex d-lg-flex">
                 <li class="nav-item me-2">
                     <form class="d-flex" role="search" style="height: 80%;" @onclick:preventDefault @onclick:stopPropagation>
                         <div class="input-group">

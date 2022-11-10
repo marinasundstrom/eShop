@@ -6,22 +6,24 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light px-3">
     <div class="container">
-        <a href="/"><img src="/logo.png" class="me-4" alt="Siko AB" style="width: 120px" /></a>
+        <a href="/" class="brand">
+            <img src="/logo.png" class="me-4" alt="Siko AB" style="width: 120px" />
+        </a>
             
         <div>
 
             <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="search" target="_blank">
+                href="search">
                 <i class="fa fa-search"></i>
             </a>
             
             <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="user/profile" target="_blank">
+                href="user/profile">
                 <i class="fa fa-user"></i>
             </a>
 
             <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="basket" target="_blank">
+                href="#">
                 <CartNavItem DisableDropDown="true" SmallIcon="true" />
             </a>
         
@@ -30,48 +32,53 @@
             </button>
         </div>
 
-        <div class="navbar-collapse offcanvas-collapse bg-brand @(isOpen ? "open" : null)" id="navbarsExampleDefault" @onclick="ToggleOpen">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                    <NavLink class="nav-link" href="" Match=@NavLinkMatch.All>Hem</NavLink>
-                </li>
+        <div class="navbar-collapse offcanvas-collapse bg-brand @(isOpen ? "open" : null)" id="navbarsExampleDefault" @onclick="ToggleOpen" style="display: block !important;">
+                
+            <div style="display: flex">
 
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="groups">Produkter</NavLink>
-                </li>
-            </ul>
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active">
+                        <NavLink class="nav-link" href="" Match=@NavLinkMatch.All><i class="fa fa-home"></i> Hem</NavLink>
+                    </li>
 
-            <ul class="navbar-nav d-flex mb-2 mb-lg-0">
-                <li class="nav-item me-2">
-                    <form class="d-flex" role="search" style="height: 80%; width: 300px;" @onclick:preventDefault @onclick:stopPropagation>
-                        <div class="input-group">
-                            <input class="form-control border-end-0 border" type="search" placeholder="Vad letar du efter?" id="example-search-input">
-                            <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-1 border ms-n5" type="button">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
-                    </form>
-                </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="groups">Om oss</NavLink>
+                    </li>
+                </ul>
 
-                <li class="nav-item">     
-                    <LoginDisplay />
-                </li>
+                <ul class="navbar-nav d-flex mb-2 mb-lg-0 d-none d-md-flex d-lg-flex">
+                    <li class="nav-item me-2">
+                        <form class="d-flex" role="search" style="height: 80%; width: 300px;" @onclick:preventDefault @onclick:stopPropagation>
+                            <div class="input-group">
+                                <input class="form-control border-end-0 border" type="search" placeholder="Vad letar du efter?" id="example-search-input">
+                                <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-1 border ms-n5" type="button">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </li>
 
-                <li class="nav-item dropdown d-none d-md-block d-lg-block">
-                    <CartNavItem SmallIcon="true" />
-                </li>
-            </ul>
+                    <li class="nav-item">     
+                        <LoginDisplay />
+                    </li>
 
-            <ul class="navbar-nav flex-row mb-2">
-                <li class="nav-item">
-                    <a class="nav-link py-1 pr-3" href="#"><i class="fa fa-facebook"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-1 pr-3" href="#"><i class="fa fa-instagram"></i></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link py-1 pr-3" href="#"><i class="fa fa-twitter"></i></a>
-                </li>
+                    <li class="nav-item dropdown d-none d-md-block d-lg-block">
+                        <CartNavItem SmallIcon="true" />
+                    </li>
+                </ul>
+
+            </div>
+
+            <ul class="navbar-nav d-flex mb-2 mb-lg-0 bullets" aria-label="Secondary navigation">
+                @if (itemGroups is not null)
+                {
+                    @foreach (var group in itemGroups)
+                    {
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="@($"groups/{group.Id}")">@group.Name</NavLink>
+                    </li>
+                    }
+                }
             </ul>
 
         </div>
