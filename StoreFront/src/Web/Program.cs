@@ -254,12 +254,12 @@ builder.Services.AddRateLimiter(options =>
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-    options.AddFixedWindowLimiter ("feeds", options => {
+    options.AddFixedWindowLimiter ("fixed", options => {
         options.PermitLimit = 5;
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        options.QueueLimit = 0;
+        options.QueueLimit = 2;
         options.Window = TimeSpan.FromSeconds (2);
-        options .AutoReplenishment = false;
+        options.AutoReplenishment = false;
     });
 });
 

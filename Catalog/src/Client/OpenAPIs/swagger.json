@@ -71,7 +71,7 @@
         "operationId": "ItemGroups_GetItemGroups",
         "parameters": [
           {
-            "name": "shopId",
+            "name": "storeId",
             "in": "query",
             "schema": {
               "type": "string",
@@ -822,7 +822,7 @@
         "operationId": "Items_GetItems",
         "parameters": [
           {
-            "name": "shopId",
+            "name": "storeId",
             "in": "query",
             "schema": {
               "type": "string",

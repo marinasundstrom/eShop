@@ -6,7 +6,6 @@ body {
   margin: 0;
   padding: 0;
   text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: auto;
   font-family: 'Roboto', sans-serif;
 
   overflow-x: hidden;
@@ -14,13 +13,13 @@ body {
 }
 
 body {
-   padding-top: 72px;
+   padding-top: 88px;
 }
 
 @media (max-width: 991.98px) {
   .offcanvas-collapse {
     position: fixed;
-    top: 65px;
+    top: 48px;;
     /* Height of navbar */
     bottom: 0;
     left: 100%;
@@ -84,9 +83,10 @@ body {
 }
 
 .navbar {
+    height: 57px;
     z-index: 1020;
     background-color: rgba(255,255,255,0.95);
-    /* box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%); */
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%);
 }
 
 .navbar-collapse {
@@ -286,4 +286,8 @@ header.main {
 
 .ms-n5 {
     margin-left: -40px;
+}
+
+.fa-13x {
+  font-size: 1.3em !important;
 }

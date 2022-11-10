@@ -14,7 +14,7 @@ body {
 }
 
 body {
-  padding-top: 110px;
+  padding-top: 88px;
 }
 
 @media (max-width: 991.98px) {
@@ -81,6 +81,12 @@ body {
 
 .text-white-50 {
   color: rgba(255, 255, 255, .5);
+}
+
+.navbar {
+  height: 57px;
+  z-index: 1020;
+  box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%);
 }
 
 .bg-brand {
@@ -256,4 +262,12 @@ header.main {
 
 .bm-container {
     z-index: 999999 !important;
+}
+
+.ms-n5 {
+  margin-left: -40px;
+}
+
+.fa-13x {
+  font-size: 1.3em !important;
 }

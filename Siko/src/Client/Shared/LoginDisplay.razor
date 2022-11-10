@@ -9,13 +9,13 @@
 
         </Authorized>
         <Authorized>
-            <div class="d-flex mt-2">
+            <div class="d-flex">
                 <a class="btn nav-link" href="user/profile"><i class="fa fa-user"></i></a>
-                <button class="btn nav-link" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Sign out</button>
+                <button class="btn nav-link" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Logga ut</button>
             </div>
         </Authorized>
         <NotAuthorized>
-            <a class="nav-link mt-2" href="/login"><i class="fa fa-sign-in-alt me-2" /> Mitt konto</a>
+            <a class="nav-link" href="/login"><i class="fa fa-sign-in-alt me-2" /> Mitt konto</a>
         </NotAuthorized>
     </AuthorizeView>
 </div>
