@@ -14,6 +14,8 @@ public static class ServiceExtensions
 
         services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
 
+        services.AddScoped<IStoreHandleToStoreIdResolver, StoreHandleToStoreIdResolver>();
+
         return services;
     }
 }

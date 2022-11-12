@@ -13,16 +13,19 @@ public sealed record GetItem(string Id)
         private readonly YourBrand.Catalog.IItemsClient _itemsClient;
         private readonly IItemGroupsClient itemGroupsClient;
         private readonly YourBrand.Inventory.IItemsClient _inventoryItemsClient;
+        private readonly IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver;
 
         public Handler(
             YourBrand.Catalog.IItemsClient itemsClient,
             YourBrand.Catalog.IItemGroupsClient itemGroupsClient,
-            YourBrand.Inventory.IItemsClient inventoryItemsClient)
+            YourBrand.Inventory.IItemsClient inventoryItemsClient,
+            IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver)
         {
 
             _itemsClient = itemsClient;
             this.itemGroupsClient = itemGroupsClient;
             _inventoryItemsClient = inventoryItemsClient;
+            this.storeHandleToStoreIdResolver = storeHandleToStoreIdResolver;
         }
 
         public async Task<SiteItemDto?> Handle(GetItem request, CancellationToken cancellationToken)

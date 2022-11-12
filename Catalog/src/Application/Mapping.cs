@@ -3,11 +3,17 @@ using YourBrand.Catalog.Application.Items.Groups;
 using YourBrand.Catalog.Application.Items.Variants;
 using YourBrand.Catalog.Application.Attributes;
 using YourBrand.Catalog.Application.Options;
+using YourBrand.Catalog.Application.Stores;
 
 namespace YourBrand.Catalog.Application;
 
 public static class Mapping
 {
+    public static StoreDto ToDto(this Domain.Entities.Store store)
+    {
+         return new StoreDto(store.Id, store.Name, store.Handle);
+    }
+    
     public static ItemDto ToDto(this Domain.Entities.Item item)
     {
          return new ItemDto(

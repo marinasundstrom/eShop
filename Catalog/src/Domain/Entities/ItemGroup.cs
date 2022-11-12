@@ -9,6 +9,8 @@ public class ItemGroup : Entity<string>
         Name = name;
     }
 
+    public Store Store { get; set; } = null!;
+
     public string? StoreId { get; private set; }
 
     public int? Seq { get; set; }

@@ -13,23 +13,27 @@ public sealed record GetItemGroups(
         private readonly IItemGroupsClient itemGroupsClient;
         private readonly YourBrand.Inventory.IItemsClient _inventoryItemsClient;
         private readonly ICurrentUserService currentUserService;
+        private readonly IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver;
 
         public Handler(
             YourBrand.Catalog.IItemsClient itemsClient,
             YourBrand.Catalog.IItemGroupsClient itemGroupsClient,
             YourBrand.Inventory.IItemsClient inventoryItemsClient,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver)
         {
 
             _itemsClient = itemsClient;
             this.itemGroupsClient = itemGroupsClient;
             _inventoryItemsClient = inventoryItemsClient;
             this.currentUserService = currentUserService;
+            this.storeHandleToStoreIdResolver = storeHandleToStoreIdResolver;
         }
 
         public async Task<IEnumerable<ItemGroupDto>> Handle(GetItemGroups request, CancellationToken cancellationToken)
         {
-            return await itemGroupsClient.GetItemGroupsAsync(currentUserService.Host, request.ParentGroupId, request.IncludeWithUnlisted, false, cancellationToken);
+            var storeId = await storeHandleToStoreIdResolver.ToStoreId(currentUserService.Host!);
+            return await itemGroupsClient.GetItemGroupsAsync(storeId, request.ParentGroupId, request.IncludeWithUnlisted, false, cancellationToken);
         }
     }
 }

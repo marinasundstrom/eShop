@@ -49,6 +49,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
 #nullable disable
 
+    public DbSet<Store> Stores { get; set; } = null!;
+
     public DbSet<ItemGroup> ItemGroups { get; set; } = null!;
 
     public DbSet<Item> Items { get; set; } = null!;

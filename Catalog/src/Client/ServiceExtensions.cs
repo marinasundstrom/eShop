@@ -9,7 +9,8 @@ public static class ServiceExtensions
         services
             .AddCatalogClient(configureClient, builder)
             .AddOptionsClient(configureClient, builder)
-            .AddAttributesClient(configureClient, builder);
+            .AddAttributesClient(configureClient, builder)      
+            .AddStoresClient(configureClient, builder);
 
         return services;
     }
@@ -47,6 +48,17 @@ public static class ServiceExtensions
         var b = services
             .AddHttpClient(nameof(AttributesClient), configureClient)
             .AddTypedClient<IAttributesClient>((http, sp) => new AttributesClient(http));
+
+        builder?.Invoke(b);
+
+        return services;
+    }
+
+    public static IServiceCollection AddStoresClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
+    {
+        var b = services
+            .AddHttpClient(nameof(StoresClient), configureClient)
+            .AddTypedClient<IStoresClient>((http, sp) => new StoresClient(http));
 
         builder?.Invoke(b);
 

@@ -345,7 +345,6 @@ var context2 = scope2.ServiceProvider.GetRequiredService<UsersContext>();
 //context2.Database.EnsureDeleted();
 //context2.Database.EnsureCreated();
 
-
 app.Run();
 
 static async Task ApplyMigrations(ApplicationDbContext context)

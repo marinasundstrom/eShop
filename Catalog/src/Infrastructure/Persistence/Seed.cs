@@ -10,14 +10,20 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
+        context.Stores.Add(new Store("Joes", "joes"));
+
+        await context.SaveChangesAsync();
+        
         context.ItemGroups.Add(new ItemGroup("clothes", "Clothes")
         {
-            Description = null
+            Description = null,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         });
 
         context.ItemGroups.Add(new ItemGroup("food", "Food")
         {
-            Description = null
+            Description = null,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         });
 
         await context.SaveChangesAsync();
@@ -44,7 +50,8 @@ public static class Seed
             Description = "T-shirt i olika färger",
             HasVariants = true,
             Group = await context.ItemGroups.FirstAsync(x => x.Name == "Clothes"),
-            Visibility = ItemVisibility.Listed
+            Visibility = ItemVisibility.Listed,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         context.Items.Add(item);
@@ -92,6 +99,7 @@ public static class Seed
         {
             GTIN = "4345547457457",
             Price = 120,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         variantBlueSmall.AttributeValues.Add(new ItemAttributeValue()
@@ -113,7 +121,8 @@ public static class Seed
         var variantBlueMedium = new Item("tshirt-blue-medium", "Blue M")
         {
             GTIN = "543453454567",
-            Price = 120
+            Price = 120,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         variantBlueMedium.AttributeValues.Add(new ItemAttributeValue()
@@ -134,6 +143,7 @@ public static class Seed
         {
             GTIN = "6876345345345",
             Price = 60,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         variantBlueLarge.AttributeValues.Add(new ItemAttributeValue()
@@ -156,6 +166,7 @@ public static class Seed
         {
             GTIN = "4345547457457",
             Price = 120,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         variantRedSmall.AttributeValues.Add(new ItemAttributeValue()
@@ -176,6 +187,7 @@ public static class Seed
         {
             GTIN = "543453454567",
             Price = 120,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         variantRedMedium.AttributeValues.Add(new ItemAttributeValue()
@@ -196,6 +208,7 @@ public static class Seed
         {
             GTIN = "6876345345345",
             Price = 120,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         variantRedLarge.AttributeValues.Add(new ItemAttributeValue()
@@ -226,7 +239,8 @@ public static class Seed
         {
             Description = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
             Price = 89,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         context.Items.Add(item);
@@ -257,7 +271,8 @@ public static class Seed
         {
             Description = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
             Price = 179,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         context.Items.Add(item);
@@ -305,7 +320,8 @@ public static class Seed
         {
             Description = "En korg med smårätter",
             Price = 179,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         context.Items.Add(item);
@@ -376,7 +392,8 @@ public static class Seed
         {
             Description = "Custom pizza",
             Price = 40,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food")
+            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         context.Items.Add(item);
@@ -491,7 +508,8 @@ public static class Seed
             Description = "Din egna sallad",
             Price = 52,
             Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
-            Visibility = ItemVisibility.Listed
+            Visibility = ItemVisibility.Listed,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
         context.Items.Add(item);

@@ -25,23 +25,27 @@ public sealed record GetItems(
         private readonly IItemGroupsClient itemGroupsClient;
         private readonly YourBrand.Inventory.IItemsClient _inventoryItemsClient;
         private readonly ICurrentUserService currentUserService;
+        private readonly IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver;
 
         public Handler(
             YourBrand.Catalog.IItemsClient itemsClient,
             YourBrand.Catalog.IItemGroupsClient itemGroupsClient,
             YourBrand.Inventory.IItemsClient inventoryItemsClient,
-            ICurrentUserService currentUserService)
+            ICurrentUserService currentUserService,
+            IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver)
         {
-
             _itemsClient = itemsClient;
             this.itemGroupsClient = itemGroupsClient;
             _inventoryItemsClient = inventoryItemsClient;
             this.currentUserService = currentUserService;
+            this.storeHandleToStoreIdResolver = storeHandleToStoreIdResolver;
         }
 
         public async Task<ItemsResult<SiteItemDto>> Handle(GetItems request, CancellationToken cancellationToken)
         {
-            var result = await _itemsClient.GetItemsAsync(currentUserService.Host,
+            var storeId = await storeHandleToStoreIdResolver.ToStoreId(currentUserService.Host!);
+
+            var result = await _itemsClient.GetItemsAsync(storeId,
                 false, true, request.ItemGroupId, request.ItemGroup2Id,
                 request.ItemGroup3Id, request.Page - 1, request.PageSize, request.SearchString,
                 request.SortBy, request.SortDirection, cancellationToken);
