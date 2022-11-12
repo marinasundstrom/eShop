@@ -204,7 +204,7 @@ public static class Seed
 
         item.Variants.Add(variantRedMedium);
 
-        var variantRedLarge = new Item("Red L", "tshirt-red-large")
+        var variantRedLarge = new Item("tshirt-red-large", "Red L")
         {
             GTIN = "6876345345345",
             Price = 120,
