@@ -1,8 +1,10 @@
 @using Microsoft.AspNetCore.SignalR.Client;
+@using Microsoft.Extensions.Configuration;
 @inject NavigationManager NavigationManager
 @inject CartService CartService
 @inject Site.Client.RenderingContext RenderingContext
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+@inject IConfiguration Configuration
 
 <a class="nav-link dropdown-toggle no-toggle" href="basket" id="navbarDropdown" role="button" data-bs-toggle="@(DisableDropDown ? string.Empty : "dropdown")" aria-expanded="false">
     <CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" SmallIcon="SmallIcon" />
@@ -71,7 +73,7 @@
             {
                 await CartService.Reload();
 
-                await CartService.Start("https://siko.yourbrand.local:5151/", clientId);
+                await CartService.Start(Configuration["StorefrontUri"], clientId);
                 
                 initialized = true;
                 inializing = false;

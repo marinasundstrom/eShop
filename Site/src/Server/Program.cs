@@ -128,7 +128,7 @@ CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
 builder.Services.AddHttpClient("Site", (sp, http) => {
-    http.BaseAddress = new Uri("https://joes.yourbrand.local:5151/");
+    http.BaseAddress = new Uri(builder.Configuration["StorefrontUri"]);
     //http.EnableIntercept(sp);
 });
 //.AddHttpMessageHandler<CustomMessageHandler>();
