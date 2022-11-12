@@ -159,12 +159,12 @@
             Description = Description,
             GroupId = Group?.Id,
             IsSelected = IsSelected,
-            ItemId = Id,
+            InventoryItemId = Id,
             Price = Price,
             Values = OptionType == OptionType.Choice ? Values.Select(x => new ApiCreateItemOptionValue()
             {
                 Name = x.Name,
-                ItemId = x.Id,
+                InventoryItemId = x.Id,
                 Price = x.Price
             }).ToList() : Array.Empty<ApiCreateItemOptionValue>().ToList(),
             DefaultOptionValueId = SelectedValue?.Id

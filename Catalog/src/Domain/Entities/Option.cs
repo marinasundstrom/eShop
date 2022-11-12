@@ -28,7 +28,7 @@ public class Option : Entity<string>
 
     public bool IsSelected { get; set; }
 
-    public string? ItemId { get; set; }
+    public string? InventoryItemId { get; set; }
 
     public decimal? Price { get; set; }
 
