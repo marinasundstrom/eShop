@@ -29,7 +29,7 @@ public class AuthenticationService : IAuthenticationService
         var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
         var authResult = await _client.PostAsync("https://joes.yourbrand.local:5151/authentication/login", bodyContent);
 
-        if(authResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+        if (authResult.StatusCode == System.Net.HttpStatusCode.NotFound)
         {
             return new AuthResponseDto { IsAuthSuccessful = false };
         }

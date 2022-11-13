@@ -19,12 +19,12 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
 
         public async Task<Data> Handle(GetMostViewedItems request, CancellationToken cancellationToken)
         {
-             var events = await context.Events
-                        .Where(x => x.EventType == YourBrand.Analytics.Domain.Enums.EventType.ItemViewed)
-                        .OrderBy(x => x.DateTime)
-                        .AsNoTracking()
-                        .AsSplitQuery()
-                        .ToListAsync(cancellationToken);
+            var events = await context.Events
+                       .Where(x => x.EventType == YourBrand.Analytics.Domain.Enums.EventType.ItemViewed)
+                       .OrderBy(x => x.DateTime)
+                       .AsNoTracking()
+                       .AsSplitQuery()
+                       .ToListAsync(cancellationToken);
 
             List<DateTime> months = new();
 
@@ -53,19 +53,19 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
                 {
                     int value = 0;
 
-                    if(request.DistinctByClient) 
+                    if (request.DistinctByClient)
                     {
                         value = eventGroup
                             .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
                             .DistinctBy(x => x.ClientId)
                             .Count();
                     }
-                    else 
+                    else
                     {
                         value = eventGroup
                             .Where(e => e.DateTime.Year == month.Year && e.DateTime.Month == month.Month)
                             .Count();
-                    }                    
+                    }
 
                     values.Add((decimal)value);
                 }

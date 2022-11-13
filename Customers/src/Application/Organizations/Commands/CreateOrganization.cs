@@ -25,7 +25,8 @@ public record CreateOrganization(string Name, string OrgNo, string? Phone, strin
             organization.PhoneMobile = request.PhoneMobile!;
             organization.Email = request.Email!;
 
-            organization.AddAddress(new Address {
+            organization.AddAddress(new Address
+            {
                 Thoroughfare = request.Address.Thoroughfare,
                 Premises = request.Address.Premises,
                 SubPremises = request.Address.SubPremises,

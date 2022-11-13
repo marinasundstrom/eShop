@@ -36,7 +36,7 @@ public record GetOptions(bool IncludeChoices) : IRequest<IEnumerable<OptionDto>>
 
             var options = await query.ToArrayAsync();
 
-            return options.Select(x => x.ToDto());     
+            return options.Select(x => x.ToDto());
         }
     }
 }

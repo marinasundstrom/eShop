@@ -7,8 +7,9 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddTransient(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-builder.Services.AddHttpClient("Site", (sp, http) => {
-    http.BaseAddress =  new Uri(builder.Configuration["StorefrontUri"]);
+builder.Services.AddHttpClient("Site", (sp, http) =>
+{
+    http.BaseAddress = new Uri(builder.Configuration["StorefrontUri"]);
     //http.EnableIntercept(sp);
 }).AddHttpMessageHandler<CustomMessageHandler>();
 

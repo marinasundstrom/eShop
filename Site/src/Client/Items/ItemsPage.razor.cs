@@ -35,17 +35,19 @@ partial class ItemsPage
 
         await LoadData();
 
-        if(!RenderingContext.IsPrerendering) 
+        if (!RenderingContext.IsPrerendering)
         {
             _ = ItemGroupViewed();
         }
     }
 
-    private async Task ItemGroupViewed() 
+    private async Task ItemGroupViewed()
     {
-        await AnalyticsService.RegisterEvent(new EventData {
+        await AnalyticsService.RegisterEvent(new EventData
+        {
             EventType = EventType.ItemGroupViewed,
-            Data = System.Text.Json.JsonSerializer.Serialize(new {
+            Data = System.Text.Json.JsonSerializer.Serialize(new
+            {
                 /* 
                 GroupId = itemGroup!.Id, 
                 Name = itemGroup.Name
@@ -54,17 +56,17 @@ partial class ItemsPage
                 Name = GetGroupName() ?? itemGroup.Name
             })
         });
-    } 
+    }
 
-    private string? GetGroupName() 
+    private string? GetGroupName()
     {
         var groupId = Group3Id ?? Group2Id ?? GroupId;
-        return subGroups.FirstOrDefault(x => x.Id ==  groupId)?.Name;
+        return subGroups.FirstOrDefault(x => x.Id == groupId)?.Name;
     }
 
     private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
     {
-        if(e.Location.Contains("/groups")) 
+        if (e.Location.Contains("/groups"))
         {
             await LoadData();
 

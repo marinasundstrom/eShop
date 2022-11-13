@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Site.Client.Items.Item;
 
-public class ProductViewModel 
+public class ProductViewModel
 {
     private IItemsClient itemsClient;
     private SiteItemDto? item;
@@ -43,7 +43,7 @@ public class ProductViewModel
 
     public int? Available => Variant?.Available ?? Item?.Available;
 
-    public async Task Initialize(string id, string? variantId) 
+    public async Task Initialize(string id, string? variantId)
     {
         Item = await itemsClient.GetItemAsync(id);
 
@@ -53,11 +53,11 @@ public class ProductViewModel
         {
             SiteItemDto? item;
 
-            if(variantId is not null) 
+            if (variantId is not null)
             {
                 item = await itemsClient.GetItemAsync(variantId);
             }
-            else 
+            else
             {
                 var variants = (await itemsClient.GetItemVariantsAsync(Id, 1, 20, null, null, null)).Items;
                 item = await itemsClient.GetItemAsync(variants.First().Id);
@@ -67,7 +67,7 @@ public class ProductViewModel
 
             var attrs = AttributeGroups.SelectMany(x => x.Attributes);
 
-            foreach(var attr in item.VariantAttributes) 
+            foreach (var attr in item.VariantAttributes)
             {
                 var x = attrs.FirstOrDefault(x => x.Id == attr.Id);
                 x.SelectedValueId = attr.ValueId;
@@ -88,7 +88,7 @@ public class ProductViewModel
         Updated?.Invoke(this, EventArgs.Empty);
     }
 
-    private async Task Load() 
+    private async Task Load()
     {
         itemOptions = Item!.Options;
         itemAttributes = Item.Attributes;
@@ -130,7 +130,7 @@ public class ProductViewModel
             .ToDictionary(x => x.Id, x => x.SelectedValueId);
 
         var items = await itemsClient.FindItemVariantByAttributes2Async(Id, selectedAttributeValues);
-        
+
         Variants.Clear();
         Variants.AddRange(items);
 
@@ -142,13 +142,14 @@ public class ProductViewModel
         variant = await itemsClient.FindItemVariantByAttributesAsync(Id, selectedAttributes.ToDictionary(x => x.Id, x => x.SelectedValueId));
     }
 
-    private void CreateOptionsVM() 
+    private void CreateOptionsVM()
     {
-        foreach(var optionGroup in itemOptions
+        foreach (var optionGroup in itemOptions
             .Select(x => x.Group ?? new OptionGroupDto())
-            .DistinctBy(x => x.Id)) 
+            .DistinctBy(x => x.Id))
         {
-            var group = new OptionGroupVM() {
+            var group = new OptionGroupVM()
+            {
                 Id = optionGroup.Id,
                 Name = optionGroup.Name,
                 Description = optionGroup.Description,
@@ -228,14 +229,14 @@ public class ProductViewModel
             AttributeGroups.Add(group);
         }
     }
-    
+
     public event EventHandler Updated;
 
     public SiteItemDto? Item { get => item; set => item = value; }
 
     public SiteItemDto? Variant { get => variant; set => variant = value; }
 
-    public void LoadData(IEnumerable<Option> options) 
+    public void LoadData(IEnumerable<Option> options)
     {
         foreach (var option in options)
         {

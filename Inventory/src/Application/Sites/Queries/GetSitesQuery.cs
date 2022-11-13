@@ -48,7 +48,7 @@ public record GetSitesQuery(int Page = 0, int PageSize = 10, string? SearchStrin
             {
                 result = result.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? Inventory.Application.SortDirection.Descending : Inventory.Application.SortDirection.Ascending);
             }
-            else 
+            else
             {
                 result = result.OrderBy(x => x.Name);
             }

@@ -17,15 +17,15 @@ public class Cart : AggregateRoot<string>, IAuditable
 
     public IReadOnlyCollection<CartItem> Items => _items;
 
-    public CartItem AddCartItem(string? itemId, double quantity, string? data) 
+    public CartItem AddCartItem(string? itemId, double quantity, string? data)
     {
         CartItem? cartItem = _items.FirstOrDefault(x => x.ItemId == itemId && x.Data == data);
-        if(cartItem is null) 
+        if (cartItem is null)
         {
             cartItem = new CartItem(itemId, quantity, data);
             _items.Add(cartItem);
         }
-        else 
+        else
         {
             cartItem.AddToQuantity(quantity);
         }
@@ -41,7 +41,7 @@ public class Cart : AggregateRoot<string>, IAuditable
 
     public void Checkout()
     {
-        foreach(var item in _items) 
+        foreach (var item in _items)
         {
             item.CheckedOutAt = DateTimeOffset.UtcNow;
         }

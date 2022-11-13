@@ -22,7 +22,8 @@ namespace YourBrand.Analytics.Infrastructure
             try
             {
                 services.Decorate(typeof(INotificationHandler<>), typeof(IdempotentDomainEventHandler<>));
-            } catch { }
+            }
+            catch { }
 
             services.AddQuartz(configure =>
             {

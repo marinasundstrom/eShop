@@ -37,7 +37,7 @@ public class ItemsController : ControllerBase
         return await _mediator.Send(new GetItem(id), cancellationToken);
     }
 
-    
+
     [HttpGet("{id}/Warehouse")]
     public async Task<ItemsResult<WarehouseItemDto>> GetWarehouseItems(string? id = null, int page = 1, int pageSize = 10, string? warehouseId = null, string? searchString = null, string? sortBy = null, Application.Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {

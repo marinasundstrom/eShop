@@ -49,7 +49,7 @@ public class Contact : Entity<string>, IAuditable
 
     public IReadOnlyCollection<Discount> Discounts => discounts;
 
-    public void AddDiscount(Discount discount) 
+    public void AddDiscount(Discount discount)
     {
         discounts.Add(discount);
     }

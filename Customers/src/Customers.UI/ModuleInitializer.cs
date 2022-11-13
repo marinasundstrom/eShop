@@ -15,10 +15,12 @@ public class ModuleInitializer : IModuleInitializer
     {
         services.AddScoped<CustomAuthorizationMessageHandler>();
 
-        services.AddCustomersClients((sp, httpClient) => {
+        services.AddCustomersClients((sp, httpClient) =>
+        {
             var navigationManager = sp.GetRequiredService<NavigationManager>();
             httpClient.BaseAddress = new Uri($"{ServiceUrls.CustomersServiceUrl}/");
-        }, builder => {
+        }, builder =>
+        {
             //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
         });
     }

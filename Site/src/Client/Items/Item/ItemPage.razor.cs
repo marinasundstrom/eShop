@@ -55,9 +55,9 @@ partial class ItemPage
             productViewModel.SetClient(ItemsClient);
         }
 
-        if(!RenderingContext.IsPrerendering) 
+        if (!RenderingContext.IsPrerendering)
         {
-            if(CartItemId is not null) 
+            if (CartItemId is not null)
             {
                 var cart = await CartClient.GetCartAsync();
                 var item = cart.Items.First(x => x.Id == CartItemId);
@@ -66,35 +66,37 @@ partial class ItemPage
             }
         }
 
-        if(Data is not null) 
+        if (Data is not null)
         {
             var str = System.Text.Encoding.UTF8.GetString(Convert.FromBase64String(Data));
             Deserialize(str);
         }
 
-        if(!RenderingContext.IsPrerendering) 
+        if (!RenderingContext.IsPrerendering)
         {
             _ = ItemViewed();
         }
     }
 
-    private async Task ItemViewed() 
+    private async Task ItemViewed()
     {
-        await AnalyticsService.RegisterEvent(new EventData {
+        await AnalyticsService.RegisterEvent(new EventData
+        {
             EventType = EventType.ItemViewed,
-            Data = System.Text.Json.JsonSerializer.Serialize(new { 
-                ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id, 
-                Name = productViewModel.Name, 
-                IsEdit = CartItemId is not null 
+            Data = System.Text.Json.JsonSerializer.Serialize(new
+            {
+                ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id,
+                Name = productViewModel.Name,
+                IsEdit = CartItemId is not null
             })
         });
-    } 
+    }
 
-    async Task UpdateVariant() 
+    async Task UpdateVariant()
     {
         await productViewModel!.UpdateVariant();
 
-        await UpdateUrl(); 
+        await UpdateUrl();
 
         _ = ItemViewed();
     }
@@ -103,11 +105,11 @@ partial class ItemPage
     {
         var oldVariant = productViewModel!.Variant;
 
-        if(oldVariant?.Id != v.Id) 
+        if (oldVariant?.Id != v.Id)
         {
-            productViewModel!.SelectVariant(v!); 
+            productViewModel!.SelectVariant(v!);
 
-            await UpdateUrl(); 
+            await UpdateUrl();
 
             _ = ItemViewed();
         }
@@ -132,24 +134,24 @@ partial class ItemPage
 
         await JS.InvokeVoidAsync("skipScroll");
 
-        System.Text.StringBuilder sb = new ();
+        System.Text.StringBuilder sb = new();
         sb.Append($"/items/{Id}");
 
-        if(productViewModel!.VariantId is not null) 
+        if (productViewModel!.VariantId is not null)
         {
             sb.Append($"/{productViewModel.VariantId}");
         }
 
-        if(data is not null) 
+        if (data is not null)
         {
             sb.Append($"?d={data}");
         }
 
-        if(CartItemId is not null) 
+        if (CartItemId is not null)
         {
             sb.Append($"&cartItemId={CartItemId}");
         }
-        
+
         NavigationManager.NavigateTo(sb.ToString(), replace: true);
     }
 
@@ -169,7 +171,8 @@ partial class ItemPage
 
     async Task UpdateCartItem()
     {
-        await CartClient.UpdateCartItemAsync(CartItemId, new UpdateCartItemDto() {
+        await CartClient.UpdateCartItemAsync(CartItemId, new UpdateCartItemDto()
+        {
             Quantity = quantity,
             Data = Serialize()
         });
@@ -178,8 +181,8 @@ partial class ItemPage
 
         ToastService.ShowInfo($"{productViewModel.Name} was updated in your basket,", "Item updated");
     }
-    
-    string Serialize() 
+
+    string Serialize()
     {
         return JsonSerializer.Serialize(productViewModel!.GetData(), new JsonSerializerOptions
         {

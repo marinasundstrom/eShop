@@ -10,8 +10,8 @@ using YourBrand.Inventory.Application.Common;
 
 namespace YourBrand.Inventory.Application.Items.Events;
 
-public class ItemEventHandler 
-    : IDomainEventHandler<ItemCreated>  
+public class ItemEventHandler
+    : IDomainEventHandler<ItemCreated>
 {
     private readonly IApplicationDbContext _context;
 

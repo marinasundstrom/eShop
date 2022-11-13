@@ -32,7 +32,7 @@ public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enu
             //var session = await context.Sessions
             //    .FirstAsync(x => x.Id == request.SessionId && x.ClientId == request.ClientId, cancellationToken);
 
-            if(DateTimeOffset.UtcNow > session.Expires) 
+            if (DateTimeOffset.UtcNow > session.Expires)
             {
                 session = new Session(request.ClientId, session.IPAddress, DateTimeOffset.UtcNow);
 
@@ -48,7 +48,7 @@ public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enu
                 return session.Id;
             }
 
-            if((session.Expires - DateTimeOffset.UtcNow).TotalMinutes <= 10) 
+            if ((session.Expires - DateTimeOffset.UtcNow).TotalMinutes <= 10)
             {
                 session.Expires = DateTimeOffset.UtcNow.AddMinutes(30);
 

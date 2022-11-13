@@ -25,7 +25,8 @@ public record CreatePerson(string FirstName, string LastName, string SSN, string
             person.PhoneMobile = request.PhoneMobile!;
             person.Email = request.Email!;
 
-            person.AddAddress(new Address{
+            person.AddAddress(new Address
+            {
                 Thoroughfare = request.Address.Thoroughfare,
                 Premises = request.Address.Premises,
                 SubPremises = request.Address.SubPremises,
@@ -35,7 +36,7 @@ public record CreatePerson(string FirstName, string LastName, string SSN, string
                 AdministrativeArea = request.Address.AdministrativeArea,
                 Country = request.Address.Country
             });
-            
+
             _context.Persons.Add(person);
 
             await _context.SaveChangesAsync(cancellationToken);

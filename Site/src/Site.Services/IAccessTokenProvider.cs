@@ -1,6 +1,6 @@
 namespace Site.Services;
 
-public interface IAccessTokenProvider 
+public interface IAccessTokenProvider
 {
     Task<string?> GetAccessToken();
 }

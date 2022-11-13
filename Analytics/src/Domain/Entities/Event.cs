@@ -26,7 +26,7 @@ public class Event : Entity<string>
     public string SessionId { get; private set; } = default!;
 
     public EventType EventType { get; private set; }
-    
+
     public DateTimeOffset DateTime { get; private set; } = DateTimeOffset.UtcNow;
 
     public string Data { get; private set; }

@@ -22,20 +22,20 @@ public record GetWarehouseItems(int Page = 0, int PageSize = 10, string? Warehou
 
         public async Task<ItemsResult<WarehouseItemDto>> Handle(GetWarehouseItems request, CancellationToken cancellationToken)
         {
-            if(request.PageSize < 0) 
+            if (request.PageSize < 0)
             {
                 throw new Exception("Page Size cannot be negative.");
             }
 
-            if(request.PageSize > 100) 
+            if (request.PageSize > 100)
             {
                 throw new Exception("Page Size must not be greater than 100.");
             }
 
-          IQueryable<WarehouseItem> result = _context
-                    .WarehouseItems
-                    .AsNoTracking()
-                    .AsQueryable();
+            IQueryable<WarehouseItem> result = _context
+                      .WarehouseItems
+                      .AsNoTracking()
+                      .AsQueryable();
 
             if (request.WarehouseId is not null)
             {
@@ -59,7 +59,7 @@ public record GetWarehouseItems(int Page = 0, int PageSize = 10, string? Warehou
             {
                 result = result.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? Inventory.Application.SortDirection.Descending : Inventory.Application.SortDirection.Ascending);
             }
-            else 
+            else
             {
                 // TODO: Revisit this. Should this be the default?
 
@@ -69,7 +69,7 @@ public record GetWarehouseItems(int Page = 0, int PageSize = 10, string? Warehou
             }
 
             var items = await result
-                .Include(x => x.Item)     
+                .Include(x => x.Item)
                 .ThenInclude(x => x.Group)
                 .Include(x => x.Warehouse)
                 .ThenInclude(x => x.Site)

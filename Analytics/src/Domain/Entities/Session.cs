@@ -20,13 +20,13 @@ public class Session : Entity<string>
         Expires = started.AddMinutes(30);
     }
 
-    public string ClientId { get; private set; }  = default!;
+    public string ClientId { get; private set; } = default!;
 
-    public Client Client { get; private set; }  = default!;
+    public Client Client { get; private set; } = default!;
 
     public string? IPAddress { get; private set; }
 
-    public Coordinates? Coordinates  { get; set; }
+    public Coordinates? Coordinates { get; set; }
 
     public DateTimeOffset Started { get; private set; } = DateTimeOffset.UtcNow;
 

@@ -22,20 +22,20 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
     {
         var absPath = request.RequestUri.AbsolutePath;
 
-        try 
+        try
         {
             if (!absPath.Contains("Token") && !absPath.Contains("Authentication"))
             {
                 string token;
 
-                try 
+                try
                 {
                     token = await _refreshTokenService.TryRefreshToken();
                 }
-                catch(Exception exc) 
+                catch (Exception exc)
                 {
                     token = await _refreshTokenService.TryRefreshToken();
-                }                
+                }
 
                 if (string.IsNullOrEmpty(token))
                 {
@@ -47,7 +47,7 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
 
             return await base.SendAsync(request, cancellationToken);
         }
-        catch(Exception) 
+        catch (Exception)
         {
             throw;
         }

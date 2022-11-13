@@ -8,7 +8,7 @@ public class Option : Entity<string>
 {
     protected Option() { }
 
-    public Option(string name) 
+    public Option(string name)
         : base(Guid.NewGuid().ToString())
     {
         Name = name;
@@ -45,15 +45,15 @@ public class Option : Entity<string>
 
     //public bool HasCustomData { get; set; }
 
-    public int? MinNumericalValue  { get; set; }
+    public int? MinNumericalValue { get; set; }
 
-    public int? MaxNumericalValue  { get; set; }
+    public int? MaxNumericalValue { get; set; }
 
     public int? DefaultNumericalValue { get; set; }
 
-    public int? TextValueMinLength  { get; set; }
+    public int? TextValueMinLength { get; set; }
 
-    public int? TextValueMaxLength  { get; set; }
+    public int? TextValueMaxLength { get; set; }
 
     public string? DefaultTextValue { get; set; }
 }

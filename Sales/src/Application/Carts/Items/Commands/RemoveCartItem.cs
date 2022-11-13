@@ -41,7 +41,7 @@ public sealed record RemoveCartItem(string CartId, string CartItemId) : IRequest
             {
                 throw new System.Exception();
             }
-            
+
             await cartRepository.DeleteCartItem(request.CartId, request.CartItemId);
 
             await unitOfWork.SaveChangesAsync(cancellationToken);

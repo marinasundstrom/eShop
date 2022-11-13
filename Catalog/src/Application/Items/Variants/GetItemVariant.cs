@@ -33,7 +33,7 @@ public record GetItemVariant(string ItemId, string ItemVariantId) : IRequest<Ite
                 .ThenInclude(pv => pv.Value)
                 .FirstOrDefaultAsync(pv => pv.ParentItem!.Id == request.ItemId && pv.Id == request.ItemVariantId);
 
-            if(itemVariant is null) return null;
+            if (itemVariant is null) return null;
 
             return itemVariant.ToDto();
         }

@@ -25,9 +25,9 @@ public class AddressCreatedHandler : IDomainEventHandler<AddressCreated>
         var person = await _context.Addresses
             .FirstOrDefaultAsync(i => i.Id == notification.AddressId);
 
-        if(person is not null) 
+        if (person is not null)
         {
-           
+
         }
     }
 }

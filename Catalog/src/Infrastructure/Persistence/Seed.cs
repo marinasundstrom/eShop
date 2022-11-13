@@ -13,7 +13,7 @@ public static class Seed
         context.Stores.Add(new Store("Joes", "joes"));
 
         await context.SaveChangesAsync();
-        
+
         context.ItemGroups.Add(new ItemGroup("clothes", "Clothes")
         {
             Description = null,

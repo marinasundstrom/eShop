@@ -6,9 +6,9 @@ using YourBrand.Customers.Application.Organizations;
 
 namespace YourBrand.Customers.Application;
 
-public static class Mappings 
+public static class Mappings
 {
-    public static CustomerDto ToDto(this Customer customer) 
+    public static CustomerDto ToDto(this Customer customer)
     {
         return new CustomerDto(customer.Id, customer.CustomerType, customer.Name, (customer as Person)?.FirstName, (customer as Person)?.LastName, (customer as Person)?.Ssn, (customer as Organization)?.OrganizationNo, (customer as Organization)?.VatNo, customer.Phone, customer.PhoneMobile, customer.Email, customer.Addresses.First().ToDto());
     }
@@ -21,10 +21,10 @@ public static class Mappings
         return new OrganizationDto(organization.Id, organization.Name, organization.OrganizationNo, organization.HasCeased.GetValueOrDefault(), organization.Phone, organization.PhoneMobile, organization.Email, organization.Addresses.Select(a => a.ToDto()));
     }
 
-    public static AddressDto ToDto(this Address address) 
+    public static AddressDto ToDto(this Address address)
     {
-        return new AddressDto(address.Id, address.Type, address.Thoroughfare, address.Premises, 
-            address.SubPremises, address.PostalCode, address.Locality, 
+        return new AddressDto(address.Id, address.Type, address.Thoroughfare, address.Premises,
+            address.SubPremises, address.PostalCode, address.Locality,
             address.SubAdministrativeArea, address.AdministrativeArea, address.Country);
     }
 }

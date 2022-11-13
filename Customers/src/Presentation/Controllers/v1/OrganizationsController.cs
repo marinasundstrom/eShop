@@ -15,22 +15,22 @@ namespace YourBrand.Customers.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-public class OrganizationsController : ControllerBase 
+public class OrganizationsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public OrganizationsController(IMediator mediator) 
+    public OrganizationsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<ActionResult<ItemsResult<Application.Organizations.OrganizationDto>>> GetOrganizations(int page, int pageSize, CancellationToken cancellationToken = default) 
+    public async Task<ActionResult<ItemsResult<Application.Organizations.OrganizationDto>>> GetOrganizations(int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new GetOrganizations(page, pageSize), cancellationToken);
         return Ok(result);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<OrganizationDto?> GetOrganization(string id, CancellationToken cancellationToken)
     {

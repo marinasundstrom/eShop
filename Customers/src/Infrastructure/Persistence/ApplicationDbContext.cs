@@ -57,7 +57,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Organization> Organizations { get; set; } = null!;
 
-    public DbSet<Address> Addresses { get; set; }  = null!;
+    public DbSet<Address> Addresses { get; set; } = null!;
 
 
 #nullable restore

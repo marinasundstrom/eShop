@@ -2,9 +2,9 @@
 
 public class Attribute : Entity<string>
 {
-    protected Attribute() {}
+    protected Attribute() { }
 
-    public Attribute(string name) 
+    public Attribute(string name)
         : base(Guid.NewGuid().ToString())
     {
         Name = name;

@@ -19,7 +19,7 @@ public class Item : Entity<string>, IAuditable
     }
 
     public string Name { get; set; } = null!;
-    
+
     public ItemType Type { get; set; }
 
     public string? GTIN { get; set; }

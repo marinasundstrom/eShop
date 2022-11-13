@@ -15,7 +15,7 @@ public class Client : Entity<string>
     }
 
     public DateTimeOffset? Created { get; private set; } = DateTimeOffset.UtcNow;
-    
+
     public string UserAgent { get; private set; } = default!;
 
     public IReadOnlyCollection<Session> Sessions { get; private set; } = new HashSet<Session>();

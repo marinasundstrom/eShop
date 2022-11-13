@@ -51,7 +51,7 @@ public record GetOrderStatusesQuery(int Page = 0, int PageSize = 10, string? Sea
             {
                 result = result.OrderBy(request.SortBy, request.SortDirection);
             }
-            else 
+            else
             {
                 result = result.OrderBy(x => x.Name);
             }

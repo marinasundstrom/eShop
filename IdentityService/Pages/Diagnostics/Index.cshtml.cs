@@ -10,7 +10,7 @@ namespace YourBrand.IdentityService.Pages.Diagnostics;
 public class Index : PageModel
 {
     public ViewModel View { get; set; }
-        
+
     public async Task<IActionResult> OnGet()
     {
         var localAddresses = new string[] { "127.0.0.1", "::1", HttpContext.Connection.LocalIpAddress.ToString() };
@@ -20,7 +20,7 @@ public class Index : PageModel
         }
 
         View = new ViewModel(await HttpContext.AuthenticateAsync());
-            
+
         return Page();
     }
 }

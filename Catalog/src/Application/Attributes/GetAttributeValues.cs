@@ -28,7 +28,7 @@ public record GetAttributeValues(string AttributeId) : IRequest<IEnumerable<Attr
                 .Where(p => p.Attribute.Id == request.AttributeId)
                 .ToArrayAsync();
 
-            return options.Select(x => x.ToDto());  
+            return options.Select(x => x.ToDto());
         }
     }
 }

@@ -16,7 +16,8 @@ public class Discount : Entity<string>, IAuditable
 
     public static Discount CreateDiscountForItem(string itemId, double percentage, decimal amount)
     {
-        return new Discount {
+        return new Discount
+        {
             ItemId = itemId,
             Percentage = percentage,
             Amount = amount
@@ -25,7 +26,8 @@ public class Discount : Entity<string>, IAuditable
 
     public static Discount CreateDiscountForGroup(string itemGroupId, double percentage, decimal amount)
     {
-        return new Discount {
+        return new Discount
+        {
             ItemGroupId = itemGroupId,
             Percentage = percentage,
             Amount = amount
@@ -34,7 +36,8 @@ public class Discount : Entity<string>, IAuditable
 
     public static Discount CreateDiscountForPurchase(double percentage, decimal amount)
     {
-        return new Discount {
+        return new Discount
+        {
             Percentage = percentage,
             Amount = amount
         };

@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YourBrand.Customers.Customers;
 
-public class AddressFormModel 
+public class AddressFormModel
 {
     // Street
     [Required]

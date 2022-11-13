@@ -59,8 +59,8 @@ public record CreateDiscountDto(
                 decimal Amount);
 
 public record UpdateDiscountDto(
-                string ItemId, 
-                string ItemName, 
-                string ItemDescription, 
+                string ItemId,
+                string ItemName,
+                string ItemDescription,
                 double Percentage,
                 decimal Amount);

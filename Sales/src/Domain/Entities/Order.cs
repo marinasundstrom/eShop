@@ -20,7 +20,7 @@ public class Order : AggregateRoot<string>, IAuditable
 
     public OrderStatus Status { get; private set; } = null!;
 
-    public int StatusId { get; set; } 
+    public int StatusId { get; set; }
 
     public bool UpdateStatus(int status)
     {
@@ -61,16 +61,16 @@ public class Order : AggregateRoot<string>, IAuditable
     public bool VatIncluded { get; set; }
 
     public string Currency { get; set; } = "SEK";
-    
-    public decimal SubTotal { get; set; } 
 
-    public double VatRate { get; set; } 
+    public decimal SubTotal { get; set; }
+
+    public double VatRate { get; set; }
 
     public decimal? Vat { get; set; }
 
-    public decimal Discount { get; set; } 
+    public decimal Discount { get; set; }
 
-    public decimal Total { get; set; } 
+    public decimal Total { get; set; }
 
     public ValueObjects.BillingDetails? BillingDetails { get; set; } = null!;
 
@@ -78,9 +78,9 @@ public class Order : AggregateRoot<string>, IAuditable
 
     public IReadOnlyCollection<OrderItem> Items => _items;
 
-    public OrderItem AddOrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity, string? notes) 
+    public OrderItem AddOrderItem(string description, string? itemId, string? unit, decimal unitPrice, double vatRate, double quantity, string? notes)
     {
-        var orderItem = new OrderItem(itemId, description, quantity, unit, unitPrice,  unitPrice * (decimal)quantity, vatRate, notes);
+        var orderItem = new OrderItem(itemId, description, quantity, unit, unitPrice, unitPrice * (decimal)quantity, vatRate, notes);
         _items.Add(orderItem);
         return orderItem;
     }
@@ -89,7 +89,7 @@ public class Order : AggregateRoot<string>, IAuditable
 
     public void Calculate()
     {
-        foreach(var item in Items) 
+        foreach (var item in Items)
         {
             item.Total = item.UnitPrice * (decimal)item.Quantity;
         }

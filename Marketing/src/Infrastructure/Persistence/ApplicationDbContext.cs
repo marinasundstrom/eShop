@@ -53,7 +53,7 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Campaign> Campaigns { get; set; } = null!;
 
-    public DbSet<Address> Addresses { get; set; }  = null!;
+    public DbSet<Address> Addresses { get; set; } = null!;
 
     public DbSet<Discount> Discounts { get; set; } = null!;
 

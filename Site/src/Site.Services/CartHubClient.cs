@@ -7,7 +7,7 @@ public class CartHubClient
     HubConnection hubConnection = null!;
     private readonly IAccessTokenProvider accessTokenProvider;
 
-    public CartHubClient(IAccessTokenProvider accessTokenProvider) 
+    public CartHubClient(IAccessTokenProvider accessTokenProvider)
     {
         this.accessTokenProvider = accessTokenProvider;
     }
@@ -17,7 +17,8 @@ public class CartHubClient
         try
         {
             hubConnection = new HubConnectionBuilder()
-                .WithUrl($"{baseUri}hubs/cart?clientId={clientId}", config => { 
+                .WithUrl($"{baseUri}hubs/cart?clientId={clientId}", config =>
+                {
                     config.AccessTokenProvider = async () => await accessTokenProvider.GetAccessToken();
                 })
                 .WithAutomaticReconnect()

@@ -19,10 +19,10 @@ public class RefreshTokenService
         var authState = await _authProvider.GetAuthenticationStateAsync();
 
         var user = authState.User;
-        
+
         var exp = user.FindFirst(c => c.Type.Equals("exp"))?.Value;
 
-        if(exp is null)
+        if (exp is null)
             return null;
 
         Console.WriteLine(exp);

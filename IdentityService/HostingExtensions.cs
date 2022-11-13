@@ -26,7 +26,8 @@ internal static class HostingExtensions
         var connectionString = IdentityService.ConfigurationExtensions.GetConnectionString(builder.Configuration, "mssql", "IdentityService")
             ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-        builder.Services.AddDbContext<ApplicationDbContext>(options => {
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        {
             options.UseSqlServer(connectionString, x => x.MigrationsAssembly(typeof(Program).Assembly.FullName));
         });
 
@@ -50,7 +51,7 @@ internal static class HostingExtensions
             .AddInMemoryApiScopes(Config.ApiScopes)
             .AddInMemoryClients(Config.Clients)
             .AddAspNetIdentity<User>();
-        
+
         builder.Services.AddAuthentication()
             .AddGoogle(options =>
             {
@@ -65,11 +66,11 @@ internal static class HostingExtensions
 
         return builder.Build();
     }
-    
+
     public static WebApplication ConfigurePipeline(this WebApplication app)
-    { 
+    {
         app.UseSerilogRequestLogging();
-    
+
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -79,7 +80,7 @@ internal static class HostingExtensions
         app.UseRouting();
         app.UseIdentityServer();
         app.UseAuthorization();
-        
+
         app.MapRazorPages()
             .RequireAuthorization();
 

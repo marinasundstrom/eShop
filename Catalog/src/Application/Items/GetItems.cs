@@ -79,7 +79,7 @@ public record GetItems(string? StoreId = null, bool IncludeUnlisted = false, boo
             {
                 query = query.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? YourBrand.Catalog.Application.SortDirection.Descending : YourBrand.Catalog.Application.SortDirection.Ascending);
             }
-            else 
+            else
             {
                 query = query.OrderBy(x => x.Id);
             }

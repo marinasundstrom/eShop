@@ -8,9 +8,9 @@ using MassTransit;
 
 namespace YourBrand.Inventory.Application.Warehouses.Items.Events;
 
-public class WarehouseItemEventHandler 
-: IDomainEventHandler<WarehouseItemCreated>, 
-  IDomainEventHandler<WarehouseItemQuantityOnHandUpdated>, 
+public class WarehouseItemEventHandler
+: IDomainEventHandler<WarehouseItemCreated>,
+  IDomainEventHandler<WarehouseItemQuantityOnHandUpdated>,
   IDomainEventHandler<WarehouseItemsPicked>,
   IDomainEventHandler<WarehouseItemsReserved>,
   IDomainEventHandler<WarehouseItemQuantityAvailableUpdated>

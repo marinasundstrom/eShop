@@ -15,7 +15,7 @@ namespace YourBrand.Customers.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-public class PersonsController : ControllerBase 
+public class PersonsController : ControllerBase
 {
     private readonly IMediator _mediator;
 
@@ -25,12 +25,12 @@ public class PersonsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ItemsResult<Application.Persons.PersonDto>>> GetPersons(int page, int pageSize, CancellationToken cancellationToken = default) 
+    public async Task<ActionResult<ItemsResult<Application.Persons.PersonDto>>> GetPersons(int page, int pageSize, CancellationToken cancellationToken = default)
     {
         var result = await _mediator.Send(new GetPersons(page, pageSize), cancellationToken);
         return Ok(result);
     }
-    
+
     [HttpGet("{id}")]
     public async Task<PersonDto?> GetPerson(string id, CancellationToken cancellationToken)
     {

@@ -7,16 +7,16 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>, IHasDomainEvents
 {
     private readonly HashSet<DomainEvent> domainEvents = new HashSet<DomainEvent>();
 
-    #nullable disable
+#nullable disable
 
-    protected Entity() 
+    protected Entity()
     {
 
     }
 
-    #nullable restore
+#nullable restore
 
-    protected Entity(TId id) 
+    protected Entity(TId id)
     {
         Id = id;
     }
@@ -28,12 +28,12 @@ public abstract class Entity<TId> : IEquatable<Entity<TId>>, IHasDomainEvents
         return obj is Entity<TId> entity && Id.Equals(entity.Id);
     }
 
-    public static bool operator ==(Entity<TId>? left, Entity<TId>? right) 
+    public static bool operator ==(Entity<TId>? left, Entity<TId>? right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Entity<TId>? left, Entity<TId>? right) 
+    public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
     {
         return !Equals(left, right);
     }

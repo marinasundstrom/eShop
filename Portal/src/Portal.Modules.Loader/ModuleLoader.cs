@@ -23,7 +23,7 @@ public class ModuleLoader
         _serviceProvider = serviceProvider;
     }
 
-    static ModuleLoader() 
+    static ModuleLoader()
     {
         _moduleInitializerInterface = typeof(IModuleInitializer);
     }

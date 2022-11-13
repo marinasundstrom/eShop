@@ -50,7 +50,7 @@ public record GetDiscountsQuery(int Page = 0, int PageSize = 10, string? SearchS
             {
                 result = result.OrderBy(request.SortBy, request.SortDirection == Application.Common.Models.SortDirection.Desc ? Marketing.Application.SortDirection.Descending : Marketing.Application.SortDirection.Ascending);
             }
-            else 
+            else
             {
                 result = result.OrderBy(x => x.Id);
             }

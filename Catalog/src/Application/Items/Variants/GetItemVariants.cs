@@ -9,7 +9,7 @@ using YourBrand.Catalog.Application.Options;
 
 namespace YourBrand.Catalog.Application.Items.Variants;
 
-public record GetItemVariants(string ItemId,  int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ItemDto>>
+public record GetItemVariants(string ItemId, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ItemDto>>
 {
     public class Handler : IRequestHandler<GetItemVariants, ItemsResult<ItemDto>>
     {
@@ -54,9 +54,9 @@ public record GetItemVariants(string ItemId,  int Page = 10, int PageSize = 10, 
 
             return new ItemsResult<ItemDto>(variants.Select(item => item.ToDto()), totalCount);
         }
-    private static string? GetImageUrl(string? name)
-    {
-        return name is null ? null : $"http://127.0.0.1:10000/devstoreaccount1/images/{name}";
-    }
+        private static string? GetImageUrl(string? name)
+        {
+            return name is null ? null : $"http://127.0.0.1:10000/devstoreaccount1/images/{name}";
+        }
     }
 }

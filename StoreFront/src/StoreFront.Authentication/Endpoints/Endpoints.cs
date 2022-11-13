@@ -42,7 +42,7 @@ public static class Endpoints
 
         var user = await customerService.GetUserByCustomerId(customer.Id);
 
-        if(user is null)
+        if (user is null)
         {
             user = new User
             {
@@ -83,7 +83,7 @@ public static class Endpoints
 
         var user = await customerService.GetUserByCustomerId(customerId);
 
-        if(user is null)
+        if (user is null)
         {
             return Results.BadRequest(new AuthResponseDto { IsAuthSuccessful = false, ErrorMessage = "Invalid client request" });
         }

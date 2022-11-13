@@ -68,39 +68,51 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-builder.Services.AddCatalogClients((sp, httpClient) => {
+builder.Services.AddCatalogClients((sp, httpClient) =>
+{
     httpClient.BaseAddress = configuration.GetServiceUri("catalog-web", "https");
-}, builder => {
+}, builder =>
+{
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddSalesClients((sp, httpClient) => {
+builder.Services.AddSalesClients((sp, httpClient) =>
+{
     httpClient.BaseAddress = configuration.GetServiceUri("sales-web", "https");
-}, builder => {
+}, builder =>
+{
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddInventoryClients((sp, httpClient) => {
+builder.Services.AddInventoryClients((sp, httpClient) =>
+{
     httpClient.BaseAddress = configuration.GetServiceUri("inventory-web", "https");
-}, builder => {
+}, builder =>
+{
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddCustomersClients((sp, httpClient) => {
+builder.Services.AddCustomersClients((sp, httpClient) =>
+{
     httpClient.BaseAddress = configuration.GetServiceUri("customers-web", "https");
-}, builder => {
+}, builder =>
+{
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddMarketingClients((sp, httpClient) => {
-    httpClient.BaseAddress = configuration.GetServiceUri("marketing-web" ,"https");
-}, builder => {
+builder.Services.AddMarketingClients((sp, httpClient) =>
+{
+    httpClient.BaseAddress = configuration.GetServiceUri("marketing-web", "https");
+}, builder =>
+{
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddAnalyticsClients((sp, httpClient) => {
+builder.Services.AddAnalyticsClients((sp, httpClient) =>
+{
     httpClient.BaseAddress = configuration.GetServiceUri("analytics-web", "https");
-}, builder => {
+}, builder =>
+{
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
@@ -245,20 +257,21 @@ builder.Services.AddRateLimiter(options =>
     options.OnRejected = (context, cancellationToken) =>
         {
             context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
- 
+
             // context.Lease.GetAllMetadata().ToList()
             //    .ForEach(m => app.Logger.LogWarning($"Rate limit exceeded: {m.Key} {m.Value}"));
- 
+
             return new ValueTask();
         };
 
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-    options.AddFixedWindowLimiter ("fixed", options => {
+    options.AddFixedWindowLimiter("fixed", options =>
+    {
         options.PermitLimit = 5;
         options.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
         options.QueueLimit = 2;
-        options.Window = TimeSpan.FromSeconds (2);
+        options.Window = TimeSpan.FromSeconds(2);
         options.AutoReplenishment = false;
     });
 });

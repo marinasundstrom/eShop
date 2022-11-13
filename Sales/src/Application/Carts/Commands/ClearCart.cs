@@ -33,7 +33,7 @@ public sealed record ClearCart(string Id) : IRequest<Result>
                 return Result.Failure(Errors.Carts.CartNotFound);
             }
 
-            foreach(var cartItem in cart.Items) 
+            foreach (var cartItem in cart.Items)
             {
                 await cartRepository.DeleteCartItem(request.Id, cartItem.Id);
             }

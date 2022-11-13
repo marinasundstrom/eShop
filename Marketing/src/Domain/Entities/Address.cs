@@ -3,7 +3,7 @@ using YourBrand.Marketing.Domain.Events;
 
 namespace YourBrand.Marketing.Domain.Entities;
 
-public class Address  : Entity<string>, IAuditable
+public class Address : Entity<string>, IAuditable
 {
 #nullable disable
 

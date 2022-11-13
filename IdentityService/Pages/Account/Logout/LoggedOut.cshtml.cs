@@ -9,7 +9,7 @@ namespace YourBrand.IdentityService.Pages.Logout;
 public class LoggedOut : PageModel
 {
     private readonly IIdentityServerInteractionService _interactionService;
-        
+
     public LoggedOutViewModel View { get; set; }
 
     public LoggedOut(IIdentityServerInteractionService interactionService)

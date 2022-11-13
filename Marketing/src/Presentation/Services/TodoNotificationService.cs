@@ -12,5 +12,5 @@ public class TodoNotificationService : ITodoNotificationService
         this.hubsContext = hubsContext;
     }
 
-   
+
 }

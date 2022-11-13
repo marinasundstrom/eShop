@@ -22,7 +22,7 @@ public class ItemsController : ControllerBase
     private readonly IMediator mediator;
 
     public ItemsController(
-        ILogger<ItemsController> logger, 
+        ILogger<ItemsController> logger,
         YourBrand.Catalog.IItemsClient itemsClient,
         YourBrand.Catalog.IItemGroupsClient itemGroupsClient,
         YourBrand.Inventory.IItemsClient inventoryItemsClient,

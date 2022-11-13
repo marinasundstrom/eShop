@@ -30,7 +30,7 @@ public class WarehouseItem : Entity<string>, IAuditable
     public string Location { get; set; } = null!;
 
     public WarehouseItemAvailability Availability { get; set; }
-    
+
     /// <summary>
     /// This number is the total you have physically available (including Qty Reserved),
     /// minus any items that have already been “picked” in a sales order (i.e. what’s still on your inventory shelves).
@@ -73,7 +73,7 @@ public class WarehouseItem : Entity<string>, IAuditable
         QuantityPicked += quantity;
         QuantityOnHand -= quantity;
 
-        if(fromReserved) 
+        if (fromReserved)
         {
             QuantityReserved -= quantity;
             //AddDomainEvent(new WarehouseItemQuantityReservedUpdated(Id, WarehouseId, quantity));
@@ -89,7 +89,7 @@ public class WarehouseItem : Entity<string>, IAuditable
         var oldQuantityOnHand = QuantityOnHand;
         var oldQuantityAvailable = QuantityAvailable;
 
-        if(fromPicked) 
+        if (fromPicked)
         {
             QuantityPicked -= quantity;
             AddDomainEvent(new WarehouseItemsPicked(Id, ItemId, WarehouseId, quantity));

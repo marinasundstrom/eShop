@@ -38,7 +38,7 @@ public record GetItemOptions(string ItemId, string? VariantId) : IRequest<IEnume
                 .Select(x => x.Option)
                 .ToList();
 
-            if(request.VariantId is not null) 
+            if (request.VariantId is not null)
             {
                 item = await _context.Items
                     .AsSplitQuery()

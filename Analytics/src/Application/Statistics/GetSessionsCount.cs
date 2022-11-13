@@ -16,11 +16,11 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
 
         public async Task<Data> Handle(GetSessionsCount request, CancellationToken cancellationToken)
         {
-             var sessions = context.Sessions
-                        .Include(x => x.Client)
-                        .OrderByDescending(x => x.Started)
-                        .AsNoTracking()
-                        .AsSplitQuery();
+            var sessions = context.Sessions
+                       .Include(x => x.Client)
+                       .OrderByDescending(x => x.Started)
+                       .AsNoTracking()
+                       .AsSplitQuery();
 
             List<DateTime> months = new();
 
@@ -45,7 +45,7 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
             {
                 int value = 0;
 
-                if(request.DistinctByClient) 
+                if (request.DistinctByClient)
                 {
                     value = await sessions
                         .Where(e => e.Started.Year == month.Year && e.Started.Month == month.Month)
@@ -53,12 +53,12 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
                         .CountAsync();
 
                 }
-                else 
+                else
                 {
                     value = await sessions
                         .Where(e => e.Started.Year == month.Year && e.Started.Month == month.Month)
                         .CountAsync();
-                }   
+                }
 
                 values.Add((decimal)value);
             }

@@ -20,7 +20,7 @@ public record UpdateItemVariant(string ItemId, string ItemVariantId, ApiUpdateIt
             _context = context;
             _itemVariantsService = itemVariantsService;
         }
-        
+
         public async Task<ItemDto> Handle(UpdateItemVariant request, CancellationToken cancellationToken)
         {
             var match = (await _itemVariantsService.FindVariantCore(request.ItemId, request.ItemVariantId, request.Data.Attributes.ToDictionary(x => x.AttributeId, x => x.ValueId)!))

@@ -5,7 +5,7 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Application.Items.Variants;
 
-public class ItemsService 
+public class ItemsService
 {
     private readonly IApplicationDbContext _context;
 

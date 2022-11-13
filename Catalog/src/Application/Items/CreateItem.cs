@@ -38,12 +38,12 @@ public record CreateItem(string? Id, string Name, bool HasVariants, string? Desc
                 HasVariants = request.HasVariants
             };
 
-            foreach(var attribute in group!.Attributes) 
+            foreach (var attribute in group!.Attributes)
             {
                 item.Attributes.Add(attribute);
             }
 
-            foreach(var option in group.Options) 
+            foreach (var option in group.Options)
             {
                 item.Options.Add(option);
             }

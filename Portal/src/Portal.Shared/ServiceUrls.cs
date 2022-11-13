@@ -1,6 +1,6 @@
 namespace YourBrand;
 
-public static class ServiceUrls 
+public static class ServiceUrls
 {
     public const string RootUrl = "https://localhost";
 

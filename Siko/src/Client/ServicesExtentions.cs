@@ -7,17 +7,18 @@ using Blazored.Toast;
 using Site.Services;
 namespace Site.Client;
 
-public static class ServiceExtensions 
+public static class ServiceExtensions
 {
-    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration) 
+    public static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddHttpClient("Site")
             .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
 
         services.AddHttpClient("Site")
-            .AddTypedClient<ICartClient>((http, sp) => {
+            .AddTypedClient<ICartClient>((http, sp) =>
+            {
                 var renderingContext = sp.GetRequiredService<RenderingContext>();
-                if(!renderingContext.IsPrerendering) 
+                if (!renderingContext.IsPrerendering)
                 {
                     var clientId = sp.GetRequiredService<ISyncLocalStorageService>().GetItem<string>("cid");
                     http.DefaultRequestHeaders.Add("X-Client-Id", clientId);
@@ -26,9 +27,10 @@ public static class ServiceExtensions
             });
 
         services.AddHttpClient("Site")
-            .AddTypedClient<ICheckoutClient>((http, sp) => {
+            .AddTypedClient<ICheckoutClient>((http, sp) =>
+            {
                 var renderingContext = sp.GetRequiredService<RenderingContext>();
-                if(!renderingContext.IsPrerendering) 
+                if (!renderingContext.IsPrerendering)
                 {
                     var clientId = sp.GetRequiredService<ISyncLocalStorageService>().GetItem<string>("cid");
                     http.DefaultRequestHeaders.Add("X-Client-Id", clientId);
@@ -47,7 +49,7 @@ public static class ServiceExtensions
         services.AddSingleton<RenderingContext>();
 
         services.AddScoped<Site.Services.IAccessTokenProvider, Site.Client.AccessTokenProvider>();
-         
+
         CultureInfo? culture = new("sv-SE");
         CultureInfo.DefaultThreadCurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;

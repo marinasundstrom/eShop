@@ -103,7 +103,7 @@ builder.Services.AddAuthentication(options =>
                 (path.StartsWithSegments("/hubs")))
             {
                 // Read the token out of the query string
-                 context.Token = accessToken;
+                context.Token = accessToken;
             }
             return Task.CompletedTask;
         }
@@ -127,7 +127,8 @@ CultureInfo? culture = new("sv-SE");
 CultureInfo.DefaultThreadCurrentCulture = culture;
 CultureInfo.DefaultThreadCurrentUICulture = culture;
 
-builder.Services.AddHttpClient("Site", (sp, http) => {
+builder.Services.AddHttpClient("Site", (sp, http) =>
+{
     http.BaseAddress = new Uri(builder.Configuration["StorefrontUri"]);
     //http.EnableIntercept(sp);
 });

@@ -3,7 +3,7 @@ namespace YourBrand.Sales.Domain.Entities;
 public class OrderItem : Entity<string>, IAuditable
 {
     internal OrderItem(string? itemId, string description, double quantity, string? unit, decimal unitPrice, decimal total, double vatRate, string? notes)
-        : base(Guid.NewGuid().ToString()) 
+        : base(Guid.NewGuid().ToString())
     {
         ItemId = itemId;
         Description = description;
@@ -26,7 +26,7 @@ public class OrderItem : Entity<string>, IAuditable
     public string? Unit { get; set; }
 
     public decimal UnitPrice { get; set; }
-    
+
     public decimal Total { get; set; }
 
     public double VatRate { get; set; }

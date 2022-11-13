@@ -50,7 +50,7 @@ public record CreateItemAttribute(string ItemId, ApiCreateItemAttribute Data) : 
 
             await _context.SaveChangesAsync();
 
-            return attribute.ToDto();    
+            return attribute.ToDto();
         }
     }
 }

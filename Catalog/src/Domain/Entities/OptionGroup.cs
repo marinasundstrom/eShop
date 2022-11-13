@@ -2,9 +2,9 @@
 
 public class OptionGroup : AggregateRoot<string>
 {
-    protected OptionGroup() {}
+    protected OptionGroup() { }
 
-    public OptionGroup(string name) 
+    public OptionGroup(string name)
         : base(Guid.NewGuid().ToString())
     {
         Name = name;

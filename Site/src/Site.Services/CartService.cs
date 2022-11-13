@@ -15,10 +15,10 @@ public class CartService
     }
 
     public bool IsConnected => cartHubClient.IsConnected;
-    
-    public async Task Start(string baseUri, string clientId) 
+
+    public async Task Start(string baseUri, string clientId)
     {
-        if(!initialized) 
+        if (!initialized)
         {
             cartHubClient.CartUpdated += OnCartUpdated;
 
@@ -33,11 +33,11 @@ public class CartService
         await Reload();
     }
 
-    public async Task Stop() 
+    public async Task Stop()
     {
         cartHubClient.CartUpdated -= OnCartUpdated;
 
-        await cartHubClient.StopAsync();     
+        await cartHubClient.StopAsync();
     }
 
     public async Task DisposeAsync()
@@ -49,16 +49,16 @@ public class CartService
 
     public SiteCartDto? Cart { get; private set; }
 
-    public async Task Reload() 
+    public async Task Reload()
     {
         Cart = await cartClient.GetCartAsync();
 
-        if(CartUpdated is null) return;
+        if (CartUpdated is null) return;
 
         await CartUpdated.Invoke();
     }
 
-    public async Task ReconnectAndReload() 
+    public async Task ReconnectAndReload()
     {
         await cartHubClient.RestartAsync();
         await Reload();

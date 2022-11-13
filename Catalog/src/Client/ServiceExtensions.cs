@@ -9,7 +9,7 @@ public static class ServiceExtensions
         services
             .AddCatalogClient(configureClient, builder)
             .AddOptionsClient(configureClient, builder)
-            .AddAttributesClient(configureClient, builder)      
+            .AddAttributesClient(configureClient, builder)
             .AddStoresClient(configureClient, builder);
 
         return services;

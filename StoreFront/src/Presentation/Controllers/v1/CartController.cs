@@ -25,7 +25,7 @@ public class CartController : ControllerBase
         _logger = logger;
         this.mediator = mediator;
     }
-    
+
     [HttpGet]
     public async Task<SiteCartDto?> GetCart(CancellationToken cancellationToken = default)
     {

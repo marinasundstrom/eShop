@@ -12,7 +12,7 @@ public static class ServiceExtensions
             .AddCustomersClient(configureClient, builder)
             .AddPersonsClient(configureClient, builder)
             .AddOrganizationsClient(configureClient, builder);
-            //.AddAddressesClient(configureClient, builder);
+        //.AddAddressesClient(configureClient, builder);
 
         return services;
     }

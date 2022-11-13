@@ -15,10 +15,12 @@ public class ModuleInitializer : IModuleInitializer
     {
         services.AddScoped<CustomAuthorizationMessageHandler>();
 
-        services.AddAnalyticsClients((sp, httpClient) => {
+        services.AddAnalyticsClients((sp, httpClient) =>
+        {
             var navigationManager = sp.GetRequiredService<NavigationManager>();
             httpClient.BaseAddress = new Uri($"{ServiceUrls.AnalyticsServiceUrl}/");
-        }, builder => {
+        }, builder =>
+        {
             builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
         });
     }
@@ -30,7 +32,8 @@ public class ModuleInitializer : IModuleInitializer
 
         var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
 
-        var group = navManager.GetGroup("marketing") ?? navManager.CreateGroup("marketing", options => {
+        var group = navManager.GetGroup("marketing") ?? navManager.CreateGroup("marketing", options =>
+        {
             options.SetName(() => resources["Analytics"]);
             options.RequiresAuthorization = true;
         });

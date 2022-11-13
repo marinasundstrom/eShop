@@ -2,9 +2,9 @@
 
 public class OptionValue : Entity<string>
 {
-    protected OptionValue() {}
+    protected OptionValue() { }
 
-    public OptionValue(string name) 
+    public OptionValue(string name)
         : base(Guid.NewGuid().ToString())
     {
         Name = name;

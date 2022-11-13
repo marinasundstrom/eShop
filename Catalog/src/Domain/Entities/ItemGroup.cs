@@ -2,7 +2,7 @@
 
 public class ItemGroup : Entity<string>
 {
-    protected ItemGroup() {}
+    protected ItemGroup() { }
 
     public ItemGroup(string id, string name) : base(id)
     {

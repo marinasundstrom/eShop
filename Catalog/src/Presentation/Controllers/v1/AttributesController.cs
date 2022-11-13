@@ -23,7 +23,7 @@ public class AttributesController : Controller
     [HttpGet]
     public async Task<ActionResult<AttributeDto>> GetAttributes()
     {
-        return Ok( await _mediator.Send(new GetAttributes()));
+        return Ok(await _mediator.Send(new GetAttributes()));
     }
 
     /*
@@ -37,6 +37,6 @@ public class AttributesController : Controller
     [HttpGet("{attributeId}/Values")]
     public async Task<ActionResult<OptionValueDto>> GetAttributesValues(string attributeId)
     {
-        return Ok( await _mediator.Send(new GetAttributeValues(attributeId)));
+        return Ok(await _mediator.Send(new GetAttributeValues(attributeId)));
     }
 }

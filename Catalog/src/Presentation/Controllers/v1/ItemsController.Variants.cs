@@ -26,7 +26,7 @@ partial class ItemsController : Controller
     [HttpGet("{itemId}/Variants/{variantId}")]
     public async Task<ActionResult<ItemDto>> GetVariant(string itemId, string variantId)
     {
-        return Ok( await _mediator.Send(new GetItemVariant(itemId, variantId)));
+        return Ok(await _mediator.Send(new GetItemVariant(itemId, variantId)));
     }
 
     [HttpPost("{itemId}/Variants/Find")]
@@ -84,12 +84,12 @@ partial class ItemsController : Controller
                 statusCode: StatusCodes.Status400BadRequest);
         }
     }
-    
+
     [HttpPost("{itemId}/Variants/{variantId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ActionResult> UploadVariantImage([FromRoute] string itemId, string variantId, IFormFile file, CancellationToken cancellationToken)
     {
-        var url = await _mediator.Send(new UploadItemVariantImage(itemId, variantId, file.Name, file.OpenReadStream()), cancellationToken); 
+        var url = await _mediator.Send(new UploadItemVariantImage(itemId, variantId, file.Name, file.OpenReadStream()), cancellationToken);
         return Ok(url);
     }
 }

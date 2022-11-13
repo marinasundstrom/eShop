@@ -27,7 +27,7 @@ public record CreateOrderStatusCommand(string Name, bool CreateWarehouse) : IReq
             orderStatus = new Domain.Entities.OrderStatus(request.Name);
 
             context.OrderStatuses.Add(orderStatus);
-            
+
             await context.SaveChangesAsync(cancellationToken);
 
             return orderStatus.ToDto();

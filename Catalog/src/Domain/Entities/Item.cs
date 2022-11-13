@@ -4,7 +4,7 @@ namespace YourBrand.Catalog.Domain.Entities;
 
 public class Item : AggregateRoot<string>
 {
-    protected Item() {}
+    protected Item() { }
 
     public Item(string id, string name) : base(id)
     {

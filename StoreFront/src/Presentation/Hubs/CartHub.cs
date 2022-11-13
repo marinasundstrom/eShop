@@ -18,7 +18,7 @@ public class CartHub : Hub<ICartHubClient>
             }
 
             var customerIdStr = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "CustomerId")?.Value;
-            
+
             if (customerIdStr is not null)
             {
                 await Groups.AddToGroupAsync(Context.ConnectionId, $"customer-{customerIdStr}");
@@ -27,7 +27,7 @@ public class CartHub : Hub<ICartHubClient>
     }
 }
 
-public interface ICartHubClient 
+public interface ICartHubClient
 {
     Task CartUpdated();
 }

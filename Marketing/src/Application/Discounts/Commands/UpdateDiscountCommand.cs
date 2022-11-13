@@ -5,10 +5,10 @@ using YourBrand.Marketing.Domain;
 
 namespace YourBrand.Marketing.Application.Discounts.Commands;
 
-public record UpdateDiscountCommand(string Id, 
-                string ItemId, 
-                string ItemName, 
-                string ItemDescription,  
+public record UpdateDiscountCommand(string Id,
+                string ItemId,
+                string ItemName,
+                string ItemDescription,
                 double Percentage,
                 decimal Amount) : IRequest
 {

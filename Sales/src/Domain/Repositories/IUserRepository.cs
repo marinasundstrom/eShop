@@ -5,5 +5,5 @@ namespace YourBrand.Sales.Domain.Repositories;
 
 public interface IUserRepository : IRepository<User, string>
 {
-    
+
 }

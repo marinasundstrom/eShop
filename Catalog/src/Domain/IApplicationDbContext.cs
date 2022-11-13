@@ -7,7 +7,7 @@ namespace YourBrand.Catalog.Domain;
 public interface IApplicationDbContext
 {
     DbSet<Store> Stores { get; }
-    
+
     DbSet<ItemGroup> ItemGroups { get; }
 
     DbSet<Item> Items { get; }

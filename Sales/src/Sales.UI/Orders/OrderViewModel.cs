@@ -31,11 +31,11 @@ public class OrderViewModel
 
     public decimal Vat => Items.Select(i => VatIncluded ? i.LineTotal.GetVatFromTotal(i.VatRate) : i.LineTotal.AddVat(i.VatRate)).Sum();
 
-    public decimal Total 
+    public decimal Total
     {
-        get 
+        get
         {
-            var total = Items.Select(i => VatIncluded ? i.LineTotal: i.LineTotal.AddVat(i.VatRate)).Sum();
+            var total = Items.Select(i => VatIncluded ? i.LineTotal : i.LineTotal.AddVat(i.VatRate)).Sum();
             return total;
         }
     }

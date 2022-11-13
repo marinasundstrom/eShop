@@ -12,30 +12,30 @@ public class CurrentUserService : ICurrentUserService
         httpContext = httpContextAccessor.HttpContext!;
     }
 
-    public int? CustomerNo 
+    public int? CustomerNo
     {
-        get 
+        get
         {
             var str = httpContext?.User?.Claims?.FirstOrDefault(x => x.Type == "CustomerId")?.Value;
-            
-            if(str is null) return null;
+
+            if (str is null) return null;
 
             return int.Parse(str);
         }
     }
 
-    public string? ClientId =>  httpContext?.Request.Headers["X-Client-Id"];
+    public string? ClientId => httpContext?.Request.Headers["X-Client-Id"];
 
-    public string? SessionId =>  httpContext?.Request.Headers["X-Session-Id"];
+    public string? SessionId => httpContext?.Request.Headers["X-Session-Id"];
 
-    public string? Host 
+    public string? Host
     {
-        get 
+        get
         {
             var parts = httpContext?.Request.Host.Host.Split('.');
-            if(parts!.Count() > 2) 
+            if (parts!.Count() > 2)
             {
-                return host ??= parts!.First(); 
+                return host ??= parts!.First();
             }
             return null;
         }

@@ -8,8 +8,8 @@ public class NavGroup : NavItemsCollection, INavItem
 
     public string? Icon { get; set; }
 
-    public string Name 
-    { 
+    public string Name
+    {
         get => name ?? NameFunc?.Invoke() ?? throw new Exception();
         set => name = value;
     }

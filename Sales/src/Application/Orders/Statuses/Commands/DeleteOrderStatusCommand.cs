@@ -26,7 +26,7 @@ public record DeleteOrderStatusCommand(int Id) : IRequest
             if (orderStatus is null) throw new Exception();
 
             context.OrderStatuses.Remove(orderStatus);
-           
+
             await context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

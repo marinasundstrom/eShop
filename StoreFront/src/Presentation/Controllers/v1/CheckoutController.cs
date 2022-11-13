@@ -33,7 +33,7 @@ public class CheckoutController : ControllerBase
     }
 }
 
-public class CheckoutDto 
+public class CheckoutDto
 {
     public YourBrand.Sales.BillingDetailsDto BillingDetails { get; set; } = null!;
 

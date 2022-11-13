@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Site.Services;
 
-public sealed class AnalyticsService 
+public sealed class AnalyticsService
 {
     private readonly IAnalyticsClient analyticsClient;
     private readonly ILocalStorageService localStorageService;
@@ -15,7 +15,7 @@ public sealed class AnalyticsService
     string? cid;
     string? sid;
 
-    public AnalyticsService(IAnalyticsClient analyticsClient, ILocalStorageService localStorageService, ISessionStorageService sessionStorageService, IServiceProvider serviceProvider) 
+    public AnalyticsService(IAnalyticsClient analyticsClient, ILocalStorageService localStorageService, ISessionStorageService sessionStorageService, IServiceProvider serviceProvider)
     {
         this.analyticsClient = analyticsClient;
         this.localStorageService = localStorageService;
@@ -27,22 +27,22 @@ public sealed class AnalyticsService
     {
         cid = await localStorageService.GetItemAsync<string?>("cid");
 
-        if(cid is null) 
+        if (cid is null)
         {
             cid = await analyticsClient.CreateClientAsync();
             await localStorageService.SetItemAsync("cid", cid);
         }
-          
+
         sid = await sessionStorageService.GetItemAsync<string?>("sid");
 
-        if(sid is null) 
+        if (sid is null)
         {
-            try 
+            try
             {
                 sid = await analyticsClient.StartSessionAsync(cid);
                 await sessionStorageService.SetItemAsync("sid", sid);
             }
-            catch(Exception) 
+            catch (Exception)
             {
                 await localStorageService.RemoveItemAsync("cid");
 
@@ -53,36 +53,38 @@ public sealed class AnalyticsService
         }
     }
 
-    public async Task RegisterEvent(EventData eventData) 
+    public async Task RegisterEvent(EventData eventData)
     {
-        try 
+        try
         {
             sid = await analyticsClient.RegisterEventAsync(cid, sid, eventData);
-            if(sid is not null) 
+            if (sid is not null)
             {
                 await sessionStorageService.SetItemAsync("sid", sid);
 
                 GetCoordinate();
             }
         }
-        catch(ApiException exc) when (exc.StatusCode == 204) 
+        catch (ApiException exc) when (exc.StatusCode == 204)
         {
             // This is OK!
         }
     }
 
-    void GetCoordinate() 
+    void GetCoordinate()
     {
         using var scope = serviceProvider.CreateScope();
 
         var geolocationService = scope.ServiceProvider.GetRequiredService<Microsoft.JSInterop.IGeolocationService>();
 
-        geolocationService.GetCurrentPosition((args) => {
-            analyticsClient.RegisterCoordinatesAsync(cid, sid, new Coordinates() { 
-                Latitude = (float)args.Coords.Latitude, 
-                Longitude = (float)args.Coords.Longitude  
-        });
-                
-        }, (error) => {});
+        geolocationService.GetCurrentPosition((args) =>
+        {
+            analyticsClient.RegisterCoordinatesAsync(cid, sid, new Coordinates()
+            {
+                Latitude = (float)args.Coords.Latitude,
+                Longitude = (float)args.Coords.Longitude
+            });
+
+        }, (error) => { });
     }
 }

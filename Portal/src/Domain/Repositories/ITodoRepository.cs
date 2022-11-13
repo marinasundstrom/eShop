@@ -5,5 +5,5 @@ namespace YourBrand.Portal.Domain.Repositories;
 
 public interface ITodoRepository : IRepository<Todo, int>
 {
-    
+
 }

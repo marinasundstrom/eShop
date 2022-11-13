@@ -24,12 +24,12 @@ public record GetItemGroups(string? StoreId, string? ParentGroupId, bool Include
 
             query = query.Where(x => x.Parent!.Id == request.ParentGroupId);
 
-            if (request.StoreId is not null) 
+            if (request.StoreId is not null)
             {
                 query = query.Where(x => x.StoreId == request.StoreId);
             }
 
-            if (!request.IncludeHidden) 
+            if (!request.IncludeHidden)
             {
                 query = query.Where(x => !x.Hidden);
             }

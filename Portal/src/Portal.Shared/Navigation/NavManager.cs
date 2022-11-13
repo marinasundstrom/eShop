@@ -11,12 +11,12 @@ public class NavGroupOptions
 
     public Func<string> NameFunc { get; set; }
 
-    public void SetName(string name) 
+    public void SetName(string name)
     {
         Name = name;
     }
 
-    public void SetName(Func<string> nameFunc) 
+    public void SetName(Func<string> nameFunc)
     {
         NameFunc = nameFunc;
     }

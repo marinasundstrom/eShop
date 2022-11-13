@@ -20,7 +20,7 @@ public partial class ItemGroupsController : Controller
     {
         _mediator = mediator;
     }
-    
+
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ItemGroupDto>>> GetItemGroups(string? storeId = null, string? parentGroupId = null, bool includeWithUnlistedItems = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
     {
@@ -47,7 +47,7 @@ public partial class ItemGroupsController : Controller
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteItemGroup(string id, CancellationToken cancellationToken = default)
     {
-        await  _mediator.Send(new DeleteItemGroup(id), cancellationToken);
+        await _mediator.Send(new DeleteItemGroup(id), cancellationToken);
         return Ok();
     }
 }
