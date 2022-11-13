@@ -77,6 +77,16 @@ services:
       protocol: https
       port: 5091
 
+  - name: carts-web
+    project: Carts/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5160
+    - name: https
+      protocol: https
+      port: 5161
+
   - name: storefront-web
     project: StoreFront/src/Web/Web.csproj
     bindings:

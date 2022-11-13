@@ -1,5 +1,4 @@
-﻿using YourBrand.Sales.Application.Carts.Dtos;
-using YourBrand.Sales.Application.Orders.Dtos;
+﻿using YourBrand.Sales.Application.Orders.Dtos;
 using YourBrand.Sales.Application.Users;
 using YourBrand.Sales.Domain.ValueObjects;
 
@@ -19,10 +18,6 @@ public static class Mappings
     public static UserDto ToDto(this User user) => new(user.Id, user.Name);
 
     public static UserInfoDto ToDto2(this User user) => new(user.Id, user.Name);
-
-    public static CartDto ToDto(this Cart cart) => new(cart.Id, cart.Items.Select(x => x.ToDto()), cart.Created, cart.CreatedBy?.ToDto(), cart.LastModified, cart.LastModifiedBy?.ToDto());
-
-    public static CartItemDto ToDto(this CartItem cartItem) => new(cartItem.Id, cartItem.ItemId, cartItem.Quantity, cartItem.Data, cartItem.Created, cartItem.CreatedBy?.ToDto(), cartItem.LastModified, cartItem.LastModifiedBy?.ToDto());
 
     public static AddressDto ToDto(this Domain.ValueObjects.Address address) => new()
     {

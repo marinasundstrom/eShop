@@ -9,13 +9,13 @@ public sealed record GetCart : IRequest<SiteCartDto>
 {
     sealed class Handler : IRequestHandler<GetCart, SiteCartDto>
     {
-        private readonly YourBrand.Sales.ICartsClient _cartsClient;
+        private readonly YourBrand.Carts.ICartsClient  _cartsClient;
         private readonly YourBrand.Catalog.IItemsClient _itemsClient;
         private readonly ICurrentUserService currentUserService;
         private readonly IMemoryCache memoryCache;
 
         public Handler(
-            YourBrand.Sales.ICartsClient cartsClient,
+            YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Catalog.IItemsClient itemsClient,
             ICurrentUserService currentUserService,
             IMemoryCache memoryCache)
@@ -33,7 +33,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
 
             //Console.WriteLine(currentUserService.Host);
 
-            CartDto cart;
+            YourBrand.Carts.CartDto cart;
 
             string tag = customerId is null ? $"cart-{clientId}" : $"cart-{customerId}";
 
@@ -43,7 +43,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
             }
             catch
             {
-                var request2 = new CreateCartRequest
+                var request2 = new YourBrand.Carts.CreateCartRequest
                 {
                     Tag = tag
                 };

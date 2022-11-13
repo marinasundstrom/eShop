@@ -15,7 +15,7 @@ public sealed record Checkout(
     sealed class Handler : IRequestHandler<Checkout>
     {
         private readonly YourBrand.Sales.IOrdersClient _ordersClient;
-        private readonly ICartsClient cartsClient;
+        private readonly YourBrand.Carts.ICartsClient cartsClient;
         private readonly IItemsClient itemsClient;
         private readonly IWarehouseItemsClient itemsClient1;
         private readonly YourBrand.Catalog.IItemsClient itemsClient2;
@@ -24,7 +24,7 @@ public sealed record Checkout(
 
         public Handler(
             YourBrand.Sales.IOrdersClient ordersClient,
-            YourBrand.Sales.ICartsClient cartsClient,
+            YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Inventory.IItemsClient itemsClient,
             YourBrand.Inventory.IWarehouseItemsClient itemsClient1,
             YourBrand.Catalog.IItemsClient itemsClient2,

@@ -8,13 +8,13 @@ public sealed record ClearCart : IRequest
 {
     sealed class Handler : IRequestHandler<ClearCart>
     {
-        private readonly ICartsClient cartsClient;
+        private readonly YourBrand.Carts.ICartsClient cartsClient;
         private readonly IItemsClient itemsClient;
         private readonly ICartHubService cartHubService;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
-            YourBrand.Sales.ICartsClient cartsClient,
+            YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Catalog.IItemsClient itemsClient,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)

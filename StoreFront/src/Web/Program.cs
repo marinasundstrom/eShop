@@ -29,6 +29,7 @@ using Microsoft.Extensions.Caching.Memory;
 using YourBrand.Catalog.Client;
 using YourBrand.Sales.Client;
 using YourBrand.Inventory.Client;
+using YourBrand.Carts.Client;
 using YourBrand.Customers.Client;
 using YourBrand.Marketing.Client;
 using YourBrand.Analytics.Client;
@@ -111,6 +112,14 @@ builder.Services.AddMarketingClients((sp, httpClient) =>
 builder.Services.AddAnalyticsClients((sp, httpClient) =>
 {
     httpClient.BaseAddress = configuration.GetServiceUri("analytics-web", "https");
+}, builder =>
+{
+    //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+});
+
+builder.Services.AddCartsClients((sp, httpClient) =>
+{
+    httpClient.BaseAddress = configuration.GetServiceUri("carts-web", "https");
 }, builder =>
 {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();

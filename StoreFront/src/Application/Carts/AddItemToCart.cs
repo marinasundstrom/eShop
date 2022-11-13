@@ -8,13 +8,13 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
 {
     sealed class Handler : IRequestHandler<AddItemToCart>
     {
-        private readonly ICartsClient cartsClient;
+        private readonly YourBrand.Carts.ICartsClient cartsClient;
         private readonly IItemsClient itemsClient;
         private readonly ICartHubService cartHubService;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
-            YourBrand.Sales.ICartsClient cartsClient,
+            YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Catalog.IItemsClient itemsClient,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
@@ -34,7 +34,7 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
                 throw new Exception();
             }
 
-            var dto2 = new YourBrand.Sales.CreateCartItemRequest()
+            var dto2 = new YourBrand.Carts.CreateCartItemRequest()
             {
                 ItemId = request.ItemId,
                 Quantity = request.Quantity,

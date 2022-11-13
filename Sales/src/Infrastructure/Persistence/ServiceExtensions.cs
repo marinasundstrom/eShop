@@ -47,7 +47,6 @@ public static class ServiceExtensions
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IOrderRepository, OrderRepository>();
-        services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
     }
 }

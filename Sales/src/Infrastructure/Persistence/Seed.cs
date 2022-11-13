@@ -9,8 +9,6 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
-        context.Carts.Add(new Cart("test"));
-
         context.OrderStatuses.Add(new OrderStatus("Draft"));
         context.OrderStatuses.Add(new OrderStatus("Pending Payment"));
         context.OrderStatuses.Add(new OrderStatus("Processing"));
