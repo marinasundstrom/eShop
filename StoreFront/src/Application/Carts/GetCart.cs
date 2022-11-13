@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 using MediatR;
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 using YourBrand.Sales;
 
 namespace YourBrand.StoreFront.Application.Carts;
@@ -12,18 +12,18 @@ public sealed record GetCart : IRequest<SiteCartDto>
         private readonly YourBrand.Carts.ICartsClient  _cartsClient;
         private readonly YourBrand.Catalog.IItemsClient _itemsClient;
         private readonly ICurrentUserService currentUserService;
-        private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache cache;
 
         public Handler(
             YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Catalog.IItemsClient itemsClient,
             ICurrentUserService currentUserService,
-            IMemoryCache memoryCache)
+            IDistributedCache cache)
         {
             _cartsClient = cartsClient;
             _itemsClient = itemsClient;
             this.currentUserService = currentUserService;
-            this.memoryCache = memoryCache;
+            this.cache = cache;
         }
 
         public async Task<SiteCartDto> Handle(GetCart request, CancellationToken cancellationToken)
@@ -54,7 +54,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
 
             foreach (var cartItem in cart.Items)
             {
-                var item = await memoryCache.GetOrCreateAsync(
+                var item = await cache.GetOrCreateAsync(
                         $"item-{cartItem.ItemId}", async options =>
                         {
                             options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);

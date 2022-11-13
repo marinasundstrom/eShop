@@ -219,6 +219,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddStackExchangeRedisCache(o =>
+        {
+            o.Configuration = builder.Configuration.GetConnectionString("redis");
+        });
+
+
 builder.Services.AddAuthorization();
 
 builder.Services.AddUniverse(builder.Configuration);
@@ -258,7 +264,8 @@ builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
         .AddHttpClientInstrumentation()
         .AddAspNetCoreInstrumentation()
         .AddSqlClientInstrumentation()
-        .AddMassTransitInstrumentation();
+        .AddMassTransitInstrumentation()
+        .AddRedisInstrumentation();
 });
 
 builder.Services.AddRateLimiter(options =>

@@ -1,16 +1,16 @@
-using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Caching.Distributed;
 using YourBrand.Catalog;
 
 namespace YourBrand.StoreFront.Application.Services;
 
 public class StoreHandleToStoreIdResolver : IStoreHandleToStoreIdResolver
 {
-    private readonly IMemoryCache memoryCache;
+    private readonly IDistributedCache cache;
     private readonly IStoresClient storesClient;
 
-    public StoreHandleToStoreIdResolver(IMemoryCache memoryCache, IStoresClient storesClient)
+    public StoreHandleToStoreIdResolver(IDistributedCache cache, IStoresClient storesClient)
     {
-        this.memoryCache = memoryCache;
+        this.cache = cache;
         this.storesClient = storesClient;
     }
 
@@ -23,7 +23,7 @@ public class StoreHandleToStoreIdResolver : IStoreHandleToStoreIdResolver
 
     private async Task<ICollection<StoreDto>> GetStores(CancellationToken cancellationToken)
     {
-        return (await memoryCache.GetOrCreateAsync("store", async options =>
+        return (await cache.GetOrCreateAsync("store", async options =>
         {
             var result = await storesClient.GetStoresAsync(0, 100, null, null, null, cancellationToken);
             return result.Items;
