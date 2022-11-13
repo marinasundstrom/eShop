@@ -182,8 +182,8 @@ builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
         .AddHttpClientInstrumentation()
         .AddAspNetCoreInstrumentation()
         .AddSqlClientInstrumentation()
-        .AddMassTransitInstrumentation()
-        .AddRedisInstrumentation();
+        .AddMassTransitInstrumentation();
+//        .AddRedisInstrumentation();
 });
 
 builder.Services.AddRateLimiter(options =>
