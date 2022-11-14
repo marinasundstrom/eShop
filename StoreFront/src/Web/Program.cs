@@ -37,6 +37,8 @@ using System.Text;
 using YourBrand.StoreFront.Authentication;
 using YourBrand.StoreFront.Authentication.Endpoints;
 using YourBrand.StoreFront.Authentication.Data;
+using StackExchange.Redis;
+using Microsoft.Extensions.Options;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;
@@ -219,11 +221,35 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.Services.AddStackExchangeRedisCache(o =>
-        {
-            o.Configuration = builder.Configuration.GetConnectionString("redis");
-        });
+IConnectionMultiplexer? connection = null;
 
+var connectionString = builder.Configuration.GetConnectionString("redis");
+var c = ConfigurationOptions.Parse(connectionString, true);
+
+connection = ConnectionMultiplexer.Connect(c);
+
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(sp =>
+{
+    /*
+    var connectionString = builder.Configuration.GetConnectionString("redis");
+    var configuration = ConfigurationOptions.Parse(connectionString, true);
+
+    return connection = ConnectionMultiplexer.Connect(configuration); */
+
+    return connection;
+});
+
+
+builder.Services.AddStackExchangeRedisCache(options =>
+        {
+            //o.Configuration = builder.Configuration.GetConnectionString("redis");
+            options.ConnectionMultiplexerFactory = () =>
+            {
+                return Task.FromResult(connection!);
+            };
+            options.InstanceName = "SampleInstance";
+        });
 
 builder.Services.AddAuthorization();
 
@@ -261,11 +287,17 @@ builder.Services.AddOpenTelemetryTracing(tracerProviderBuilder =>
         .SetResourceBuilder(
             ResourceBuilder.CreateDefault()
                 .AddService(serviceName: serviceName, serviceVersion: serviceVersion))
-        .AddHttpClientInstrumentation()
-        .AddAspNetCoreInstrumentation()
-        .AddSqlClientInstrumentation()
-        .AddMassTransitInstrumentation();
-//        .AddRedisInstrumentation();
+        .Configure((provider, b) =>
+        {
+             b.AddHttpClientInstrumentation()
+                .AddAspNetCoreInstrumentation()
+                .AddSqlClientInstrumentation()
+                .AddMassTransitInstrumentation();
+
+            var connection = provider.GetRequiredService<IConnectionMultiplexer>();
+
+            b.AddRedisInstrumentation(connection);
+        });
 });
 
 builder.Services.AddRateLimiter(options =>
