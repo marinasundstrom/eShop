@@ -23,7 +23,7 @@ public class StoreHandleToStoreIdResolver : IStoreHandleToStoreIdResolver
 
     private async Task<ICollection<StoreDto>> GetStores(CancellationToken cancellationToken)
     {
-        return (await cache.GetOrCreateAsync("store", async options =>
+        return (await cache.GetOrCreateAsync("store", async (options, cancellationToken) =>
         {
             var result = await storesClient.GetStoresAsync(0, 100, null, null, null, cancellationToken);
             return result.Items;

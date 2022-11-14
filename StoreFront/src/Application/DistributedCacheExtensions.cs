@@ -21,29 +21,25 @@ public static class DistributedCacheExtensions
 
     public async static Task<T> GetAsync<T>(this IDistributedCache distributedCache, string key, CancellationToken cancellationToken = default)
     {
-#nullable disable
         var result = await distributedCache.GetStringAsync(key, cancellationToken);
         if (result is not null)
         {
-            return JsonSerializer.Deserialize<T>(result, jsonSerializerOptions);
+            return JsonSerializer.Deserialize<T>(result, jsonSerializerOptions)!;
         }
-        return default(T);
-#nullable restore
+        return default(T)!;
     }
 
-    public async static Task<T> GetOrCreateAsync<T>(this IDistributedCache distributedCache, string key, Func<DistributedCacheEntryOptions, Task<T>> factory, CancellationToken cancellationToken = default)
+    public async static Task<T> GetOrCreateAsync<T>(this IDistributedCache distributedCache, string key, Func<DistributedCacheEntryOptions, CancellationToken, Task<T>> factory, CancellationToken cancellationToken = default)
     {
-#nullable disable
         var result = await distributedCache.GetAsync<T>(key, cancellationToken);
-        if (result is null)
+        if (object.Equals(result, default(T)))
         {
             DistributedCacheEntryOptions options = new();
 
-            result = await factory(options);
+            result = await factory(options, cancellationToken);
 
-            await distributedCache.SetAsync<T>(key, result, options, cancellationToken);
+            await distributedCache.SetAsync(key, result, options, cancellationToken);
         }
         return result;
-#nullable restore
     }
 }

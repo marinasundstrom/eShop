@@ -55,7 +55,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
             foreach (var cartItem in cart.Items)
             {
                 var item = await cache.GetOrCreateAsync(
-                        $"item-{cartItem.ItemId}", async options =>
+                        $"item-{cartItem.ItemId}", async (options, cancellationToken) =>
                         {
                             options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
 
