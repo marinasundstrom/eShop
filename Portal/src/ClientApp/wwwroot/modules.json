@@ -25,6 +25,11 @@
     "Enabled": true
   },
   {
+    "Name": "CustomerService",
+    "Assembly": "CustomerService.UI",
+    "Enabled": true
+  },
+  {
     "Name": "Analytics",
     "Assembly": "Analytics.UI",
     "Enabled": true

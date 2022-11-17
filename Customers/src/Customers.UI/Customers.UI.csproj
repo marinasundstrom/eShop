@@ -28,7 +28,4 @@
     <ProjectReference Include="..\..\..\Portal\src\Portal.Modules\Portal.Modules.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Microsoft.AspNetCore.Components.DataAnnotations.Validation" />
-  </ItemGroup>
 </Project>

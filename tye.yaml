@@ -87,6 +87,16 @@ services:
       protocol: https
       port: 5161
 
+  - name: customerservice-web
+    project: CustomerService/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5260
+    - name: https
+      protocol: https
+      port: 5261
+
   - name: storefront-web
     project: StoreFront/src/Web/Web.csproj
     bindings:
