@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+
 using YourBrand.StoreFront.Application.Services;
 using YourBrand.StoreFront.Presentation.Controllers;
 using YourBrand.StoreFront.Presentation.Hubs;
@@ -20,7 +22,15 @@ public static class ServiceExtensions
     {
         var assembly = typeof(AnalyticsController).Assembly;
 
-        services.AddControllers()
+        services.AddControllers(options =>
+            {
+                options.CacheProfiles.Add("Default30",
+                    new CacheProfile()
+                    {
+                        Duration = 30,
+                        VaryByQueryKeys = new[] { "*" }
+                    });
+            })
             .AddApplicationPart(assembly);
 
         return services;
