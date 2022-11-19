@@ -3,7 +3,7 @@ using YourBrand.Analytics;
 
 namespace YourBrand.StoreFront.Application.Analytics;
 
-public sealed record RegisterEvent(string ClientId, string SessionId, EventType EventType, string Data) : IRequest<string>
+public sealed record RegisterEvent(string ClientId, string SessionId, EventType EventType, IDictionary<string, object> Data) : IRequest<string>
 {
     sealed class Handler : IRequestHandler<RegisterEvent, string>
     {

@@ -5,6 +5,7 @@ using System.Text.Json;
 using System.Xml.Linq;
 using Site.Client.Items.Item;
 using Blazored.Toast.Services;
+using System.Text.RegularExpressions;
 
 namespace Site.Client.Items.Item;
 
@@ -83,12 +84,12 @@ partial class ItemPage
         await AnalyticsService.RegisterEvent(new EventData
         {
             EventType = EventType.ItemViewed,
-            Data = System.Text.Json.JsonSerializer.Serialize(new
+            Data = new Dictionary<string, object>
             {
-                ItemId = productViewModel.Variant?.Id ?? productViewModel.Item!.Id,
-                Name = productViewModel.Name,
-                IsEdit = CartItemId is not null
-            })
+                { "itemId", productViewModel.Variant?.Id ?? productViewModel.Item!.Id },
+                { "name", productViewModel.Name },
+                { "isEdit", CartItemId is not null }
+            }
         });
     }
 

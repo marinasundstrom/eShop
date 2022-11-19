@@ -46,15 +46,11 @@ partial class ItemsPage
         await AnalyticsService.RegisterEvent(new EventData
         {
             EventType = EventType.ItemGroupViewed,
-            Data = System.Text.Json.JsonSerializer.Serialize(new
+            Data = new Dictionary<string, object>
             {
-                /* 
-                GroupId = itemGroup!.Id, 
-                Name = itemGroup.Name
-                */
-                GroupId = Group3Id ?? Group2Id ?? GroupId ?? itemGroup!.Id,
-                Name = GetGroupName() ?? itemGroup.Name
-            })
+                { "groupId", Group3Id ?? Group2Id ?? GroupId ?? itemGroup!.Id },
+                { "name", GetGroupName() ?? itemGroup.Name }
+            }
         });
     }
 
@@ -64,7 +60,7 @@ partial class ItemsPage
         return subGroups.FirstOrDefault(x => x.Id == groupId)?.Name;
     }
 
-    private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    private async void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         if (e.Location.Contains("/groups"))
         {

@@ -3,21 +3,33 @@ using Blazored.SessionStorage;
 using Blazor;
 using Microsoft.JSInterop;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 
 namespace Site.Services;
 
-public sealed class AnalyticsService
+public sealed class AnalyticsService : IDisposable
 {
     private readonly IAnalyticsClient analyticsClient;
+    private readonly NavigationManager navigationManager;
     private readonly ILocalStorageService localStorageService;
     private readonly ISessionStorageService sessionStorageService;
     private readonly IServiceProvider serviceProvider;
     string? cid;
     string? sid;
+    private string? referrer;
+    private IDisposable? locationChangingHandler;
 
-    public AnalyticsService(IAnalyticsClient analyticsClient, ILocalStorageService localStorageService, ISessionStorageService sessionStorageService, IServiceProvider serviceProvider)
+
+    public AnalyticsService(
+        IAnalyticsClient analyticsClient,
+        NavigationManager navigationManager,
+        ILocalStorageService localStorageService,
+        ISessionStorageService sessionStorageService,
+        IServiceProvider serviceProvider)
     {
         this.analyticsClient = analyticsClient;
+        this.navigationManager = navigationManager;
         this.localStorageService = localStorageService;
         this.sessionStorageService = sessionStorageService;
         this.serviceProvider = serviceProvider;
@@ -51,12 +63,23 @@ public sealed class AnalyticsService
 
             GetCoordinate();
         }
+
+        locationChangingHandler = navigationManager.RegisterLocationChangingHandler(OnLocationChanging);
+    }
+
+    private ValueTask OnLocationChanging(LocationChangingContext arg)
+    {
+        referrer = navigationManager.Uri;
+     
+        return ValueTask.CompletedTask;
     }
 
     public async Task RegisterEvent(EventData eventData)
     {
         try
         {
+            eventData.Data.Add("referrer", GetReferrer());
+
             sid = await analyticsClient.RegisterEventAsync(cid, sid, eventData);
             if (sid is not null)
             {
@@ -69,6 +92,15 @@ public sealed class AnalyticsService
         {
             // This is OK!
         }
+    }
+
+    private string GetReferrer()
+    {
+        using var scope = serviceProvider.CreateScope();
+
+        var jsRuntime = scope.ServiceProvider.GetRequiredService<Microsoft.JSInterop.IJSInProcessRuntime>();
+
+        return referrer ?? jsRuntime.Invoke<string>("getReferrer");
     }
 
     void GetCoordinate()
@@ -86,5 +118,10 @@ public sealed class AnalyticsService
             });
 
         }, (error) => { });
+    }
+
+    public void Dispose()
+    {
+        locationChangingHandler?.Dispose();
     }
 }

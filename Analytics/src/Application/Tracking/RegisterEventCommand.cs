@@ -6,7 +6,7 @@ using YourBrand.Analytics.Domain;
 using Microsoft.Extensions.Caching.Memory;
 namespace YourBrand.Analytics.Application.Tracking.Commands;
 
-public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enums.EventType EventType, string Data) : IRequest<string?>
+public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enums.EventType EventType, Dictionary<string, object> Data) : IRequest<string?>
 {
     public class Handler : IRequestHandler<RegisterEventCommand, string?>
     {
@@ -61,7 +61,9 @@ public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enu
                 memoryCache.Set($"session-{request.SessionId}", session, cacheEntryOptions);
             }
 
-            context.Events.Add(new Event(request.ClientId, request.SessionId, request.EventType, request.Data));
+            var dataJson = System.Text.Json.JsonSerializer.Serialize(request.Data);
+
+            context.Events.Add(new Event(request.ClientId, request.SessionId, request.EventType, dataJson));
             await context.SaveChangesAsync(cancellationToken);
 
             return null;

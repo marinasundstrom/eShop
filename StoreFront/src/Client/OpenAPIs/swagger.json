@@ -859,7 +859,8 @@
             "$ref": "#/components/schemas/EventType"
           },
           "data": {
-            "type": "string"
+            "type": "object",
+            "additionalProperties": {}
           }
         }
       },
@@ -1251,7 +1252,7 @@
           "name": {
             "type": "string"
           },
-          "itemId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },

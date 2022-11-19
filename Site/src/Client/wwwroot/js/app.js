@@ -92,3 +92,7 @@ window.scrollTo = function (x, y) {
 
     return origScrollTo.apply(this, arguments);
 };
+
+window.getReferrer = function () {
+    return document.referrer;
+};

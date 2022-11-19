@@ -358,7 +358,8 @@
             "$ref": "#/components/schemas/EventType"
           },
           "data": {
-            "type": "string"
+            "type": "object",
+            "additionalProperties": {}
           }
         }
       },
