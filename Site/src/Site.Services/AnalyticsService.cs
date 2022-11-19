@@ -37,6 +37,15 @@ public sealed class AnalyticsService : IDisposable
 
     public async Task Init()
     {
+        var cid = await EnsureClientId();
+
+        await EnsureSessionId(cid);
+
+        locationChangingHandler = navigationManager.RegisterLocationChangingHandler(OnLocationChanging);
+    }
+
+    private async Task<string> EnsureClientId()
+    {
         cid = await localStorageService.GetItemAsync<string?>("cid");
 
         if (cid is null)
@@ -45,6 +54,11 @@ public sealed class AnalyticsService : IDisposable
             await localStorageService.SetItemAsync("cid", cid);
         }
 
+        return cid;
+    }
+
+    private async Task<string> EnsureSessionId(string cid)
+    {
         sid = await sessionStorageService.GetItemAsync<string?>("sid");
 
         if (sid is null)
@@ -56,6 +70,8 @@ public sealed class AnalyticsService : IDisposable
             }
             catch (Exception)
             {
+                // Retry
+                
                 await localStorageService.RemoveItemAsync("cid");
 
                 await Init();
@@ -64,7 +80,7 @@ public sealed class AnalyticsService : IDisposable
             GetCoordinate();
         }
 
-        locationChangingHandler = navigationManager.RegisterLocationChangingHandler(OnLocationChanging);
+        return sid;
     }
 
     private ValueTask OnLocationChanging(LocationChangingContext arg)
@@ -99,7 +115,8 @@ public sealed class AnalyticsService : IDisposable
     {
         using var scope = serviceProvider.CreateScope();
 
-        var jsRuntime = scope.ServiceProvider.GetRequiredService<Microsoft.JSInterop.IJSInProcessRuntime>();
+        var jsRuntime = scope.ServiceProvider
+            .GetRequiredService<Microsoft.JSInterop.IJSInProcessRuntime>();
 
         return referrer ?? jsRuntime.Invoke<string>("getReferrer");
     }
@@ -108,7 +125,8 @@ public sealed class AnalyticsService : IDisposable
     {
         using var scope = serviceProvider.CreateScope();
 
-        var geolocationService = scope.ServiceProvider.GetRequiredService<Microsoft.JSInterop.IGeolocationService>();
+        var geolocationService = scope.ServiceProvider
+            .GetRequiredService<Microsoft.JSInterop.IGeolocationService>();
 
         geolocationService.GetCurrentPosition((args) =>
         {
