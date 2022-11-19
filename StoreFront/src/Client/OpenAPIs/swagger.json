@@ -865,15 +865,15 @@
         }
       },
       "EventType": {
-        "type": "integer",
+        "type": "string",
         "description": "",
         "x-enumNames": [
           "ItemViewed",
           "ItemGroupViewed"
         ],
         "enum": [
-          1,
-          2
+          "itemViewed",
+          "itemGroupViewed"
         ]
       },
       "Coordinates": {
@@ -1196,7 +1196,7 @@
         }
       },
       "OptionType": {
-        "type": "integer",
+        "type": "string",
         "description": "",
         "x-enumNames": [
           "YesOrNo",
@@ -1205,10 +1205,10 @@
           "TextValue"
         ],
         "enum": [
-          0,
-          1,
-          2,
-          3
+          "yesOrNo",
+          "choice",
+          "numericalValue",
+          "textValue"
         ]
       },
       "OptionGroupDto": {
@@ -1427,15 +1427,15 @@
         }
       },
       "SortDirection": {
-        "type": "integer",
+        "type": "string",
         "description": "",
         "x-enumNames": [
           "Desc",
           "Asc"
         ],
         "enum": [
-          0,
-          1
+          "Desc",
+          "Asc"
         ]
       },
       "ItemGroupDto": {
@@ -1529,15 +1529,15 @@
         }
       },
       "AddressType": {
-        "type": "integer",
+        "type": "string",
         "description": "",
         "x-enumNames": [
           "Delivery",
           "Billing"
         ],
         "enum": [
-          1,
-          2
+          "delivery",
+          "billing"
         ]
       },
       "ItemsResultOfOrderDto": {

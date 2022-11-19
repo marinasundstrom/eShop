@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using YourBrand.Analytics.Application.Services;
 using YourBrand.Analytics.Presentation.Controllers;
 using YourBrand.Analytics.Presentation.Hubs;
@@ -21,7 +23,11 @@ public static class ServiceExtensions
         var assembly = typeof(ClientController).Assembly;
 
         services.AddControllers()
-            .AddApplicationPart(assembly);
+            .AddApplicationPart(assembly)
+            .AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            });
 
         return services;
     }

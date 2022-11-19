@@ -63,7 +63,7 @@ public record GetSessionsCount(DateTime? From = null, DateTime? To = null, bool 
                 values.Add((decimal)value);
             }
 
-            series.Add(new Series("Test", values));
+            series.Add(new Series("Sessions", values));
 
             return new Data(
                 months.Select(d => d.ToString("MMM yy")).ToArray(),

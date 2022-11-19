@@ -70,7 +70,7 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
                     values.Add((decimal)value);
                 }
 
-                series.Add(new Series(keyObj.RootElement.GetProperty("Name").GetString()!, values));
+                series.Add(new Series(keyObj.RootElement.GetProperty("name").GetString()!, values));
             }
 
             return new Data(

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
 using YourBrand.StoreFront.Application.Services;
@@ -31,7 +33,11 @@ public static class ServiceExtensions
                         VaryByQueryKeys = new[] { "*" }
                     });
             })
-            .AddApplicationPart(assembly);
+            .AddApplicationPart(assembly)
+            .AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            });
 
         return services;
     }

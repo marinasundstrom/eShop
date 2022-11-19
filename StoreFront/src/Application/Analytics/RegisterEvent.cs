@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using YourBrand.Analytics;
 
+using System.Text.Json;
+
 namespace YourBrand.StoreFront.Application.Analytics;
 
 public sealed record RegisterEvent(string ClientId, string SessionId, EventType EventType, IDictionary<string, object> Data) : IRequest<string>
@@ -22,8 +24,11 @@ public sealed record RegisterEvent(string ClientId, string SessionId, EventType 
         {
             try
             {
+                var data = new Dictionary<string, object>(
+                    request.Data.Select(x => new KeyValuePair<string, object>(x.Key, AutoDeserialize((JsonElement)x.Value)!)));
+                
                 return await eventsClient.RegisterEventAsync(request.ClientId, request.SessionId,
-                    new EventData { EventType = request.EventType, Data = request.Data }, cancellationToken);
+                    new EventData { EventType = request.EventType, Data = data}, cancellationToken);
             }
             catch (YourBrand.Analytics.ApiException exc) when (exc.StatusCode == 204)
             {
@@ -32,5 +37,14 @@ public sealed record RegisterEvent(string ClientId, string SessionId, EventType 
 
             return null!;
         }
+
+        object? AutoDeserialize(JsonElement e) => e.ValueKind switch {
+            JsonValueKind.String => e.GetString(),
+            JsonValueKind.Null => null,
+            JsonValueKind.Number => e.GetDecimal(),
+            JsonValueKind.True => e.GetBoolean(),
+            JsonValueKind.False => e.GetBoolean(),
+            _ => throw new Exception()
+        };
     }
 }

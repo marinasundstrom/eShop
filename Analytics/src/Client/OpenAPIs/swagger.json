@@ -364,15 +364,15 @@
         }
       },
       "EventType": {
-        "type": "integer",
+        "type": "string",
         "description": "",
         "x-enumNames": [
           "ItemViewed",
           "ItemGroupViewed"
         ],
         "enum": [
-          1,
-          2
+          "itemViewed",
+          "itemGroupViewed"
         ]
       },
       "SessionData": {
