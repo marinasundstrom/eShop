@@ -11,20 +11,20 @@ public record class ApiCreateItemGroup(string? Id, string Name, string? Descript
 
 public record class ApiUpdateItemGroup(string Name, string? Description, string? ParentGroupId);
 
-public record class ApiCreateItemOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? InventoryItemId, decimal? Price, string? GroupId, IEnumerable<ApiCreateItemOptionValue> Values, string? DefaultOptionValueId);
+public record class ApiCreateItemOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateItemOptionValue> Values, string? DefaultOptionValueId);
 
 public record class ApiCreateItemAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateItemAttributeValue> Values);
 
 
-public record class ApiCreateItemOptionValue(string Name, string? InventoryItemId, decimal? Price);
+public record class ApiCreateItemOptionValue(string Name, string? SKU, decimal? Price);
 
 public record class ApiCreateItemAttributeValue(string Name);
 
-public record class ApiUpdateItemOption(string Name, string? Description, OptionType OptionType, bool IsSelected, string? InventoryItemId, decimal? Price, string? GroupId, IEnumerable<ApiUpdateItemOptionValue> Values, string? DefaultOptionValueId);
+public record class ApiUpdateItemOption(string Name, string? Description, OptionType OptionType, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiUpdateItemOptionValue> Values, string? DefaultOptionValueId);
 
 public record class ApiUpdateItemAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiUpdateItemAttributeValue> Values);
 
-public record class ApiUpdateItemOptionValue(string? Id, string Name, string? InventoryItemId, decimal? Price);
+public record class ApiUpdateItemOptionValue(string? Id, string Name, string? SKU, decimal? Price);
 
 public record class ApiUpdateItemAttributeValue(string? Id, string Name);
 

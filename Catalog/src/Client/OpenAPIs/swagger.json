@@ -2347,7 +2347,7 @@
           "name": {
             "type": "string"
           },
-          "inventoryItemId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },
@@ -2927,7 +2927,7 @@
           "isSelected": {
             "type": "boolean"
           },
-          "inventoryItemId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },
@@ -2959,7 +2959,7 @@
           "name": {
             "type": "string"
           },
-          "inventoryItemId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },
@@ -2987,7 +2987,7 @@
           "isSelected": {
             "type": "boolean"
           },
-          "inventoryItemId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },
@@ -3023,7 +3023,7 @@
           "name": {
             "type": "string"
           },
-          "inventoryItemId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },

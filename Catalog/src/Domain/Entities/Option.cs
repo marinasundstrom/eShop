@@ -28,7 +28,8 @@ public class Option : Entity<string>
 
     public bool IsSelected { get; set; }
 
-    public string? InventoryItemId { get; set; }
+    [Column("InventoryItemId")]
+    public string? SKU { get; set; }
 
     public decimal? Price { get; set; }
 

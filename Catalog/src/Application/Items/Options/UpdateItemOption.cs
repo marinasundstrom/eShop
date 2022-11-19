@@ -35,7 +35,7 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
 
             option.Name = request.Data.Name;
             option.Description = request.Data.Description;
-            option.InventoryItemId = request.Data.InventoryItemId;
+            option.SKU = request.Data.SKU;
             option.Group = group;
             option.IsSelected = request.Data.IsSelected;
             option.Price = request.Data.Price;
@@ -47,7 +47,7 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
                 {
                     var value = new OptionValue(v.Name)
                     {
-                        InventoryItemId = v.InventoryItemId,
+                        SKU = v.SKU,
                         Price = v.Price
                     };
 
@@ -59,7 +59,7 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
                     var value = option.Values.First(x => x.Id == v.Id);
 
                     value.Name = v.Name;
-                    value.InventoryItemId = v.InventoryItemId;
+                    value.SKU = v.SKU;
                     value.Price = v.Price;
                 }
             }
@@ -81,9 +81,9 @@ public record UpdateItemOption(string ItemId, string OptionId, ApiUpdateItemOpti
 
             await _context.SaveChangesAsync();
 
-            return new OptionDto(option.Id, option.Name, option.Description, (Application.OptionType)option.OptionType, option.Group == null ? null : new OptionGroupDto(option.Group.Id, option.Group.Name, option.Group.Description, option.Group.Seq, option.Group.Min, option.Group.Max), option.InventoryItemId, option.Price, option.IsSelected,
-                option.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.InventoryItemId, x.Price, x.Seq)),
-                option.DefaultValue == null ? null : new OptionValueDto(option.DefaultValue.Id, option.DefaultValue.Name, option.DefaultValue.InventoryItemId, option.DefaultValue.Price, option.DefaultValue.Seq), option.MinNumericalValue, option.MaxNumericalValue, option.DefaultNumericalValue, option.TextValueMinLength, option.TextValueMaxLength, option.DefaultTextValue);
+            return new OptionDto(option.Id, option.Name, option.Description, (Application.OptionType)option.OptionType, option.Group == null ? null : new OptionGroupDto(option.Group.Id, option.Group.Name, option.Group.Description, option.Group.Seq, option.Group.Min, option.Group.Max), option.SKU, option.Price, option.IsSelected,
+                option.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.SKU, x.Price, x.Seq)),
+                option.DefaultValue == null ? null : new OptionValueDto(option.DefaultValue.Id, option.DefaultValue.Name, option.DefaultValue.SKU, option.DefaultValue.Price, option.DefaultValue.Seq), option.MinNumericalValue, option.MaxNumericalValue, option.DefaultNumericalValue, option.TextValueMinLength, option.TextValueMaxLength, option.DefaultTextValue);
 
         }
     }

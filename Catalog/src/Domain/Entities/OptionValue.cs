@@ -1,5 +1,7 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
+using System.ComponentModel.DataAnnotations.Schema;
+
 public class OptionValue : Entity<string>
 {
     protected OptionValue() { }
@@ -16,7 +18,8 @@ public class OptionValue : Entity<string>
 
     public string Name { get; set; } = null!;
 
-    public string? InventoryItemId { get; set; }
+    [Column("InventoryItemId")]
+    public string? SKU { get; set; }
 
     public decimal? Price { get; set; }
 }

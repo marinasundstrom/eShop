@@ -29,7 +29,7 @@ public record CreateItemOptionValue(string ItemId, string OptionId, ApiCreateIte
 
             var value = new OptionValue(request.Data.Name)
             {
-                InventoryItemId = request.Data.InventoryItemId,
+                SKU = request.Data.SKU,
                 Price = request.Data.Price
             };
 
@@ -37,7 +37,7 @@ public record CreateItemOptionValue(string ItemId, string OptionId, ApiCreateIte
 
             await _context.SaveChangesAsync();
 
-            return new OptionValueDto(value.Id, value.Name, value.InventoryItemId, value.Price, value.Seq);
+            return new OptionValueDto(value.Id, value.Name, value.SKU, value.Price, value.Seq);
         }
     }
 }

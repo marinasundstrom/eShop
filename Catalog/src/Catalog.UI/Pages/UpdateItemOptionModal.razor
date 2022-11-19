@@ -151,7 +151,7 @@
                 Id = value.Id,
                 Name = value.Name,
                 Price = value.Price,
-                InventoryItemId = value.InventoryItemId
+                SKU = value.SKU
             });
         }
 
@@ -189,13 +189,13 @@
             Description = Description,
             GroupId = Group?.Id,
             IsSelected = IsSelected,
-            InventoryItemId = Id,
+            SKU = Id,
             Price = Price,
             Values = Values.Select(x => new ApiUpdateItemOptionValue()
             {
                 Id = x.Id,
                 Name = x.Name,
-                InventoryItemId = x.Id,
+                SKU = x.Id,
                 Price = x.Price
             }).ToList(),
             DefaultOptionValueId = SelectedValue?.Id
@@ -212,7 +212,7 @@
         [Required]
         public string Name { get; set; }
 
-        public string? InventoryItemId { get; set; }
+        public string? SKU { get; set; }
 
         public decimal? Price { get; set; }
     }
