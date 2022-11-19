@@ -78,6 +78,7 @@ public sealed class AnalyticsService : IDisposable
     {
         try
         {
+            eventData.Data.Add("url", navigationManager.Uri);
             eventData.Data.Add("referrer", GetReferrer());
 
             sid = await analyticsClient.RegisterEventAsync(cid, sid, eventData);
