@@ -151,7 +151,7 @@
                 Id = value.Id,
                 Name = value.Name,
                 Price = value.Price,
-                SKU = value.SKU
+                SKU = value.Sku
             });
         }
 
@@ -189,13 +189,13 @@
             Description = Description,
             GroupId = Group?.Id,
             IsSelected = IsSelected,
-            SKU = Id,
+            Sku = Id,
             Price = Price,
             Values = Values.Select(x => new ApiUpdateItemOptionValue()
             {
                 Id = x.Id,
                 Name = x.Name,
-                SKU = x.Id,
+                Sku = x.Id,
                 Price = x.Price
             }).ToList(),
             DefaultOptionValueId = SelectedValue?.Id
