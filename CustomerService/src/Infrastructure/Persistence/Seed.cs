@@ -9,7 +9,7 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
-        context.CustomerService.Add(new Issue("test"));
+        //context.Tickets.Add(new Issue("test"));
 
         await context.SaveChangesAsync();
     }

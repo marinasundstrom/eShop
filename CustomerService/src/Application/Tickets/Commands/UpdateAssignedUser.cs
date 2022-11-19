@@ -4,9 +4,9 @@ using YourBrand.CustomerService.Application.Tickets.Dtos;
 
 namespace YourBrand.CustomerService.Application.Tickets.Commands;
 
-public sealed record UpdateAssignedUser(int Id, string? UserId) : IRequest<Result>
+public sealed record UpdateAssignee(int Id, string? UserId) : IRequest<Result>
 {
-    public sealed class Validator : AbstractValidator<UpdateAssignedUser>
+    public sealed class Validator : AbstractValidator<UpdateAssignee>
     {
         public Validator()
         {
@@ -14,7 +14,7 @@ public sealed record UpdateAssignedUser(int Id, string? UserId) : IRequest<Resul
         }
     }
 
-    public sealed class Handler : IRequestHandler<UpdateAssignedUser, Result>
+    public sealed class Handler : IRequestHandler<UpdateAssignee, Result>
     {
         private readonly ITicketRepository ticketRepository;
         private readonly IUserRepository userRepository;
@@ -27,7 +27,7 @@ public sealed record UpdateAssignedUser(int Id, string? UserId) : IRequest<Resul
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(UpdateAssignedUser request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateAssignee request, CancellationToken cancellationToken)
         {
             var ticket = await ticketRepository.FindByIdAsync(request.Id, cancellationToken);
 

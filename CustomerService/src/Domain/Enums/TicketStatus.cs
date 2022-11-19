@@ -1,5 +1,6 @@
 namespace YourBrand.CustomerService.Domain.Enums;
 
+/*
 public enum TicketStatus
 {
     NotStarted,
@@ -7,3 +8,4 @@ public enum TicketStatus
     OnHold,
     Completed
 }
+*/

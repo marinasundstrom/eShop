@@ -26,7 +26,6 @@ public sealed partial class CartsController : ControllerBase
     }
 
     [HttpGet]
-    [EnableRateLimitingAttribute("MyControllerPolicy")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<CartDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]

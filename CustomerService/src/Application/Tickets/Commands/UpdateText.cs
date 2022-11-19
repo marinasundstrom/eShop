@@ -1,22 +1,21 @@
 using FluentValidation;
 using MediatR;
-using YourBrand.CustomerService;
 
 namespace YourBrand.CustomerService.Application.Tickets.Commands;
 
-public sealed record UpdateDescription(int Id, string? Description) : IRequest<Result>
+public sealed record UpdateText(int Id, string Text) : IRequest<Result>
 {
-    public sealed class Validator : AbstractValidator<UpdateDescription>
+    public sealed class Validator : AbstractValidator<UpdateText>
     {
         public Validator()
         {
             RuleFor(x => x.Id).NotEmpty();
 
-            RuleFor(x => x.Description).MaximumLength(240);
+            RuleFor(x => x.Text).NotEmpty().MaximumLength(60);
         }
     }
 
-    public sealed class Handler : IRequestHandler<UpdateDescription, Result>
+    public sealed class Handler : IRequestHandler<UpdateText, Result>
     {
         private readonly ITicketRepository ticketRepository;
         private readonly IUnitOfWork unitOfWork;
@@ -27,7 +26,7 @@ public sealed record UpdateDescription(int Id, string? Description) : IRequest<R
             this.unitOfWork = unitOfWork;
         }
 
-        public async Task<Result> Handle(UpdateDescription request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateText request, CancellationToken cancellationToken)
         {
             var ticket = await ticketRepository.FindByIdAsync(request.Id, cancellationToken);
 
@@ -36,7 +35,7 @@ public sealed record UpdateDescription(int Id, string? Description) : IRequest<R
                 return Result.Failure(Errors.Tickets.TicketNotFound);
             }
 
-            ticket.UpdateDescription(request.Description);
+            ticket.UpdateText(request.Text);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

@@ -26,7 +26,6 @@ public sealed class TicketsController : ControllerBase
     }
 
     [HttpGet]
-    [EnableRateLimitingAttribute("MyControllerPolicy")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<TicketDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]
@@ -48,7 +47,7 @@ public sealed class TicketsController : ControllerBase
     [ProducesDefaultResponseType]
     public async Task<ActionResult<TicketDto>> CreateTicket(CreateTicketRequest request, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new CreateTicket(request.Title, request.Description, request.Status, request.AssigneeId, request.EstimatedHours, request.RemainingHours), cancellationToken);
+        var result = await mediator.Send(new CreateTicket(request.Title, request.Text, request.Status, request.AssigneeId, request.EstimatedHours, request.RemainingHours), cancellationToken);
         return result.Handle(
             onSuccess: data => CreatedAtAction(nameof(GetTicketById), new { id = data.Id }, data),
             onError: error => Problem(detail: error.Detail, title: error.Title, type: error.Id));
@@ -63,21 +62,21 @@ public sealed class TicketsController : ControllerBase
         return this.HandleResult(result);
     }
 
-    [HttpPut("{id}/title")]
+    [HttpPut("{id}/subject")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
     public async Task<ActionResult> UpdateTitle(int id, [FromBody] string title, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new UpdateTitle(id, title), cancellationToken);
+        var result = await mediator.Send(new UpdateSubject(id, title), cancellationToken);
         return this.HandleResult(result);
     }
 
-    [HttpPut("{id}/description")]
+    [HttpPut("{id}/text")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> UpdateDescription(int id, [FromBody] string? description, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateText(int id, [FromBody] string? text, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new UpdateDescription(id, description), cancellationToken);
+        var result = await mediator.Send(new UpdateText(id, text!), cancellationToken);
         return this.HandleResult(result);
     }
 
@@ -90,12 +89,12 @@ public sealed class TicketsController : ControllerBase
         return this.HandleResult(result);
     }
 
-    [HttpPut("{id}/assignedUser")]
+    [HttpPut("{id}/assignee")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> UpdateAssignedUser(int id, [FromBody] string? userId, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateAssignee(int id, [FromBody] string? userId, CancellationToken cancellationToken)
     {
-        var result = await mediator.Send(new UpdateAssignedUser(id, userId), cancellationToken);
+        var result = await mediator.Send(new UpdateAssignee(id, userId), cancellationToken);
         return this.HandleResult(result);
     }
 
@@ -118,4 +117,4 @@ public sealed class TicketsController : ControllerBase
     }
 }
 
-public sealed record CreateTicketRequest(string Title, string? Description, TicketStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours);
+public sealed record CreateTicketRequest(string Title, string? Text, TicketStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours);

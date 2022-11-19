@@ -35,7 +35,7 @@ public sealed record DeleteTicket(int Id) : IRequest<Result>
 
             ticketRepository.Remove(ticket);
 
-            ticket.AddDomainEvent(new TicketDeleted(ticket.Id, ticket.Title));
+            ticket.AddDomainEvent(new TicketDeleted(ticket.Id, ticket.Subject));
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 

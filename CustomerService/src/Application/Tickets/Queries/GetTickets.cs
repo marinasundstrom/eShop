@@ -21,6 +21,8 @@ public record GetTickets(TicketStatusDto? Status, string? AssigneeId, int Page =
         {
             var query = ticketRepository.GetAll();
 
+            /*
+
             if (request.Status is not null)
             {
                 query = query.Where(x => x.Status == (TicketStatus)request.Status);
@@ -30,6 +32,8 @@ public record GetTickets(TicketStatusDto? Status, string? AssigneeId, int Page =
             {
                 query = query.Where(x => x.AssigneeId == request.AssigneeId);
             }
+
+            */
 
             var totalCount = await query.CountAsync(cancellationToken);
 

@@ -26,7 +26,6 @@ public sealed class TodosController : ControllerBase
     }
 
     [HttpGet]
-    [EnableRateLimitingAttribute("MyControllerPolicy")]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ItemsResult<TodoDto>))]
     [ProducesResponseType(StatusCodes.Status429TooManyRequests)]
     [ProducesDefaultResponseType]

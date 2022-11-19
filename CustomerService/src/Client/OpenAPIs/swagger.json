@@ -1160,7 +1160,7 @@
         "tags": [
           "Orders"
         ],
-        "operationId": "Orders_UpdateAssignedUser",
+        "operationId": "Orders_UpdateAssignee",
         "parameters": [
           {
             "name": "id",

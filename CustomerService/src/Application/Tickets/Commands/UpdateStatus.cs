@@ -34,7 +34,7 @@ public sealed record UpdateStatus(int Id, TicketStatusDto Status) : IRequest<Res
                 return Result.Failure(Errors.Tickets.TicketNotFound);
             }
 
-            ticket.UpdateStatus((Domain.Enums.TicketStatus)request.Status);
+            //ticket.UpdateStatus((Domain.Enums.TicketStatus)request.Status);
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
             return Result.Success();

@@ -32,10 +32,10 @@ public sealed record CreateTicket(string Title, string? Description, TicketStatu
 
         public async Task<Result<TicketDto>> Handle(CreateTicket request, CancellationToken cancellationToken)
         {
-            var ticket = new Ticket(request.Title, request.Description, (Domain.Enums.TicketStatus)request.Status);
+            var ticket = new Ticket();
 
-            ticket.UpdateEstimatedHours(request.EstimatedHours);
-            ticket.UpdateRemainingHours(request.RemainingHours);
+            //ticket.UpdateEstimatedHours(request.EstimatedHours);
+            //ticket.UpdateRemainingHours(request.RemainingHours);
 
             ticketRepository.Add(ticket);
 
@@ -43,7 +43,7 @@ public sealed record CreateTicket(string Title, string? Description, TicketStatu
 
             if (request.AssigneeId is not null)
             {
-                ticket.UpdateAssigneeId(request.AssigneeId);
+                //ticket.UpdateAssigneeId(request.AssigneeId);
 
                 await unitOfWork.SaveChangesAsync(cancellationToken);
 

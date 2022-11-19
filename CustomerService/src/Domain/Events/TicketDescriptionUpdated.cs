@@ -1,3 +1,3 @@
 namespace YourBrand.CustomerService.Domain.Events;
 
-public sealed record TicketDescriptionUpdated(int TicketId, string? Description) : DomainEvent;
+public sealed record TicketTextUpdated(int TicketId, string? Description) : DomainEvent;

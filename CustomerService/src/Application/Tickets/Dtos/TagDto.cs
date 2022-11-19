@@ -1,3 +1,3 @@
 namespace YourBrand.CustomerService.Application.Tickets.Dtos;
 
-public record TicketStatusDto(int Id, string Name);
+public record TagDto(int Id, string Name);

@@ -1,4 +1,4 @@
-﻿using YourBrand.CustomerService.Domain.Enums;
+﻿using YourBrand.CustomerService.Domain.Entities;
 
 namespace YourBrand.CustomerService.Domain.Events;
 

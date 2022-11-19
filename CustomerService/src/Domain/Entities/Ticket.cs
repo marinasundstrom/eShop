@@ -5,25 +5,19 @@ namespace YourBrand.CustomerService.Domain.Entities;
 
 public class Ticket : AggregateRoot<int>, IAuditable
 {
-    public Ticket(string title, string? description, TicketStatus status = TicketStatus.NotStarted)
-        : base(0)
-    {
-        Title = title;
-        Description = description;
-        Status = status;
-    }
+    public string? Requester { get; set; } = null!;
 
-    public string Title { get; private set; } = null!;
+    public string Subject { get; set; } = null!;
 
-    public bool UpdateTitle(string title)
+    public bool UpdateSubject(string title)
     {
-        var oldTitle = Title;
+        var oldTitle = Subject;
         if (title != oldTitle)
         {
-            Title = title;
+            Subject = title;
 
             AddDomainEvent(new TicketUpdated(Id));
-            AddDomainEvent(new TicketTitleUpdated(Id, title));
+            AddDomainEvent(new TicketSubjectUpdated(Id, Subject));
 
             return true;
         }
@@ -31,17 +25,18 @@ public class Ticket : AggregateRoot<int>, IAuditable
         return false;
     }
 
-    public string? Description { get; private set; }
 
-    public bool UpdateDescription(string? description)
+    public User? Assignee { get; set; } = null!;
+
+    public string? AssigneeId { get; set; }
+
+    public bool UpdateAssigneeId(string? userId)
     {
-        var oldDescription = Description;
-        if (description != oldDescription)
+        var oldAssigneeId = AssigneeId;
+        if (userId != oldAssigneeId)
         {
-            Description = description;
-
-            AddDomainEvent(new TicketUpdated(Id));
-            AddDomainEvent(new TicketDescriptionUpdated(Id, description));
+            AssigneeId = userId;
+            AddDomainEvent(new TicketAssignedUserUpdated(Id, userId, oldAssigneeId));
 
             return true;
         }
@@ -49,7 +44,7 @@ public class Ticket : AggregateRoot<int>, IAuditable
         return false;
     }
 
-    public TicketStatus Status { get; private set; }
+    public TicketStatus Status { get; set; } = null!;
 
     public bool UpdateStatus(TicketStatus status)
     {
@@ -67,23 +62,30 @@ public class Ticket : AggregateRoot<int>, IAuditable
         return false;
     }
 
-    public User? Assignee { get; private set; }
+    public DateTime? LastMessage { get; set; } = null!;
 
-    public string? AssigneeId { get; private set; }
+    public string? Text { get; set; } = null!;
 
-    public bool UpdateAssigneeId(string? userId)
+    public bool UpdateText(string title)
     {
-        var oldAssigneeId = AssigneeId;
-        if (userId != oldAssigneeId)
+        var oldText = Text;
+        if (title != oldText)
         {
-            AssigneeId = userId;
-            AddDomainEvent(new TicketAssignedUserUpdated(Id, userId, oldAssigneeId));
+            Text = title;
+
+            AddDomainEvent(new TicketUpdated(Id));
+            AddDomainEvent(new TicketTextUpdated(Id, Text));
 
             return true;
         }
 
         return false;
     }
+
+
+    public TicketType? Type { get; set; } = null!;
+
+    public TicketPriority? Priority { get; set; } = null!;
 
     public double? EstimatedHours { get; private set; }
 
@@ -121,7 +123,15 @@ public class Ticket : AggregateRoot<int>, IAuditable
         return false;
     }
 
-    public User ?CreatedBy { get; set; } = null!;
+    public HashSet<Tag> Tags { get; } = new HashSet<Tag>();
+
+    public HashSet<Attachment> Attachments { get; } = new HashSet<Attachment>();
+
+    public HashSet<TicketComment> Comments { get; } = new HashSet<TicketComment>();
+
+    // ...
+
+    public User? CreatedBy { get; set; } = null!;
 
     public string? CreatedById { get; set; } = null!;
 

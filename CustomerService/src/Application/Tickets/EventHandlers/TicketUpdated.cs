@@ -22,6 +22,6 @@ public sealed class TicketUpdatedEventHandler : IDomainEventHandler<TicketUpdate
         if (ticket is null)
             return;
 
-        await ticketNotificationService.Updated(ticket.Id, ticket.Title);
+        await ticketNotificationService.Updated(ticket.Id, ticket.Subject);
     }
 }

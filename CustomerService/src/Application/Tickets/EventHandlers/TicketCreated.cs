@@ -23,7 +23,7 @@ public sealed class TicketCreatedEventHandler : IDomainEventHandler<TicketCreate
         if (ticket is null)
             return;
 
-        await ticketNotificationService.Created(ticket.Id, ticket.Title);
+        await ticketNotificationService.Created(ticket.Id, ticket.Subject);
     }
 }
 

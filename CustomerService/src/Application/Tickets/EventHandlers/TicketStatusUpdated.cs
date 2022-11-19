@@ -27,13 +27,13 @@ public sealed class TicketStatusUpdatedEventHandler : IDomainEventHandler<Ticket
         if (ticket is null)
             return;
 
-        await ticketNotificationService.StatusUpdated(ticket.Id, (TicketStatusDto)ticket.Status);
+        await ticketNotificationService.StatusUpdated(ticket.Id, ticket.Status.ToDto());
 
         if (ticket.AssigneeId is not null && ticket.LastModifiedById != ticket.AssigneeId)
         {
             await emailService.SendEmail(ticket.Assignee!.Email,
-                $"Status of \"{ticket.Title}\" [{ticket.Id}] changed to {notification.NewStatus}.",
-                $"{ticket.LastModifiedBy!.Name} changed status of \"{ticket.Title}\" [{ticket.Id}] from {notification.OldStatus} to {notification.NewStatus}.");
+                $"Status of \"{ticket.Subject}\" [{ticket.Id}] changed to {notification.NewStatus}.",
+                $"{ticket.LastModifiedBy!.Name} changed status of \"{ticket.Subject}\" [{ticket.Id}] from {notification.OldStatus} to {notification.NewStatus}.");
         }
     }
 }

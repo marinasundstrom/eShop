@@ -48,10 +48,6 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork, IApplicationD
 
 #nullable disable
 
-    public DbSet<Issue> CustomerService { get; set; }
-
-    public DbSet<IssueItem> IssueItems { get; set; }
-
     public DbSet<User> Users { get; set; }
 
 #nullable restore
