@@ -36,6 +36,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet]
+    [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "*" })]
     public async Task<ItemsResult<SiteItemDto>> GetItems(
         string? itemGroupId = null, string? itemGroup2Id = null, string? itemGroup3Id = null,
         int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null,
@@ -46,24 +47,28 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("{id}")]
+    [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "*" })]
     public async Task<SiteItemDto?> GetItem(string id, CancellationToken cancellationToken = default)
     {
         return await mediator.Send(new GetItem(id), cancellationToken);
     }
 
     [HttpGet("{id}/Variants")]
+    [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "*" })]
     public async Task<ItemsResult<SiteItemDto>> GetItemVariants(string id, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, YourBrand.Catalog.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
         return await mediator.Send(new GetItemVariants(id, page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
     }
 
     [HttpPost("{id}/Variants/Find")]
+    [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "*" })]
     public async Task<SiteItemDto?> FindItemVariantByAttributes(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
     {
         return await mediator.Send(new FindItemVariantByAttributes(id, attributes), cancellationToken);
     }
 
     [HttpPost("{id}/Variants/Find2")]
+    [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "*" })]
     public async Task<IEnumerable<SiteItemDto>> FindItemVariantByAttributes2(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
     {
 
@@ -71,6 +76,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpGet("Categories")]
+    [ResponseCache(Duration = 600, VaryByQueryKeys = new[] { "*" })]
     public async Task<IEnumerable<ItemGroupDto>?> GetItemGroups(string? parentGroupId, bool includeWithUnlisted = false, CancellationToken cancellationToken = default)
     {
         return await mediator.Send(new GetItemGroups(parentGroupId, includeWithUnlisted), cancellationToken);

@@ -51,6 +51,8 @@ var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddResponseCaching();
+
 var configuration = builder.Configuration;
 
 builder.Services.AddCors(options =>
@@ -338,6 +340,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(MyAllowSpecificOrigins);
+
+app.UseResponseCaching();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
