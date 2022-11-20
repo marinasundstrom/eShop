@@ -38,6 +38,6 @@ public class ModuleInitializer : IModuleInitializer
             options.RequiresAuthorization = true;
         });
 
-        group.CreateItem("engagement", () => resources["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics");
+        group.CreateItem("engagement", () => resources["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics/engagement");
     }
 }
