@@ -32,12 +32,12 @@ public class ModuleInitializer : IModuleInitializer
 
         var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
 
-        var group = navManager.GetGroup("marketing") ?? navManager.CreateGroup("marketing", options =>
+        var group = navManager.GetGroup("analytics") ?? navManager.CreateGroup("analytics", options =>
         {
             options.SetName(() => resources["Analytics"]);
             options.RequiresAuthorization = true;
         });
 
-        group.CreateItem("analytics", () => resources["Analytics"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics");
+        group.CreateItem("engagement", () => resources["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics");
     }
 }

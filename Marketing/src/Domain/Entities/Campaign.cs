@@ -4,7 +4,7 @@ namespace YourBrand.Marketing.Domain.Entities;
 
 public class Campaign : Entity<string>, IAuditable
 {
-    readonly HashSet<Address> _addresses = new HashSet<Address>();
+    readonly HashSet<ProductOffer> _productOffers = new HashSet<ProductOffer>();
 
 #nullable disable
 
@@ -21,6 +21,12 @@ public class Campaign : Entity<string>, IAuditable
     public string Name { get; set; }
 
     public string? Description { get; set; }
+
+    public DateTimeOffset StartDate { get; set; }
+
+    public DateTimeOffset EndTime { get; set; }
+
+    public IReadOnlyCollection<ProductOffer> ProductOffers => _productOffers;
 
     public string? CreatedById { get; set; } = null!;
 
