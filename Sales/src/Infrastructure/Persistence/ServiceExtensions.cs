@@ -48,5 +48,6 @@ public static class ServiceExtensions
 
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IProductPriceListRepository, ProductPriceListRepository>();
     }
 }

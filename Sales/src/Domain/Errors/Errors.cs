@@ -2,9 +2,14 @@
 
 public static class Errors
 {
-    public static class Carts
+    public static class ProductPriceLists
     {
-        public static readonly Error CartNotFound = new Error(nameof(CartNotFound), "Cart not found", string.Empty);
+        public static readonly Error ProductPriceListNotFound = new Error(nameof(ProductPriceListNotFound), "ProductPriceListNotFound not found", string.Empty);
+    }
+
+    public static class ProductPrice
+    {
+        public static readonly Error ProductPriceNotFound = new Error(nameof(ProductPriceNotFound), "ProductPrice not found", string.Empty);
     }
 
     public static class Orders

@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace YourBrand.Sales.Infrastructure.Persistence.Configurations;
 
-public sealed class ProductPriceConfiguration : IEntityTypeConfiguration<ProductPrice>
+public sealed class ProductPriceListConfiguration : IEntityTypeConfiguration<ProductPriceList>
 {
-    public void Configure(EntityTypeBuilder<ProductPrice> builder)
+    public void Configure(EntityTypeBuilder<ProductPriceList> builder)
     {
-        builder.ToTable("ProductPrices");
+        builder.ToTable("ProductPriceLists");
 
         builder.HasOne(x => x.CreatedBy)
             .WithMany()
@@ -16,7 +16,5 @@ public sealed class ProductPriceConfiguration : IEntityTypeConfiguration<Product
         builder.HasOne(x => x.LastModifiedBy)
             .WithMany()
             .OnDelete(DeleteBehavior.NoAction);
-
-        builder.OwnsOne(x => x.Price);
     }
 }

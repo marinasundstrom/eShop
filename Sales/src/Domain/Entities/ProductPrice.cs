@@ -1,20 +1,28 @@
-﻿namespace YourBrand.Sales.Domain.Entities;
+﻿using YourBrand.Sales.Domain.ValueObjects;
 
-public class ProductPrice : AggregateRoot<string>, IAuditable
+namespace YourBrand.Sales.Domain.Entities;
+
+
+public class ProductPrice : Entity<string>, IAuditable
 {
-    public ProductPrice(string id, string productId, decimal price)
-        : base(id)
+    protected ProductPrice()
+        : base()
     {
-        Id = id;
+    }
+
+    public ProductPrice(string productPriceListId, string productId, CurrencyAmount price)
+        : base(Guid.NewGuid().ToString())
+    {
+        ProductPriceListId = productPriceListId;
         ProductId = productId;
         Price = price;
     }
 
-    public string ProductId { get; private set; }
+    public string ProductPriceListId { get; private set; } = null!;
 
-    public decimal Price { get; private set; }
+    public string ProductId { get; private set; } = null!;
 
-    public decimal? CompareAtPrice { get; private set; }
+    public CurrencyAmount Price { get; private set; } = null!;
 
     public User? CreatedBy { get; set; }
 

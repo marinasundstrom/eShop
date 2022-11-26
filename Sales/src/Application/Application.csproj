@@ -24,4 +24,16 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ProductPriceLists\" />
+    <None Remove="ProductPriceLists\Commands\" />
+    <None Remove="ProductPriceLists\Dtos\" />
+    <None Remove="ProductPriceLists\Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ProductPriceLists\" />
+    <Folder Include="ProductPriceLists\Commands\" />
+    <Folder Include="ProductPriceLists\Dtos\" />
+    <Folder Include="ProductPriceLists\Queries\" />
+  </ItemGroup>
 </Project>

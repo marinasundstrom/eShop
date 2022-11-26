@@ -14,6 +14,8 @@ public class ProductOffer : Entity<string>, IAuditable
         Name = name;
     }
 
+    public string CampaignId { get; private set; } = null!;
+
     public string ProductId { get; set; } = null!;
 
     public string? VariantId { get; set; }

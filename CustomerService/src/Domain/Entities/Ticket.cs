@@ -87,6 +87,10 @@ public class Ticket : AggregateRoot<int>, IAuditable
 
     public TicketPriority? Priority { get; set; } = null!;
 
+    public TicketSeverity? Severity { get; set; } = null!;
+
+    public TicketImpact? Impact { get; set; } = null!;
+
     public double? EstimatedHours { get; private set; }
 
     public bool UpdateEstimatedHours(double? hours)
