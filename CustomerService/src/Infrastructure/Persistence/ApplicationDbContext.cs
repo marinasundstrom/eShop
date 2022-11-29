@@ -48,6 +48,8 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork, IApplicationD
 
 #nullable disable
 
+    public DbSet<TicketStatus> TicketStatuses { get; set; }
+
     public DbSet<User> Users { get; set; }
 
 #nullable restore

@@ -1,6 +1,6 @@
 namespace YourBrand.CustomerService.Application.Tickets.Dtos;
 
-public enum TicketSeverityDto // Urgency
+public enum TicketImpactDto
 {
     High,
     Medium,

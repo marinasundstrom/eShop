@@ -8,7 +8,24 @@ namespace YourBrand.CustomerService.Application;
 
 public static partial class Mappings
 {
-    public static TicketDto ToDto(this Ticket ticket) => new TicketDto(ticket.Id, ticket.Created, ticket.CreatedBy?.ToDto(), ticket.LastModified, ticket.LastModifiedBy?.ToDto());
+    public static TicketDto ToDto(this Ticket ticket) => new (
+        ticket.Id,
+        ticket.Requester,
+        ticket.Subject,
+        ticket.Text,
+        ticket.Status.ToDto(),
+        ticket.Assignee?.ToDto(),
+        ticket.LastMessage,
+        ticket.Text,
+        ticket.Type!.ToDto(),
+        ticket.Priority.ToDto(),
+        ticket.Severity.ToDto(),
+        ticket.Impact.ToDto(),
+        ticket.EstimatedHours,
+        ticket.RemainingHours,
+        ticket.Tags.Select(x => x.ToDto()),
+        ticket.Attachments.Select(x => x.ToDto()),
+        ticket.Created, ticket.CreatedBy?.ToDto(), ticket.LastModified, ticket.LastModifiedBy?.ToDto());
 
     public static TicketCommentDto ToDto(this TicketComment ticketComment) => new TicketCommentDto(ticketComment.Id, ticketComment.Text, ticketComment.Created, ticketComment.CreatedBy?.ToDto(), ticketComment.LastModified, ticketComment.LastModifiedBy?.ToDto());
 
@@ -17,6 +34,8 @@ public static partial class Mappings
     public static TicketPriorityDto ToDto(this TicketPriority priority) => (TicketPriorityDto)priority;
 
     public static TicketSeverityDto ToDto(this TicketSeverity severity) => (TicketSeverityDto)severity;
+
+    public static TicketImpactDto ToDto(this TicketImpact impact) => (TicketImpactDto)impact;
 
     public static TicketStatusDto ToDto(this TicketStatus ticketStatus) => new TicketStatusDto(ticketStatus.Id, ticketStatus.Name);
 

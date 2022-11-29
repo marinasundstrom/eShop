@@ -26,4 +26,17 @@
     <ProjectReference Include="..\..\..\Portal\src\Portal.Modules\Portal.Modules.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Remove="Pages\TicketDialog.resx" />
+    <EmbeddedResource Remove="Pages\TicketDialog.sv.resx" />
+    <EmbeddedResource Remove="Pages\BoardPage.resx" />
+    <EmbeddedResource Remove="Pages\BoardPage.sv.resx" />
+    <EmbeddedResource Remove="Pages\TicketsPage.resx" />
+    <EmbeddedResource Remove="Pages\TicketsPage.sv.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Pages\BoardPage.razor" />
+    <Content Remove="Pages\TicketDialog.razor" />
+    <Content Remove="Pages\TicketsPage.razor" />
+  </ItemGroup>
 </Project>

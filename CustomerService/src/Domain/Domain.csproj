@@ -20,4 +20,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\..\..\CustomerService\src\Core\Core.csproj" />
 	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Enums\" />
+	</ItemGroup>
 </Project>

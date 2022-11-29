@@ -5,7 +5,7 @@ namespace YourBrand.CustomerService.Domain.Entities;
 
 public class Ticket : AggregateRoot<int>, IAuditable
 {
-    public string? Requester { get; set; } = null!;
+    public string Requester { get; set; } = null!;
 
     public string Subject { get; set; } = null!;
 
@@ -25,6 +25,23 @@ public class Ticket : AggregateRoot<int>, IAuditable
         return false;
     }
 
+    public TicketStatus Status { get; set; } = null!;
+
+    public bool UpdateStatus(TicketStatus status)
+    {
+        var oldStatus = Status;
+        if (status != oldStatus)
+        {
+            Status = status;
+
+            AddDomainEvent(new TicketUpdated(Id));
+            AddDomainEvent(new TicketStatusUpdated(Id, status, oldStatus));
+
+            return true;
+        }
+
+        return false;
+    }
 
     public User? Assignee { get; set; } = null!;
 
@@ -37,24 +54,6 @@ public class Ticket : AggregateRoot<int>, IAuditable
         {
             AssigneeId = userId;
             AddDomainEvent(new TicketAssignedUserUpdated(Id, userId, oldAssigneeId));
-
-            return true;
-        }
-
-        return false;
-    }
-
-    public TicketStatus Status { get; set; } = null!;
-
-    public bool UpdateStatus(TicketStatus status)
-    {
-        var oldStatus = Status;
-        if (status != oldStatus)
-        {
-            Status = status;
-
-            AddDomainEvent(new TicketUpdated(Id));
-            AddDomainEvent(new TicketStatusUpdated(Id, status, oldStatus));
 
             return true;
         }
@@ -83,13 +82,13 @@ public class Ticket : AggregateRoot<int>, IAuditable
     }
 
 
-    public TicketType? Type { get; set; } = null!;
+    public TicketType Type { get; set; } = null!;
 
-    public TicketPriority? Priority { get; set; } = null!;
+    public TicketPriority Priority { get; set; }
 
-    public TicketSeverity? Severity { get; set; } = null!;
+    public TicketSeverity Severity { get; set; }
 
-    public TicketImpact? Impact { get; set; } = null!;
+    public TicketImpact Impact { get; set; }
 
     public double? EstimatedHours { get; private set; }
 
