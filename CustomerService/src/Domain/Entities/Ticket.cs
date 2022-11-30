@@ -5,9 +5,9 @@ namespace YourBrand.CustomerService.Domain.Entities;
 
 public class Ticket : AggregateRoot<int>, IAuditable
 {
-    public string Requester { get; set; } = null!;
+    public string Requester { get; set; } = "Test";
 
-    public string Subject { get; set; } = null!;
+    public string Subject { get; set; } = ""; // null!;
 
     public bool UpdateSubject(string title)
     {
@@ -26,6 +26,8 @@ public class Ticket : AggregateRoot<int>, IAuditable
     }
 
     public TicketStatus Status { get; set; } = null!;
+
+    public int StatusId { get; set; } = 1;
 
     public bool UpdateStatus(TicketStatus status)
     {

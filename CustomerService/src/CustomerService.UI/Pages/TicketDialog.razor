@@ -3,6 +3,7 @@
 @inject NavigationManager NavigationManager
 @inject ISnackbar Snackbar
 @inject ITicketsClient TicketsClient
+@inject ITicketStatusesClient TicketStatusesClient
 @inject IDialogService DialogService
 @inject Portal.Services.IAccessTokenProvider AccessTokenProvider
 @inject IStringLocalizer<TicketDialog> T
@@ -29,7 +30,7 @@ else
         }
         else
         {
-            <AppPageTitle>@ticket?.Id - @ticket?.Title</AppPageTitle>
+            <AppPageTitle>@ticket?.Id - @ticket?.Subject</AppPageTitle>
         }
 
         <EditForm EditContext="editContext" OnValidSubmit="Submit">
@@ -51,9 +52,9 @@ else
 
                             <MudItem xs="12" md="6">
                                 <MudSelect Label="@T["Status"]" @bind-Value="Status" For="() => Status" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
-                                    @foreach (var status in Enum.GetValues<TicketStatusDto>())
+                                    @foreach (var status in ticketStatuses)
                                     {
-                                        <MudSelectItem Value="@status">@T[Enum.GetName(typeof(TicketStatusDto), status)!]</MudSelectItem>
+                                        <MudSelectItem Value="@status">@T[status.Name]</MudSelectItem>
                                     }
                                 </MudSelect>
 
@@ -70,10 +71,11 @@ else
                                 </MudGrid>
                             </MudItem>
 
+                            @**
                             <MudItem xs="12" md="6">
-                                <UserSelector Label="@T["AssignedTo"]" Variant="Variant.Outlined" @bind-Value="AssignedTo"
-                                              For="() => AssignedTo" Class="mb-4" />
-                            </MudItem>
+                                <UserSelector Label="@T["Assignee"]" Variant="Variant.Outlined" @bind-Value="Assignee"
+                                              For="() => Assignee" Class="mb-4" />
+                            </MudItem> *@
                         </MudGrid>
 
                     </MudContainer>
@@ -110,6 +112,7 @@ else
     CancellationTokenSource cts = new ();
     EditContext editContext = null!;
     TicketDto? ticket;
+    List<TicketStatusDto> ticketStatuses = new();
     bool notFound = false;
     bool error = false;
 
@@ -124,7 +127,7 @@ else
     [MaxLength(340)]
     public string? Description { get; set; }
 
-    public UserDto? AssignedTo { get; set; }
+    public UserDto? Assignee { get; set; }
 
     public TicketStatusDto Status { get; set; }
 
@@ -154,7 +157,7 @@ else
 
             if (editContext.IsModified(() => Description!))
             {
-                await TicketsClient.UpdateDescriptionAsync(Id.GetValueOrDefault(), Description, cts.Token);
+                //await TicketsClient.UpdateDescriptionAsync(Id.GetValueOrDefault(), Description, cts.Token);
             }
 
             if (editContext.IsModified(() => Status))
@@ -162,9 +165,9 @@ else
                 await TicketsClient.UpdateStatusAsync(Id.GetValueOrDefault(), Status, cts.Token);
             }
 
-            if (editContext.IsModified(() => AssignedTo!))
+            if (editContext.IsModified(() => Assignee!))
             {
-                await TicketsClient.UpdateAssignedUserAsync(Id.GetValueOrDefault(), AssignedTo?.Id, cts.Token);
+                //await TicketsClient.UpdateAssignedUserAsync(Id.GetValueOrDefault(), Assignee?.Id, cts.Token);
             }
 
             if (editContext.IsModified(() => EstimatedHours!))
@@ -178,6 +181,8 @@ else
             }
 
             editContext.MarkAsUnmodified();
+
+            ticketStatuses.AddRange((await TicketStatusesClient.GetStatusesAsync(null, 1, 100, null, null, cts.Token)).Items);
 
             ticket = await TicketsClient.GetTicketByIdAsync(Id.GetValueOrDefault(), cts.Token);
         }
@@ -193,6 +198,8 @@ else
 
         notFound = false;
         error = false;
+
+        ticketStatuses.AddRange((await TicketStatusesClient.GetStatusesAsync(null, 1, 100, null, null, cts.Token)).Items);
 
         if (Id is not null)
         {
@@ -227,14 +234,14 @@ else
         ticket = await TicketsClient.CreateTicketAsync(new CreateTicketRequest
         {
             Title = Title,
-            Description = Description,
+            //Description = Description,
             Status = Status,
-            AssignedTo = AssignedTo?.Id,
+            //Assignee = Assignee?.Id,
             EstimatedHours = EstimatedHours,
             RemainingHours = RemainingHours
         }, cts.Token);
 
-        Instance.SetTitle($"{ticket.Id} - {ticket.Title}");
+        Instance.SetTitle($"{ticket.Id} - {ticket.Subject}");
     }
 
     async Task FetchTicket()
@@ -248,12 +255,12 @@ else
         {
             this.ticket = await TicketsClient.GetTicketByIdAsync(id, cts.Token);
 
-            Instance.SetTitle($"{ticket.Id} - {ticket.Title}");
+            Instance.SetTitle($"{ticket.Id} - {ticket.Subject}");
 
-            Title = ticket.Title;
+            Title = ticket.Subject;
             Description = ticket.Description;
             Status = ticket.Status;
-            AssignedTo = ticket.AssignedTo;
+            Assignee = ticket.Assignee;
             EstimatedHours = ticket.EstimatedHours;
             RemainingHours = ticket.RemainingHours;
         }

@@ -1,5 +1,4 @@
-﻿@page "/"
-@page "/tickets"
+﻿@page "/tickets"
 @page "/tickets/new"
 @page "/tickets/{id:int}"
 @attribute [Authorize]
@@ -8,6 +7,7 @@
 @implements IAsyncDisposable
 @inject ISnackbar Snackbar
 @inject ITicketsClient TicketsClient
+@inject ITicketStatusesClient TicketStatusesClient
 @inject NavigationManager NavigationManager
 @inject IDialogService DialogService
 @inject Portal.Services.IAccessTokenProvider AccessTokenProvider
@@ -15,7 +15,7 @@
 
 <AppPageTitle>@T["Tickets"]</AppPageTitle>
 
-<MudText Typo="Typo.h4" GutterBottom="true">@T["Tickets"]</MudText>
+<MudText Typo="Typo.h3" GutterBottom="true">@T["Tickets"]</MudText>
 
 <MudTable T="TicketDto" MultiSelection="@selectMultiple" @bind-SelectedItems="selectedItems" ServerData="@(new Func<TableState, Task<TableData<TicketDto>>>(ServerReload))" Elevation="25"
           OnRowClick="async (e) => await ShowTicket(e.Item.Id)" Dense="false" Hover="true" @ref="table" SortLabel="@T["SortBy"]" Class="mb-8">
@@ -36,16 +36,16 @@
         <MudSelect T="TicketStatusDto?" Label="@T["Status"]" Dense="true" Value="Status" ValueChanged="OnStatusChanged" For="() => Status" Immediate="true" Variant="Variant.Outlined">
             <MudSelectItem Value="@((TicketStatusDto?)null)">@T["AllStatuses"]</MudSelectItem>
 
-            @foreach (var status in Enum.GetValues<TicketStatusDto>())
+            @foreach (var status in ticketStatuses)
             {
-                <MudSelectItem Value="@((TicketStatusDto?)status)">@T[Enum.GetName(typeof(TicketStatusDto), status)!]</MudSelectItem>
+                <MudSelectItem Value="@status">@T[status.Name]</MudSelectItem>
             }
         </MudSelect>
 
         <MudSpacer />
 
-        <UserSelector Label="@T["AssignedTo"]" Variant="Variant.Outlined" Value="AssignedTo" ValueChanged="OnAssignedToChanged"
-                      For="() => AssignedTo" />
+        <UserSelector Label="@T["Assignee"]" Variant="Variant.Outlined" Value="Assignee" ValueChanged="OnAssigneeChanged"
+                      For="() => Assignee" />
     </ToolBarContent>
 
     <HeaderContent>
@@ -59,7 +59,7 @@
             <MudTableSortLabel SortLabel="Status" T="TicketDto">@T["Status"]</MudTableSortLabel>
         </MudTh>
         <MudTh>
-            <MudTableSortLabel SortLabel="AssignedTo" T="TicketDto">@T["AssignedTo"]</MudTableSortLabel>
+            <MudTableSortLabel SortLabel="Assignee" T="TicketDto">@T["Assignee"]</MudTableSortLabel>
         </MudTh>
         <MudTh>
             <MudTableSortLabel SortLabel="EstimatedHours" T="TicketDto">@T["EstimatedTime"]</MudTableSortLabel>
@@ -86,9 +86,9 @@
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="@T["Id"]">@context.Id</MudTd>
-        <MudTd DataLabel="@T["Title"]">@context.Title</MudTd>
+        <MudTd DataLabel="@T["Title"]">@context.Subject</MudTd>
         <MudTd DataLabel="@T["Status"]">@T[context.Status.ToString()]</MudTd>
-        <MudTd DataLabel="@T["AssignedTo"]">@context.AssignedTo?.Name</MudTd>
+        <MudTd DataLabel="@T["Assignee"]">@context.Assignee?.Name</MudTd>
         <MudTd DataLabel="@T["EstimatedTime"]">@(context.EstimatedHours is null ? null : TimeSpan.FromHours(context.EstimatedHours.GetValueOrDefault()).ToString("hh\\:mm"))</MudTd>
         <MudTd DataLabel="@T["RemainingTime"]">@(context.RemainingHours is null ? null : TimeSpan.FromHours(context.RemainingHours.GetValueOrDefault()).ToString("hh\\:mm"))</MudTd>
         <MudTd DataLabel="@T["Created"]">@context.Created.ToLocalTime().ToString("g")</MudTd>
@@ -116,17 +116,20 @@
     MudTable<TicketDto> table = null!;
     bool selectMultiple;
     private HashSet<TicketDto> selectedItems = new HashSet<TicketDto>();
+    List<TicketStatusDto> ticketStatuses = new();
 
     [Parameter] public int? Id { get; set; }
 
     public TicketStatusDto? Status { get; set; }
 
-    public UserDto? AssignedTo { get; set; }
+    public UserDto? Assignee { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
+            ticketStatuses.AddRange((await TicketStatusesClient.GetStatusesAsync(null, 1, 100, null, null, cts.Token)).Items);
+
             hubConnection = new HubConnectionBuilder()
             .WithUrl($"https://localhost:5001/hubs/tickets", options =>
             {
@@ -221,9 +224,9 @@
     {
         try
         {
-            var result = await TicketsClient.GetTicketsAsync(Status, AssignedTo?.Id, state.Page + 1, state.PageSize,
+            var result = await TicketsClient.GetTicketsAsync(new int[] { Status.Id }, Assignee?.Id, state.Page + 1, state.PageSize,
                 state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel,
-                state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? SortDirection.Ascending : SortDirection.Descending), cts.Token);
+                state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? CustomerService.SortDirection.Ascending : CustomerService.SortDirection.Descending), cts.Token);
 
             return new TableData<TicketDto>() { TotalItems = result.TotalItems, Items = result.Items };
         }
@@ -248,7 +251,7 @@
     {
         try
         {
-            var result = await DialogService.ShowMessageBox(T["DeleteTicket", item.Title], T["AreYouSure"], T["Yes"], T["No"]);
+            var result = await DialogService.ShowMessageBox(T["DeleteTicket", item.Subject], T["AreYouSure"], T["Yes"], T["No"]);
 
             if (result.GetValueOrDefault())
             {
@@ -403,9 +406,9 @@
         await hubConnection.DisposeAsync();
     }
 
-    private async Task OnAssignedToChanged(UserDto? user)
+    private async Task OnAssigneeChanged(UserDto? user)
     {
-        AssignedTo = user;
+        Assignee = user;
         await table.ReloadServerData();
     }
 

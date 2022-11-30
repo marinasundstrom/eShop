@@ -66,6 +66,21 @@
         "operationId": "Tickets_GetTickets",
         "parameters": [
           {
+            "name": "status",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
+            },
+            "x-position": 1
+          },
+          {
             "name": "assigneeId",
             "in": "query",
             "schema": {
@@ -121,17 +136,6 @@
             "x-position": 6
           }
         ],
-        "requestBody": {
-          "x-name": "status",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TicketStatusDto"
-              }
-            }
-          },
-          "x-position": 1
-        },
         "responses": {
           "200": {
             "description": "",

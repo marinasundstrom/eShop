@@ -6,7 +6,7 @@ using YourBrand.CustomerService.Domain.Enums;
 
 namespace YourBrand.CustomerService.Application.Tickets.Queries;
 
-public record GetTickets(TicketStatusDto? Status, string? AssigneeId, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<TicketDto>>
+public record GetTickets(int[]? Status, string? AssigneeId, int Page = 1, int PageSize = 10, string? SortBy = null, SortDirection? SortDirection = null) : IRequest<ItemsResult<TicketDto>>
 {
     public class Handler : IRequestHandler<GetTickets, ItemsResult<TicketDto>>
     {
