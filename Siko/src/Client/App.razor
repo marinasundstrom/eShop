@@ -8,7 +8,11 @@
         <Router AppAssembly="@typeof(App).Assembly">
             <Found Context="routeData">
                 <AuthorizeRouteView RouteData="@routeData"
-                                    DefaultLayout="@typeof(MainLayout)" />
+                                    DefaultLayout="@typeof(MainLayout)">
+                     <NotAuthorized>
+                        <RedirectToLogin />
+                    </NotAuthorized>                   
+                </AuthorizeRouteView>
             </Found>
             <NotFound>
                 <PageTitle>Not found</PageTitle>
