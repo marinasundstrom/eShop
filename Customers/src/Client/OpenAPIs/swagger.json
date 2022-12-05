@@ -256,8 +256,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }
@@ -426,8 +426,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "integer",
+              "format": "int32"
             },
             "x-position": 1
           }

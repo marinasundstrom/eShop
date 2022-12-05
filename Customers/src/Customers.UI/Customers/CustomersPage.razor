@@ -80,11 +80,11 @@
 
         if(item.CustomerType == CustomerType.Individual) 
         {
-            NavigationManager.NavigateTo($"/Customers/Persons/{item.Id}");
+            NavigationManager.NavigateTo($"/Customers/{item.Id}");
         }
         else if(item.CustomerType == CustomerType.Organization) 
         {
-            NavigationManager.NavigateTo($"/Customers/Organizations/{item.Id}");
+            NavigationManager.NavigateTo($"/Customers/{item.Id}");
         }
     }
 

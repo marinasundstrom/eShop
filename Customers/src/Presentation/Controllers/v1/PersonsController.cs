@@ -32,7 +32,7 @@ public class PersonsController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<PersonDto?> GetPerson(string id, CancellationToken cancellationToken)
+    public async Task<PersonDto?> GetPerson(int id, CancellationToken cancellationToken)
     {
         return await _mediator.Send(new GetPerson(id), cancellationToken);
     }
