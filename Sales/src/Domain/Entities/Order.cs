@@ -20,7 +20,7 @@ public class Order : AggregateRoot<string>, IAuditable
 
     public OrderStatus Status { get; private set; } = null!;
 
-    public int StatusId { get; set; }
+    public int StatusId { get; set; } = 1;
 
     public bool UpdateStatus(int status)
     {
