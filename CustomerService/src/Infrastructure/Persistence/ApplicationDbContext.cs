@@ -50,6 +50,8 @@ public sealed class ApplicationDbContext : DbContext, IUnitOfWork, IApplicationD
 
     public DbSet<TicketStatus> TicketStatuses { get; set; }
 
+    public DbSet<TicketType> TicketTypes { get; set; }
+
     public DbSet<User> Users { get; set; }
 
 #nullable restore

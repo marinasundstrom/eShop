@@ -24,6 +24,8 @@ public sealed class TicketRepository : ITicketRepository
     public async Task<Ticket?> FindByIdAsync(int id, CancellationToken cancellationToken = default)
     {
         return await dbSet
+            .Include(i => i.Status)
+            .Include(i => i.Type)
             .Include(i => i.Assignee)
             .Include(i => i.CreatedBy)
             .Include(i => i.LastModifiedBy)
@@ -33,6 +35,8 @@ public sealed class TicketRepository : ITicketRepository
     public IQueryable<Ticket> GetAll(ISpecification<Ticket> specification)
     {
         return dbSet
+            .Include(i => i.Status)
+            .Include(i => i.Type)
             .Include(i => i.Assignee)
             .Include(i => i.CreatedBy)
             .Include(i => i.LastModifiedBy)

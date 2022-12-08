@@ -1,6 +1,16 @@
 namespace YourBrand.CustomerService.Domain.Entities;
 
-public class TicketType : Entity<int>
+public sealed class TicketType : Entity<int>
 {
+    protected TicketType() : base()
+    {
+
+    }
+
+    public TicketType(string name) : base()
+    {
+        Name = name;
+    }
+
     public string Name { get; set; } = null!;
 }

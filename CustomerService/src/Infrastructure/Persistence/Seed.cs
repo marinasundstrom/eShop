@@ -29,6 +29,8 @@ public static class Seed
             Name = "Closed"
         });
 
+        context.TicketTypes.Add(new TicketType("Ticket"));
+
         await context.SaveChangesAsync();
     }
 }

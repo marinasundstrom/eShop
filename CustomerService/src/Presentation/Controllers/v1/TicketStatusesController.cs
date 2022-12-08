@@ -12,7 +12,7 @@ namespace YourBrand.CustomerService.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-[Authorize]
+//[Authorize]
 public sealed class TicketStatusesController : ControllerBase
 {
     private readonly IMediator mediator;

@@ -87,12 +87,12 @@
     <RowTemplate>
         <MudTd DataLabel="@T["Id"]">@context.Id</MudTd>
         <MudTd DataLabel="@T["Title"]">@context.Subject</MudTd>
-        <MudTd DataLabel="@T["Status"]">@T[context.Status.ToString()]</MudTd>
+        <MudTd DataLabel="@T["Status"]">@T[context.Status.Name]</MudTd>
         <MudTd DataLabel="@T["Assignee"]">@context.Assignee?.Name</MudTd>
         <MudTd DataLabel="@T["EstimatedTime"]">@(context.EstimatedHours is null ? null : TimeSpan.FromHours(context.EstimatedHours.GetValueOrDefault()).ToString("hh\\:mm"))</MudTd>
         <MudTd DataLabel="@T["RemainingTime"]">@(context.RemainingHours is null ? null : TimeSpan.FromHours(context.RemainingHours.GetValueOrDefault()).ToString("hh\\:mm"))</MudTd>
         <MudTd DataLabel="@T["Created"]">@context.Created.ToLocalTime().ToString("g")</MudTd>
-        <MudTd DataLabel="@T["CreatedBy"]">@context.CreatedBy.Name</MudTd>
+        <MudTd DataLabel="@T["CreatedBy"]">@context.CreatedBy?.Name</MudTd>
         <MudTd DataLabel="@T["LastModified"]">@context.LastModified?.ToLocalTime().ToString("g")</MudTd>
         <MudTd DataLabel="@T["LastModifiedBy"]">@context.LastModifiedBy?.Name</MudTd>
         <MudTh>
@@ -196,7 +196,10 @@
         var dialogRef = DialogService.Show<TicketDialog>(string.Empty, dialogOptions);
         var result = await dialogRef.Result;
 
-        NavigationManager.NavigateTo(uri, replace: true);
+        //Temp
+         await table.ReloadServerData();
+
+        //NavigationManager.NavigateTo(uri, replace: true);
     }
 
     async Task ShowTicket(int id)
@@ -224,7 +227,7 @@
     {
         try
         {
-            var result = await TicketsClient.GetTicketsAsync(new int[] { Status.Id }, Assignee?.Id, state.Page + 1, state.PageSize,
+            var result = await TicketsClient.GetTicketsAsync(Status is null ? null : new int[] { Status.Id }, Assignee?.Id, state.Page + 1, state.PageSize,
                 state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel,
                 state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? CustomerService.SortDirection.Ascending : CustomerService.SortDirection.Descending), cts.Token);
 
@@ -234,10 +237,10 @@
         {
             exception.Redirect();
         }
-        catch (Exception)
+        /*catch (Exception)
         {
             Snackbar.Add(T["FailedToGetTickets"], Severity.Error);
-        }
+        }*/
 
         return new TableData<TicketDto>() { Items = Enumerable.Empty<TicketDto>(), TotalItems = 0 };
     }

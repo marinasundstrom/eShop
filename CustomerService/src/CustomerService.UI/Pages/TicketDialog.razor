@@ -51,7 +51,7 @@ else
                             </MudItem>
 
                             <MudItem xs="12" md="6">
-                                <MudSelect Label="@T["Status"]" @bind-Value="Status" For="() => Status" Immediate="true" Variant="Variant.Outlined" Class="mb-4">
+                                <MudSelect Label="@T["Status"]" @bind-Value="Status" For="() => Status" Immediate="true" Variant="Variant.Outlined" Class="mb-4" ToStringFunc="(s) => s.Name">
                                     @foreach (var status in ticketStatuses)
                                     {
                                         <MudSelectItem Value="@status">@T[status.Name]</MudSelectItem>
@@ -200,6 +200,8 @@ else
         error = false;
 
         ticketStatuses.AddRange((await TicketStatusesClient.GetStatusesAsync(null, 1, 100, null, null, cts.Token)).Items);
+
+        Status = ticketStatuses.First();
 
         if (Id is not null)
         {

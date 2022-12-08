@@ -21,12 +21,14 @@ public record GetTickets(int[]? Status, string? AssigneeId, int Page = 1, int Pa
         {
             var query = ticketRepository.GetAll();
 
-            /*
 
-            if (request.Status is not null)
+            if (request.Status?.Any() ?? false)
             {
-                query = query.Where(x => x.Status == (TicketStatus)request.Status);
+                var statuses = request.Status;
+                query = query.Where(x => statuses.Any(z => x.StatusId == z));
             }
+
+            /*
 
             if (request.AssigneeId is not null)
             {
@@ -47,6 +49,8 @@ public record GetTickets(int[]? Status, string? AssigneeId, int Page = 1, int Pa
             }
 
             var tickets = await query
+                .Include(i => i.Status)
+                .Include(i => i.Type)
                 .Include(i => i.Assignee)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)

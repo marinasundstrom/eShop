@@ -39,12 +39,12 @@ public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesIntercept
         {
             if (entry.State == EntityState.Added)
             {
-                entry.Entity.CreatedById = _currentUserService.UserId!;
+                entry.Entity.CreatedById = null; //_currentUserService.UserId!;
                 entry.Entity.Created = _dateTime.Now;
             }
             else if (entry.State == EntityState.Modified || entry.HasChangedOwnedEntities())
             {
-                entry.Entity.LastModifiedById = _currentUserService.UserId;
+                entry.Entity.LastModifiedById = null; //= _currentUserService.UserId;
                 entry.Entity.LastModified = _dateTime.Now;
             }
             else if (entry.State == EntityState.Deleted)

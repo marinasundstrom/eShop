@@ -32,7 +32,7 @@ public sealed record CreateTicket(string Title, string? Description, TicketStatu
 
         public async Task<Result<TicketDto>> Handle(CreateTicket request, CancellationToken cancellationToken)
         {
-            var ticket = new Ticket();
+            var ticket = new Ticket("", "", "");
 
             //ticket.UpdateEstimatedHours(request.EstimatedHours);
             //ticket.UpdateRemainingHours(request.RemainingHours);
@@ -54,6 +54,9 @@ public sealed record CreateTicket(string Title, string? Description, TicketStatu
 
             ticket = await ticketRepository.GetAll()
                 .OrderBy(i => i.Id)
+                .Include(i => i.Status)
+                .Include(i => i.Type)
+                .Include(i => i.Assignee)
                 .Include(i => i.CreatedBy)
                 .Include(i => i.LastModifiedBy)
                 .LastAsync(cancellationToken);

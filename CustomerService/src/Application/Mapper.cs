@@ -13,7 +13,7 @@ public static partial class Mappings
         ticket.Requester,
         ticket.Subject,
         ticket.Text,
-        ticket.Status.ToDto(),
+        ticket.Status.ToDto()!,
         ticket.Assignee?.ToDto(),
         ticket.LastMessage,
         ticket.Text,

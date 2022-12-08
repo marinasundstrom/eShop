@@ -5,8 +5,19 @@ namespace YourBrand.CustomerService.Domain.Entities;
 
 public class Ticket : AggregateRoot<int>, IAuditable
 {
-    public string Requester { get; set; } = "Test";
+    protected Ticket()
+    {
+    }
 
+    public Ticket(string subject, string requester, string description)
+    {
+        Subject = subject;
+        Requester = requester;
+        Description = description;
+    }
+
+    public string Requester { get; set; } = "Test";
+    public string Description { get; } = null!;
     public string Subject { get; set; } = ""; // null!;
 
     public bool UpdateSubject(string title)
@@ -85,6 +96,8 @@ public class Ticket : AggregateRoot<int>, IAuditable
 
 
     public TicketType Type { get; set; } = null!;
+
+    public int TypeId { get; set; } = 1;
 
     public TicketPriority Priority { get; set; }
 
