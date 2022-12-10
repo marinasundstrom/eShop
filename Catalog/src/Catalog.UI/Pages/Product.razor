@@ -104,7 +104,7 @@
 
                         <EditForm Model="@vm">
 
-                            <MudTable T="AttributeVM" Products="@vm.AttributeGroups.SelectMany(x => x.Attributes).Where(x => !x.ForVariant)"
+                            <MudTable T="AttributeVM" Items="@vm.AttributeGroups.SelectMany(x => x.Attributes).Where(x => !x.ForVariant)"
                                 Class="pa-0 m-0"
                                 Dense="true" 
                                 Hover="false"
