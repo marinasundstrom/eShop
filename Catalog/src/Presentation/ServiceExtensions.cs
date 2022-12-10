@@ -18,7 +18,7 @@ public static class ServiceExtensions
 
     public static IServiceCollection AddControllersForApp(this IServiceCollection services)
     {
-        var assembly = typeof(ItemsController).Assembly;
+        var assembly = typeof(ProductsController).Assembly;
 
         services.AddControllers()
             .AddApplicationPart(assembly);

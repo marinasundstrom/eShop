@@ -1,6 +1,6 @@
-using YourBrand.Catalog.Application.Items;
-using YourBrand.Catalog.Application.Items.Groups;
-using YourBrand.Catalog.Application.Items.Variants;
+using YourBrand.Catalog.Application.Products;
+using YourBrand.Catalog.Application.Products.Groups;
+using YourBrand.Catalog.Application.Products.Variants;
 using YourBrand.Catalog.Application.Attributes;
 using YourBrand.Catalog.Application.Options;
 using YourBrand.Catalog.Application.Stores;
@@ -14,37 +14,37 @@ public static class Mapping
         return new StoreDto(store.Id, store.Name, store.Handle);
     }
 
-    public static ItemDto ToDto(this Domain.Entities.Item item)
+    public static ProductDto ToDto(this Domain.Entities.Product item)
     {
-        return new ItemDto(
+        return new ProductDto(
                item.Id,
                item.Name,
                item.Description,
-               item.ParentItem?.ToDto2(),
+               item.ParentProduct?.ToDto2(),
                item.Group?.ToDto(),
                GetImageUrl(item.Image),
                item.Price.GetValueOrDefault(),
                item.CompareAtPrice,
                item.QuantityAvailable,
                item.HasVariants,
-               (ItemVisibility?)item.Visibility,
+               (ProductVisibility?)item.Visibility,
                item.Attributes.Select(x => x.ToDto()),
                item.Options.Select(x => x.ToDto()),
                item.AttributeValues.Select(x => x.ToDto()));
     }
 
-    public static ParentItemDto ToDto2(this Domain.Entities.Item item)
+    public static ParentProductDto ToDto2(this Domain.Entities.Product item)
     {
-        return new ParentItemDto(
+        return new ParentProductDto(
                 item.Id,
                 item.Name,
                 item.Description,
                 item.Group?.ToDto());
     }
 
-    public static ItemGroupDto ToDto(this Domain.Entities.ItemGroup itemGroup)
+    public static ProductGroupDto ToDto(this Domain.Entities.ProductGroup itemGroup)
     {
-        return new ItemGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup.Parent?.ToDto());
+        return new ProductGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Description, itemGroup.Parent?.ToDto());
     }
 
     private static string? GetImageUrl(string? name)

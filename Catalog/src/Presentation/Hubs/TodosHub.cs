@@ -12,9 +12,9 @@ public sealed class TodosHub : Hub<ITodosHubClient>
         var httpContext = Context.GetHttpContext();
         if (httpContext is not null)
         {
-            if (httpContext.Request.Query.TryGetValue("itemId", out var itemId))
+            if (httpContext.Request.Query.TryGetValue("productId", out var productId))
             {
-                Groups.AddToGroupAsync(this.Context.ConnectionId, $"item-{itemId}");
+                Groups.AddToGroupAsync(this.Context.ConnectionId, $"item-{productId}");
             }
         }
 

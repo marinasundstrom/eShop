@@ -8,11 +8,11 @@ public interface IApplicationDbContext
 {
     DbSet<Store> Stores { get; }
 
-    DbSet<ItemGroup> ItemGroups { get; }
+    DbSet<ProductGroup> ProductGroups { get; }
 
-    DbSet<Item> Items { get; }
+    DbSet<Product> Products { get; }
 
-    DbSet<ItemAttribute> ItemAttributes { get; }
+    DbSet<ProductAttribute> ProductAttributes { get; }
 
     DbSet<AttributeGroup> AttributeGroups { get; }
 
@@ -20,11 +20,11 @@ public interface IApplicationDbContext
 
     DbSet<AttributeValue> AttributeValues { get; }
 
-    DbSet<ItemOption> ItemOptions { get; }
+    DbSet<ProductOption> ProductOptions { get; }
 
-    DbSet<ItemAttributeValue> ItemAttributeValues { get; }
+    DbSet<ProductAttributeValue> ProductAttributeValues { get; }
 
-    DbSet<ItemVariantOption> ItemVariantOptions { get; }
+    DbSet<ProductVariantOption> ProductVariantOptions { get; }
 
     DbSet<OptionGroup> OptionGroups { get; }
 

@@ -5,11 +5,11 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
-public class ItemGroupConfiguration : IEntityTypeConfiguration<ItemGroup>
+public class ProductGroupConfiguration : IEntityTypeConfiguration<ProductGroup>
 {
-    public void Configure(EntityTypeBuilder<ItemGroup> builder)
+    public void Configure(EntityTypeBuilder<ProductGroup> builder)
     {
-        builder.ToTable("ItemGroups");
+        builder.ToTable("ProductGroups");
         //builder.HasQueryFilter(i => i.Deleted == null);
     }
 }

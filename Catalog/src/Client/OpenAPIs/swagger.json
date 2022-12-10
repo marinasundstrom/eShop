@@ -63,12 +63,12 @@
         }
       }
     },
-    "/v1/ItemGroups": {
+    "/v1/ProductGroups": {
       "get": {
         "tags": [
-          "ItemGroups"
+          "ProductGroups"
         ],
-        "operationId": "ItemGroups_GetItemGroups",
+        "operationId": "ProductGroups_GetProductGroups",
         "parameters": [
           {
             "name": "storeId",
@@ -89,7 +89,7 @@
             "x-position": 2
           },
           {
-            "name": "includeWithUnlistedItems",
+            "name": "includeWithUnlistedProducts",
             "in": "query",
             "schema": {
               "type": "boolean",
@@ -115,7 +115,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ItemGroupDto"
+                    "$ref": "#/components/schemas/ProductGroupDto"
                   }
                 }
               }
@@ -125,15 +125,15 @@
       },
       "post": {
         "tags": [
-          "ItemGroups"
+          "ProductGroups"
         ],
-        "operationId": "ItemGroups_CreateItemGroup",
+        "operationId": "ProductGroups_CreateProductGroup",
         "requestBody": {
           "x-name": "data",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemGroup"
+                "$ref": "#/components/schemas/ApiCreateProductGroup"
               }
             }
           },
@@ -146,7 +146,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemGroupDto"
+                  "$ref": "#/components/schemas/ProductGroupDto"
                 }
               }
             }
@@ -154,12 +154,12 @@
         }
       }
     },
-    "/v1/ItemGroups/{id}": {
+    "/v1/ProductGroups/{id}": {
       "get": {
         "tags": [
-          "ItemGroups"
+          "ProductGroups"
         ],
-        "operationId": "ItemGroups_GetItemGroup",
+        "operationId": "ProductGroups_GetProductGroup",
         "parameters": [
           {
             "name": "id",
@@ -178,7 +178,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemGroupDto"
+                  "$ref": "#/components/schemas/ProductGroupDto"
                 }
               }
             }
@@ -187,9 +187,9 @@
       },
       "put": {
         "tags": [
-          "ItemGroups"
+          "ProductGroups"
         ],
-        "operationId": "ItemGroups_UpdateItemGroup",
+        "operationId": "ProductGroups_UpdateProductGroup",
         "parameters": [
           {
             "name": "id",
@@ -207,7 +207,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemGroup"
+                "$ref": "#/components/schemas/ApiUpdateProductGroup"
               }
             }
           },
@@ -220,7 +220,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemGroupDto"
+                  "$ref": "#/components/schemas/ProductGroupDto"
                 }
               }
             }
@@ -229,9 +229,9 @@
       },
       "delete": {
         "tags": [
-          "ItemGroups"
+          "ProductGroups"
         ],
-        "operationId": "ItemGroups_DeleteItemGroup",
+        "operationId": "ProductGroups_DeleteProductGroup",
         "parameters": [
           {
             "name": "id",
@@ -259,15 +259,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes": {
+    "/v1/Products/{productId}/Attributes": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItemAttributes",
+        "operationId": "Products_GetProductAttributes",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -295,12 +295,12 @@
       },
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateItemAttribute",
+        "operationId": "Products_CreateProductAttribute",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -315,7 +315,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemAttribute"
+                "$ref": "#/components/schemas/ApiCreateProductAttribute"
               }
             }
           },
@@ -336,15 +336,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes/{attributeId}": {
+    "/v1/Products/{productId}/Attributes/{attributeId}": {
       "put": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateItemAttribute",
+        "operationId": "Products_UpdateProductAttribute",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -369,7 +369,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemAttribute"
+                "$ref": "#/components/schemas/ApiUpdateProductAttribute"
               }
             }
           },
@@ -391,12 +391,12 @@
       },
       "delete": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteItemAttribute",
+        "operationId": "Products_DeleteProductAttribute",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -431,15 +431,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes/{attributeId}/Values": {
+    "/v1/Products/{productId}/Attributes/{attributeId}/Values": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateItemAttributeValue",
+        "operationId": "Products_CreateProductAttributeValue",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -464,7 +464,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemAttributeValue"
+                "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
               }
             }
           },
@@ -486,12 +486,12 @@
       },
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItemAttributeValues",
+        "operationId": "Products_GetProductAttributeValues",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -528,15 +528,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes/{attributeId}/Values/{valueId}": {
+    "/v1/Products/{productId}/Attributes/{attributeId}/Values/{valueId}": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteItemAttributeValue",
+        "operationId": "Products_DeleteProductAttributeValue",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -581,15 +581,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes/Groups": {
+    "/v1/Products/{productId}/Attributes/Groups": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetAttributeGroups",
+        "operationId": "Products_GetAttributeGroups",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -617,12 +617,12 @@
       },
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateAttributeGroup",
+        "operationId": "Products_CreateAttributeGroup",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -637,7 +637,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemAttributeGroup"
+                "$ref": "#/components/schemas/ApiCreateProductAttributeGroup"
               }
             }
           },
@@ -658,15 +658,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes/Groups/{attributeGroupId}": {
+    "/v1/Products/{productId}/Attributes/Groups/{attributeGroupId}": {
       "put": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateAttributeGroup",
+        "operationId": "Products_UpdateAttributeGroup",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -691,7 +691,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemAttributeGroup"
+                "$ref": "#/components/schemas/ApiUpdateProductAttributeGroup"
               }
             }
           },
@@ -713,12 +713,12 @@
       },
       "delete": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteAttributeGroup",
+        "operationId": "Products_DeleteAttributeGroup",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -753,15 +753,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Attributes/{attributeId}/GetAvailableValues": {
+    "/v1/Products/{productId}/Attributes/{attributeId}/GetAvailableValues": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetAvailableAttributeValues",
+        "operationId": "Products_GetAvailableAttributeValues",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -814,12 +814,12 @@
         }
       }
     },
-    "/v1/Items": {
+    "/v1/Products": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItems",
+        "operationId": "Products_GetProducts",
         "parameters": [
           {
             "name": "storeId",
@@ -840,7 +840,7 @@
             "x-position": 2
           },
           {
-            "name": "groupItems",
+            "name": "groupProducts",
             "in": "query",
             "schema": {
               "type": "boolean",
@@ -937,7 +937,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfItemDto"
+                  "$ref": "#/components/schemas/ItemsResultOfProductDto"
                 }
               }
             }
@@ -946,15 +946,15 @@
       },
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateItem",
+        "operationId": "Products_CreateProduct",
         "requestBody": {
           "x-name": "data",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItem"
+                "$ref": "#/components/schemas/ApiCreateProduct"
               }
             }
           },
@@ -967,7 +967,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemDto"
+                  "$ref": "#/components/schemas/ProductDto"
                 }
               }
             }
@@ -975,15 +975,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}": {
+    "/v1/Products/{productId}": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItem",
+        "operationId": "Products_GetProduct",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -999,7 +999,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemDto"
+                  "$ref": "#/components/schemas/ProductDto"
                 }
               }
             }
@@ -1008,12 +1008,12 @@
       },
       "put": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateItemDetails",
+        "operationId": "Products_UpdateProductDetails",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1028,7 +1028,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemDetails"
+                "$ref": "#/components/schemas/ApiUpdateProductDetails"
               }
             }
           },
@@ -1050,15 +1050,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/UploadImage": {
+    "/v1/Products/{productId}/UploadImage": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UploadItemImage",
+        "operationId": "Products_UploadProductImage",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1098,15 +1098,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Visibility": {
+    "/v1/Products/{productId}/Visibility": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateItemVisibility",
+        "operationId": "Products_UpdateProductVisibility",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1119,7 +1119,7 @@
             "name": "visibility",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/ItemVisibility"
+              "$ref": "#/components/schemas/ProductVisibility"
             },
             "x-position": 2
           }
@@ -1139,15 +1139,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Options": {
+    "/v1/Products/{productId}/Options": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItemOptions",
+        "operationId": "Products_GetProductOptions",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1184,12 +1184,12 @@
       },
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateItemOption",
+        "operationId": "Products_CreateProductOption",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1204,7 +1204,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemOption"
+                "$ref": "#/components/schemas/ApiCreateProductOption"
               }
             }
           },
@@ -1225,15 +1225,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Options/{optionId}": {
+    "/v1/Products/{productId}/Options/{optionId}": {
       "put": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateItemOption",
+        "operationId": "Products_UpdateProductOption",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1258,7 +1258,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemOption"
+                "$ref": "#/components/schemas/ApiUpdateProductOption"
               }
             }
           },
@@ -1280,12 +1280,12 @@
       },
       "delete": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteItemOption",
+        "operationId": "Products_DeleteProductOption",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1320,15 +1320,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Options/{optionId}/Values": {
+    "/v1/Products/{productId}/Options/{optionId}/Values": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateItemOptionValue",
+        "operationId": "Products_CreateProductOptionValue",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1353,7 +1353,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemOptionValue"
+                "$ref": "#/components/schemas/ApiCreateProductOptionValue"
               }
             }
           },
@@ -1375,12 +1375,12 @@
       },
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItemOptionValues",
+        "operationId": "Products_GetProductOptionValues",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1417,15 +1417,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Options/{optionId}/Values/{valueId}": {
+    "/v1/Products/{productId}/Options/{optionId}/Values/{valueId}": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteItemOptionValue",
+        "operationId": "Products_DeleteProductOptionValue",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1470,15 +1470,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Options/Groups": {
+    "/v1/Products/{productId}/Options/Groups": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetOptionGroups",
+        "operationId": "Products_GetOptionGroups",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1506,12 +1506,12 @@
       },
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateOptionGroup",
+        "operationId": "Products_CreateOptionGroup",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1526,7 +1526,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemOptionGroup"
+                "$ref": "#/components/schemas/ApiCreateProductOptionGroup"
               }
             }
           },
@@ -1547,15 +1547,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Options/Groups/{optionGroupId}": {
+    "/v1/Products/{productId}/Options/Groups/{optionGroupId}": {
       "put": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateOptionGroup",
+        "operationId": "Products_UpdateOptionGroup",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1580,7 +1580,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemOptionGroup"
+                "$ref": "#/components/schemas/ApiUpdateProductOptionGroup"
               }
             }
           },
@@ -1602,12 +1602,12 @@
       },
       "delete": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteOptionGroup",
+        "operationId": "Products_DeleteOptionGroup",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1642,15 +1642,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Variants": {
+    "/v1/Products/{productId}/Variants": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetVariants",
+        "operationId": "Products_GetVariants",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1721,7 +1721,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfItemDto"
+                  "$ref": "#/components/schemas/ItemsResultOfProductDto"
                 }
               }
             }
@@ -1730,12 +1730,12 @@
       },
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_CreateVariant",
+        "operationId": "Products_CreateVariant",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1750,7 +1750,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateItemVariant"
+                "$ref": "#/components/schemas/ApiCreateProductVariant"
               }
             }
           },
@@ -1763,7 +1763,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemDto"
+                  "$ref": "#/components/schemas/ProductDto"
                 }
               }
             }
@@ -1781,15 +1781,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Variants/{variantId}": {
+    "/v1/Products/{productId}/Variants/{variantId}": {
       "delete": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_DeleteVariant",
+        "operationId": "Products_DeleteVariant",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1825,12 +1825,12 @@
       },
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetVariant",
+        "operationId": "Products_GetVariant",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1856,7 +1856,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemDto"
+                  "$ref": "#/components/schemas/ProductDto"
                 }
               }
             }
@@ -1865,12 +1865,12 @@
       },
       "put": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UpdateVariant",
+        "operationId": "Products_UpdateVariant",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1895,7 +1895,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateItemVariant"
+                "$ref": "#/components/schemas/ApiUpdateProductVariant"
               }
             }
           },
@@ -1908,7 +1908,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemDto"
+                  "$ref": "#/components/schemas/ProductDto"
                 }
               }
             }
@@ -1926,15 +1926,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Variants/Find": {
+    "/v1/Products/{productId}/Variants/Find": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_FindVariantByAttributeValues",
+        "operationId": "Products_FindVariantByAttributeValues",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -1966,7 +1966,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemDto"
+                  "$ref": "#/components/schemas/ProductDto"
                 }
               }
             }
@@ -1974,15 +1974,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Variants/Find2": {
+    "/v1/Products/{productId}/Variants/Find2": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_FindVariantByAttributeValues2",
+        "operationId": "Products_FindVariantByAttributeValues2",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -2016,7 +2016,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ItemDto"
+                    "$ref": "#/components/schemas/ProductDto"
                   }
                 }
               }
@@ -2025,15 +2025,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Variants/{variantId}/Options": {
+    "/v1/Products/{productId}/Variants/{variantId}/Options": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetVariantAttributes",
+        "operationId": "Products_GetVariantAttributes",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -2059,7 +2059,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemVariantAttributeDto"
+                  "$ref": "#/components/schemas/ProductVariantAttributeDto"
                 }
               }
             }
@@ -2067,15 +2067,15 @@
         }
       }
     },
-    "/v1/Items/{itemId}/Variants/{variantId}/UploadImage": {
+    "/v1/Products/{productId}/Variants/{variantId}/UploadImage": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_UploadVariantImage",
+        "operationId": "Products_UploadVariantImage",
         "parameters": [
           {
-            "name": "itemId",
+            "name": "productId",
             "in": "path",
             "required": true,
             "schema": {
@@ -2363,7 +2363,7 @@
           }
         }
       },
-      "ItemGroupDto": {
+      "ProductGroupDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2381,13 +2381,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ItemGroupDto"
+                "$ref": "#/components/schemas/ProductGroupDto"
               }
             ]
           }
         }
       },
-      "ApiCreateItemGroup": {
+      "ApiCreateProductGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2408,7 +2408,7 @@
           }
         }
       },
-      "ApiUpdateItemGroup": {
+      "ApiUpdateProductGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2425,7 +2425,7 @@
           }
         }
       },
-      "ApiCreateItemAttribute": {
+      "ApiCreateProductAttribute": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2449,12 +2449,12 @@
           "values": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ApiCreateItemAttributeValue"
+              "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
             }
           }
         }
       },
-      "ApiCreateItemAttributeValue": {
+      "ApiCreateProductAttributeValue": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2463,7 +2463,7 @@
           }
         }
       },
-      "ApiUpdateItemAttribute": {
+      "ApiUpdateProductAttribute": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2487,12 +2487,12 @@
           "values": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ApiUpdateItemAttributeValue"
+              "$ref": "#/components/schemas/ApiUpdateProductAttributeValue"
             }
           }
         }
       },
-      "ApiUpdateItemAttributeValue": {
+      "ApiUpdateProductAttributeValue": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2505,7 +2505,7 @@
           }
         }
       },
-      "ApiCreateItemAttributeGroup": {
+      "ApiCreateProductAttributeGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2518,7 +2518,7 @@
           }
         }
       },
-      "ApiUpdateItemAttributeGroup": {
+      "ApiUpdateProductAttributeGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2531,14 +2531,14 @@
           }
         }
       },
-      "ItemsResultOfItemDto": {
+      "ItemsResultOfProductDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ItemDto"
+              "$ref": "#/components/schemas/ProductDto"
             }
           },
           "totalItems": {
@@ -2547,7 +2547,7 @@
           }
         }
       },
-      "ItemDto": {
+      "ProductDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2565,7 +2565,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ParentItemDto"
+                "$ref": "#/components/schemas/ParentProductDto"
               }
             ]
           },
@@ -2573,7 +2573,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ItemGroupDto"
+                "$ref": "#/components/schemas/ProductGroupDto"
               }
             ]
           },
@@ -2602,7 +2602,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ItemVisibility"
+                "$ref": "#/components/schemas/ProductVisibility"
               }
             ]
           },
@@ -2621,12 +2621,12 @@
           "attributes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ItemVariantAttributeDto"
+              "$ref": "#/components/schemas/ProductVariantAttributeDto"
             }
           }
         }
       },
-      "ParentItemDto": {
+      "ParentProductDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2644,13 +2644,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ItemGroupDto"
+                "$ref": "#/components/schemas/ProductGroupDto"
               }
             ]
           }
         }
       },
-      "ItemVisibility": {
+      "ProductVisibility": {
         "type": "integer",
         "description": "",
         "x-enumNames": [
@@ -2687,7 +2687,7 @@
               }
             ]
           },
-          "itemId": {
+          "productId": {
             "type": "string",
             "nullable": true
           },
@@ -2791,7 +2791,7 @@
           }
         }
       },
-      "ItemVariantAttributeDto": {
+      "ProductVariantAttributeDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2825,7 +2825,7 @@
           "Asc"
         ]
       },
-      "ApiUpdateItemDetails": {
+      "ApiUpdateProductDetails": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2860,7 +2860,7 @@
           }
         }
       },
-      "ApiCreateItem": {
+      "ApiCreateProduct": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2896,13 +2896,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ItemVisibility"
+                "$ref": "#/components/schemas/ProductVisibility"
               }
             ]
           }
         }
       },
-      "ApiCreateItemOption": {
+      "ApiCreateProductOption": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2943,7 +2943,7 @@
           "values": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ApiCreateItemOptionValue"
+              "$ref": "#/components/schemas/ApiCreateProductOptionValue"
             }
           },
           "defaultOptionValueId": {
@@ -2952,7 +2952,7 @@
           }
         }
       },
-      "ApiCreateItemOptionValue": {
+      "ApiCreateProductOptionValue": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2970,7 +2970,7 @@
           }
         }
       },
-      "ApiUpdateItemOption": {
+      "ApiUpdateProductOption": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3003,7 +3003,7 @@
           "values": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ApiUpdateItemOptionValue"
+              "$ref": "#/components/schemas/ApiUpdateProductOptionValue"
             }
           },
           "defaultOptionValueId": {
@@ -3012,7 +3012,7 @@
           }
         }
       },
-      "ApiUpdateItemOptionValue": {
+      "ApiUpdateProductOptionValue": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3034,7 +3034,7 @@
           }
         }
       },
-      "ApiCreateItemOptionGroup": {
+      "ApiCreateProductOptionGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3057,7 +3057,7 @@
           }
         }
       },
-      "ApiUpdateItemOptionGroup": {
+      "ApiUpdateProductOptionGroup": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3109,7 +3109,7 @@
           }
         }
       },
-      "ApiCreateItemVariant": {
+      "ApiCreateProductVariant": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3135,12 +3135,12 @@
           "attributes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ApiCreateItemVariantAttribute"
+              "$ref": "#/components/schemas/ApiCreateProductVariantAttribute"
             }
           }
         }
       },
-      "ApiCreateItemVariantAttribute": {
+      "ApiCreateProductVariantAttribute": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3152,7 +3152,7 @@
           }
         }
       },
-      "ApiUpdateItemVariant": {
+      "ApiUpdateProductVariant": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -3178,12 +3178,12 @@
           "attributes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ApiUpdateItemVariantAttribute"
+              "$ref": "#/components/schemas/ApiUpdateProductVariantAttribute"
             }
           }
         }
       },
-      "ApiUpdateItemVariantAttribute": {
+      "ApiUpdateProductVariantAttribute": {
         "type": "object",
         "additionalProperties": false,
         "properties": {

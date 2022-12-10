@@ -18,7 +18,7 @@ public sealed class TodosStepDefinitions
     }
 
     [Then("then an item should have been created")]
-    public void ThenAnItemShouldHaveBeenCreated()
+    public void ThenAnProductShouldHaveBeenCreated()
     {
 
     }

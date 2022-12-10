@@ -68,12 +68,12 @@
                                     <th scope="col">Price</th>
                                     <th scope="col">VAT Rate</th>
                                     <th scope="col">Total</th>
-                                </thead>
+                                </thead>xw
                                 <tbody>
                                     @foreach (var orderItem in order.Items)
                                     {
                                         <tr>
-                                            <td><a href="/items/@orderItem.ItemId">@orderItem.ItemId</a></td>
+                                            <td><a href="/products/@orderItem.ItemId">@orderItem.ItemId</a></td>
                                             <td>@orderItem.Description</td>
                                             <td>@orderItem.Notes</td>  
                                             <td>@orderItem.Quantity @orderItem.Unit</td>

@@ -15,5 +15,5 @@ public class Store : Entity<string>
     public string Handle { get; private set; } = null!;
 
 
-    public List<Item> Items { get; } = new List<Item>();
+    public List<Product> Products { get; } = new List<Product>();
 }

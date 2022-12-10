@@ -3,53 +3,53 @@
 using System;
 using YourBrand.Catalog.Application.Options;
 
-public record class ApiCreateItem(string Name, bool HasVariants, string? Description, string? GroupId, string? Id, decimal? Price, decimal? CompareAtPrice, ItemVisibility? Visibility);
+public record class ApiCreateProduct(string Name, bool HasVariants, string? Description, string? GroupId, string? Id, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
 
-public record class ApiUpdateItemDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, string? GroupId);
+public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, string? GroupId);
 
-public record class ApiCreateItemGroup(string? Id, string Name, string? Description, string? ParentGroupId);
+public record class ApiCreateProductGroup(string? Id, string Name, string? Description, string? ParentGroupId);
 
-public record class ApiUpdateItemGroup(string Name, string? Description, string? ParentGroupId);
+public record class ApiUpdateProductGroup(string Name, string? Description, string? ParentGroupId);
 
-public record class ApiCreateItemOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateItemOptionValue> Values, string? DefaultOptionValueId);
+public record class ApiCreateProductOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateProductOptionValue> Values, string? DefaultOptionValueId);
 
-public record class ApiCreateItemAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateItemAttributeValue> Values);
-
-
-public record class ApiCreateItemOptionValue(string Name, string? SKU, decimal? Price);
-
-public record class ApiCreateItemAttributeValue(string Name);
-
-public record class ApiUpdateItemOption(string Name, string? Description, OptionType OptionType, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiUpdateItemOptionValue> Values, string? DefaultOptionValueId);
-
-public record class ApiUpdateItemAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiUpdateItemAttributeValue> Values);
-
-public record class ApiUpdateItemOptionValue(string? Id, string Name, string? SKU, decimal? Price);
-
-public record class ApiUpdateItemAttributeValue(string? Id, string Name);
+public record class ApiCreateProductAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateProductAttributeValue> Values);
 
 
-public record class ApiCreateItemOptionGroup(string Name, string? Description, int? Min, int? Max);
+public record class ApiCreateProductOptionValue(string Name, string? SKU, decimal? Price);
 
-public record class ApiUpdateItemOptionGroup(string Name, string? Description, int? Min, int? Max);
+public record class ApiCreateProductAttributeValue(string Name);
 
-public record class ItemVariantAttributeDto(string Id, string Name, string Value, string? ValueId, bool IsMainAttribute);
+public record class ApiUpdateProductOption(string Name, string? Description, OptionType OptionType, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiUpdateProductOptionValue> Values, string? DefaultOptionValueId);
 
+public record class ApiUpdateProductAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiUpdateProductAttributeValue> Values);
 
-public record class ApiCreateItemAttributeGroup(string Name, string? Description);
+public record class ApiUpdateProductOptionValue(string? Id, string Name, string? SKU, decimal? Price);
 
-public record class ApiUpdateItemAttributeGroup(string Name, string? Description);
-
-
-
-public record class ApiCreateItemVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateItemVariantAttribute> Attributes);
-
-public record class ApiCreateItemVariantAttribute(string OptionId, string ValueId);
+public record class ApiUpdateProductAttributeValue(string? Id, string Name);
 
 
-public record class ApiUpdateItemVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiUpdateItemVariantAttribute> Attributes);
+public record class ApiCreateProductOptionGroup(string Name, string? Description, int? Min, int? Max);
 
-public record class ApiUpdateItemVariantAttribute(int? Id, string AttributeId, string ValueId);
+public record class ApiUpdateProductOptionGroup(string Name, string? Description, int? Min, int? Max);
+
+public record class ProductVariantAttributeDto(string Id, string Name, string Value, string? ValueId, bool IsMainAttribute);
+
+
+public record class ApiCreateProductAttributeGroup(string Name, string? Description);
+
+public record class ApiUpdateProductAttributeGroup(string Name, string? Description);
+
+
+
+public record class ApiCreateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
+
+public record class ApiCreateProductVariantAttribute(string OptionId, string ValueId);
+
+
+public record class ApiUpdateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiUpdateProductVariantAttribute> Attributes);
+
+public record class ApiUpdateProductVariantAttribute(int? Id, string AttributeId, string ValueId);
 
 
 public class VariantAlreadyExistsException : Exception
@@ -60,5 +60,5 @@ public class VariantAlreadyExistsException : Exception
 
 public enum OptionType { YesOrNo, Choice, NumericalValue, TextValue }
 
-public enum ItemVisibility { Unlisted, Listed }
+public enum ProductVisibility { Unlisted, Listed }
 

@@ -18,7 +18,7 @@ public class OptionValue : Entity<string>
 
     public string Name { get; set; } = null!;
 
-    [Column("InventoryItemId")]
+    [Column("InventoryProductId")]
     public string? SKU { get; set; }
 
     public decimal? Price { get; set; }

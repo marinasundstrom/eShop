@@ -28,7 +28,7 @@ public class AttributesController : Controller
 
     /*
     [HttpGet("{optionId}")]
-    public async Task<ActionResult<OptionDto>> GetItemOptionValues(string optionId)
+    public async Task<ActionResult<OptionDto>> GetProductOptionValues(string optionId)
     {
         return Ok(await api.GetOptions(false));
     }

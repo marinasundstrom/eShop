@@ -14,13 +14,13 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        context.ItemGroups.Add(new ItemGroup("clothes", "Clothes")
+        context.ProductGroups.Add(new ProductGroup("clothes", "Clothes")
         {
             Description = null,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         });
 
-        context.ItemGroups.Add(new ItemGroup("food", "Food")
+        context.ProductGroups.Add(new ProductGroup("food", "Food")
         {
             Description = null,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
@@ -45,16 +45,16 @@ public static class Seed
 
     public static async Task CreateShirt2(ApplicationDbContext context)
     {
-        var item = new Item("tshirt", "T-shirt")
+        var item = new Product("tshirt", "T-shirt")
         {
             Description = "T-shirt i olika färger",
             HasVariants = true,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Clothes"),
-            Visibility = ItemVisibility.Listed,
+            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Clothes"),
+            Visibility = ProductVisibility.Listed,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        context.Items.Add(item);
+        context.Products.Add(item);
 
         var attr = new Domain.Entities.Attribute("Size")
         {
@@ -95,20 +95,20 @@ public static class Seed
 
         ///*
 
-        var variantBlueSmall = new Item("tshirt-blue-small", "Blue S")
+        var variantBlueSmall = new Product("tshirt-blue-small", "Blue S")
         {
             GTIN = "4345547457457",
             Price = 120,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantBlueSmall.AttributeValues.Add(new ItemAttributeValue()
+        variantBlueSmall.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = attr,
             Value = valueSmall
         });
 
-        variantBlueSmall.AttributeValues.Add(new ItemAttributeValue()
+        variantBlueSmall.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = option2,
             Value = valueBlue
@@ -118,20 +118,20 @@ public static class Seed
 
         //*/
 
-        var variantBlueMedium = new Item("tshirt-blue-medium", "Blue M")
+        var variantBlueMedium = new Product("tshirt-blue-medium", "Blue M")
         {
             GTIN = "543453454567",
             Price = 120,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantBlueMedium.AttributeValues.Add(new ItemAttributeValue()
+        variantBlueMedium.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = attr,
             Value = valueMedium
         });
 
-        variantBlueMedium.AttributeValues.Add(new ItemAttributeValue()
+        variantBlueMedium.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = option2,
             Value = valueBlue
@@ -139,20 +139,20 @@ public static class Seed
 
         item.Variants.Add(variantBlueMedium);
 
-        var variantBlueLarge = new Item("tshirt-blue-large", "Blue L")
+        var variantBlueLarge = new Product("tshirt-blue-large", "Blue L")
         {
             GTIN = "6876345345345",
             Price = 60,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantBlueLarge.AttributeValues.Add(new ItemAttributeValue()
+        variantBlueLarge.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = attr,
             Value = valueLarge
         });
 
-        variantBlueLarge.AttributeValues.Add(new ItemAttributeValue()
+        variantBlueLarge.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = option2,
             Value = valueBlue
@@ -162,20 +162,20 @@ public static class Seed
 
         /////
 
-        var variantRedSmall = new Item("tshirt-red-small", "Red S")
+        var variantRedSmall = new Product("tshirt-red-small", "Red S")
         {
             GTIN = "4345547457457",
             Price = 120,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantRedSmall.AttributeValues.Add(new ItemAttributeValue()
+        variantRedSmall.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = attr,
             Value = valueSmall
         });
 
-        variantRedSmall.AttributeValues.Add(new ItemAttributeValue()
+        variantRedSmall.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = option2,
             Value = valueRed
@@ -183,20 +183,20 @@ public static class Seed
 
         item.Variants.Add(variantRedSmall);
 
-        var variantRedMedium = new Item("tshirt-red-medium", "Red M")
+        var variantRedMedium = new Product("tshirt-red-medium", "Red M")
         {
             GTIN = "543453454567",
             Price = 120,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantRedMedium.AttributeValues.Add(new ItemAttributeValue()
+        variantRedMedium.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = attr,
             Value = valueMedium
         });
 
-        variantRedMedium.AttributeValues.Add(new ItemAttributeValue()
+        variantRedMedium.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = option2,
             Value = valueRed
@@ -204,20 +204,20 @@ public static class Seed
 
         item.Variants.Add(variantRedMedium);
 
-        var variantRedLarge = new Item("tshirt-red-large", "Red L")
+        var variantRedLarge = new Product("tshirt-red-large", "Red L")
         {
             GTIN = "6876345345345",
             Price = 120,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantRedLarge.AttributeValues.Add(new ItemAttributeValue()
+        variantRedLarge.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = attr,
             Value = valueLarge
         });
 
-        variantRedLarge.AttributeValues.Add(new ItemAttributeValue()
+        variantRedLarge.AttributeValues.Add(new ProductAttributeValue()
         {
             Attribute = option2,
             Value = valueRed
@@ -235,15 +235,15 @@ public static class Seed
 
     public static async Task CreateKebabPlate(ApplicationDbContext context)
     {
-        var item = new Item("kebabtallrik", "Kebabtallrik")
+        var item = new Product("kebabtallrik", "Kebabtallrik")
         {
             Description = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
             Price = 89,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        context.Items.Add(item);
+        context.Products.Add(item);
 
         var option = new Option("Sås");
         item.Options.Add(option);
@@ -267,15 +267,15 @@ public static class Seed
 
     public static async Task CreateHerrgardsStek(ApplicationDbContext context)
     {
-        var item = new Item("herrgardsstek", "Herrgårdsstek")
+        var item = new Product("herrgardsstek", "Herrgårdsstek")
         {
             Description = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
             Price = 179,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        context.Items.Add(item);
+        context.Products.Add(item);
 
         await context.SaveChangesAsync();
 
@@ -316,15 +316,15 @@ public static class Seed
 
     public static async Task CreateKorg(ApplicationDbContext context)
     {
-        var item = new Item("korg", "Korg")
+        var item = new Product("korg", "Korg")
         {
             Description = "En korg med smårätter",
             Price = 179,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        context.Items.Add(item);
+        context.Products.Add(item);
 
         await context.SaveChangesAsync();
 
@@ -388,15 +388,15 @@ public static class Seed
 
     public static async Task CreatePizza(ApplicationDbContext context)
     {
-        var item = new Item("pizza", "Pizza")
+        var item = new Product("pizza", "Pizza")
         {
             Description = "Custom pizza",
             Price = 40,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
+            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        context.Items.Add(item);
+        context.Products.Add(item);
 
         await context.SaveChangesAsync();
 
@@ -503,16 +503,16 @@ public static class Seed
 
     public static async Task CreateSalad(ApplicationDbContext context)
     {
-        var item = new Item("sallad", "Sallad")
+        var item = new Product("sallad", "Sallad")
         {
             Description = "Din egna sallad",
             Price = 52,
-            Group = await context.ItemGroups.FirstAsync(x => x.Name == "Food"),
-            Visibility = ItemVisibility.Listed,
+            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
+            Visibility = ProductVisibility.Listed,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        context.Items.Add(item);
+        context.Products.Add(item);
 
         var baseGroup = new OptionGroup("Bas")
         {

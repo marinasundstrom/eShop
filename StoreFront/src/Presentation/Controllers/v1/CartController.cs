@@ -35,7 +35,7 @@ public class CartController : ControllerBase
     [HttpPost("Items")]
     public async Task AddItemToCart(AddCartItemDto dto, CancellationToken cancellationToken = default)
     {
-        await mediator.Send(new AddItemToCart(dto.ItemId!, dto.Quantity, dto.Data), cancellationToken);
+        await mediator.Send(new AddItemToCart(dto.ProductId!, dto.Quantity, dto.Data), cancellationToken);
     }
 
     [HttpPut("Items/{id}")]

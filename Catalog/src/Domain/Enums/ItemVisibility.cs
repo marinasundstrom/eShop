@@ -1,6 +1,6 @@
 ﻿namespace YourBrand.Catalog.Domain.Enums;
 
-public enum ItemVisibility
+public enum ProductVisibility
 {
     Unlisted,
     Listed

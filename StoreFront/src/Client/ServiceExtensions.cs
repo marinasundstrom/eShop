@@ -12,7 +12,7 @@ public static class ServiceExtensions
             .AddAnalyticsClient(configureClient, builder)
             .AddCartClient(configureClient, builder)
             .AddCheckoutClient(configureClient, builder)
-            .AddItemsClient(configureClient, builder)
+            .AddProductsClient(configureClient, builder)
             .AddUserClient(configureClient, builder);
 
         return services;
@@ -51,11 +51,11 @@ public static class ServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddItemsClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
+    public static IServiceCollection AddProductsClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
     {
         var b = services
-            .AddHttpClient(nameof(IItemsClient) + "SF", configureClient)
-            .AddTypedClient<IItemsClient>((http, sp) => new ItemsClient(http));
+            .AddHttpClient(nameof(IProductsClient) + "SF", configureClient)
+            .AddTypedClient<IProductsClient>((http, sp) => new ProductsClient(http));
 
         builder?.Invoke(b);
 

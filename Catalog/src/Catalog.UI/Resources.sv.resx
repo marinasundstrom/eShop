@@ -15,7 +15,7 @@
     <data name="Sales">
       <value>Sälj</value>
     </data>
-    <data name="Items">
+    <data name="Products">
       <value>Produkter</value>
     </data>
 </root>

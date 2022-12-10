@@ -51,11 +51,11 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Store> Stores { get; set; } = null!;
 
-    public DbSet<ItemGroup> ItemGroups { get; set; } = null!;
+    public DbSet<ProductGroup> ProductGroups { get; set; } = null!;
 
-    public DbSet<Item> Items { get; set; } = null!;
+    public DbSet<Product> Products { get; set; } = null!;
 
-    public DbSet<ItemAttribute> ItemAttributes { get; set; } = null!;
+    public DbSet<ProductAttribute> ProductAttributes { get; set; } = null!;
 
     public DbSet<AttributeGroup> AttributeGroups { get; set; } = null!;
 
@@ -63,11 +63,11 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<AttributeValue> AttributeValues { get; set; } = null!;
 
-    public DbSet<ItemOption> ItemOptions { get; set; } = null!;
+    public DbSet<ProductOption> ProductOptions { get; set; } = null!;
 
-    public DbSet<ItemAttributeValue> ItemAttributeValues { get; set; } = null!;
+    public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; } = null!;
 
-    public DbSet<ItemVariantOption> ItemVariantOptions { get; set; } = null!;
+    public DbSet<ProductVariantOption> ProductVariantOptions { get; set; } = null!;
 
     public DbSet<OptionGroup> OptionGroups { get; set; } = null!;
 

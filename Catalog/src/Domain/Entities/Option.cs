@@ -20,7 +20,7 @@ public class Option : Entity<string>
 
     public OptionGroup? Group { get; set; }
 
-    public ItemGroup? ItemGroup { get; set; }
+    public ProductGroup? ProductGroup { get; set; }
 
     public OptionType OptionType { get; set; } = OptionType.Choice;
 
@@ -28,16 +28,16 @@ public class Option : Entity<string>
 
     public bool IsSelected { get; set; }
 
-    [Column("InventoryItemId")]
+    [Column("InventoryProductId")]
     public string? SKU { get; set; }
 
     public decimal? Price { get; set; }
 
     public List<OptionValue> Values { get; } = new List<OptionValue>();
 
-    public List<Item> Items { get; } = new List<Item>();
+    public List<Product> Products { get; } = new List<Product>();
 
-    public List<ItemVariantOption> ItemVariantOptions { get; } = new List<ItemVariantOption>();
+    public List<ProductVariantOption> ProductVariantOptions { get; } = new List<ProductVariantOption>();
 
     [ForeignKey(nameof(DefaultValue))]
     public string? DefaultValueId { get; set; }

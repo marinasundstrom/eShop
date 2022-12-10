@@ -1,7 +1,7 @@
-﻿@page "/items/{itemId}/variants/new"
+﻿@page "/products/{productId}/variants/new"
 
 @using System.ComponentModel.DataAnnotations
-@inject IItemsClient ItemsClient
+@inject IProductsClient ProductsClient
 @inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
 
@@ -105,7 +105,7 @@
 </EditForm>
 
 @code {
-    [Parameter] public string ItemId { get; set; }
+    [Parameter] public string ProductId { get; set; }
 
     [Required]
     public string Name { get; set; }
@@ -124,7 +124,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var attributes = await ItemsClient.GetItemAttributesAsync(ItemId);
+        var attributes = await ProductsClient.GetProductAttributesAsync(ProductId);
         foreach (var attribute in attributes)
         {
             var vm = new AttributeVM()
@@ -137,7 +137,7 @@
             Attributes.Add(vm);
 
             vm.Values.AddRange(
-            await ItemsClient.GetItemAttributeValuesAsync(ItemId, attribute.Id));
+            await ProductsClient.GetProductAttributeValuesAsync(ProductId, attribute.Id));
 
             vm.SelectedValue = vm.Values.FirstOrDefault();
         }
@@ -175,18 +175,18 @@
 
     async Task OnSubmit()
     {
-        var data = new ApiCreateItemVariant
+        var data = new ApiCreateProductVariant
         {
             Name = Name,
             Description = Description,
             Id = Id,
             Price = Price,
-            Attributes = new List<ApiCreateItemVariantAttribute>()
+            Attributes = new List<ApiCreateProductVariantAttribute>()
         };
 
         foreach (var attribute in Attributes)
         {
-            var attributeData = new ApiCreateItemVariantAttribute
+            var attributeData = new ApiCreateProductVariantAttribute
             {
                 OptionId = attribute.Id,
                 ValueId = attribute.SelectedValue.Id
@@ -197,15 +197,15 @@
 
         try
         {
-            var result = await ItemsClient.CreateVariantAsync(ItemId, data);
+            var result = await ProductsClient.CreateVariantAsync(ProductId, data);
 
             if (file is not null)
             {
-                result.Image = await ItemsClient.UploadVariantImageAsync(ItemId, result.Id, new
+                result.Image = await ProductsClient.UploadVariantImageAsync(ProductId, result.Id, new
                 FileParameter(file.OpenReadStream(3 * 1000000), file.Name));
             }
 
-            NavigationManager.NavigateTo($"/items/{ItemId}/edit");
+            NavigationManager.NavigateTo($"/items/{ProductId}/edit");
         }
         catch (ApiException<ProblemDetails> exc)
         {

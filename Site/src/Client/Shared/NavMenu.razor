@@ -1,7 +1,7 @@
 ﻿@using Microsoft.JSInterop
 @implements IDisposable
 @inject IJSRuntime JS
-@inject IItemsClient ItemsClient
+@inject IProductsClient ProductsClient
 @inject PersistentComponentState ApplicationState
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-brand px-3">
@@ -42,9 +42,9 @@
                     <NavLink class="nav-link" href="groups">Produkter</NavLink>
                 </li>*@
 
-                @if(itemGroups is not null) 
+                @if(productGroups is not null) 
                 {
-                    @foreach (var group in itemGroups)
+                    @foreach (var group in productGroups)
                     {
                         <li class="nav-item">
                             <NavLink class="nav-link" href="@($"groups/{group.Id}")">@group.Name</NavLink>
@@ -80,7 +80,7 @@
 
 @code {
     private PersistingComponentStateSubscription persistingSubscription;
-    ICollection<ItemGroupDto>? itemGroups = null;
+    ICollection<ProductGroupDto>? productGroups = null;
     bool isOpen = false;
 
     void ToggleOpen() => isOpen = !isOpen;
@@ -91,20 +91,20 @@
         persistingSubscription =
             ApplicationState.RegisterOnPersisting(PersistItems);
 
-        if (!ApplicationState.TryTakeFromJson< ICollection<ItemGroupDto>>(
-            "itemGroups", out var restored))
+        if (!ApplicationState.TryTakeFromJson< ICollection<ProductGroupDto>>(
+            "productGroups", out var restored))
         {
-            itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
+            productGroups = await ProductsClient.GetProductGroupsAsync(null, true);
         }
         else
         {
-            itemGroups = restored!;
+            productGroups = restored!;
         }
     }
 
     private Task PersistItems()
     {
-        ApplicationState.PersistAsJson("itemGroups", itemGroups);
+        ApplicationState.PersistAsJson("productGroups", productGroups);
 
         return Task.CompletedTask;
     }

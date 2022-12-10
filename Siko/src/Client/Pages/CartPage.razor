@@ -17,8 +17,8 @@
                 {
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
-                            <h6 class="my-0">@cartItem.Item.Name</h6>
-                            <small class="text-muted">@cartItem.Item.Description</small>
+                            <h6 class="my-0">@cartItem.Product.Name</h6>
+                            <small class="text-muted">@cartItem.Product.Description</small>
                             <div class="d-flex">
                                 <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
                                 <button class="btn ms-2" @onclick="async () => await UpdateItem(cartItem)"><i class="fa fa-edit" /></button>
@@ -77,18 +77,18 @@
         }
         await CartClient.UpdateCartItemQuantityAsync(cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
-        cartItem.Total = cartItem.Quantity * cartItem.Item.Price;
+        cartItem.Total = cartItem.Quantity * cartItem.Product.Price;
     }
 
     async Task UpdateItem(SiteCartItemDto cartItem)
     {
-        if(cartItem.Item.Parent is null) 
+        if(cartItem.Product.Parent is null) 
         {
-            NavigationManager.NavigateTo($"/items/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+            NavigationManager.NavigateTo($"/products/{cartItem.Product.Id}?cartItemId={cartItem.Id}");
         }
         else 
         {
-            NavigationManager.NavigateTo($"/items/{cartItem.Item?.Parent.Id}/{cartItem.Item.Id}?cartItemId={cartItem.Id}");
+            NavigationManager.NavigateTo($"/products/{cartItem.Product?.Parent.Id}/{cartItem.Product.Id}?cartItemId={cartItem.Id}");
         }
     }
 

@@ -395,12 +395,12 @@
         }
       }
     },
-    "/v1/Items": {
+    "/v1/Products": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItems",
+        "operationId": "Products_GetProducts",
         "parameters": [
           {
             "name": "itemGroupId",
@@ -491,7 +491,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfSiteItemDto"
+                  "$ref": "#/components/schemas/ItemsResultOfSiteProductDto"
                 }
               }
             }
@@ -499,12 +499,12 @@
         }
       }
     },
-    "/v1/Items/{id}": {
+    "/v1/Products/{id}": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItem",
+        "operationId": "Products_GetProduct",
         "parameters": [
           {
             "name": "id",
@@ -523,7 +523,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SiteItemDto"
+                  "$ref": "#/components/schemas/SiteProductDto"
                 }
               }
             }
@@ -531,12 +531,12 @@
         }
       }
     },
-    "/v1/Items/{id}/Variants": {
+    "/v1/Products/{id}/Variants": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItemVariants",
+        "operationId": "Products_GetProductVariants",
         "parameters": [
           {
             "name": "id",
@@ -610,7 +610,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfSiteItemDto"
+                  "$ref": "#/components/schemas/ItemsResultOfSiteProductDto"
                 }
               }
             }
@@ -618,12 +618,12 @@
         }
       }
     },
-    "/v1/Items/{id}/Variants/Find": {
+    "/v1/Products/{id}/Variants/Find": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_FindItemVariantByAttributes",
+        "operationId": "Products_FindProductVariantByAttributes",
         "parameters": [
           {
             "name": "id",
@@ -657,7 +657,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SiteItemDto"
+                  "$ref": "#/components/schemas/SiteProductDto"
                 }
               }
             }
@@ -665,12 +665,12 @@
         }
       }
     },
-    "/v1/Items/{id}/Variants/Find2": {
+    "/v1/Products/{id}/Variants/Find2": {
       "post": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_FindItemVariantByAttributes2",
+        "operationId": "Products_FindProductVariantByAttributes2",
         "parameters": [
           {
             "name": "id",
@@ -706,7 +706,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/SiteItemDto"
+                    "$ref": "#/components/schemas/SiteProductDto"
                   }
                 }
               }
@@ -715,12 +715,12 @@
         }
       }
     },
-    "/v1/Items/Categories": {
+    "/v1/Products/Categories": {
       "get": {
         "tags": [
-          "Items"
+          "Products"
         ],
-        "operationId": "Items_GetItemGroups",
+        "operationId": "Products_GetProductGroups",
         "parameters": [
           {
             "name": "parentGroupId",
@@ -752,7 +752,7 @@
                     "nullable": true,
                     "oneOf": [
                       {
-                        "$ref": "#/components/schemas/ItemGroupDto"
+                        "$ref": "#/components/schemas/ProductGroupDto"
                       }
                     ]
                   }
@@ -912,8 +912,8 @@
           "id": {
             "type": "string"
           },
-          "item": {
-            "$ref": "#/components/schemas/SiteItemDto"
+          "product": {
+            "$ref": "#/components/schemas/SiteProductDto"
           },
           "quantity": {
             "type": "integer",
@@ -929,7 +929,7 @@
           }
         }
       },
-      "SiteItemDto": {
+      "SiteProductDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -947,7 +947,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/SiteParentItemDto"
+                "$ref": "#/components/schemas/SiteParentProductDto"
               }
             ]
           },
@@ -955,7 +955,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/SiteItemGroupDto"
+                "$ref": "#/components/schemas/SiteProductGroupDto"
               }
             ]
           },
@@ -995,12 +995,12 @@
           "variantAttributes": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ItemVariantAttributeDto"
+              "$ref": "#/components/schemas/ProductVariantAttributeDto"
             }
           }
         }
       },
-      "SiteParentItemDto": {
+      "SiteParentProductDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1018,13 +1018,13 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/SiteItemGroupDto"
+                "$ref": "#/components/schemas/SiteProductGroupDto"
               }
             ]
           }
         }
       },
-      "SiteItemGroupDto": {
+      "SiteProductGroupDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1038,7 +1038,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/SiteItemGroupDto"
+                "$ref": "#/components/schemas/SiteProductGroupDto"
               }
             ]
           }
@@ -1138,7 +1138,7 @@
               }
             ]
           },
-          "itemId": {
+          "productId": {
             "type": "string",
             "nullable": true
           },
@@ -1268,7 +1268,7 @@
           }
         }
       },
-      "ItemVariantAttributeDto": {
+      "ProductVariantAttributeDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1294,7 +1294,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "itemId": {
+          "productId": {
             "type": "string",
             "nullable": true
           },
@@ -1410,14 +1410,14 @@
           }
         }
       },
-      "ItemsResultOfSiteItemDto": {
+      "ItemsResultOfSiteProductDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SiteItemDto"
+              "$ref": "#/components/schemas/SiteProductDto"
             }
           },
           "totalItems": {
@@ -1438,7 +1438,7 @@
           "Asc"
         ]
       },
-      "ItemGroupDto": {
+      "ProductGroupDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -1456,7 +1456,7 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ItemGroupDto"
+                "$ref": "#/components/schemas/ProductGroupDto"
               }
             ]
           }

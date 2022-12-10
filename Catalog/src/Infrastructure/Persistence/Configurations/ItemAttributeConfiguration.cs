@@ -5,10 +5,10 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
-public class ItemAttributeConfiguration : IEntityTypeConfiguration<ItemAttribute>
+public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAttribute>
 {
-    public void Configure(EntityTypeBuilder<ItemAttribute> builder)
+    public void Configure(EntityTypeBuilder<ProductAttribute> builder)
     {
-        builder.ToTable("ItemAttributes");
+        builder.ToTable("ProductAttributes");
     }
 }

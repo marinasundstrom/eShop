@@ -1,0 +1,224 @@
+@page "/products/{id}"
+@page "/products/{id}/{variantId}"
+@implements IDisposable
+@inject PersistentComponentState ApplicationState
+@inject NavigationManager NavigationManager
+@inject IProductsClient ProductsClient
+@inject ICartClient CartClient
+@inject AnalyticsService AnalyticsService
+@inject IJSRuntime JS
+
+<SitePageTitle>Produkt</SitePageTitle>
+
+@if(productViewModel is not null) 
+{
+    <article class="container">
+            <SitePageTitle>@productViewModel.Name</SitePageTitle>
+
+            <HeadContent>
+                <meta name="description" content="@productViewModel.Description">
+                <meta name="keywords" content="">
+            </HeadContent>
+
+            <div class="row">
+                <div class="col-12 col-md-4 mb-4">
+                    <div class="card mb-3 my-3 bg-body rounded shadow-sm">
+                        @if(productViewModel.Image is not null) 
+                        {
+                            <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@productViewModel.Image" style="object-fit: cover;" />
+                        }
+                        else 
+                        {
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        }
+                    </div>
+                </div>
+
+                <section class="col-12 col-md-8">
+                    <div class="mb-3 my-3 p-3 bg-body rounded shadow-sm">
+                        <h1>@productViewModel.Name</h1>
+
+                        @*<p>@productViewModel.Id</p>*@
+
+                        <PriceDisplay Price="@productViewModel.Total" CompareAtPrice="@productViewModel.CompareAtPrice" />
+
+                        @if (productViewModel.Available is not null)
+                        {
+                            <p class="text-muted mt-2">@productViewModel.Available available</p>
+                        }
+
+                        <p class="mt-3">@productViewModel.Description</p>
+
+                        <div class="d-flex justify-content-start mt-4 mb-2">
+                            <div>
+                                <InputQuantity MinValue="1" @bind-Value="quantity" />
+                            </div>
+
+                            <div>
+                                @if (CartItemId is null)
+                                {
+                                    <button type="button" class="btn btn-outline-secondary ms-2 me-2" @onclick="AddItemToCart" @onclick:preventDefault><i class="fa fa-shopping-basket"></i> Add to basket</button>
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-outline-secondary ms-2 me-2" @onclick="UpdateCartItem" @onclick:preventDefault><i class="fa fa-shopping-basket"></i> Update item</button>
+                                }
+                                @if (hasAddedToCart)
+                                {
+                                    <a class="btn btn-primary fadeInRight" href="/checkout"><i class="fa fa-shopping-basket"></i> Check out</a>
+                                }
+                            </div>
+                        </div>
+
+                        @if (productViewModel.Variants is not null && productViewModel.Variants.Any())
+                        {
+                            <div class="d-flex">
+                                @foreach (var v in productViewModel.Variants)
+                                {
+                                    <div @key="v.Id">
+                                        <div class="card shadow-sm mt-4 me-2" @onclick="async () => await SelectVariant(v!)">
+                                            @if ((v?.Image ?? productViewModel.Image) is not null)
+                                            {
+                                                <img src="@(v?.Image ?? productViewModel.Image)" width="100" height="100%" alt="@v!.Name" />
+                                            }
+                                            else
+                                            {
+                                                <svg class="rounded-lg" width="100" height="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+
+                        @if (productViewModel.OptionGroups.Any())
+                        {
+                            <div class="form">
+                                @foreach (var optionGroup in productViewModel.OptionGroups)
+                                {
+                                    <h3 class="mt-4">@(optionGroup.Name ?? "Options")</h3>
+
+                                    @if (optionGroup.Max is not null)
+                                    {
+                                        <small class="text-muted">Max @optionGroup.Max</small>
+                                    }
+
+                                    @foreach (var itemOption in optionGroup.Options)
+                                    {
+                                        <div class="form-floating mb-3 mt-3">
+                                            @if (itemOption.OptionType == OptionType.YesOrNo)
+                                            {
+                                                <div class="form-check">
+                                                    <InputCheckbox class="form-check-input"
+                                                                   Value="@itemOption.IsSelected"
+                                                                   ValueExpression="() => itemOption.IsSelected"
+                                                                   ValueChanged="async (v) => { itemOption.IsSelected = v; await UpdateUrl(); }"
+                                                                   id="flexCheckDefault"
+                                                                   disabled=@(!itemOption.IsSelected && optionGroup.Options.Count(x => x.IsSelected) >= optionGroup.Max) />
+
+                                                    <label class="form-check-label" for="flexCheckDefault">
+                                                        @itemOption.Name
+                                                        @if (itemOption.Price is not null)
+                                                        {
+                                                            <small class="text-muted ms-2">@itemOption.Price?.ToString("c")</small>
+                                                        }
+                                                    </label>
+                                                </div>
+                                            }
+                                            else if (itemOption.OptionType == OptionType.Choice)
+                                            {
+                                                <InputSelect TValue="string?" Value="@itemOption.SelectedValueId" ValueExpression="() => itemOption.SelectedValueId" ValueChanged="async (v) => { itemOption.SelectedValueId = v; await UpdateUrl(); }" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
+                                                    @* <option selected>None</option> *@
+                                                    @foreach (var value in itemOption.Values!)
+                                                    {
+                                                        <option value="@value.Id">
+                                                            @value.Name
+                                                            @if (value.Price is not null)
+                                                            {
+                                                                <small class="text-muted ms-2">@value.Price?.ToString("c")</small>
+                                                            }
+                                                        </option>
+                                                    }
+                                                </InputSelect>
+                                                <label for="exampleInputEmail1">
+                                                    @itemOption.Name
+                                                </label>
+                                            }
+                                            else if (itemOption.OptionType == OptionType.NumericalValue)
+                                            {
+                                                <InputNumber TValue="int?"
+                                                             Value="@itemOption.NumericalValue"
+                                                             ValueExpression="() => itemOption.NumericalValue"
+                                                             ValueChanged="async (v) => { itemOption.NumericalValue = v; await UpdateUrl(); }"
+                                                             type="number"
+                                                             class="form-control"
+                                                             id="exampleInputEmail1"
+                                                             aria-describedby="emailHelp"
+                                                             placeholder="Enter value"
+                                                             min="@itemOption.MinNumericalValue"
+                                                             step="1"
+                                                             max="@itemOption.MaxNumericalValue" />
+                                                <label for="exampleInputEmail1">@itemOption.Name</label>
+                                            }
+                                            else if (itemOption.OptionType == OptionType.TextValue)
+                                            {
+                                                <InputText Value="@itemOption.TextValue"
+                                                           ValueExpression="() => itemOption.TextValue"
+                                                           ValueChanged="async (v) => { itemOption.TextValue = v; await UpdateUrl(); }"
+                                                           type="text"
+                                                           class="form-control"
+                                                           id="exampleInputEmail1"
+                                                           aria-describedby="emailHelp"
+                                                           placeholder="Enter value" />
+                                                <label for="exampleInputEmail1">@itemOption.Name</label>
+                                            }
+
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+
+                        @if (productViewModel.AttributeGroups.Any())
+                        {
+                            <div class="form">
+                                @foreach (var attributeGroup in productViewModel.AttributeGroups)
+                                {
+                                    <h3 class="mt-4">@(attributeGroup.Name ?? "Attributes")</h3>
+
+                                    @foreach (var itemAttribute in attributeGroup.Attributes)
+                                    {
+                                        <div class="form-floating mb-3 mt-3">
+
+                                            <InputSelect TValue="string?" Value="@itemAttribute.SelectedValueId" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await UpdateVariant(); await UpdateUrl(); }" class="form-select" aria-label="@itemAttribute.Name" placeholder="Choose option">
+                                                @* <option selected>None</option> *@
+                                                @foreach (var value in itemAttribute.Values!)
+                                                {
+                                                    <option value="@value.Id">
+                                                        @value.Name
+                                                    </option>
+                                                }
+                                            </InputSelect>
+                                            <label for="exampleInputEmail1">
+                                                @itemAttribute.Name
+                                            </label>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                    </div>
+                </section>
+            </div>
+    </article>
+}
+else 
+{
+    @*
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    *@
+}

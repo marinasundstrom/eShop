@@ -18,7 +18,7 @@ public sealed record Checkout(
         private readonly YourBrand.Carts.ICartsClient cartsClient;
         private readonly IItemsClient itemsClient;
         private readonly IWarehouseItemsClient itemsClient1;
-        private readonly YourBrand.Catalog.IItemsClient itemsClient2;
+        private readonly YourBrand.Catalog.IProductsClient itemsClient2;
         private readonly ICurrentUserService currentUserService;
         private readonly ICartHubService cartHubService;
 
@@ -27,7 +27,7 @@ public sealed record Checkout(
             YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Inventory.IItemsClient itemsClient,
             YourBrand.Inventory.IWarehouseItemsClient itemsClient1,
-            YourBrand.Catalog.IItemsClient itemsClient2,
+            YourBrand.Catalog.IProductsClient itemsClient2,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
         {
@@ -53,7 +53,7 @@ public sealed record Checkout(
 
             foreach (var cartItem in cart.Items)
             {
-                var item = await itemsClient2.GetItemAsync(cartItem.ItemId, cancellationToken);
+                var item = await itemsClient2.GetProductAsync(cartItem.ItemId, cancellationToken);
 
                 var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
                 {
@@ -161,7 +161,7 @@ public sealed record Checkout(
             return Unit.Value;
         }
 
-        private static decimal CalculatePrice(YourBrand.Catalog.ItemDto item, IEnumerable<Option>? options)
+        private static decimal CalculatePrice(YourBrand.Catalog.ProductDto item, IEnumerable<Option>? options)
         {
             decimal price = 0;
 

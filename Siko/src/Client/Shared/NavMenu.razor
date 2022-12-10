@@ -1,7 +1,7 @@
 ﻿@using Microsoft.JSInterop
 @implements IDisposable
 @inject IJSRuntime JS
-@inject IItemsClient ItemsClient
+@inject IProductsClient ProductsClient
 @inject PersistentComponentState ApplicationState
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light px-3">
@@ -103,7 +103,7 @@
 
 @code {
     private PersistingComponentStateSubscription persistingSubscription;
-    ICollection<ItemGroupDto>? itemGroups = null;
+    ICollection<ProductGroupDto>? itemGroups = null;
     bool isOpen = false;
 
     void ToggleOpen() => isOpen = !isOpen;
@@ -114,10 +114,10 @@
         persistingSubscription =
             ApplicationState.RegisterOnPersisting(PersistItems);
 
-        if (!ApplicationState.TryTakeFromJson< ICollection<ItemGroupDto>>(
+        if (!ApplicationState.TryTakeFromJson< ICollection<ProductGroupDto>>(
             "itemGroups", out var restored))
         {
-            itemGroups = await ItemsClient.GetItemGroupsAsync(null, true);
+            itemGroups = await ProductsClient.GetProductGroupsAsync(null, true);
         }
         else
         {

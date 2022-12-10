@@ -1,0 +1,122 @@
+﻿@page "/products"
+@inject IProductsClient ProductsClient
+@inject IProductGroupsClient ProductGroupsClient
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+<AppPageTitle>Products</AppPageTitle>
+
+<section>
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">Products</MudText>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateProduct" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create product</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary" Link="/products/list">All products</MudButton>
+</section>
+
+<div class="py-5">
+        <div class="mb-4">
+            <MudChipSet SelectedChip="chip" SelectedChipChanged="async (MudChip e) => await SetGroup(e)">
+                @if (itemGroups is not null)
+                {
+                    <MudChip Color="Color.Primary" Text="All"></MudChip>
+
+                    foreach (var pg in itemGroups)
+                    {
+                        <MudChip Color="Color.Secondary" Text="@pg.Name"></MudChip>
+                    }
+                }
+            </MudChipSet>
+        </div>
+
+        @if (items is null)
+        {
+            <YourBrand.Portal.LoadingIndicator />
+        }
+        else
+        {
+            <MudGrid Spacing="6" Class="mb-4">
+                @foreach (var item in items)
+                {
+                    <MudItem xs="12" sm="6" md="4" lg="4">
+                        <a href="/products/@item.Id/edit">
+                            <MudCard Elevation="25">
+                                <MudCardMedia Image="@item.Image" Height="200" />
+
+                                <MudCardContent>
+                                    <MudText Typo="Typo.h5">@item.Name</MudText>
+                                    <MudText Typo="Typo.body2">@item.Description</MudText>
+                                </MudCardContent>
+                                <MudCardActions Class="mx-2 d-flex justify-space-between flex-grow-1 gap-4">
+                                    <MudText Typo="Typo.body2">
+                                    @if(item.CompareAtPrice is not null) 
+                                    {
+                                        <span class="me-3" style="text-decoration: line-through; color: gray;">@item.CompareAtPrice?.ToString("c") </span> 
+                                    }
+                                    @item.Price.ToString("c")</MudText>
+                                    <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}/edit")">Learn More</MudButton>
+                                </MudCardActions>
+                            </MudCard>
+                        </a> 
+                    </MudItem>
+                }
+            </MudGrid>
+
+            <MudPagination Color="Color.Primary" Count="pages" SelectedChanged="OnPageChanged" />
+        }
+</div>
+
+@code
+{
+    int pageSize = 9;
+    int pages = 0;
+    int page = 1;
+    MudChip chip;
+    IEnumerable<ProductGroupDto>? itemGroups = null;
+    IEnumerable<ProductDto>? items = null;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? GroupId { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        itemGroups = await ProductGroupsClient.GetProductGroupsAsync(null, null, true, true);
+
+        await OnPageChanged(1);
+    }
+
+    async Task OnPageChanged(int page)
+    {
+        var result = await ProductsClient.GetProductsAsync(null, false, true, GroupId, null, null, page - 1, pageSize, null, null, null);
+        items = result.Items;
+        
+        this.pages = (int)Math.Ceiling((double)result.TotalItems / (double)pageSize);
+        this.page = page;
+    }
+
+    async Task CreateProduct()
+    {
+        var modalRef = DialogService.Show<CreateProductModal>("New Product");
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        var item = (ProductDto)result.Data;
+
+        NavigationManager.NavigateTo($"/products/{item.Id}/edit");
+    }
+
+    async Task SetGroup(MudChip chip)
+    {
+        var group = itemGroups.FirstOrDefault(g => g.Name == chip.Text);
+        GroupId = group?.Id;
+
+        await OnPageChanged(1);
+
+        this.chip = chip;
+
+        NavigationManager.NavigateTo($"/products?groupId={GroupId}", replace: true);
+    }
+}
+

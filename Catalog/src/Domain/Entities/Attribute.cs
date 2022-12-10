@@ -16,13 +16,13 @@ public class Attribute : Entity<string>
 
     public AttributeGroup? Group { get; set; }
 
-    public ItemGroup? ItemGroup { get; set; }
+    public ProductGroup? ProductGroup { get; set; }
 
     public bool ForVariant { get; set; }
 
     public bool IsMainAttribute { get; set; }
 
-    public List<Item> Items { get; } = new List<Item>();
+    public List<Product> Products { get; } = new List<Product>();
 
     public List<AttributeValue> Values { get; } = new List<AttributeValue>();
 }

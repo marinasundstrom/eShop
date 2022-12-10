@@ -10,7 +10,7 @@ namespace YourBrand.Catalog.Tests;
 public class TodosPageTest
 {
     [Fact]
-    public void ItemsShouldLoadOnInitializedSuccessful()
+    public void ProductsShouldLoadOnInitializedSuccessful()
     {
         // Arrange
         using var ctx = new TestContext();
@@ -28,12 +28,12 @@ public class TodosPageTest
         fakeTodosClient.GetTodosAsync(Arg.Any<TodoStatusDto>(), null, null, null, null, default)
             .ReturnsForAnyArgs(t => new ItemsResultOfTodoDto()
             {
-                Items = new[]
+                Products = new[]
                 {
                     new TodoDto
                     {
                         Id = 1,
-                        Title = "Item 1",
+                        Title = "Product 1",
                         Description = "Description",
                         Status = TodoStatusDto.InProgress,
                         Created = DateTimeOffset.Now.AddMinutes(-3)
@@ -41,7 +41,7 @@ public class TodosPageTest
                     new TodoDto
                     {
                         Id = 2,
-                        Title = "Item 2",
+                        Title = "Product 2",
                         Description = "Description",
                         Status = TodoStatusDto.InProgress,
                         Created = DateTimeOffset.Now.AddMinutes(-1)
@@ -49,13 +49,13 @@ public class TodosPageTest
                     new TodoDto
                     {
                         Id = 3,
-                        Title = "Item 2",
+                        Title = "Product 2",
                         Description = "Description",
                         Status = TodoStatusDto.InProgress,
                         Created = DateTimeOffset.Now
                     }
                 },
-                TotalItems = 3
+                TotalProducts = 3
             });
 
         ctx.Services.AddSingleton<ITodosClient>(fakeTodosClient);

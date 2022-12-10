@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using YourBrand.Catalog.Application.Behaviors;
-using YourBrand.Catalog.Application.Items.Variants;
+using YourBrand.Catalog.Application.Products.Variants;
 
 namespace YourBrand.Catalog.Application;
 
@@ -15,7 +15,7 @@ public static class ServiceExtensions
 
         services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
 
-        services.AddScoped<ItemsService>();
+        services.AddScoped<ProductsService>();
 
         return services;
     }

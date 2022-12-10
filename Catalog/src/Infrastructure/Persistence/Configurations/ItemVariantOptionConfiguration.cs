@@ -5,25 +5,25 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
-public class ItemVariantOptionConfiguration : IEntityTypeConfiguration<ItemVariantOption>
+public class ProductVariantOptionConfiguration : IEntityTypeConfiguration<ProductVariantOption>
 {
-    public void Configure(EntityTypeBuilder<ItemVariantOption> builder)
+    public void Configure(EntityTypeBuilder<ProductVariantOption> builder)
     {
-        builder.ToTable("ItemVariantOption");
+        builder.ToTable("ProductVariantOption");
 
         builder
-            .HasOne(x => x.Item)
-            .WithMany(x => x.ItemVariantOptions)
+            .HasOne(x => x.Product)
+            .WithMany(x => x.ProductVariantOptions)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder
-            .HasOne(x => x.Item)
-            .WithMany(x => x.ItemVariantOptions)
+            .HasOne(x => x.Product)
+            .WithMany(x => x.ProductVariantOptions)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder
             .HasOne(x => x.Option)
-            .WithMany(x => x.ItemVariantOptions)
+            .WithMany(x => x.ProductVariantOptions)
             .OnDelete(DeleteBehavior.NoAction);
     }
 }

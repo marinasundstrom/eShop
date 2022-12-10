@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Application;
 using YourBrand.Catalog.Application.Options;
-using YourBrand.Catalog.Application.Items.Groups;
-using YourBrand.Catalog.Application.Items.Options;
-using YourBrand.Catalog.Application.Items.Options.Groups;
+using YourBrand.Catalog.Application.Products.Groups;
+using YourBrand.Catalog.Application.Products.Options;
+using YourBrand.Catalog.Application.Products.Options.Groups;
 using MediatR;
 
 namespace YourBrand.Catalog.Presentation.Controllers;
@@ -12,42 +12,42 @@ namespace YourBrand.Catalog.Presentation.Controllers;
 [ApiController]
 [ApiVersion("1")]
 [Route("v{version:apiVersion}/[controller]")]
-public partial class ItemGroupsController : Controller
+public partial class ProductGroupsController : Controller
 {
     private readonly IMediator _mediator;
 
-    public ItemGroupsController(IMediator mediator)
+    public ProductGroupsController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ItemGroupDto>>> GetItemGroups(string? storeId = null, string? parentGroupId = null, bool includeWithUnlistedItems = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<IEnumerable<ProductGroupDto>>> GetProductGroups(string? storeId = null, string? parentGroupId = null, bool includeWithUnlistedProducts = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetItemGroups(storeId, parentGroupId, includeWithUnlistedItems, IncludeHidden), cancellationToken));
+        return Ok(await _mediator.Send(new GetProductGroups(storeId, parentGroupId, includeWithUnlistedProducts, IncludeHidden), cancellationToken));
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ItemGroupDto>> GetItemGroup(string id, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ProductGroupDto>> GetProductGroup(string id, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetItemGroup(id), cancellationToken));
+        return Ok(await _mediator.Send(new GetProductGroup(id), cancellationToken));
     }
     [HttpPost]
-    public async Task<ActionResult<ItemGroupDto>> CreateItemGroup(ApiCreateItemGroup data, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ProductGroupDto>> CreateProductGroup(ApiCreateProductGroup data, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new CreateItemGroup(data.Name, data), cancellationToken));
+        return Ok(await _mediator.Send(new CreateProductGroup(data.Name, data), cancellationToken));
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ItemGroupDto>> UpdateItemGroup(string id, ApiUpdateItemGroup data, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(string id, ApiUpdateProductGroup data, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new UpdateItemGroup(id, data), cancellationToken));
+        return Ok(await _mediator.Send(new UpdateProductGroup(id, data), cancellationToken));
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteItemGroup(string id, CancellationToken cancellationToken = default)
+    public async Task<ActionResult> DeleteProductGroup(string id, CancellationToken cancellationToken = default)
     {
-        await _mediator.Send(new DeleteItemGroup(id), cancellationToken);
+        await _mediator.Send(new DeleteProductGroup(id), cancellationToken);
         return Ok();
     }
 }

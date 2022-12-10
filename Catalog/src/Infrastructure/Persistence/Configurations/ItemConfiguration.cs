@@ -5,43 +5,43 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
-public class ItemConfiguration : IEntityTypeConfiguration<Item>
+public class ProductConfiguration : IEntityTypeConfiguration<Product>
 {
-    public void Configure(EntityTypeBuilder<Item> builder)
+    public void Configure(EntityTypeBuilder<Product> builder)
     {
-        builder.ToTable("Items");
+        builder.ToTable("Products");
 
         builder
             .HasMany(p => p.Options)
-            .WithMany(p => p.Items)
-            .UsingEntity<ItemOption>();
+            .WithMany(p => p.Products)
+            .UsingEntity<ProductOption>();
 
         builder
             .HasMany(p => p.Attributes)
-            .WithMany(p => p.Items)
-            .UsingEntity<ItemAttribute>();
+            .WithMany(p => p.Products)
+            .UsingEntity<ProductAttribute>();
 
         builder
-            .HasOne(x => x.ParentItem)
+            .HasOne(x => x.ParentProduct)
             .WithMany(x => x.Variants)
-            .HasForeignKey(x => x.ParentItemId)
+            .HasForeignKey(x => x.ParentProductId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder
-            .HasMany(x => x.ItemOptions)
-            .WithOne(x => x.Item)
+            .HasMany(x => x.ProductOptions)
+            .WithOne(x => x.Product)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
             .HasOne(p => p.Group)
-            .WithMany(p => p.Items);
+            .WithMany(p => p.Products);
 
         builder
             .HasOne(p => p.Group2)
-            .WithMany(p => p.Items2);
+            .WithMany(p => p.Products2);
 
         builder
             .HasOne(p => p.Group3)
-            .WithMany(p => p.Items3);
+            .WithMany(p => p.Products3);
     }
 }

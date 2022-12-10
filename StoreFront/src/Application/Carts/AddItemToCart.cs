@@ -9,13 +9,13 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
     sealed class Handler : IRequestHandler<AddItemToCart>
     {
         private readonly YourBrand.Carts.ICartsClient cartsClient;
-        private readonly IItemsClient itemsClient;
+        private readonly IProductsClient itemsClient;
         private readonly ICartHubService cartHubService;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Carts.ICartsClient  cartsClient,
-            YourBrand.Catalog.IItemsClient itemsClient,
+            YourBrand.Catalog.IProductsClient itemsClient,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
         {
@@ -27,7 +27,7 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
 
         public async Task<Unit> Handle(AddItemToCart request, CancellationToken cancellationToken)
         {
-            var item = await itemsClient.GetItemAsync(request.ItemId);
+            var item = await itemsClient.GetProductAsync(request.ItemId);
 
             if (item.HasVariants)
             {

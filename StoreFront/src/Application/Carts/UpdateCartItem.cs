@@ -9,13 +9,13 @@ public sealed record UpdateCartItem(string Id, int Quantity, string? Data) : IRe
     sealed class Handler : IRequestHandler<UpdateCartItem>
     {
         private readonly YourBrand.Carts.ICartsClient cartsClient;
-        private readonly IItemsClient itemsClient;
+        private readonly IProductsClient itemsClient;
         private readonly ICartHubService cartHubService;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Carts.ICartsClient  cartsClient,
-            YourBrand.Catalog.IItemsClient itemsClient,
+            YourBrand.Catalog.IProductsClient itemsClient,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
         {

@@ -7,12 +7,12 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Infrastructure.Persistence.Configurations;
 
-public class ItemAttributeValueConfiguration : IEntityTypeConfiguration<ItemAttributeValue>
+public class ProductAttributeValueConfiguration : IEntityTypeConfiguration<ProductAttributeValue>
 {
-    public void Configure(EntityTypeBuilder<ItemAttributeValue> builder)
+    public void Configure(EntityTypeBuilder<ProductAttributeValue> builder)
     {
-        builder.ToTable("ItemAttributeValues");
+        builder.ToTable("ProductAttributeValues");
 
-        builder.HasOne(m => m.Value).WithMany(m => m.ItemValues).OnDelete(DeleteBehavior.NoAction);
+        builder.HasOne(m => m.Value).WithMany(m => m.ProductAttributeValues).OnDelete(DeleteBehavior.NoAction);
     }
 }

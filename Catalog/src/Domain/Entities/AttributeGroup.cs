@@ -16,7 +16,7 @@ public class AttributeGroup : Entity<string>
 
     public string? Description { get; set; }
 
-    public Item? Item { get; set; }
+    public Product? Product { get; set; }
 
     public List<Entities.Attribute> Attributes { get; } = new List<Entities.Attribute>();
 }

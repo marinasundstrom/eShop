@@ -4,11 +4,11 @@ namespace YourBrand.StoreFront.Application;
 
 public static class Mapper
 {
-    public static SiteItemDto ToDto(this YourBrand.Catalog.ItemDto item, string? description = null) =>
-        new SiteItemDto(item.Id, item.Name, !string.IsNullOrEmpty(description) ? description : item.Description, item.Parent?.ToDto2(), item.Group?.ToDto(), item.Image, item.Price, item.CompareAtPrice, item.QuantityAvailable, item.Attributes2, item.Options, item.HasVariants, item.Attributes);
+    public static SiteProductDto ToDto(this YourBrand.Catalog.ProductDto product, string? description = null) =>
+        new SiteProductDto(product.Id, product.Name, !string.IsNullOrEmpty(description) ? description : product.Description, product.Parent?.ToDto2(), product.Group?.ToDto(), product.Image, product.Price, product.CompareAtPrice, product.QuantityAvailable, product.Attributes2, product.Options, product.HasVariants, product.Attributes);
 
-    public static SiteParentItemDto ToDto2(this YourBrand.Catalog.ParentItemDto item) =>
-        new SiteParentItemDto(item.Id, item.Name, item.Description, item.Group?.ToDto());
+    public static SiteParentProductDto ToDto2(this YourBrand.Catalog.ParentProductDto product) =>
+        new SiteParentProductDto(product.Id, product.Name, product.Description, product.Group?.ToDto());
 
-    public static SiteItemGroupDto ToDto(this YourBrand.Catalog.ItemGroupDto dto) => new SiteItemGroupDto(dto.Id, dto.Name, dto.Parent?.ToDto());
+    public static SiteProductGroupDto ToDto(this YourBrand.Catalog.ProductGroupDto dto) => new SiteProductGroupDto(dto.Id, dto.Name, dto.Parent?.ToDto());
 }

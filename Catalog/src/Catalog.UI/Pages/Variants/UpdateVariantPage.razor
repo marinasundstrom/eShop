@@ -1,7 +1,7 @@
-﻿@page "/items/{itemId}/variants/{variantId}/edit"
+﻿@page "/products/{productId}/variants/{variantId}/edit"
 
 @using System.ComponentModel.DataAnnotations
-@inject IItemsClient ItemsClient
+@inject IProductsClient ProductsClient
 @inject ISnackbar Snackbar
 
 <AppPageTitle>Variant</AppPageTitle>
@@ -119,11 +119,11 @@ else
 
     EditContext editContext;
 
-    [Parameter] public string ItemId { get; set; }
+    [Parameter] public string ProductId { get; set; }
 
     [Parameter] public string VariantId { get; set; }
 
-    [Parameter] public ItemDto Variant { get; set; }
+    [Parameter] public ProductDto Variant { get; set; }
 
     [Required]
     public string Name { get; set; }
@@ -151,14 +151,14 @@ else
         };
 
 
-        Variant = await ItemsClient.GetVariantAsync(ItemId, VariantId);
+        Variant = await ProductsClient.GetVariantAsync(ProductId, VariantId);
 
         Name = Variant.Name;
         Description = Variant.Description;
         Id = Variant.Id;
         Price = Variant.Price;
 
-        var attributes = await ItemsClient.GetItemAttributesAsync(ItemId);
+        var attributes = await ProductsClient.GetProductAttributesAsync(ProductId);
         foreach (var attribute in attributes.Where(x => x.ForVariant))
         {
             var vm = new AttributeVM()
@@ -171,7 +171,7 @@ else
             Attributes.Add(vm);
 
             vm.Values.AddRange(
-            await ItemsClient.GetItemAttributeValuesAsync(ItemId, attribute.Id));
+            await ProductsClient.GetProductAttributeValuesAsync(ProductId, attribute.Id));
 
             var o = Variant.Attributes.FirstOrDefault(x => x.Name == attribute.Name);
 
@@ -216,18 +216,18 @@ else
 
     async Task OnSubmit()
     {
-        var data = new ApiUpdateItemVariant
+        var data = new ApiUpdateProductVariant
         {
             Name = Name,
             Description = Description,
             Id = Id,
             Price = Price,
-            Attributes = new List<ApiUpdateItemVariantAttribute>()
+            Attributes = new List<ApiUpdateProductVariantAttribute>()
         };
 
         foreach (var attribute in Attributes)
         {
-            var attributeData = new ApiUpdateItemVariantAttribute
+            var attributeData = new ApiUpdateProductVariantAttribute
             {
                 //Id = attribute.Id,
                 AttributeId = attribute.Id,
@@ -239,11 +239,11 @@ else
 
         try
         {
-            var result = await ItemsClient.UpdateVariantAsync(ItemId, Variant.Id, data);
+            var result = await ProductsClient.UpdateVariantAsync(ProductId, Variant.Id, data);
 
             if (file is not null)
             {
-                result.Image = await ItemsClient.UploadVariantImageAsync(ItemId, result.Id, new
+                result.Image = await ProductsClient.UploadVariantImageAsync(ProductId, result.Id, new
                 FileParameter(file.OpenReadStream(3 * 1000000), file.Name));
             }
 
