@@ -167,12 +167,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "post": {
         "tags": [
@@ -212,12 +207,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}": {
@@ -269,12 +259,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       },
       "delete": {
         "tags": [
@@ -307,12 +292,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}/subject": {
@@ -359,12 +339,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}/text": {
@@ -410,12 +385,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}/status": {
@@ -441,7 +411,8 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TicketStatusDto"
+                "type": "integer",
+                "format": "int32"
               }
             }
           },
@@ -462,12 +433,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}/assignee": {
@@ -513,12 +479,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}/estimatedHours": {
@@ -565,12 +526,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Tickets/{id}/remainingHours": {
@@ -617,12 +573,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/TicketStatuses": {
@@ -719,12 +670,7 @@
               }
             }
           }
-        },
-        "security": [
-          {
-            "JWT": []
-          }
-        ]
+        }
       }
     },
     "/v1/Users": {
@@ -1216,7 +1162,8 @@
             "nullable": true
           },
           "status": {
-            "$ref": "#/components/schemas/TicketStatusDto"
+            "type": "integer",
+            "format": "int32"
           },
           "assigneeId": {
             "type": "string",

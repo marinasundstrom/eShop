@@ -83,7 +83,7 @@ public sealed class TicketsController : ControllerBase
     [HttpPut("{id}/status")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesDefaultResponseType]
-    public async Task<ActionResult> UpdateStatus(int id, [FromBody] TicketStatusDto status, CancellationToken cancellationToken)
+    public async Task<ActionResult> UpdateStatus(int id, [FromBody] int status, CancellationToken cancellationToken)
     {
         var result = await mediator.Send(new UpdateStatus(id, status), cancellationToken);
         return this.HandleResult(result);
@@ -117,4 +117,4 @@ public sealed class TicketsController : ControllerBase
     }
 }
 
-public sealed record CreateTicketRequest(string Title, string? Text, TicketStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours);
+public sealed record CreateTicketRequest(string Title, string? Text, int Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours);

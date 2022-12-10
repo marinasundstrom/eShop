@@ -36,6 +36,10 @@ public class ModuleInitializer : IModuleInitializer
         var group = navManager.GetGroup("customer-relations") ?? navManager.CreateGroup("customer-relations", () => resources["Customer relations"]);
         group.RequiresAuthorization = true;
 
-        group.CreateItem("tickets", () => resources["Tickets"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/Tickets");
+        var group2 = group.GetGroup("customer-support") ?? group.CreateGroup("customer-support", () => resources["Support"],  MudBlazor.Icons.Material.Filled.Support);
+
+        group2.CreateItem("board", () => resources["Board"], MudBlazor.Icons.Material.Filled.TableView, "/Tickets/Board");
+
+        group2.CreateItem("tickets", () => resources["Tickets"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/Tickets");
     }
 }

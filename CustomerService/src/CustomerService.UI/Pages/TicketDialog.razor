@@ -162,7 +162,7 @@ else
 
             if (editContext.IsModified(() => Status))
             {
-                await TicketsClient.UpdateStatusAsync(Id.GetValueOrDefault(), Status, cts.Token);
+                await TicketsClient.UpdateStatusAsync(Id.GetValueOrDefault(), Status.Id, cts.Token);
             }
 
             if (editContext.IsModified(() => Assignee!))
@@ -236,8 +236,8 @@ else
         ticket = await TicketsClient.CreateTicketAsync(new CreateTicketRequest
         {
             Title = Title,
-            //Description = Description,
-            Status = Status,
+            Text = Description,
+            Status = Status.Id,
             //Assignee = Assignee?.Id,
             EstimatedHours = EstimatedHours,
             RemainingHours = RemainingHours

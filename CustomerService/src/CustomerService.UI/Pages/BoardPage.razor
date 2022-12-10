@@ -28,7 +28,7 @@
                 {
                     <MudPaper Elevation="0" Class="pa-4 ma-4 d-flex flex-column mud-background-gray rounded-lg" Style="min-width: 250px;">
                         <MudToolBar DisableGutters="true" Dense="true">
-                            <MudText Typo="Typo.h6" Class="mb-4"><b>@T[status.ToString()]</b></MudText>
+                            <MudText Typo="Typo.h6" Class="mb-4"><b>@T[status.Name]</b></MudText>
                             <MudSpacer />
                             @*
                                 <MudMenu Icon="@Icons.Material.Rounded.MoreHoriz" AnchorOrigin="Origin.BottomRight"
@@ -41,7 +41,7 @@
                                 </MudMenu>
                             *@
                         </MudToolBar>
-                        <MudDropZone T="TicketDto" Identifier="@($"{status}")" Class="mud-height-full" />
+                        <MudDropZone T="TicketDto" Identifier="@($"{status.Id}")" Class="mud-height-full" />
                         @*
                             <MudButton OnClick="@(() => {})" Color="Color.Inherit" StartIcon="@Icons.Filled.Add" FullWidth="true"
                             Class="py-2" Style="background-color: inherit;">Add Task</MudButton>
@@ -205,14 +205,16 @@
 
     private async void ItemUpdated(MudItemDropInfo<TicketDto> dropItem)
     {
-        var newStatus = dropItem.DropzoneIdentifier;
+        var id = dropItem.DropzoneIdentifier;
+
+        var newStatus = ticketStatuses.First(x => x.Id == int.Parse(id));
 
         var oldStatus = dropItem.Item.Status;
-        //dropItem.Item.Status = newStatus;
+        dropItem.Item.Status = newStatus;
 
         try
         {
-            //await TicketsClient.UpdateStatusAsync(dropItem.Item.Id, newStatus, cts.Token);
+            await TicketsClient.UpdateStatusAsync(dropItem.Item.Id, newStatus.Id, cts.Token);
         }
         catch (ApiException<ProblemDetails> exc)
         {

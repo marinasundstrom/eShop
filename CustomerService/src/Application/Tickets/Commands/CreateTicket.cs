@@ -5,7 +5,7 @@ using YourBrand.CustomerService.Application.Tickets.Dtos;
 
 namespace YourBrand.CustomerService.Application.Tickets.Commands;
 
-public sealed record CreateTicket(string Title, string? Description, TicketStatusDto Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours) : IRequest<Result<TicketDto>>
+public sealed record CreateTicket(string Title, string? Description, int Status, string? AssigneeId, double? EstimatedHours, double? RemainingHours) : IRequest<Result<TicketDto>>
 {
     public sealed class Validator : AbstractValidator<CreateTicket>
     {
@@ -21,21 +21,25 @@ public sealed record CreateTicket(string Title, string? Description, TicketStatu
     {
         private readonly ITicketRepository ticketRepository;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IApplicationDbContext context;
         private readonly IDomainEventDispatcher domainEventDispatcher;
 
-        public Handler(ITicketRepository ticketRepository, IUnitOfWork unitOfWork, IDomainEventDispatcher domainEventDispatcher)
+        public Handler(ITicketRepository ticketRepository, IUnitOfWork unitOfWork, IApplicationDbContext context, IDomainEventDispatcher domainEventDispatcher)
         {
             this.ticketRepository = ticketRepository;
             this.unitOfWork = unitOfWork;
+            this.context = context;
             this.domainEventDispatcher = domainEventDispatcher;
         }
 
         public async Task<Result<TicketDto>> Handle(CreateTicket request, CancellationToken cancellationToken)
         {
             var ticket = new Ticket("", "", "");
+            
+            ticket.Status = await context.TicketStatuses.FirstAsync(s => s.Id == request.Status, cancellationToken);
 
-            //ticket.UpdateEstimatedHours(request.EstimatedHours);
-            //ticket.UpdateRemainingHours(request.RemainingHours);
+            ticket.UpdateEstimatedHours(request.EstimatedHours);
+            ticket.UpdateRemainingHours(request.RemainingHours);
 
             ticketRepository.Add(ticket);
 
