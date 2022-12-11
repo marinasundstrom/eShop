@@ -34,10 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Site.Client.Authentication\Site.Client.Authentication.csproj">
+    <ProjectReference Include="..\..\..\Common\Site.Client.Authentication\Site.Client.Authentication.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\Site.Components\Site.Components.csproj">
+    <ProjectReference Include="..\..\..\Common\Site.Components\Site.Components.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

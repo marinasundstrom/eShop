@@ -25,9 +25,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Sales\Catalo
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{ADE5959B-5E36-4181-8EFF-590DDBF46D4C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Client", "Site\src\Client\Site.Client.csproj", "{8AC0B223-D2B1-45EF-869F-0F6A28E805CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Client", "Sites\Site\src\Client\Site.Client.csproj", "{8AC0B223-D2B1-45EF-869F-0F6A28E805CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Server", "Site\src\Server\Site.Server.csproj", "{A94F6C30-19D4-4957-96FA-33E1B034799B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Server", "Sites\Site\src\Server\Site.Server.csproj", "{A94F6C30-19D4-4957-96FA-33E1B034799B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{ECAB9917-BA27-4304-A078-9E41255F9B14}"
 EndProject
@@ -137,7 +137,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "CustomerRel
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "CustomerRelations\Customers\src\Web\Web.csproj", "{A79D7914-7C5F-488E-87D2-A3495831FD7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Client.Authentication", "Site\src\Site.Client.Authentication\Site.Client.Authentication.csproj", "{C6566F13-B785-4BCC-A633-BB65672ED9B8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Client.Authentication", "Sites\Common\Site.Client.Authentication\Site.Client.Authentication.csproj", "{C6566F13-B785-4BCC-A633-BB65672ED9B8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Components", "Sales\Orders\src\Orders.Components\Orders.Components.csproj", "{3790FD1F-82EB-44AB-AD6D-911163EA3559}"
 EndProject
@@ -195,9 +195,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Analytics\s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Analytics\src\Web\Web.csproj", "{E58D86F8-51E7-4E7A-8DB2-1C86339586E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Services", "Site\src\Site.Services\Site.Services.csproj", "{5FB011EB-019A-47C5-AF30-9E5FFE8F06A0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Services", "Sites\Common\Site.Services\Site.Services.csproj", "{5FB011EB-019A-47C5-AF30-9E5FFE8F06A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Components", "Site\src\Site.Components\Site.Components.csproj", "{305304EF-7AEC-47D1-A6A2-BE3347508999}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Components", "Sites\Common\Site.Components\Site.Components.csproj", "{305304EF-7AEC-47D1-A6A2-BE3347508999}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StoreFront", "StoreFront", "{62BC5CF0-3999-4516-90DD-AAE5182DF54B}"
 EndProject
@@ -236,9 +236,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Siko", "Siko", "{84EDABDD-F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C7C84727-2DE7-4F9E-887B-B0F797B4B5CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siko.Server", "Siko\src\Server\Siko.Server.csproj", "{75DC7E92-B00A-448F-99A1-E04905E90EA7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siko.Server", "Sites\Siko\src\Server\Siko.Server.csproj", "{75DC7E92-B00A-448F-99A1-E04905E90EA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siko.Client", "Siko\src\Client\Siko.Client.csproj", "{2CF60415-CBA1-4A5C-BA35-EB9A866F535F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siko.Client", "Sites\Siko\src\Client\Siko.Client.csproj", "{2CF60415-CBA1-4A5C-BA35-EB9A866F535F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Carts", "Carts", "{C92CFF77-920B-47AD-8652-9AC7DC0F85E5}"
 EndProject
@@ -299,6 +299,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerRelations", "CustomerRelations", "{B5BFF93A-E607-4312-9C5A-8EE3E9481B09}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C09CE21F-D5FA-4D74-BBA7-C7222C8DD569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Contracts", "Sites\Common\Site.Contracts\Site.Contracts.csproj", "{8B996331-22ED-41BC-A844-8674F7E46C91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Server.Authentication", "Sites\Common\Site.Server.Authentication\Site.Server.Authentication.csproj", "{272EC124-1147-4183-A832-DB9D73279971}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -777,6 +781,14 @@ Global
 		{24276451-268B-44E6-A8B0-38C194EA247F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24276451-268B-44E6-A8B0-38C194EA247F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24276451-268B-44E6-A8B0-38C194EA247F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B996331-22ED-41BC-A844-8674F7E46C91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B996331-22ED-41BC-A844-8674F7E46C91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B996331-22ED-41BC-A844-8674F7E46C91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B996331-22ED-41BC-A844-8674F7E46C91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{272EC124-1147-4183-A832-DB9D73279971}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{272EC124-1147-4183-A832-DB9D73279971}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{272EC124-1147-4183-A832-DB9D73279971}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{272EC124-1147-4183-A832-DB9D73279971}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{EC2C5CE6-2E67-41BF-8270-126367A61D2A} = {A6448884-BE4E-4A98-9A19-9F018E1D51CC}
@@ -914,6 +926,8 @@ Global
 		{C92CFF77-920B-47AD-8652-9AC7DC0F85E5} = {C6889BC9-02EF-4CF1-A336-E69028E62297}
 		{4DB153CA-34C5-4673-80D0-A9EAA511E74B} = {B5BFF93A-E607-4312-9C5A-8EE3E9481B09}
 		{B2F0B1FF-DCC5-4DA3-A03D-B2F763A185E2} = {B5BFF93A-E607-4312-9C5A-8EE3E9481B09}
-		{C09CE21F-D5FA-4D74-BBA7-C7222C8DD569} = {84EDABDD-F6F4-41B5-8906-98A2354C475C}
+		{C09CE21F-D5FA-4D74-BBA7-C7222C8DD569} = {92D68E30-E1DA-4D4D-8172-EC7BD50E75BE}
+		{8B996331-22ED-41BC-A844-8674F7E46C91} = {C09CE21F-D5FA-4D74-BBA7-C7222C8DD569}
+		{272EC124-1147-4183-A832-DB9D73279971} = {C09CE21F-D5FA-4D74-BBA7-C7222C8DD569}
 	EndGlobalSection
 EndGlobal

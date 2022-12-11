@@ -120,7 +120,7 @@ services:
       port: 5151
 
   - name: site
-    project: Site/src/Server/Site.Server.csproj
+    project: Sites/Site/src/Server/Site.Server.csproj
     bindings:
     - name: http
       protocol: http
@@ -130,7 +130,7 @@ services:
       port: 6001
 
   - name: siko-web
-    project: Siko/src/Server/Siko.Server.csproj
+    project: Sites/Siko/src/Server/Siko.Server.csproj
     bindings:
     - name: http
       protocol: http
