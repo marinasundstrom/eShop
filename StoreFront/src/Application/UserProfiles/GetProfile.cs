@@ -10,12 +10,12 @@ public sealed record GetProfile : IRequest<UserProfileDto>
     sealed class Handler : IRequestHandler<GetProfile, UserProfileDto>
     {
         private readonly YourBrand.Customers.ICustomersClient customersClient;
-        private readonly YourBrand.Sales.IOrdersClient _ordersClient;
+        private readonly YourBrand.Orders.IOrdersClient _ordersClient;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Customers.ICustomersClient customersClient,
-            YourBrand.Sales.IOrdersClient ordersClient,
+            YourBrand.Orders.IOrdersClient ordersClient,
             ICurrentUserService currentUserService)
         {
             this.customersClient = customersClient;

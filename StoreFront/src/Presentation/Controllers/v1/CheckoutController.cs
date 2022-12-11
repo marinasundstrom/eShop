@@ -1,9 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using System.Text.Json;
-using YourBrand.Inventory;
-using YourBrand.Sales;
-using YourBrand.StoreFront.Application.Services;
 using Microsoft.Extensions.Logging;
 using MediatR;
 using YourBrand.StoreFront.Application.Checkout;
@@ -35,7 +30,7 @@ public class CheckoutController : ControllerBase
 
 public class CheckoutDto
 {
-    public YourBrand.Sales.BillingDetailsDto BillingDetails { get; set; } = null!;
+    public YourBrand.Orders.BillingDetailsDto BillingDetails { get; set; } = null!;
 
-    public YourBrand.Sales.ShippingDetailsDto ShippingDetails { get; set; } = null!;
+    public YourBrand.Orders.ShippingDetailsDto ShippingDetails { get; set; } = null!;
 }

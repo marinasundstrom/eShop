@@ -1,13 +1,9 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.SignalR;
-using YourBrand.Sales;
-using YourBrand.StoreFront.Application.Services;
 using Microsoft.Extensions.Logging;
 using MediatR;
 using YourBrand.StoreFront.Application.UserProfiles;
 using YourBrand.StoreFront.Application.Common.Models;
+using YourBrand.Orders;
 
 namespace YourBrand.StoreFront.Presentation.Controllers;
 

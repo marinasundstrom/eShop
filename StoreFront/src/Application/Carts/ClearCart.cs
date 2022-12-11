@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using YourBrand.Catalog;
-using YourBrand.Sales;
+using YourBrand.Orders;
 
 namespace YourBrand.StoreFront.Application.Carts;
 

@@ -27,7 +27,7 @@ using Azure.Identity;
 using Microsoft.Extensions.Caching.Memory;
 
 using YourBrand.Catalog.Client;
-using YourBrand.Sales.Client;
+using YourBrand.Orders.Client;
 using YourBrand.Inventory.Client;
 using YourBrand.Carts.Client;
 using YourBrand.Customers.Client;
@@ -81,9 +81,9 @@ builder.Services.AddCatalogClients((sp, httpClient) =>
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
 });
 
-builder.Services.AddSalesClients((sp, httpClient) =>
+builder.Services.AddOrdersClients((sp, httpClient) =>
 {
-    httpClient.BaseAddress = configuration.GetServiceUri("sales-web", "https");
+    httpClient.BaseAddress = configuration.GetServiceUri("orders-web", "https");
 }, builder =>
 {
     //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();

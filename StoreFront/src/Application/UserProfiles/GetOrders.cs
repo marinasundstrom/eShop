@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using YourBrand.Sales;
+using YourBrand.Orders;
 using YourBrand.StoreFront.Application.Common.Models;
 
 namespace YourBrand.StoreFront.Application.UserProfiles;
@@ -9,12 +9,12 @@ public sealed record GetOrders(int Page = 1, int PageSize = 10) : IRequest<Items
     sealed class Handler : IRequestHandler<GetOrders, ItemsResult<OrderDto>>
     {
         private readonly YourBrand.Customers.ICustomersClient customersClient;
-        private readonly YourBrand.Sales.IOrdersClient _ordersClient;
+        private readonly YourBrand.Orders.IOrdersClient _ordersClient;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Customers.ICustomersClient customersClient,
-            YourBrand.Sales.IOrdersClient ordersClient,
+            YourBrand.Orders.IOrdersClient ordersClient,
             ICurrentUserService currentUserService)
         {
             this.customersClient = customersClient;

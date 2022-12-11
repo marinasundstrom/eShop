@@ -7,21 +7,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catalog", "Catalog", "{A644
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EC2C5CE6-2E67-41BF-8270-126367A61D2A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Catalog\src\Web\Web.csproj", "{17FA0F18-1A05-49BA-886F-FDAB89A18B63}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Sales\Catalog\src\Web\Web.csproj", "{17FA0F18-1A05-49BA-886F-FDAB89A18B63}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Catalog\src\Presentation\Presentation.csproj", "{AB33C3FE-AD9E-45D4-881A-A513E2EDA5FC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Sales\Catalog\src\Presentation\Presentation.csproj", "{AB33C3FE-AD9E-45D4-881A-A513E2EDA5FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Catalog\src\Infrastructure\Infrastructure.csproj", "{80218D60-8050-499B-8057-0C4980ABDC97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Sales\Catalog\src\Infrastructure\Infrastructure.csproj", "{80218D60-8050-499B-8057-0C4980ABDC97}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Catalog\src\Domain\Domain.csproj", "{5B071B85-84A6-4333-AEA1-37953735B8AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Sales\Catalog\src\Domain\Domain.csproj", "{5B071B85-84A6-4333-AEA1-37953735B8AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Catalog\src\Contracts\Contracts.csproj", "{E449783C-7C84-4E01-949C-C311AA17C4B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Sales\Catalog\src\Contracts\Contracts.csproj", "{E449783C-7C84-4E01-949C-C311AA17C4B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Catalog\src\Consumers\Consumers.csproj", "{C3A90ACA-7D60-4BA5-BF25-7546CA429C39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Sales\Catalog\src\Consumers\Consumers.csproj", "{C3A90ACA-7D60-4BA5-BF25-7546CA429C39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Catalog\src\Client\Client.csproj", "{0F6C2936-6193-4AD3-9C56-B07127C2F862}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Sales\Catalog\src\Client\Client.csproj", "{0F6C2936-6193-4AD3-9C56-B07127C2F862}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Catalog\src\Application\Application.csproj", "{5B6C9BF9-23EF-4CDF-9179-0C2EBF2E59BD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Sales\Catalog\src\Application\Application.csproj", "{5B6C9BF9-23EF-4CDF-9179-0C2EBF2E59BD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{ADE5959B-5E36-4181-8EFF-590DDBF46D4C}"
 EndProject
@@ -61,23 +61,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sales", "Sales", "{C6889BC9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B602F0E3-ACDF-44C6-AEB7-6B9B6538959A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Sales\src\Application\Application.csproj", "{69921E2B-2809-40B5-8AAE-BFE8B846A306}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Sales\Orders\src\Application\Application.csproj", "{69921E2B-2809-40B5-8AAE-BFE8B846A306}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Sales\src\Client\Client.csproj", "{A8F5B71C-4447-49E5-B0AB-518171AD2D82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Sales\Orders\src\Client\Client.csproj", "{A8F5B71C-4447-49E5-B0AB-518171AD2D82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Sales\src\Consumers\Consumers.csproj", "{D032E871-6CF0-4EA2-A15E-A6585237476A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Sales\Orders\src\Consumers\Consumers.csproj", "{D032E871-6CF0-4EA2-A15E-A6585237476A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Sales\src\Contracts\Contracts.csproj", "{E538587D-9F5D-4A35-8A4D-C439B3959D64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Sales\Orders\src\Contracts\Contracts.csproj", "{E538587D-9F5D-4A35-8A4D-C439B3959D64}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Sales\src\Domain\Domain.csproj", "{7D0BC416-B990-4FA4-A207-E8C967CE49F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Sales\Orders\src\Domain\Domain.csproj", "{7D0BC416-B990-4FA4-A207-E8C967CE49F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Sales\src\Infrastructure\Infrastructure.csproj", "{74E5D411-9A5C-4211-A2CB-30FD4D95BB56}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Sales\Orders\src\Infrastructure\Infrastructure.csproj", "{74E5D411-9A5C-4211-A2CB-30FD4D95BB56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Sales\src\Presentation\Presentation.csproj", "{E4030F32-C042-4CB5-9382-8948E2C3CC08}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Sales\Orders\src\Presentation\Presentation.csproj", "{E4030F32-C042-4CB5-9382-8948E2C3CC08}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Sales\src\Web\Web.csproj", "{FCDA7340-BA02-4195-AA59-C8379DBED830}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Sales\Orders\src\Web\Web.csproj", "{FCDA7340-BA02-4195-AA59-C8379DBED830}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.UI", "Catalog\src\Catalog.UI\Catalog.UI.csproj", "{DDD31A1E-446F-4A0E-9C99-8B599B7E6958}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Catalog.UI", "Sales\Catalog\src\Catalog.UI\Catalog.UI.csproj", "{DDD31A1E-446F-4A0E-9C99-8B599B7E6958}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portal.Modules", "Portal\src\Portal.Modules\Portal.Modules.csproj", "{DCCB5421-B8A3-4C73-B878-C60CC006C09D}"
 EndProject
@@ -117,33 +117,33 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customers", "Customers", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{841DE5CB-E17B-4F37-A5D9-101F3095AC72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Customers\src\Application\Application.csproj", "{5E6D6541-83C6-46C4-B4EB-C4C8CF54CABD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "CustomerRelations\Customers\src\Application\Application.csproj", "{5E6D6541-83C6-46C4-B4EB-C4C8CF54CABD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Customers\src\Client\Client.csproj", "{95DC9309-72DC-4FEE-96D7-CCD23FE2EE94}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "CustomerRelations\Customers\src\Client\Client.csproj", "{95DC9309-72DC-4FEE-96D7-CCD23FE2EE94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Customers\src\Consumers\Consumers.csproj", "{38DF1247-1D32-4963-9022-BEA784E3A9E8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "CustomerRelations\Customers\src\Consumers\Consumers.csproj", "{38DF1247-1D32-4963-9022-BEA784E3A9E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Customers\src\Contracts\Contracts.csproj", "{F0D35D42-5FAC-4110-9C30-CC0B60D33976}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "CustomerRelations\Customers\src\Contracts\Contracts.csproj", "{F0D35D42-5FAC-4110-9C30-CC0B60D33976}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Customers\src\Domain\Domain.csproj", "{821D9763-30E3-4348-8C1B-E027C3664084}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "CustomerRelations\Customers\src\Domain\Domain.csproj", "{821D9763-30E3-4348-8C1B-E027C3664084}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Customers\src\Infrastructure\Infrastructure.csproj", "{032ABB53-BEFB-472E-9BA4-DD7A3684821E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "CustomerRelations\Customers\src\Infrastructure\Infrastructure.csproj", "{032ABB53-BEFB-472E-9BA4-DD7A3684821E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.Components", "Customers\src\Customers.Components\Customers.Components.csproj", "{499F6B74-80E3-4585-BA09-D482D7AE05AD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.Components", "CustomerRelations\Customers\src\Customers.Components\Customers.Components.csproj", "{499F6B74-80E3-4585-BA09-D482D7AE05AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.UI", "Customers\src\Customers.UI\Customers.UI.csproj", "{032F1939-061B-4188-909C-BAA2A41EA67E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Customers.UI", "CustomerRelations\Customers\src\Customers.UI\Customers.UI.csproj", "{032F1939-061B-4188-909C-BAA2A41EA67E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Customers\src\Presentation\Presentation.csproj", "{F22C04C9-9FD3-4512-ABDC-441AEE0BD99D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "CustomerRelations\Customers\src\Presentation\Presentation.csproj", "{F22C04C9-9FD3-4512-ABDC-441AEE0BD99D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Customers\src\Web\Web.csproj", "{A79D7914-7C5F-488E-87D2-A3495831FD7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "CustomerRelations\Customers\src\Web\Web.csproj", "{A79D7914-7C5F-488E-87D2-A3495831FD7D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Client.Authentication", "Site\src\Site.Client.Authentication\Site.Client.Authentication.csproj", "{C6566F13-B785-4BCC-A633-BB65672ED9B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.Components", "Sales\src\Sales.Components\Sales.Components.csproj", "{3790FD1F-82EB-44AB-AD6D-911163EA3559}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.Components", "Sales\Orders\src\Orders.Components\Orders.Components.csproj", "{3790FD1F-82EB-44AB-AD6D-911163EA3559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sales.UI", "Sales\src\Sales.UI\Sales.UI.csproj", "{C41863F4-AA0F-4F54-BE67-15CC84608A12}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Orders.UI", "Sales\Orders\src\Orders.UI\Orders.UI.csproj", "{C41863F4-AA0F-4F54-BE67-15CC84608A12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Sales\src\Core\Core.csproj", "{2910D843-F4F4-4506-8A33-0582DA0BE448}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Sales\Orders\src\Core\Core.csproj", "{2910D843-F4F4-4506-8A33-0582DA0BE448}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClientApp.Tests", "Portal\test\ClientApp.Tests\ClientApp.Tests.csproj", "{535D65DF-4DC6-4A29-8872-7293DDBE07D2}"
 EndProject
@@ -242,57 +242,61 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Siko.Client", "Siko\src\Cli
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Carts", "Carts", "{C92CFF77-920B-47AD-8652-9AC7DC0F85E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Carts\src\Application\Application.csproj", "{9EC294A6-8B8E-4424-BB05-520D23EA40F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Sales\Carts\src\Application\Application.csproj", "{9EC294A6-8B8E-4424-BB05-520D23EA40F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carts.Components", "Carts\src\Carts.Components\Carts.Components.csproj", "{6ABB127F-44DB-4C71-9AEE-279114E69115}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carts.Components", "Sales\Carts\src\Carts.Components\Carts.Components.csproj", "{6ABB127F-44DB-4C71-9AEE-279114E69115}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carts.UI", "Carts\src\Carts.UI\Carts.UI.csproj", "{35369147-F0C3-4471-B05A-50E14A95CD39}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Carts.UI", "Sales\Carts\src\Carts.UI\Carts.UI.csproj", "{35369147-F0C3-4471-B05A-50E14A95CD39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Carts\src\Client\Client.csproj", "{C74166F7-08E1-4FD7-9970-A3E34EFD5693}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Sales\Carts\src\Client\Client.csproj", "{C74166F7-08E1-4FD7-9970-A3E34EFD5693}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Carts\src\Consumers\Consumers.csproj", "{B3FA368E-6153-437D-AD23-74A3F6FEBCB4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "Sales\Carts\src\Consumers\Consumers.csproj", "{B3FA368E-6153-437D-AD23-74A3F6FEBCB4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Carts\src\Contracts\Contracts.csproj", "{3E1ECBB5-0E0D-4FFC-98BA-6B673ABF7C40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Sales\Carts\src\Contracts\Contracts.csproj", "{3E1ECBB5-0E0D-4FFC-98BA-6B673ABF7C40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Carts\src\Core\Core.csproj", "{60631860-468C-4FC3-8A06-C58AFAF0C535}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Sales\Carts\src\Core\Core.csproj", "{60631860-468C-4FC3-8A06-C58AFAF0C535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Carts\src\Domain\Domain.csproj", "{71234BCB-721B-4B49-B7EF-C6167E9B730E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Sales\Carts\src\Domain\Domain.csproj", "{71234BCB-721B-4B49-B7EF-C6167E9B730E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Carts\src\Infrastructure\Infrastructure.csproj", "{4CA28F39-8BEC-4AE5-B8F0-AF12B40E98F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Sales\Carts\src\Infrastructure\Infrastructure.csproj", "{4CA28F39-8BEC-4AE5-B8F0-AF12B40E98F6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Carts\src\Presentation\Presentation.csproj", "{1CB53AE5-32AF-4314-81A2-B5A1B5884EC7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "Sales\Carts\src\Presentation\Presentation.csproj", "{1CB53AE5-32AF-4314-81A2-B5A1B5884EC7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Carts\src\Web\Web.csproj", "{9F05E9B8-4AB3-48A5-9808-9FD26D590223}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Sales\Carts\src\Web\Web.csproj", "{9F05E9B8-4AB3-48A5-9808-9FD26D590223}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{BE884470-642F-4457-BCB0-9E3996650A86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Stores", "Stores", "{92D68E30-E1DA-4D4D-8172-EC7BD50E75BE}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerService", "CustomerService", "{B2F0B1FF-DCC5-4DA3-A03D-B2F763A185E2}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ticketing", "Ticketing", "{B2F0B1FF-DCC5-4DA3-A03D-B2F763A185E2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{363CE645-4D0F-4BB6-BF00-EFD86E3F1B8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "CustomerService\src\Application\Application.csproj", "{30911485-3341-4BCC-A3A8-9D1C147DD72D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "CustomerRelations\Ticketing\src\Application\Application.csproj", "{30911485-3341-4BCC-A3A8-9D1C147DD72D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "CustomerService\src\Client\Client.csproj", "{676866C5-F083-4685-878D-DF67B38258D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "CustomerRelations\Ticketing\src\Client\Client.csproj", "{676866C5-F083-4685-878D-DF67B38258D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "CustomerService\src\Consumers\Consumers.csproj", "{2296D2B7-A0E0-4ED3-9203-C5F1FE3117E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumers", "CustomerRelations\Ticketing\src\Consumers\Consumers.csproj", "{2296D2B7-A0E0-4ED3-9203-C5F1FE3117E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "CustomerService\src\Contracts\Contracts.csproj", "{FEECB5DC-9ABF-43AD-9786-972C3FFB5DEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "CustomerRelations\Ticketing\src\Contracts\Contracts.csproj", "{FEECB5DC-9ABF-43AD-9786-972C3FFB5DEE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "CustomerService\src\Core\Core.csproj", "{85D51DDA-1F24-4490-9375-8A973F8226EF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "CustomerRelations\Ticketing\src\Core\Core.csproj", "{85D51DDA-1F24-4490-9375-8A973F8226EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService.Components", "CustomerService\src\CustomerService.Components\CustomerService.Components.csproj", "{5C6A8AE4-6CCD-4705-85BC-1F03E571C9B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.Components", "CustomerRelations\Ticketing\src\Ticketing.Components\Ticketing.Components.csproj", "{5C6A8AE4-6CCD-4705-85BC-1F03E571C9B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService.UI", "CustomerService\src\CustomerService.UI\CustomerService.UI.csproj", "{C1F5ECD1-CD0E-4EAB-9CBB-6502F4E3331E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ticketing.UI", "CustomerRelations\Ticketing\src\Ticketing.UI\Ticketing.UI.csproj", "{C1F5ECD1-CD0E-4EAB-9CBB-6502F4E3331E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "CustomerService\src\Domain\Domain.csproj", "{B36F8E29-9E7C-4844-9A30-EA60844FAD00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "CustomerRelations\Ticketing\src\Domain\Domain.csproj", "{B36F8E29-9E7C-4844-9A30-EA60844FAD00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "CustomerService\src\Infrastructure\Infrastructure.csproj", "{F749AAA5-B77C-4DDD-97C0-FA663263DAE4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "CustomerRelations\Ticketing\src\Infrastructure\Infrastructure.csproj", "{F749AAA5-B77C-4DDD-97C0-FA663263DAE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "CustomerService\src\Presentation\Presentation.csproj", "{B1AED29E-B09F-416C-8D0F-7AAEC38292A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Presentation", "CustomerRelations\Ticketing\src\Presentation\Presentation.csproj", "{B1AED29E-B09F-416C-8D0F-7AAEC38292A3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "CustomerService\src\Web\Web.csproj", "{24276451-268B-44E6-A8B0-38C194EA247F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "CustomerRelations\Ticketing\src\Web\Web.csproj", "{24276451-268B-44E6-A8B0-38C194EA247F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Orders", "Orders", "{3A0B995B-8C67-420F-82E2-23C4C93055DE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerRelations", "CustomerRelations", "{B5BFF93A-E607-4312-9C5A-8EE3E9481B09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -796,7 +800,7 @@ Global
 		{76B13F30-F3B2-4DFD-B130-5F61D4434DC2} = {4C4561D1-1512-4447-AC9B-544CF7D0B385}
 		{8B5642E6-A04F-4633-8410-2F6D61E9C0B9} = {4C4561D1-1512-4447-AC9B-544CF7D0B385}
 		{156A45B7-379F-40B1-855F-C90BCF308E92} = {4C4561D1-1512-4447-AC9B-544CF7D0B385}
-		{B602F0E3-ACDF-44C6-AEB7-6B9B6538959A} = {C6889BC9-02EF-4CF1-A336-E69028E62297}
+		{B602F0E3-ACDF-44C6-AEB7-6B9B6538959A} = {3A0B995B-8C67-420F-82E2-23C4C93055DE}
 		{69921E2B-2809-40B5-8AAE-BFE8B846A306} = {B602F0E3-ACDF-44C6-AEB7-6B9B6538959A}
 		{A8F5B71C-4447-49E5-B0AB-518171AD2D82} = {B602F0E3-ACDF-44C6-AEB7-6B9B6538959A}
 		{D032E871-6CF0-4EA2-A15E-A6585237476A} = {B602F0E3-ACDF-44C6-AEB7-6B9B6538959A}
@@ -903,5 +907,10 @@ Global
 		{F749AAA5-B77C-4DDD-97C0-FA663263DAE4} = {363CE645-4D0F-4BB6-BF00-EFD86E3F1B8F}
 		{B1AED29E-B09F-416C-8D0F-7AAEC38292A3} = {363CE645-4D0F-4BB6-BF00-EFD86E3F1B8F}
 		{24276451-268B-44E6-A8B0-38C194EA247F} = {363CE645-4D0F-4BB6-BF00-EFD86E3F1B8F}
+		{3A0B995B-8C67-420F-82E2-23C4C93055DE} = {C6889BC9-02EF-4CF1-A336-E69028E62297}
+		{A6448884-BE4E-4A98-9A19-9F018E1D51CC} = {C6889BC9-02EF-4CF1-A336-E69028E62297}
+		{C92CFF77-920B-47AD-8652-9AC7DC0F85E5} = {C6889BC9-02EF-4CF1-A336-E69028E62297}
+		{4DB153CA-34C5-4673-80D0-A9EAA511E74B} = {B5BFF93A-E607-4312-9C5A-8EE3E9481B09}
+		{B2F0B1FF-DCC5-4DA3-A03D-B2F763A185E2} = {B5BFF93A-E607-4312-9C5A-8EE3E9481B09}
 	EndGlobalSection
 EndGlobal

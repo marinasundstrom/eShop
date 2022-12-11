@@ -42,16 +42,16 @@
 	  <ProjectReference Include="..\Portal.Shared\Portal.Shared.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
-	  <ProjectReference Include="..\..\..\Catalog\src\Catalog.UI\Catalog.UI.csproj">
+	  <ProjectReference Include="..\..\..\Sales\Catalog\src\Catalog.UI\Catalog.UI.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
-	  <ProjectReference Include="..\..\..\Sales\src\Sales.UI\Sales.UI.csproj">
+	  <ProjectReference Include="..\..\..\Sales\Orders\src\Orders.UI\Orders.UI.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
 	  <ProjectReference Include="..\..\..\Inventory\src\Inventory.UI\Inventory.UI.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
-	  <ProjectReference Include="..\..\..\Customers\src\Customers.UI\Customers.UI.csproj">
+	  <ProjectReference Include="..\..\..\CustomerRelations\Customers\src\Customers.UI\Customers.UI.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
 	  <ProjectReference Include="..\..\..\Marketing\src\Marketing.UI\Marketing.UI.csproj">
@@ -60,7 +60,7 @@
 	   <ProjectReference Include="..\..\..\Analytics\src\Analytics.UI\Analytics.UI.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
-	   <ProjectReference Include="..\..\..\CustomerService\src\CustomerService.UI\CustomerService.UI.csproj">
+	   <ProjectReference Include="..\..\..\CustomerRelations\Ticketing\src\Ticketing.UI\Ticketing.UI.csproj">
 	     <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	   </ProjectReference>
 	</ItemGroup>

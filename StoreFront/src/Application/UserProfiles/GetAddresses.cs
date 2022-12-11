@@ -7,12 +7,12 @@ public sealed record GetAddresses : IRequest<IEnumerable<YourBrand.Customers.Add
     sealed class Handler : IRequestHandler<GetAddresses, IEnumerable<YourBrand.Customers.AddressDto>>
     {
         private readonly YourBrand.Customers.ICustomersClient customersClient;
-        private readonly YourBrand.Sales.IOrdersClient _ordersClient;
+        private readonly YourBrand.Orders.IOrdersClient _ordersClient;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Customers.ICustomersClient customersClient,
-            YourBrand.Sales.IOrdersClient ordersClient,
+            YourBrand.Orders.IOrdersClient ordersClient,
             ICurrentUserService currentUserService)
         {
             this.customersClient = customersClient;

@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using MediatR;
 using Microsoft.Extensions.Caching.Distributed;
-using YourBrand.Sales;
+using YourBrand.Orders;
 
 namespace YourBrand.StoreFront.Application.Carts;
 

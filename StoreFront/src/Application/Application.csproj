@@ -28,13 +28,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Catalog\src\Client\Client.csproj" />
-    <ProjectReference Include="..\..\..\Sales\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Sales\Catalog\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Sales\Orders\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Inventory\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Marketing\src\Client\Client.csproj" />
     <ProjectReference Include="..\..\..\Analytics\src\Client\Client.csproj" />
-    <ProjectReference Include="..\..\..\Customers\src\Client\Client.csproj" />
-    <ProjectReference Include="..\..\..\Carts\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\CustomerRelations\Customers\src\Client\Client.csproj" />
+    <ProjectReference Include="..\..\..\Sales\Carts\src\Client\Client.csproj" />
   </ItemGroup>
 
 </Project>

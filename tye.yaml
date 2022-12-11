@@ -8,7 +8,7 @@ name: eshop
 
 services:
   - name: catalog-web
-    project: Catalog/src/Web/Web.csproj
+    project: Sales/Catalog/src/Web/Web.csproj
     bindings:
     - name: http
       protocol: http
@@ -27,8 +27,8 @@ services:
       protocol: https
       port: 5001
 
-  - name: sales-web
-    project: Sales/src/Web/Web.csproj
+  - name: orders-web
+    project: Sales/Orders/src/Web/Web.csproj
     bindings:
     - name: http
       protocol: http
@@ -36,6 +36,16 @@ services:
     - name: https
       protocol: https
       port: 5041
+
+  # - name: subscriptions-web
+  #   project: Sales/Subscriptions/src/Web/Web.csproj
+  #   bindings:
+  #   - name: http
+  #     protocol: http
+  #     port: 5540
+  #   - name: https
+  #     protocol: https
+  #     port: 5541
 
   - name: inventory-web
     project: Inventory/src/Web/Web.csproj
@@ -48,7 +58,7 @@ services:
       port: 5051
 
   - name: customers-web
-    project: Customers/src/Web/Web.csproj
+    project: CustomerRelations/Customers/src/Web/Web.csproj
     bindings:
     - name: http
       protocol: http
@@ -78,7 +88,7 @@ services:
       port: 5091
 
   - name: carts-web
-    project: Carts/src/Web/Web.csproj
+    project: Sales/Carts/src/Web/Web.csproj
     bindings:
     - name: http
       protocol: http
@@ -87,8 +97,8 @@ services:
       protocol: https
       port: 5161
 
-  - name: customerservice-web
-    project: CustomerService/src/Web/Web.csproj
+  - name: ticketing-web
+    project: CustomerRelations/Ticketing/src/Web/Web.csproj
     bindings:
     - name: http
       protocol: http

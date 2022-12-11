@@ -2,19 +2,19 @@
 using System.Text.Json;
 using MediatR;
 using YourBrand.Inventory;
-using YourBrand.Sales;
+using YourBrand.Orders;
 using YourBrand.StoreFront.Application.Carts;
 
 namespace YourBrand.StoreFront.Application.Checkout;
 
 public sealed record Checkout(
-    YourBrand.Sales.BillingDetailsDto BillingDetails,
-    YourBrand.Sales.ShippingDetailsDto ShippingDetails)
+    YourBrand.Orders.BillingDetailsDto BillingDetails,
+    YourBrand.Orders.ShippingDetailsDto ShippingDetails)
     : IRequest
 {
     sealed class Handler : IRequestHandler<Checkout>
     {
-        private readonly YourBrand.Sales.IOrdersClient _ordersClient;
+        private readonly YourBrand.Orders.IOrdersClient _ordersClient;
         private readonly YourBrand.Carts.ICartsClient cartsClient;
         private readonly IItemsClient itemsClient;
         private readonly IWarehouseItemsClient itemsClient1;
@@ -23,7 +23,7 @@ public sealed record Checkout(
         private readonly ICartHubService cartHubService;
 
         public Handler(
-            YourBrand.Sales.IOrdersClient ordersClient,
+            YourBrand.Orders.IOrdersClient ordersClient,
             YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Inventory.IItemsClient itemsClient,
             YourBrand.Inventory.IWarehouseItemsClient itemsClient1,
@@ -134,7 +134,7 @@ public sealed record Checkout(
                 });
             }
 
-            await _ordersClient.CreateOrderAsync(new YourBrand.Sales.CreateOrderRequest()
+            await _ordersClient.CreateOrderAsync(new YourBrand.Orders.CreateOrderRequest()
             {
                 CustomerId = customerId?.ToString(),
                 BillingDetails = request.BillingDetails,

@@ -5,8 +5,8 @@
     "Enabled": true
   },
   {
-    "Name": "Sales",
-    "Assembly": "Sales.UI",
+    "Name": "Orders",
+    "Assembly": "Orders.UI",
     "Enabled": true
   },
   {
@@ -25,8 +25,8 @@
     "Enabled": true
   },
   {
-    "Name": "CustomerService",
-    "Assembly": "CustomerService.UI",
+    "Name": "Ticketing",
+    "Assembly": "Ticketing.UI",
     "Enabled": true
   },
   {

@@ -1,10 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using YourBrand.Catalog;
-using YourBrand.Marketing;
-using YourBrand.Marketing.Client;
-using System.Net;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Http;
 using MediatR;
 using YourBrand.StoreFront.Application.Analytics;
 
