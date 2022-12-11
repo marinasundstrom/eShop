@@ -15,6 +15,7 @@
 	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(RunConfiguration)' == 'Web' " />
+	<PropertyGroup Condition=" '$(RunConfiguration)' == 'YourBrand.Orders.Web' " />
 	<ItemGroup>
 		<PackageReference Include="MassTransit.AspNetCore" Version="7.3.1" />
 		<PackageReference Include="MassTransit.RabbitMQ" Version="8.0.8" />
