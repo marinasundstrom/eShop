@@ -35,6 +35,16 @@ public class ModuleInitializer : IModuleInitializer
         var group = navManager.GetGroup("sales") ?? navManager.CreateGroup("sales", () => resources["Sales"]);
         group.RequiresAuthorization = true;
 
-        group.CreateItem("products", () => resources["Products"], MudBlazor.Icons.Material.Filled.FormatListBulleted, "/products");
+        var catalogItem = group.CreateGroup("catalog", options =>
+        {
+            options.Name = resources["Catalog"];
+            options.Icon = MudBlazor.Icons.Material.Filled.Book;
+        });
+
+        catalogItem.CreateItem("products", () => resources["Products"], MudBlazor.Icons.Material.Filled.FormatListBulleted, "/products");
+
+        catalogItem.CreateItem("collections", () => resources["Collections"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
+
+        catalogItem.CreateItem("attributes", () => resources["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
     }
 }

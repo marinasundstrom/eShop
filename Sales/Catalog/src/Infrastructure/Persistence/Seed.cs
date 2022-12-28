@@ -14,6 +14,10 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
+        context.Brands.Add(new Brand("myBrand", "MyBrand"));
+
+        await context.SaveChangesAsync();
+
         context.ProductGroups.Add(new ProductGroup("clothes", "Clothes")
         {
             Description = null,
@@ -51,6 +55,7 @@ public static class Seed
             HasVariants = true,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Clothes"),
             Visibility = ProductVisibility.Listed,
+            Brand = await context.Brands.FirstAsync(x => x.Id == "myBrand"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 

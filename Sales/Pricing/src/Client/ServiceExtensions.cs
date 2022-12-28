@@ -6,11 +6,12 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddPricingClients(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
     {
+        /*
         services
             .AddOrdersClient(configureClient, builder)
             .AddOrderStatusesClient(configureClient, builder)
             .AddCartsClient(configureClient, builder);
-
+        */
         return services;
     }
 

@@ -8,6 +8,8 @@ public interface IApplicationDbContext
 {
     DbSet<Store> Stores { get; }
 
+    DbSet<Brand> Brands { get; }
+
     DbSet<ProductGroup> ProductGroups { get; }
 
     DbSet<Product> Products { get; }

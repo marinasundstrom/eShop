@@ -2,9 +2,9 @@
 
 namespace YourBrand.Catalog.Domain.Entities;
 
-public class Product : AggregateRoot<string>
+public sealed class Product : AggregateRoot<string>
 {
-    protected Product() { }
+    private Product() { }
 
     public Product(string id, string name) : base(id)
     {
@@ -15,9 +15,15 @@ public class Product : AggregateRoot<string>
 
     public string? StoreId { get; private set; }
 
+    public Brand Brand { get; set; } = null!;
+
+    public string? BrandId { get; private set; }
+
     public string Name { get; set; } = null!;
 
     public string? Substitle { get; set; }
+
+    //public bool IsNew { get; set; }
 
     public Product? ParentProduct { get; set; }
 

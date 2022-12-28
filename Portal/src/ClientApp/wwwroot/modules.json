@@ -33,5 +33,10 @@
     "Name": "Analytics",
     "Assembly": "Analytics.UI",
     "Enabled": true
+  },
+  {
+    "Name": "Shops",
+    "Assembly": "Shops.UI",
+    "Enabled": true
   }
 ]

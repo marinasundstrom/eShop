@@ -24,4 +24,12 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Attributes\Commands\" />
+    <None Remove="Attributes\Queries\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Attributes\Commands\" />
+    <Folder Include="Attributes\Queries\" />
+  </ItemGroup>
 </Project>

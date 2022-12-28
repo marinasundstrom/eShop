@@ -10,3 +10,13 @@ public class StoreConfiguration : IEntityTypeConfiguration<Store>
         builder.ToTable("Stores");
     }
 }
+
+/*
+public class MerchantConfiguration : IEntityTypeConfiguration<Merchant>
+{
+    public void Configure(EntityTypeBuilder<Merchant> builder)
+    {
+        builder.ToTable("Merchants");
+    }
+}
+*/
