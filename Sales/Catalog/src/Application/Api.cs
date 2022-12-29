@@ -13,7 +13,7 @@ public record class ApiUpdateProductGroup(string Name, string? Description, stri
 
 public record class ApiCreateProductOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateProductOptionValue> Values, string? DefaultOptionValueId);
 
-public record class ApiCreateProductAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateProductAttributeValue> Values);
+public record class ApiAddProductAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateProductAttributeValue> Values);
 
 
 public record class ApiCreateProductOptionValue(string Name, string? SKU, decimal? Price);

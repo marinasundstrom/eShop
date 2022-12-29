@@ -8,9 +8,9 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Application.Products.Attributes;
 
-public record CreateProductAttribute(string ProductId, ApiCreateProductAttribute Data) : IRequest<AttributeDto>
+public record AddProductAttribute(string ProductId, ApiAddProductAttribute Data) : IRequest<AttributeDto>
 {
-    public class Handler : IRequestHandler<CreateProductAttribute, AttributeDto>
+    public class Handler : IRequestHandler<AddProductAttribute, AttributeDto>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,7 +19,7 @@ public record CreateProductAttribute(string ProductId, ApiCreateProductAttribute
             _context = context;
         }
 
-        public async Task<AttributeDto> Handle(CreateProductAttribute request, CancellationToken cancellationToken)
+        public async Task<AttributeDto> Handle(AddProductAttribute request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
             .FirstAsync(attribute => attribute.Id == request.ProductId);

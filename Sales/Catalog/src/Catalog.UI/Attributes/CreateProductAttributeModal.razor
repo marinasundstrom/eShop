@@ -1,5 +1,6 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @inject IProductsClient ProductsClient
+@inject IAttributesClient AttributesClient 
 @inject IDialogService DialogService
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
@@ -102,7 +103,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Groups = (await ProductsClient.GetAttributeGroupsAsync(ProductId)).Prepend(new AttributeGroupDto
+        Groups = (await AttributesClient.GetAttributeGroupsAsync()).Prepend(new AttributeGroupDto
         {
             Id = null,
             Name =
@@ -129,12 +130,10 @@
 
     async Task OnSubmit()
     {
-        var data = new ApiCreateProductAttribute
+        var data = new CreateAttributeDto
         {
             Name = Name,
             Description = Description,
-            ForVariant = ForVariant,
-            IsMainAttribute = IsMainAttribute,
             GroupId = Group?.Id,
             Values = Values.Select(x => new ApiCreateProductAttributeValue()
             {
@@ -142,7 +141,7 @@
             }).ToList()
         };
 
-        var result = await ProductsClient.CreateProductAttributeAsync(ProductId, data);
+        var result = await AttributesClient.CreateAttributeAsync(data);
         Modal.Close(DialogResult.Ok(result));
     }
 

@@ -1,5 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@inject IProductsClient ProductsClient
+@inject IAttributesClient AttributesClient
 @inject IDialogService DialogService
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
@@ -103,7 +103,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Groups = (await ProductsClient.GetAttributeGroupsAsync(ProductId)).Prepend(new AttributeGroupDto { Id = null, Name = "None" }).ToList();
+        Groups = (await AttributesClient.GetAttributeGroupsAsync()).Prepend(new AttributeGroupDto { Id = null, Name = "None" }).ToList();
 
         Name = Attribute.Name;
         Description = Attribute.Description;
@@ -136,7 +136,7 @@
 
         if (vm.Id is not null)
         {
-            await ProductsClient.DeleteProductAttributeValueAsync(ProductId, Attribute.Id, vm.Id);
+            await AttributesClient.DeleteAttributeValueAsync(Attribute.Id, vm.Id);
         }
 
         Values.Remove(vm);
@@ -144,13 +144,11 @@
 
     async Task OnSubmit()
     {
-        var data = new ApiUpdateProductAttribute
+        var data = new UpdateAttributeDto
         {
             Name = Name,
             Description = Description,
             GroupId = Group?.Id,
-            ForVariant = ForVariant,
-            IsMainAttribute = IsMainAttribute,
             Values = Values.Select(x => new ApiUpdateProductAttributeValue()
             {
                 Id = x.Id,
@@ -158,8 +156,8 @@
             }).ToList()
         };
 
-        var result = await ProductsClient.UpdateProductAttributeAsync(ProductId, Attribute.Id, data);
-        Modal.Close(DialogResult.Ok(result));
+        await AttributesClient.UpdateAttributeAsync(Attribute.Id, data);
+        Modal.Close(DialogResult.Ok<object>(null!));
     }
 
     public class AttributeValueVM

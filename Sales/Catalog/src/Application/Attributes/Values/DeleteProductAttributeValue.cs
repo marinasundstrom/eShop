@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog.Domain;
 
-namespace YourBrand.Catalog.Application.Products.Attributes;
+namespace YourBrand.Catalog.Application.Attributes.Values;
 
-public record DeleteProductAttributeValue(string ProductId, string AttributeId, string ValueId) : IRequest
+public record DeleteProductAttributeValue(string Id, string ValueId) : IRequest
 {
     public class Handler : IRequestHandler<DeleteProductAttributeValue>
     {
@@ -19,13 +19,9 @@ public record DeleteProductAttributeValue(string ProductId, string AttributeId, 
 
         public async Task<Unit> Handle(DeleteProductAttributeValue request, CancellationToken cancellationToken)
         {
-            var item = await _context.Products
-             .AsSplitQuery()
-             .Include(pv => pv.Attributes)
-             .ThenInclude(pv => pv.Values)
-             .FirstAsync(p => p.Id == request.ProductId);
-
-            var attribute = item.Attributes.First(o => o.Id == request.AttributeId);
+            var attribute = await _context.Attributes
+             .Include(pv => pv.Values)
+             .FirstAsync(o => o.Id == request.Id);
 
             var value = attribute.Values.First(o => o.Id == request.ValueId);
 

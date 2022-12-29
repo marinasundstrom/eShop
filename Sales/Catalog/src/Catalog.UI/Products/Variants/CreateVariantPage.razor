@@ -2,6 +2,7 @@
 
 @using System.ComponentModel.DataAnnotations
 @inject IProductsClient ProductsClient
+@inject IAttributesClient AttributesClient
 @inject ISnackbar Snackbar
 @inject NavigationManager NavigationManager
 
@@ -124,7 +125,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var attributes = await ProductsClient.GetProductAttributesAsync(ProductId);
+        var r = await AttributesClient.GetAttributesAsync(null, null, null, null, null);
+        var attributes = r.Items;
+
         foreach (var attribute in attributes)
         {
             var vm = new AttributeVM()
@@ -137,7 +140,7 @@
             Attributes.Add(vm);
 
             vm.Values.AddRange(
-            await ProductsClient.GetProductAttributeValuesAsync(ProductId, attribute.Id));
+                await AttributesClient.GetAttributeValuesAsync(attribute.Id));
 
             vm.SelectedValue = vm.Values.FirstOrDefault();
         }

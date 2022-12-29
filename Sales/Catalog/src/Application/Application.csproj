@@ -27,9 +27,13 @@
   <ItemGroup>
     <None Remove="Attributes\Commands\" />
     <None Remove="Attributes\Queries\" />
+    <None Remove="Attributes\Groups\" />
+    <None Remove="Attributes\Values\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Attributes\Commands\" />
     <Folder Include="Attributes\Queries\" />
+    <Folder Include="Attributes\Groups\" />
+    <Folder Include="Attributes\Values\" />
   </ItemGroup>
 </Project>

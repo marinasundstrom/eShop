@@ -24,10 +24,12 @@
 
         <HeaderContent>
             <MudTh><MudTableSortLabel T="AttributeDto" SortLabel="Name">Name</MudTableSortLabel></MudTh>
+            <MudTh>Values</MudTh>
         </HeaderContent>
 
-        <RowTemplate>
-            <MudTd DataLabel="Name">@context.Name</MudTd>
+        <RowTemplate Context="attribute">
+            <MudTd DataLabel="Name">@(attribute.Name)</MudTd>
+            <MudTd DataLabel="Values">@string.Join(", ", attribute.Values.Select(x => x.Name))</MudTd>
         </RowTemplate>
 
         <PagerContent>

@@ -1,5 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@inject IProductsClient ProductsClient
+@inject IAttributesClient AttributesClient
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
@@ -14,7 +14,7 @@
         </DialogContent>
         <DialogActions>
             <MudButton OnClick="() => Modal.Cancel()">Cancel</MudButton>
-            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Save</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Create</MudButton>
         </DialogActions>
     </MudDialog>
 </EditForm>
@@ -24,27 +24,20 @@
 
     [Parameter] public string ProductId { get; set; }
 
-    [Parameter] public AttributeGroupDto AttributeGroup { get; set; }
-
     [Required]
     public string Name { get; set; }
 
     public string? Description { get; set; }
 
-    protected override void OnInitialized()
-    {
-        Name = AttributeGroup.Name;
-        Description = AttributeGroup.Description;
-    }
-
     async Task OnSubmit()
     {
-        ApiUpdateProductAttributeGroup data = new()
+        ApiCreateProductAttributeGroup data = new()
         {
             Name = Name,
-            Description = Description
+            Description = Description,
+
         };
-        var result = await ProductsClient.UpdateAttributeGroupAsync(ProductId, AttributeGroup.Id, data);
+        var result = await AttributesClient.CreateAttributeGroupAsync(data);
         Modal.Close(DialogResult.Ok(result));
     }
 

@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using YourBrand.Catalog.Domain;
 using YourBrand.Catalog.Application.Attributes;
 
-namespace YourBrand.Catalog.Application.Attributes;
+namespace YourBrand.Catalog.Application.Attributes.Values;
 
-public record GetAttributeValues(string AttributeId) : IRequest<IEnumerable<AttributeValueDto>>
+public record GetAttributeValues(string Id) : IRequest<IEnumerable<AttributeValueDto>>
 {
     public class Handler : IRequestHandler<GetAttributeValues, IEnumerable<AttributeValueDto>>
     {
@@ -25,7 +25,7 @@ public record GetAttributeValues(string AttributeId) : IRequest<IEnumerable<Attr
                 .AsNoTracking()
                 .Include(pv => pv.Attribute)
                 .ThenInclude(pv => pv.Group)
-                .Where(p => p.Attribute.Id == request.AttributeId)
+                .Where(p => p.Attribute.Id == request.Id)
                 .ToArrayAsync();
 
             return options.Select(x => x.ToDto());

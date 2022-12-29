@@ -1,11 +1,12 @@
-﻿using MediatR;
+﻿using System.Data.Entity;
+using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 using YourBrand.Catalog.Domain;
 
 namespace YourBrand.Catalog.Application.Attributes;
 
-public record CreateAttributeCommand(string Name) : IRequest<AttributeDto>
+public record CreateAttributeCommand(string Name, string? Description, string? GroupId, IEnumerable<ApiCreateProductAttributeValue> Values) : IRequest<AttributeDto>
 {
     public class CreateAttributeCommandHandler : IRequestHandler<CreateAttributeCommand, AttributeDto>
     {
@@ -18,13 +19,25 @@ public record CreateAttributeCommand(string Name) : IRequest<AttributeDto>
 
         public async Task<AttributeDto> Handle(CreateAttributeCommand request, CancellationToken cancellationToken)
         {
-            var attribute = await context.Attributes.FirstOrDefaultAsync(i => i.Name == request.Name, cancellationToken);
+            var group = await context.AttributeGroups
+                .FirstOrDefaultAsync(attribute => attribute.Id == request.GroupId);
 
-            if (attribute is not null) throw new Exception();
+            Domain.Entities.Attribute attribute = new(Guid.NewGuid().ToString())
+            {
+                Name = request.Name,
+                Description = request.Description,
+                Group = group,
+            };
 
-            attribute = new Domain.Entities.Attribute(request.Name);
+            foreach (var v in request.Values)
+            {
+                var value = new AttributeValue(Guid.NewGuid().ToString())
+                {
+                    Name = v.Name
+                };
 
-            context.Attributes.Add(attribute);
+                attribute.Values.Add(value);
+            }
 
             await context.SaveChangesAsync(cancellationToken);
 

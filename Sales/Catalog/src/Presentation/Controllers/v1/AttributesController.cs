@@ -4,8 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Application;
 using YourBrand.Catalog.Application.Attributes;
+using YourBrand.Catalog.Application.Attributes.Groups;
+using YourBrand.Catalog.Application.Attributes.Values;
 using YourBrand.Catalog.Application.Common.Models;
 using YourBrand.Catalog.Application.Options;
+using YourBrand.Catalog.Application.Products.Attributes;
 
 namespace YourBrand.Catalog.Presentation.Controllers;
 
@@ -42,13 +45,13 @@ public class AttributesController : Controller
     [HttpPost]
     public async Task<AttributeDto> CreateAttribute(CreateAttributeDto dto, CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new CreateAttributeCommand(dto.Name), cancellationToken);
+        return await _mediator.Send(new CreateAttributeCommand(dto.Name, dto.Description, dto.GroupId, dto.Values), cancellationToken);
     }
 
     [HttpPut("{id}")]
     public async Task UpdateAttribute(string id, UpdateAttributeDto dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateAttributeCommand(id, dto.Name), cancellationToken);
+        await _mediator.Send(new UpdateAttributeCommand(id, dto.Name, dto.Description, dto.GroupId, dto.Values), cancellationToken);
     }
 
     [HttpDelete("{id}")]
@@ -56,8 +59,54 @@ public class AttributesController : Controller
     {
         await _mediator.Send(new DeleteAttributeCommand(id), cancellationToken);
     }
+
+    [HttpPost("{id}/Values")]
+    public async Task<ActionResult<AttributeValueDto>> CreateAttributeValue(string id, ApiCreateProductAttributeValue data, CancellationToken cancellationToken)
+    {
+
+        return Ok(await _mediator.Send(new CreateProductAttributeValue(id, data), cancellationToken));
+    }
+
+    [HttpPost("{id}/Values/{valueId}")]
+    public async Task<ActionResult> DeleteAttributeValue(string id, string valueId, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteProductAttributeValue(id, valueId), cancellationToken);
+        return Ok();
+    }
+
+    [HttpGet("{id}/Values")]
+    public async Task<ActionResult<IEnumerable<AttributeValueDto>>> GetAttributeValues(string id)
+    {
+        return Ok(await _mediator.Send(new GetAttributeValues(id)));
+    }
+
+    [HttpGet("Groups")]
+    public async Task<ActionResult<IEnumerable<AttributeGroupDto>>> GetAttributeGroups()
+    {
+        return Ok(await _mediator.Send(new GetAttributeGroups()));
+    }
+
+    [HttpPost("Groups")]
+    public async Task<ActionResult<AttributeGroupDto>> CreateAttributeGroup(ApiCreateProductAttributeGroup data)
+    {
+        return Ok(await _mediator.Send(new CreateAttributeGroup(data)));
+    }
+
+    [HttpPut("Groups/{id}")]
+    public async Task<ActionResult<AttributeGroupDto>> UpdateAttributeGroup(string id, ApiUpdateProductAttributeGroup data)
+    {
+        return Ok(await _mediator.Send(new UpdateAttributeGroup(id, data)));
+    }
+
+    [HttpDelete("Groups/{id}")]
+    public async Task<ActionResult> DeleteAttributeGroup(string id)
+    {
+        await _mediator.Send(new DeleteAttributeGroup(id));
+        return Ok();
+    }
+
 }
 
-public record CreateAttributeDto(string Name);
+public record CreateAttributeDto(string Name, string? Description, string? GroupId, IEnumerable<ApiCreateProductAttributeValue> Values);
 
-public record UpdateAttributeDto(string Name);
+public record UpdateAttributeDto(string Name, string? Description, string? GroupId, IEnumerable<ApiUpdateProductAttributeValue> Values);

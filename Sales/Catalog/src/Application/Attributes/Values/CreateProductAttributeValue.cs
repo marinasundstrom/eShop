@@ -6,9 +6,9 @@ using YourBrand.Catalog.Application.Attributes;
 using YourBrand.Catalog.Domain;
 using YourBrand.Catalog.Domain.Entities;
 
-namespace YourBrand.Catalog.Application.Products.Attributes;
+namespace YourBrand.Catalog.Application.Attributes.Values;
 
-public record CreateProductAttributeValue(string ProductId, string AttributeId, ApiCreateProductAttributeValue Data) : IRequest<AttributeValueDto>
+public record CreateProductAttributeValue(string Id, ApiCreateProductAttributeValue Data) : IRequest<AttributeValueDto>
 {
     public class Handler : IRequestHandler<CreateProductAttributeValue, AttributeValueDto>
     {
@@ -21,11 +21,8 @@ public record CreateProductAttributeValue(string ProductId, string AttributeId, 
 
         public async Task<AttributeValueDto> Handle(CreateProductAttributeValue request, CancellationToken cancellationToken)
         {
-            var item = await _context.Products
-            .FirstAsync(x => x.Id == request.ProductId);
-
             var attribute = await _context.Attributes
-                .FirstAsync(x => x.Id == request.AttributeId);
+                .FirstAsync(x => x.Id == request.Id);
 
             var value = new AttributeValue(Guid.NewGuid().ToString())
             {
@@ -34,7 +31,7 @@ public record CreateProductAttributeValue(string ProductId, string AttributeId, 
 
             attribute.Values.Add(value);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new AttributeValueDto(value.Id, value.Name, value.Seq);
         }

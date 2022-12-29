@@ -2,6 +2,7 @@
 
 @using System.ComponentModel.DataAnnotations
 @inject IProductsClient ProductsClient
+@inject IAttributesClient AttributesClient  
 @inject ISnackbar Snackbar
 
 <AppPageTitle>Variant</AppPageTitle>
@@ -171,7 +172,7 @@ else
             Attributes.Add(vm);
 
             vm.Values.AddRange(
-            await ProductsClient.GetProductAttributeValuesAsync(ProductId, attribute.Id));
+            await AttributesClient.GetAttributeValuesAsync(attribute.Id));
 
             var o = Variant.Attributes.FirstOrDefault(x => x.Name == attribute.Name);
 

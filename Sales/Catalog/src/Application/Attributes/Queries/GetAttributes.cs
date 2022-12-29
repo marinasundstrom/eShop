@@ -36,6 +36,7 @@ public record GetAttributes(int Page = 10, int PageSize = 10, string? SearchStri
 
             var items = await query
                             .OrderBy(x => x.Name)
+                            .Include(x => x.Values)
                             .Skip(request.Page * request.PageSize)
                             .Take(request.PageSize).AsQueryable()
                             .ToArrayAsync();

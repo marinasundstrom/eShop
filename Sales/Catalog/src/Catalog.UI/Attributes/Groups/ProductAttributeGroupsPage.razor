@@ -1,5 +1,5 @@
 ﻿@page "/products/{productId}/attributes/groups"
-@inject IProductsClient ProductsClient
+@inject IAttributesClient AttributesClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
 
@@ -52,8 +52,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        item = await ProductsClient.GetProductAsync(ProductId);
-        attributeGroups = (await ProductsClient.GetAttributeGroupsAsync(ProductId)).ToList();
+        //item = await AttributesClient.GetProductAsync(ProductId);
+        attributeGroups = (await AttributesClient.GetAttributeGroupsAsync()).ToList();
     }
 
     async Task CreateGroup()
@@ -96,7 +96,7 @@ else
             return;
         }
 
-        await ProductsClient.DeleteAttributeGroupAsync(ProductId, attributeGroup.Id);
+        await AttributesClient.DeleteAttributeGroupAsync(attributeGroup.Id);
 
         attributeGroups.Remove(attributeGroup);
     }

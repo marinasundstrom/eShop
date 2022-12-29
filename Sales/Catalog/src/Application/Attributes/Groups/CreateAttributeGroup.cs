@@ -6,11 +6,11 @@ using YourBrand.Catalog.Application.Attributes;
 using YourBrand.Catalog.Domain;
 using YourBrand.Catalog.Domain.Entities;
 
-namespace YourBrand.Catalog.Application.Products.Attributes.Groups;
+namespace YourBrand.Catalog.Application.Attributes.Groups;
 
-public record CreateProductAttributeGroup(string ProductId, ApiCreateProductAttributeGroup Data) : IRequest<AttributeGroupDto>
+public record CreateAttributeGroup(ApiCreateProductAttributeGroup Data) : IRequest<AttributeGroupDto>
 {
-    public class Handler : IRequestHandler<CreateProductAttributeGroup, AttributeGroupDto>
+    public class Handler : IRequestHandler<CreateAttributeGroup, AttributeGroupDto>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,20 +19,17 @@ public record CreateProductAttributeGroup(string ProductId, ApiCreateProductAttr
             _context = context;
         }
 
-        public async Task<AttributeGroupDto> Handle(CreateProductAttributeGroup request, CancellationToken cancellationToken)
+        public async Task<AttributeGroupDto> Handle(CreateAttributeGroup request, CancellationToken cancellationToken)
         {
-            var item = await _context.Products
-                .FirstAsync(x => x.Id == request.ProductId);
-
             var group = new AttributeGroup(Guid.NewGuid().ToString())
             {
                 Name = request.Data.Name,
                 Description = request.Data.Description
             };
 
-            item.AttributeGroups.Add(group);
+            _context.AttributeGroups.Add(group);
 
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return new AttributeGroupDto(group.Id, group.Name, group.Description);
         }
