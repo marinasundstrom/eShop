@@ -24,8 +24,6 @@ public interface IApplicationDbContext
 
     DbSet<ProductOption> ProductOptions { get; }
 
-    DbSet<ProductAttributeValue> ProductAttributeValues { get; }
-
     DbSet<ProductVariantOption> ProductVariantOptions { get; }
 
     DbSet<OptionGroup> OptionGroups { get; }

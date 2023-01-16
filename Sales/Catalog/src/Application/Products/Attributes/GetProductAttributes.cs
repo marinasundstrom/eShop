@@ -7,9 +7,9 @@ using YourBrand.Catalog.Domain;
 
 namespace YourBrand.Catalog.Application.Products.Attributes;
 
-public record GetProductAttributes(string ProductId) : IRequest<IEnumerable<AttributeDto>>
+public record GetProductAttributes(string ProductId) : IRequest<IEnumerable<ProductAttributeDto>>
 {
-    public class Handler : IRequestHandler<GetProductAttributes, IEnumerable<AttributeDto>>
+    public class Handler : IRequestHandler<GetProductAttributes, IEnumerable<ProductAttributeDto>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -18,18 +18,19 @@ public record GetProductAttributes(string ProductId) : IRequest<IEnumerable<Attr
             _context = context;
         }
 
-        public async Task<IEnumerable<AttributeDto>> Handle(GetProductAttributes request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductAttributeDto>> Handle(GetProductAttributes request, CancellationToken cancellationToken)
         {
-            var attributes = await _context.Attributes
+            var product = await _context.Products
                 .AsSplitQuery()
                 .AsNoTracking()
-                .Include(pv => pv.Group)
-                .Include(pv => pv.Values)
-                .Where(p => p.Products.Any(x => x.Id == request.ProductId))
-                .ToArrayAsync();
+                .Include(pv => pv.ProductAttributes)
+                .ThenInclude(pv => pv.Value)
+                .Include(pv => pv.ProductAttributes)
+                .ThenInclude(pv => pv.Attribute)
+                .ThenInclude(pv => pv.Group)
+                .FirstAsync(p => p.Id == request.ProductId, cancellationToken);
 
-
-            return attributes.Select(x => x.ToDto());
+            return product.ProductAttributes.Select(x => x.ToDto());
         }
     }
 }

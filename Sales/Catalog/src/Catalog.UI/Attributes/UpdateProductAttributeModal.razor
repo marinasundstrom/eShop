@@ -108,8 +108,8 @@
         Name = Attribute.Name;
         Description = Attribute.Description;
         Group = Groups.FirstOrDefault(x => x?.Id == Attribute.Group?.Id);
-        ForVariant = Attribute.ForVariant;
-        IsMainAttribute = Attribute.IsMainAttribute;
+        //ForVariant = Attribute.ForVariant;
+        //IsMainAttribute = Attribute.IsMainAttribute;
 
         foreach (var value in Attribute.Values)
         {

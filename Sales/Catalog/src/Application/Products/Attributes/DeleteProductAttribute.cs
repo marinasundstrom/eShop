@@ -20,14 +20,14 @@ public record DeleteProductAttribute(string ProductId, string AttributeId) : IRe
         public async Task<Unit> Handle(DeleteProductAttribute request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
-                .Include(x => x.Attributes)
+                .Include(x => x.ProductAttributes)
                 .FirstAsync(x => x.Id == request.ProductId);
 
-            var attribute = item.Attributes
-                .First(x => x.Id == request.AttributeId);
+            var attribute = item.ProductAttributes
+                .First(x => x.AttributeId == request.AttributeId);
 
-            item.Attributes.Remove(attribute);
-            _context.Attributes.Remove(attribute);
+            item.ProductAttributes.Remove(attribute);
+            _context.ProductAttributes.Remove(attribute);
 
             await _context.SaveChangesAsync();
 

@@ -1,0 +1,72 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inject IProductsClient ProductsClient
+@inject IProductGroupsClient ProductGroupsClient
+@inject IAttributesClient AttributesClient
+
+<EditForm Model="@this" OnValidSubmit="OnSubmit">
+    <DataAnnotationsValidator />
+
+    <MudDialog DisableSidePadding="true">
+        <DialogContent>
+            <MudContainer Style="max-height: 300px; overflow-y: scroll">
+
+                <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
+
+                @foreach (var productAttribute in productAttributes.OrderBy(x => x.Attribute.Id))
+                {
+                    <MudAutocomplete T="AttributeValueDto" Class="mb-6" Label="@productAttribute.Attribute.Name" @bind-Value="productAttribute.Value" SearchFuncWithCancel="@(async (string value, CancellationToken ct) => await SearchAttributeValue(productAttribute.Attribute.Id, value, ct))" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
+                }
+
+            </MudContainer>
+
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="() => Modal.Cancel()">Cancel</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Color="Color.Primary">Create</MudButton>
+        </DialogActions>
+    </MudDialog>
+
+</EditForm>
+
+@code {
+    IEnumerable<ProductAttributeDto> productAttributes = Enumerable.Empty<ProductAttributeDto>();
+
+    [CascadingParameter] MudDialogInstance Modal { get; set; } = default!;
+
+    [Parameter] public string ProductId { get; set; } = default!;
+
+    [Required] public string Name { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        productAttributes = await ProductsClient.GetProductAttributesAsync(ProductId);
+    }
+
+    async Task OnSubmit()
+    {
+        ApiCreateProductVariant data = new()
+        {
+            Name = Name,
+            Id = Name.ToLowerInvariant().Replace(" ", "-"),
+            Attributes = productAttributes.Select(x => new ApiCreateProductVariantAttribute
+            {
+                AttributeId = x.Attribute.Id,
+                ValueId = x.Value.Id
+            }).ToList()
+        };
+
+        var result = await ProductsClient.CreateVariantAsync(ProductId, data);
+        Modal.Close(DialogResult.Ok(result));
+    }
+
+    private async Task<IEnumerable<AttributeValueDto>> SearchAttributeValue(string attributeId, string value, CancellationToken cancellationToken)
+    {
+        var attribute = await AttributesClient.GetAttributeAsync(attributeId, cancellationToken);
+
+        if (value is null)
+            return attribute.Values;
+
+        return attribute.Values.Where(x => x.Name.Contains(value, StringComparison.InvariantCultureIgnoreCase));
+    }
+}
+

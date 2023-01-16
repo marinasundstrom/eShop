@@ -16,10 +16,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .WithMany(p => p.Products)
             .UsingEntity<ProductOption>();
 
+        /*
         builder
             .HasMany(p => p.Attributes)
             .WithMany(p => p.Products)
             .UsingEntity<ProductAttribute>();
+        */
 
         builder
             .HasOne(x => x.ParentProduct)

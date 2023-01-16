@@ -19,6 +19,20 @@
         "operationId": "Attributes_GetAttributes",
         "parameters": [
           {
+            "name": "ids",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 1
+          },
+          {
             "name": "page",
             "in": "query",
             "schema": {
@@ -26,7 +40,7 @@
               "format": "int32",
               "default": 0
             },
-            "x-position": 1
+            "x-position": 2
           },
           {
             "name": "pageSize",
@@ -36,7 +50,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "searchString",
@@ -45,7 +59,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "sortBy",
@@ -54,7 +68,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 5
           },
           {
             "name": "sortDirection",
@@ -71,7 +85,7 @@
                 }
               ]
             },
-            "x-position": 5
+            "x-position": 6
           }
         ],
         "responses": {
@@ -488,48 +502,21 @@
         }
       }
     },
-    "/v1/ProductGroups": {
+    "/v1/Options": {
       "get": {
         "tags": [
-          "ProductGroups"
+          "Options"
         ],
-        "operationId": "ProductGroups_GetProductGroups",
+        "operationId": "Options_GetOptions",
         "parameters": [
           {
-            "name": "storeId",
+            "name": "includeChoices",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "boolean",
+              "default": false
             },
             "x-position": 1
-          },
-          {
-            "name": "parentGroupId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          },
-          {
-            "name": "includeWithUnlistedProducts",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 3
-          },
-          {
-            "name": "IncludeHidden",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 4
           }
         ],
         "responses": {
@@ -538,40 +525,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductGroupDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "ProductGroups"
-        ],
-        "operationId": "ProductGroups_CreateProductGroup",
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiCreateProductGroup"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductGroupDto"
+                  "$ref": "#/components/schemas/OptionDto"
                 }
               }
             }
@@ -579,15 +533,15 @@
         }
       }
     },
-    "/v1/ProductGroups/{id}": {
+    "/v1/Options/{optionId}/Values": {
       "get": {
         "tags": [
-          "ProductGroups"
+          "Options"
         ],
-        "operationId": "ProductGroups_GetProductGroup",
+        "operationId": "Options_GetOptionValues",
         "parameters": [
           {
-            "name": "id",
+            "name": "optionId",
             "in": "path",
             "required": true,
             "schema": {
@@ -603,80 +557,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductGroupDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "ProductGroups"
-        ],
-        "operationId": "ProductGroups_UpdateProductGroup",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiUpdateProductGroup"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ProductGroupDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "ProductGroups"
-        ],
-        "operationId": "ProductGroups_DeleteProductGroup",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/OptionValueDto"
                 }
               }
             }
@@ -710,7 +591,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/AttributeDto"
+                    "$ref": "#/components/schemas/ProductAttributeDto"
                   }
                 }
               }
@@ -722,7 +603,7 @@
         "tags": [
           "Products"
         ],
-        "operationId": "Products_CreateProductAttribute",
+        "operationId": "Products_AddProductAttribute",
         "parameters": [
           {
             "name": "productId",
@@ -740,7 +621,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiAddProductAttribute"
+                "$ref": "#/components/schemas/AddProductAttributeDto"
               }
             }
           },
@@ -753,7 +634,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AttributeDto"
+                  "$ref": "#/components/schemas/ProductAttributeDto"
                 }
               }
             }
@@ -794,7 +675,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateProductAttribute"
+                "$ref": "#/components/schemas/UpdateProductAttributeDto"
               }
             }
           },
@@ -807,7 +688,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AttributeDto"
+                  "$ref": "#/components/schemas/ProductAttributeDto"
                 }
               }
             }
@@ -2228,21 +2109,48 @@
         }
       }
     },
-    "/v1/Options": {
+    "/v1/ProductGroups": {
       "get": {
         "tags": [
-          "Options"
+          "ProductGroups"
         ],
-        "operationId": "Options_GetOptions",
+        "operationId": "ProductGroups_GetProductGroups",
         "parameters": [
           {
-            "name": "includeChoices",
+            "name": "storeId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "parentGroupId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "includeWithUnlistedProducts",
             "in": "query",
             "schema": {
               "type": "boolean",
               "default": false
             },
-            "x-position": 1
+            "x-position": 3
+          },
+          {
+            "name": "IncludeHidden",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 4
           }
         ],
         "responses": {
@@ -2251,7 +2159,40 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OptionDto"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductGroupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_CreateProductGroup",
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiCreateProductGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
                 }
               }
             }
@@ -2259,15 +2200,15 @@
         }
       }
     },
-    "/v1/Options/{optionId}/Values": {
+    "/v1/ProductGroups/{id}": {
       "get": {
         "tags": [
-          "Options"
+          "ProductGroups"
         ],
-        "operationId": "Options_GetOptionValues",
+        "operationId": "ProductGroups_GetProductGroup",
         "parameters": [
           {
-            "name": "optionId",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -2283,7 +2224,80 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/OptionValueDto"
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_UpdateProductGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiUpdateProductGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_DeleteProductGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
                 }
               }
             }
@@ -2408,12 +2422,6 @@
                 "$ref": "#/components/schemas/AttributeGroupDto"
               }
             ]
-          },
-          "forVariant": {
-            "type": "boolean"
-          },
-          "isMainAttribute": {
-            "type": "boolean"
           },
           "values": {
             "type": "array",
@@ -2588,257 +2596,6 @@
           }
         }
       },
-      "ProductGroupDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parent": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ProductGroupDto"
-              }
-            ]
-          }
-        }
-      },
-      "ApiCreateProductGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ApiUpdateProductGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ApiAddProductAttribute": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "forVariant": {
-            "type": "boolean"
-          },
-          "isMainAttribute": {
-            "type": "boolean"
-          },
-          "groupId": {
-            "type": "string",
-            "nullable": true
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
-            }
-          }
-        }
-      },
-      "ApiUpdateProductAttribute": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "forVariant": {
-            "type": "boolean"
-          },
-          "isMainAttribute": {
-            "type": "boolean"
-          },
-          "groupId": {
-            "type": "string",
-            "nullable": true
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiUpdateProductAttributeValue"
-            }
-          }
-        }
-      },
-      "ItemsResultOfProductDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductDto"
-            }
-          },
-          "totalItems": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "ProductDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parent": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ParentProductDto"
-              }
-            ]
-          },
-          "group": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ProductGroupDto"
-              }
-            ]
-          },
-          "image": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "compareAtPrice": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "quantityAvailable": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "hasVariants": {
-            "type": "boolean"
-          },
-          "visibility": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ProductVisibility"
-              }
-            ]
-          },
-          "attributes2": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/AttributeDto"
-            }
-          },
-          "options": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OptionDto"
-            }
-          },
-          "attributes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ProductVariantAttributeDto"
-            }
-          }
-        }
-      },
-      "ParentProductDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "group": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ProductGroupDto"
-              }
-            ]
-          }
-        }
-      },
-      "ProductVisibility": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "Unlisted",
-          "Listed"
-        ],
-        "enum": [
-          0,
-          1
-        ]
-      },
       "OptionDto": {
         "type": "object",
         "additionalProperties": false,
@@ -2968,7 +2725,24 @@
           }
         }
       },
-      "ProductVariantAttributeDto": {
+      "ProductAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "attribute": {
+            "$ref": "#/components/schemas/Attribute2Dto"
+          },
+          "value": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AttributeValueDto"
+              }
+            ]
+          }
+        }
+      },
+      "Attribute2Dto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2978,17 +2752,189 @@
           "name": {
             "type": "string"
           },
-          "value": {
-            "type": "string"
-          },
-          "valueId": {
+          "description": {
             "type": "string",
             "nullable": true
           },
-          "isMainAttribute": {
-            "type": "boolean"
+          "group": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AttributeGroupDto"
+              }
+            ]
           }
         }
+      },
+      "AddProductAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "attributeId": {
+            "type": "string"
+          },
+          "valueId": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateProductAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "valueId": {
+            "type": "string"
+          }
+        }
+      },
+      "ItemsResultOfProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParentProductDto"
+              }
+            ]
+          },
+          "group": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductGroupDto"
+              }
+            ]
+          },
+          "image": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "compareAtPrice": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "quantityAvailable": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "hasVariants": {
+            "type": "boolean"
+          },
+          "visibility": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductVisibility"
+              }
+            ]
+          },
+          "attributes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductAttributeDto"
+            }
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OptionDto"
+            }
+          }
+        }
+      },
+      "ParentProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "group": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductGroupDto"
+              }
+            ]
+          }
+        }
+      },
+      "ProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductGroupDto"
+              }
+            ]
+          }
+        }
+      },
+      "ProductVisibility": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Unlisted",
+          "Listed"
+        ],
+        "enum": [
+          0,
+          1
+        ]
       },
       "ApiUpdateProductDetails": {
         "type": "object",
@@ -3245,6 +3191,29 @@
           }
         }
       },
+      "ProductVariantAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string",
+            "nullable": true
+          },
+          "valueId": {
+            "type": "string",
+            "nullable": true
+          },
+          "isMainAttribute": {
+            "type": "boolean"
+          }
+        }
+      },
       "ProblemDetails": {
         "type": "object",
         "additionalProperties": {
@@ -3309,7 +3278,7 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "optionId": {
+          "attributeId": {
             "type": "string"
           },
           "valueId": {
@@ -3362,6 +3331,44 @@
           },
           "valueId": {
             "type": "string"
+          }
+        }
+      },
+      "ApiCreateProductGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentGroupId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ApiUpdateProductGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentGroupId": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

@@ -18,11 +18,9 @@ public class Attribute : Entity<string>
 
     public ProductGroup? ProductGroup { get; set; }
 
-    public bool ForVariant { get; set; }
+    //public List<Product> Products { get; } = new List<Product>();
 
-    public bool IsMainAttribute { get; set; }
-
-    public List<Product> Products { get; } = new List<Product>();
+    public List<ProductAttribute> ProductAttributes { get; } = new List<ProductAttribute>();
 
     public List<AttributeValue> Values { get; } = new List<AttributeValue>();
 }

@@ -1,0 +1,40 @@
+﻿@inject NavigationManager NavigationManager
+@inject IProductsClient ProductsClient
+@inject IProductGroupsClient ProductGroupsClient
+@inject IAttributesClient AttributesClient
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@using System.ComponentModel.DataAnnotations
+@using YourBrand.Catalog.Products.Attributes
+
+<MudTable @ref="productAttributesTable" Items="@ProductAttributes" Dense="true" Hover="true" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductAttributeDto,bool>(FilterAttributesFunc)"
+          @bind-SelectedItem="selectedProductAttribute" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
+          OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
+          RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="true" EditTrigger="TableEditTrigger.EditButton">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Attributes</MudText>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=> OnSearch(s))" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductAttributeDto, object>(x=>x.Attribute.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductAttributeDto, object>(x=>x.Value?.Name)">Value</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Attribute.Name</MudTd>
+        <MudTd DataLabel="Value">@context.Value?.Name</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="Name">@context.Attribute.Name</MudTd>
+        <MudTd DataLabel="Value">
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudAutocomplete T="AttributeValueDto" @bind-Value="context.Value" SearchFuncWithCancel="@SearchAttributeValue" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
+                </MudItem>
+            </MudGrid>
+        </MudTd>
+    </RowEditingTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>

@@ -292,7 +292,7 @@
 
     ProductDto? item;
     IEnumerable<IGrouping<string?, OptionDto>>? optionGroups;
-    IEnumerable<IGrouping<string?, AttributeDto>>? attributeGroups;
+    IEnumerable<IGrouping<string?, ProductAttributeDto>>? attributeGroups;
     IEnumerable<ProductDto>? variants;
 
     ProductDto? variant;
@@ -309,8 +309,8 @@
 
         var attributes = await ProductsClient.GetProductAttributesAsync(ProductId);
         attributeGroups = attributes
-            .OrderBy(x => x.Group?.Id)
-            .GroupBy(x => x.Group?.Name);
+            .OrderBy(x => x.Attribute.Group?.Id)
+            .GroupBy(x => x.Attribute.Group?.Name);
 
         var options2 = await ProductsClient.GetProductOptionsAsync(ProductId, null);
         optionGroups = options2
@@ -338,23 +338,23 @@
 
                 if (attributeGroup is null) continue;
 
-                foreach (var attribute in attributeGroup.OrderByDescending(x => x.IsMainAttribute))
+                foreach (var attribute in attributeGroup /*.OrderByDescending(x => x.IsMainAttribute) */)
                 {
                     AttributeVM attributeVm = new()
                     {
-                        Id = attribute.Id,
-                        Name = attribute.Name,
-                        ForVariant = attribute.ForVariant,
-                        IsMainAttribute = attribute.IsMainAttribute
+                        Id = attribute.Attribute.Id,
+                        Name = attribute.Attribute.Name,
+                        //ForVariant = attribute.ForVariant,
+                        //IsMainAttribute = attribute.IsMainAttribute
                     };
 
                     groupVm.Attributes.Add(attributeVm);
 
                     attributeVm.Group = groupVm;
 
-                    var values = attribute.Values;
+                    var values = attribute.Attribute.Values;
 
-                    attributeValues[attribute.Id] = values;
+                    attributeValues[attribute.Attribute.Id] = values;
 
                     foreach (var value in values.OrderBy(x => x.Seq))
                     {
@@ -571,8 +571,8 @@
 
         foreach (var attr in variant.Attributes)
         {
-            var selectedAttr = attributes.First(x => x.Id == attr.Id);
-            selectedAttr.SelectedValue = selectedAttr.Values.FirstOrDefault(x => x.Id == attr.ValueId);
+            var selectedAttr = attributes.First(x => x.Id == attr.Attribute.Id);
+            selectedAttr.SelectedValue = selectedAttr.Values.FirstOrDefault(x => x.Id == attr.Value.Id);
         }
 
         StateHasChanged();

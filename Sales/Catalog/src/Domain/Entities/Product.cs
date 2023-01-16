@@ -55,8 +55,6 @@ public sealed class Product : AggregateRoot<string>
 
     public bool? AllCustom { get; set; }
 
-    public List<Entities.Attribute> Attributes { get; } = new List<Entities.Attribute>();
-
     public List<ProductAttribute> ProductAttributes { get; } = new List<ProductAttribute>();
 
     public List<AttributeGroup> AttributeGroups { get; } = new List<AttributeGroup>();
@@ -70,8 +68,6 @@ public sealed class Product : AggregateRoot<string>
     public List<OptionGroup> OptionGroups { get; } = new List<OptionGroup>();
 
     public ProductVisibility Visibility { get; set; }
-
-    public List<ProductAttributeValue> AttributeValues { get; } = new List<ProductAttributeValue>();
 
     public List<ProductVariantOption> ProductVariantOptions { get; } = new List<ProductVariantOption>();
 }

@@ -67,8 +67,6 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<ProductOption> ProductOptions { get; set; } = null!;
 
-    public DbSet<ProductAttributeValue> ProductAttributeValues { get; set; } = null!;
-
     public DbSet<ProductVariantOption> ProductVariantOptions { get; set; } = null!;
 
     public DbSet<OptionGroup> OptionGroups { get; set; } = null!;

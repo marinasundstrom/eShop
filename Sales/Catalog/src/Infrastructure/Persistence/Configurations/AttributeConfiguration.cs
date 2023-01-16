@@ -12,5 +12,10 @@ public class AttributeConfiguration : IEntityTypeConfiguration<Domain.Entities.A
         builder
             .HasMany(p => p.Values)
             .WithOne(p => p.Attribute);
+
+        builder
+            .HasMany(x => x.ProductAttributes)
+            .WithOne(x => x.Attribute)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

@@ -47,7 +47,7 @@
     {
         try
         {
-            var results = await AttributesClient.GetAttributesAsync(state.Page, state.PageSize, searchString, state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel, state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc));
+            var results = await AttributesClient.GetAttributesAsync(null, state.Page, state.PageSize, searchString, state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel, state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc));
             return new TableData<AttributeDto> { Items = results.Items, TotalItems = results.TotalItems };
         }
         /*catch (ApiException exc)

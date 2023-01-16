@@ -10,5 +10,9 @@ public class ProductAttribute : Entity<int>
 
     public Entities.Attribute Attribute { get; set; } = null!;
 
-    public List<ProductAttributeValue> Values { get; set; } = new List<ProductAttributeValue>();
+    public bool ForVariant { get; set; }
+
+    public bool IsMainAttribute { get; set; }
+
+    public AttributeValue? Value { get; set; } = null!;
 }

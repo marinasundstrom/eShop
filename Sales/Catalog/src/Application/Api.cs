@@ -33,7 +33,7 @@ public record class ApiCreateProductOptionGroup(string Name, string? Description
 
 public record class ApiUpdateProductOptionGroup(string Name, string? Description, int? Min, int? Max);
 
-public record class ProductVariantAttributeDto(string Id, string Name, string Value, string? ValueId, bool IsMainAttribute);
+public record class ProductVariantAttributeDto(string Id, string Name, string? Value, string? ValueId, bool IsMainAttribute);
 
 
 public record class ApiCreateProductAttributeGroup(string Name, string? Description);
@@ -44,7 +44,7 @@ public record class ApiUpdateProductAttributeGroup(string Name, string? Descript
 
 public record class ApiCreateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
 
-public record class ApiCreateProductVariantAttribute(string OptionId, string ValueId);
+public record class ApiCreateProductVariantAttribute(string AttributeId, string ValueId);
 
 
 public record class ApiUpdateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiUpdateProductVariantAttribute> Attributes);

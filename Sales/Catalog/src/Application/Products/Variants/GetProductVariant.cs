@@ -26,10 +26,10 @@ public record GetProductVariant(string ProductId, string ProductVariantId) : IRe
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(pv => pv.Variants)
-                .Include(pv => pv.AttributeValues)
+                .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Attribute)
                 //.ThenInclude(o => o.DefaultValue)
-                .Include(pv => pv.AttributeValues)
+                .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
                 .FirstOrDefaultAsync(pv => pv.ParentProduct!.Id == request.ProductId && pv.Id == request.ProductVariantId);
 

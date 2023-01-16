@@ -7,7 +7,7 @@ using YourBrand.Catalog.Domain;
 
 namespace YourBrand.Catalog.Application.Attributes;
 
-public record GetAttributes(int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<AttributeDto>>
+public record GetAttributes(string[]? Ids = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Application.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<AttributeDto>>
 {
     public class Handler : IRequestHandler<GetAttributes, ItemsResult<AttributeDto>>
     {
@@ -27,7 +27,13 @@ public record GetAttributes(int Page = 10, int PageSize = 10, string? SearchStri
                 .Include(o => o.Values)
                 .AsQueryable();
 
-            if(request.SearchString is not null)
+            if (request.Ids?.Any() ?? false)
+            {
+                var ids = request.Ids;
+                query = query.Where(o => ids.Any(x => x == o.Id));
+            }
+
+            if (request.SearchString is not null)
             {
                 query = query.Where(o => o.Name.ToLower().Contains(request.SearchString.ToLower()));
             }

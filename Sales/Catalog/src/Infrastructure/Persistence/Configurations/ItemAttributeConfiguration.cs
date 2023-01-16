@@ -10,10 +10,5 @@ public class ProductAttributeConfiguration : IEntityTypeConfiguration<ProductAtt
     public void Configure(EntityTypeBuilder<ProductAttribute> builder)
     {
         builder.ToTable("ProductAttributes");
-
-        builder
-            .HasMany(x => x.Values)
-            .WithOne(x => x.ProductAttribute)
-            .OnDelete(DeleteBehavior.NoAction);
     }
 }

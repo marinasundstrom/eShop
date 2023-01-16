@@ -16,5 +16,5 @@ public class AttributeValue : Entity<string>
 
     public string Name { get; set; } = null!;
 
-    public List<ProductAttributeValue> ProductAttributeValues { get; } = new List<ProductAttributeValue>();
+    public List<ProductAttribute> ProductAttributes { get; } = new List<ProductAttribute>();
 }

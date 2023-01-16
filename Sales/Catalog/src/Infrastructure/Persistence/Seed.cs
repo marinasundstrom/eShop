@@ -49,6 +49,29 @@ public static class Seed
 
     public static async Task CreateShirt2(ApplicationDbContext context)
     {
+        var sizeAttribute = new Domain.Entities.Attribute("Size");
+
+        context.Attributes.Add(sizeAttribute);
+        var valueSmall = new AttributeValue("Small");
+
+        sizeAttribute.Values.Add(valueSmall);
+        var valueMedium = new AttributeValue("Medium");
+
+        sizeAttribute.Values.Add(valueMedium);
+        var valueLarge = new AttributeValue("Large");
+
+        sizeAttribute.Values.Add(valueLarge);
+        context.Attributes.Add(sizeAttribute);
+
+        var colorAttribute = new Domain.Entities.Attribute("Color");
+        context.Attributes.Add(colorAttribute);
+
+        var valueBlue = new AttributeValue("Blue");
+        colorAttribute.Values.Add(valueBlue);
+
+        var valueRed = new AttributeValue("Red");
+        colorAttribute.Values.Add(valueRed);
+
         var item = new Product("tshirt", "T-shirt")
         {
             Description = "T-shirt i olika färger",
@@ -61,42 +84,20 @@ public static class Seed
 
         context.Products.Add(item);
 
-        var attr = new Domain.Entities.Attribute("Size")
-        {
-            ForVariant = true
-        };
+        item.ProductAttributes.Add(new ProductAttribute {
+            ForVariant = true,
+            IsMainAttribute = true,
+            Attribute = colorAttribute,
+            Value = null
+        });
 
-        item.Attributes.Add(attr);
-
-        var valueSmall = new AttributeValue("Small");
-
-        attr.Values.Add(valueSmall);
-
-        var valueMedium = new AttributeValue("Medium");
-
-        attr.Values.Add(valueMedium);
-
-        var valueLarge = new AttributeValue("Large");
-
-        attr.Values.Add(valueLarge);
-
-        item.Attributes.Add(attr);
-
-        var option2 = new Domain.Entities.Attribute("Color")
+        item.ProductAttributes.Add(new ProductAttribute
         {
             ForVariant = true,
-            IsMainAttribute = true
-        };
-
-        item.Attributes.Add(option2);
-
-        var valueBlue = new AttributeValue("Blue");
-
-        option2.Values.Add(valueBlue);
-
-        var valueRed = new AttributeValue("Red");
-
-        option2.Values.Add(valueRed);
+            IsMainAttribute = true,
+            Attribute = sizeAttribute,
+            Value = null
+        });
 
         ///*
 
@@ -107,16 +108,17 @@ public static class Seed
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantBlueSmall.AttributeValues.Add(new ProductAttributeValue()
+        variantBlueSmall.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = attr,
+            Attribute = sizeAttribute,
             Value = valueSmall
         });
 
-        variantBlueSmall.AttributeValues.Add(new ProductAttributeValue()
+        variantBlueSmall.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = option2,
-            Value = valueBlue
+            Attribute = colorAttribute,
+            Value = valueBlue,
+            IsMainAttribute = true
         });
 
         item.Variants.Add(variantBlueSmall);
@@ -130,16 +132,17 @@ public static class Seed
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantBlueMedium.AttributeValues.Add(new ProductAttributeValue()
+        variantBlueMedium.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = attr,
+            Attribute = sizeAttribute,
             Value = valueMedium
         });
 
-        variantBlueMedium.AttributeValues.Add(new ProductAttributeValue()
+        variantBlueMedium.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = option2,
-            Value = valueBlue
+            Attribute = colorAttribute,
+            Value = valueBlue,
+            IsMainAttribute = true
         });
 
         item.Variants.Add(variantBlueMedium);
@@ -151,16 +154,17 @@ public static class Seed
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantBlueLarge.AttributeValues.Add(new ProductAttributeValue()
+        variantBlueLarge.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = attr,
+            Attribute = sizeAttribute,
             Value = valueLarge
         });
 
-        variantBlueLarge.AttributeValues.Add(new ProductAttributeValue()
+        variantBlueLarge.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = option2,
-            Value = valueBlue
+            Attribute = colorAttribute,
+            Value = valueBlue,
+            IsMainAttribute = true
         });
 
         item.Variants.Add(variantBlueLarge);
@@ -174,16 +178,17 @@ public static class Seed
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantRedSmall.AttributeValues.Add(new ProductAttributeValue()
+        variantRedSmall.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = attr,
+            Attribute = sizeAttribute,
             Value = valueSmall
         });
 
-        variantRedSmall.AttributeValues.Add(new ProductAttributeValue()
+        variantRedSmall.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = option2,
-            Value = valueRed
+            Attribute = colorAttribute,
+            Value = valueRed,
+            IsMainAttribute = true
         });
 
         item.Variants.Add(variantRedSmall);
@@ -195,16 +200,17 @@ public static class Seed
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantRedMedium.AttributeValues.Add(new ProductAttributeValue()
+        variantRedMedium.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = attr,
+            Attribute = sizeAttribute,
             Value = valueMedium
         });
 
-        variantRedMedium.AttributeValues.Add(new ProductAttributeValue()
+        variantRedMedium.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = option2,
-            Value = valueRed
+            Attribute = colorAttribute,
+            Value = valueRed,
+            IsMainAttribute = true
         });
 
         item.Variants.Add(variantRedMedium);
@@ -216,16 +222,17 @@ public static class Seed
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
-        variantRedLarge.AttributeValues.Add(new ProductAttributeValue()
+        variantRedLarge.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = attr,
+            Attribute = sizeAttribute,
             Value = valueLarge
         });
 
-        variantRedLarge.AttributeValues.Add(new ProductAttributeValue()
+        variantRedLarge.ProductAttributes.Add(new ProductAttribute
         {
-            Attribute = option2,
-            Value = valueRed
+            Attribute = colorAttribute,
+            Value = valueRed,
+            IsMainAttribute = true
         });
 
         item.Variants.Add(variantRedLarge);

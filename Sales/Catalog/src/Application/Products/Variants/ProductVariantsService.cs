@@ -21,9 +21,9 @@ public class ProductsService
             .AsNoTracking()
             .Include(pv => pv.ParentProduct)
                 .ThenInclude(pv => pv!.Group)
-            .Include(pv => pv.AttributeValues)
+            .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Attribute)
-            .Include(pv => pv.AttributeValues)
+            .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
             .Where(pv => pv.ParentProduct!.Id == productId)
             .AsQueryable();
@@ -41,7 +41,7 @@ public class ProductsService
             if (selectedOption.Value is null)
                 continue;
 
-            variants = variants.Where(x => x.AttributeValues.Any(vv => vv.Attribute.Id == selectedOption.Key && vv.Value.Id == selectedOption.Value));
+            variants = variants.Where(x => x.ProductAttributes.Any(vv => vv.Attribute.Id == selectedOption.Key && vv.Value?.Id == selectedOption.Value));
         }
 
         return variants;

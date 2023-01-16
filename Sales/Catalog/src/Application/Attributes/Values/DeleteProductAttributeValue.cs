@@ -23,10 +23,10 @@ public record DeleteProductAttributeValue(string Id, string ValueId) : IRequest
              .Include(pv => pv.Values)
              .FirstAsync(o => o.Id == request.Id);
 
-            var value = attribute.Values.First(o => o.Id == request.ValueId);
+            var value = attribute.ProductAttributes.First(o => o.AttributeId == request.ValueId);
 
-            attribute.Values.Remove(value);
-            _context.AttributeValues.Remove(value);
+            attribute.ProductAttributes.Remove(value);
+            _context.ProductAttributes.Remove(value);
 
             await _context.SaveChangesAsync();
 

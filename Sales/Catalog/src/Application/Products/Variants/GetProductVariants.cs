@@ -44,10 +44,10 @@ public record GetProductVariants(string ProductId, int Page = 10, int PageSize =
             var variants = await query
                 .Include(pv => pv.ParentProduct)
                     .ThenInclude(pv => pv!.Group)
-                .Include(pv => pv.AttributeValues)
-                    .ThenInclude(pv => pv.Attribute)
-                .Include(pv => pv.AttributeValues)
-                    .ThenInclude(pv => pv.Value)
+                .Include(pv => pv.ProductAttributes)
+                    .ThenInclude(pv => pv!.Attribute)
+                .Include(pv => pv.ProductAttributes)
+                    .ThenInclude(pv => pv!.Value)
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize).AsQueryable()
                 .ToArrayAsync();

@@ -28,9 +28,8 @@ public static class Mapping
                item.QuantityAvailable,
                item.HasVariants,
                (ProductVisibility?)item.Visibility,
-               item.Attributes.Select(x => x.ToDto()),
-               item.Options.Select(x => x.ToDto()),
-               item.AttributeValues.Select(x => x.ToDto()));
+               item.ProductAttributes.Select(x => x.ToDto()),
+               item.Options.Select(x => x.ToDto()));
     }
 
     public static ParentProductDto ToDto2(this Domain.Entities.Product item)
@@ -50,5 +49,10 @@ public static class Mapping
     private static string? GetImageUrl(string? name)
     {
         return name is null ? null : $"/images/{name}";
+    }
+
+    public static ProductAttributeDto ToDto(this Domain.Entities.ProductAttribute x)
+    {
+        return new ProductAttributeDto(x.Attribute.ToDto2(), x.Value?.ToDto());
     }
 }

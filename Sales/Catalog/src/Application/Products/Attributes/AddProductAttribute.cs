@@ -8,9 +8,9 @@ using YourBrand.Catalog.Domain.Entities;
 
 namespace YourBrand.Catalog.Application.Products.Attributes;
 
-public record AddProductAttribute(string ProductId, ApiAddProductAttribute Data) : IRequest<AttributeDto>
+public record AddProductAttribute(string ProductId, string AttributeId, string ValueId) : IRequest<ProductAttributeDto>
 {
-    public class Handler : IRequestHandler<AddProductAttribute, AttributeDto>
+    public class Handler : IRequestHandler<AddProductAttribute, ProductAttributeDto>
     {
         private readonly IApplicationDbContext _context;
 
@@ -19,38 +19,30 @@ public record AddProductAttribute(string ProductId, ApiAddProductAttribute Data)
             _context = context;
         }
 
-        public async Task<AttributeDto> Handle(AddProductAttribute request, CancellationToken cancellationToken)
+        public async Task<ProductAttributeDto> Handle(AddProductAttribute request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
-            .FirstAsync(attribute => attribute.Id == request.ProductId);
+                .FirstAsync(attribute => attribute.Id == request.ProductId, cancellationToken);
 
-            var group = await _context.AttributeGroups
-                .FirstOrDefaultAsync(attribute => attribute.Id == request.Data.GroupId);
+            var attribute = await _context.Attributes
+                .Include(x => x.Values)
+                .FirstOrDefaultAsync(attribute => attribute.Id == request.AttributeId, cancellationToken);
 
-            Domain.Entities.Attribute attribute = new(Guid.NewGuid().ToString())
+            var value = attribute!.Values
+                .First();
+
+            Domain.Entities.ProductAttribute productAttribute = new()
             {
-                Name = request.Data.Name,
-                Description = request.Data.Description,
-                Group = group,
-                ForVariant = request.Data.ForVariant,
-                IsMainAttribute = request.Data.IsMainAttribute
+                ProductId = item.Id,
+                AttributeId = attribute.Id,
+                Value = value!
             };
 
-            foreach (var v in request.Data.Values)
-            {
-                var value = new AttributeValue(Guid.NewGuid().ToString())
-                {
-                    Name = v.Name
-                };
+            item.ProductAttributes.Add(productAttribute);
 
-                attribute.Values.Add(value);
-            }
+            await _context.SaveChangesAsync(cancellationToken);
 
-            item.Attributes.Add(attribute);
-
-            await _context.SaveChangesAsync();
-
-            return attribute.ToDto();
+            return productAttribute.ToDto();
         }
     }
 }

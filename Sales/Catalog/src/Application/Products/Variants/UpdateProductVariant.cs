@@ -36,13 +36,11 @@ public record UpdateProductVariant(string ProductId, string ProductVariantId, Ap
                 .Include(pv => pv.ParentProduct)
                     .ThenInclude(pv => pv!.Group)
                 .Include(pv => pv.Variants)
-                    .ThenInclude(o => o.AttributeValues)
+                    .ThenInclude(o => o.ProductAttributes)
                     .ThenInclude(o => o.Attribute)
                 .Include(pv => pv.Variants)
-                    .ThenInclude(o => o.AttributeValues)
+                    .ThenInclude(o => o.ProductAttributes)
                     .ThenInclude(o => o.Value)
-                .Include(pv => pv.Attributes)
-                    .ThenInclude(o => o.Values)
                 .FirstAsync(x => x.Id == request.ProductId);
 
             var variant = item.Variants.First(x => x.Id == request.ProductVariantId);
@@ -56,30 +54,30 @@ public record UpdateProductVariant(string ProductId, string ProductVariantId, Ap
             {
                 if (v.Id == null)
                 {
-                    var option = item.Attributes.First(x => x.Id == v.AttributeId);
+                    var attribute = _context.Attributes.First(x => x.Id == v.AttributeId);
 
-                    var value2 = option.Values.First(x => x.Id == v.ValueId);
+                    var value2 = attribute.Values.First(x => x.Id == v.ValueId);
 
-                    variant.AttributeValues.Add(new ProductAttributeValue()
+                    variant.ProductAttributes.Add(new ProductAttribute()
                     {
-                        Attribute = option,
+                        Attribute = attribute,
                         Value = value2
                     });
                 }
                 else
                 {
-                    var option = item.Attributes.First(x => x.Id == v.AttributeId);
+                    var option = _context.Attributes.First(x => x.Id == v.AttributeId);
 
                     var value2 = option.Values.First(x => x.Id == v.ValueId);
 
-                    var value = variant.AttributeValues.First(x => x.Id == v.Id);
+                    var value = variant.ProductAttributes.First(x => x.Id == v.Id);
 
                     value.Attribute = option;
                     value.Value = value2;
                 }
             }
 
-            foreach (var v in variant.AttributeValues.ToList())
+            foreach (var v in variant.ProductAttributes.ToList())
             {
                 if (_context.Entry(v).State == EntityState.Added)
                     continue;
@@ -88,7 +86,7 @@ public record UpdateProductVariant(string ProductId, string ProductVariantId, Ap
 
                 if (value is null)
                 {
-                    variant.AttributeValues.Remove(v);
+                    variant.ProductAttributes.Remove(v);
                 }
             }
 

@@ -23,7 +23,7 @@ public record CreateProductVariant(string ProductId, ApiCreateProductVariant Dat
 
         public async Task<ProductDto> Handle(CreateProductVariant request, CancellationToken cancellationToken)
         {
-            Product? match = (await _itemVariantsService.FindVariantCore(request.ProductId, null, request.Data.Attributes.ToDictionary(x => x.OptionId, x => x.ValueId)!))
+            Product? match = (await _itemVariantsService.FindVariantCore(request.ProductId, null, request.Data.Attributes.ToDictionary(x => x.AttributeId, x => x.ValueId)!))
                 .SingleOrDefault();
 
             if (match is not null)
@@ -36,13 +36,11 @@ public record CreateProductVariant(string ProductId, ApiCreateProductVariant Dat
                 .Include(pv => pv.ParentProduct)
                     .ThenInclude(pv => pv!.Group)
                 .Include(pv => pv.Variants)
-                    .ThenInclude(o => o.AttributeValues)
+                    .ThenInclude(o => o.ProductAttributes)
                     .ThenInclude(o => o.Attribute)
                 .Include(pv => pv.Variants)
-                    .ThenInclude(o => o.AttributeValues)
+                    .ThenInclude(o => o.ProductAttributes)
                     .ThenInclude(o => o.Value)
-                .Include(pv => pv.Attributes)
-                    .ThenInclude(o => o.Values)
                 .FirstAsync(x => x.Id == request.ProductId);
 
             var variant = new Product(request.Data.Id ?? Guid.NewGuid().ToString(), request.Data.Name)
@@ -53,13 +51,13 @@ public record CreateProductVariant(string ProductId, ApiCreateProductVariant Dat
 
             foreach (var value in request.Data.Attributes)
             {
-                var option = item.Attributes.First(x => x.Id == value.OptionId);
+                var attribute = _context.Attributes.First(x => x.Id == value.AttributeId);
 
-                var value2 = option.Values.First(x => x.Id == value.ValueId);
+                var value2 = attribute.Values.First(x => x.Id == value.ValueId);
 
-                variant.AttributeValues.Add(new ProductAttributeValue()
+                variant.ProductAttributes.Add(new ProductAttribute()
                 {
-                    Attribute = option,
+                    Attribute = attribute,
                     Value = value2
                 });
             }

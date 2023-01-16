@@ -38,12 +38,14 @@ public record CreateProduct(string? Id, string Name, bool HasVariants, string? D
                 HasVariants = request.HasVariants
             };
 
+            /*
             foreach (var attribute in group!.Attributes)
             {
-                item.Attributes.Add(attribute);
+                item.ProductAttributes.Add(attribute);
             }
+            */
 
-            foreach (var option in group.Options)
+            foreach (var option in group!.Options)
             {
                 item.Options.Add(option);
             }
