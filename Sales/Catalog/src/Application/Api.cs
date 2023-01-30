@@ -1,7 +1,8 @@
-﻿namespace YourBrand.Catalog.Application;
+﻿namespace YourBrand.Catalog;
 
 using System;
-using YourBrand.Catalog.Application.Options;
+
+using YourBrand.Catalog.Features.Options;
 
 public record class ApiCreateProduct(string Name, bool HasVariants, string? Description, string? GroupId, string? Id, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
 
@@ -61,4 +62,3 @@ public class VariantAlreadyExistsException : Exception
 public enum OptionType { YesOrNo, Choice, NumericalValue, TextValue }
 
 public enum ProductVisibility { Unlisted, Listed }
-

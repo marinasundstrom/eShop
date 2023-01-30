@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YourBrand.Catalog.Application.Common;
+using YourBrand.Catalog.Common;
 using YourBrand.Catalog.Infrastructure.Persistence;
 using YourBrand.Catalog.Infrastructure.Persistence.Outbox;
 

@@ -1,17 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using YourBrand.Catalog.Services;
 
 namespace YourBrand.Catalog.Infrastructure.Persistence.Interceptors;
 
 public sealed class AuditableEntitySaveChangesInterceptor : SaveChangesInterceptor
 {
     private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTime _dateTime;
+    private readonly Catalog.Services.IDateTime _dateTime;
 
     public AuditableEntitySaveChangesInterceptor(
         ICurrentUserService currentUserService,
-        IDateTime dateTime)
+        Catalog.Services.IDateTime dateTime)
     {
         _currentUserService = currentUserService;
         _dateTime = dateTime;

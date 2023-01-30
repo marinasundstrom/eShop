@@ -1,0 +1,35 @@
+using MediatR;
+
+using Microsoft.EntityFrameworkCore;
+
+namespace YourBrand.Catalog.Features.Products.Options;
+
+public record DeleteProductOption(string ProductId, string OptionId) : IRequest
+{
+    public class Handler : IRequestHandler<DeleteProductOption>
+    {
+        private readonly IApplicationDbContext _context;
+
+        public Handler(IApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Unit> Handle(DeleteProductOption request, CancellationToken cancellationToken)
+        {
+            var item = await _context.Products
+                .Include(x => x.Options)
+                .FirstAsync(x => x.Id == request.ProductId);
+
+            var option = item.Options
+                .First(x => x.Id == request.OptionId);
+
+            item.Options.Remove(option);
+            _context.Options.Remove(option);
+
+            await _context.SaveChangesAsync();
+
+            return Unit.Value;
+        }
+    }
+}

@@ -1,10 +1,6 @@
-﻿using System;
+﻿using MediatR;
 
-using YourBrand.Catalog.Domain;
-
-using MediatR;
-
-namespace YourBrand.Catalog.Application.Common.Models;
+namespace YourBrand.Catalog.Common.Models;
 
 public class DomainEventNotification<TDomainEvent> : INotification where TDomainEvent : DomainEvent
 {

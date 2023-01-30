@@ -10,12 +10,9 @@
         <DialogContent>
             <MudContainer Style="max-height: 300px; overflow-y: scroll">
 
-                <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
+                <MudAutocomplete T="AttributeDto" Class="mb-6" Label="Attribute" @bind-Value="attribute" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
 
-                @foreach (var productAttribute in productAttributes.OrderBy(x => x.Attribute.Id))
-                {
-                    <MudAutocomplete T="AttributeValueDto" Class="mb-6" Label="@productAttribute.Attribute.Name" @bind-Value="productAttribute.Value" SearchFuncWithCancel="@(async (string value, CancellationToken ct) => await SearchAttributeValue(productAttribute.Attribute.Id, value, ct))" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
-                }
+                <MudAutocomplete T="AttributeValueDto" Class="mb-6" Label="Value" @bind-Value="attributeValue" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
 
             </MudContainer>
 
@@ -29,6 +26,9 @@
 </EditForm>
 
 @code {
+    AttributeDto? attribute;
+    AttributeValueDto? attributeValue;
+
     IEnumerable<ProductAttributeDto> productAttributes = Enumerable.Empty<ProductAttributeDto>();
 
     [CascadingParameter] MudDialogInstance Modal { get; set; } = default!;

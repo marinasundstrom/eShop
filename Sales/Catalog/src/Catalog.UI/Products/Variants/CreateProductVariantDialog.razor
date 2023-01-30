@@ -2,6 +2,7 @@
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
 @inject IAttributesClient AttributesClient
+@inject ISnackbar Snackbar
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
@@ -55,8 +56,15 @@
             }).ToList()
         };
 
-        var result = await ProductsClient.CreateVariantAsync(ProductId, data);
-        Modal.Close(DialogResult.Ok(result));
+        try
+        {
+            var result = await ProductsClient.CreateVariantAsync(ProductId, data);
+            Modal.Close(DialogResult.Ok(result));
+        }
+        catch(ApiException<ProblemDetails> exc)
+        {
+            Snackbar.Add(exc.Result.Detail, Severity.Error); 
+        }
     }
 
     private async Task<IEnumerable<AttributeValueDto>> SearchAttributeValue(string attributeId, string value, CancellationToken cancellationToken)

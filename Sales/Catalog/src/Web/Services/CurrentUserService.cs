@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Services;
 
 namespace YourBrand.Catalog.Web.Services;
 

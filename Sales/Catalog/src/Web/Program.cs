@@ -15,15 +15,15 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Services;
 using YourBrand.Catalog.Infrastructure.Persistence;
-using YourBrand.Catalog.Presentation;
 using YourBrand.Catalog.Web;
 using YourBrand.Catalog.Web.Middleware;
 using YourBrand.Catalog.Web.Services;
 using Microsoft.Extensions.Azure;
 using Azure.Storage.Blobs;
 using Azure.Identity;
+using YourBrand.Catalog;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;

@@ -77,7 +77,7 @@ public static class Seed
             Description = "T-shirt i olika färger",
             HasVariants = true,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Clothes"),
-            Visibility = ProductVisibility.Listed,
+            Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,
             Brand = await context.Brands.FirstAsync(x => x.Id == "myBrand"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
@@ -239,7 +239,7 @@ public static class Seed
 
         var textOption = new Domain.Entities.Option("Custom text")
         {
-            OptionType = OptionType.TextValue
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.TextValue
         };
 
         item.Options.Add(textOption);
@@ -349,7 +349,7 @@ public static class Seed
 
         var optionFalafel = new Option("Falafel")
         {
-            OptionType = OptionType.NumericalValue,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.NumericalValue,
             Group = ratterGroup
         };
 
@@ -357,7 +357,7 @@ public static class Seed
 
         var optionChickenWing = new Option("Spicy Chicken Wing")
         {
-            OptionType = OptionType.NumericalValue,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.NumericalValue,
             Group = ratterGroup
         };
 
@@ -365,7 +365,7 @@ public static class Seed
 
         var optionRib = new Option("Rib")
         {
-            OptionType = OptionType.NumericalValue,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.NumericalValue,
             Group = ratterGroup
         };
 
@@ -382,7 +382,7 @@ public static class Seed
 
         var optionSauce = new Option("Sås")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Price = 10,
             Group = extraGroup
         };
@@ -468,7 +468,7 @@ public static class Seed
 
         var optionHam = new Option("Ham")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = meatGroup,
             Price = 15
         };
@@ -477,7 +477,7 @@ public static class Seed
 
         var optionKebab = new Option("Kebab")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = meatGroup,
             Price = 10,
             IsSelected = true
@@ -487,7 +487,7 @@ public static class Seed
 
         var optionChicken = new Option("Chicken")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = meatGroup,
             Price = 10
         };
@@ -496,7 +496,7 @@ public static class Seed
 
         var optionExtraCheese = new Option("Extra cheese")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = toppingsGroup,
             Price = 5
         };
@@ -505,7 +505,7 @@ public static class Seed
 
         var optionGreenOlives = new Option("Green Olives")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = toppingsGroup,
             Price = 5
         };
@@ -520,7 +520,7 @@ public static class Seed
             Description = "Din egna sallad",
             Price = 52,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
-            Visibility = ProductVisibility.Listed,
+            Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 
@@ -588,7 +588,7 @@ public static class Seed
 
         var optionChicken = new Option("Kycklingfilé")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -596,7 +596,7 @@ public static class Seed
 
         var optionSmokedTurkey = new Option("Rökt kalkonfilé")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -604,7 +604,7 @@ public static class Seed
 
         var optionBeanMix = new Option("Marinerad bönmix")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -612,7 +612,7 @@ public static class Seed
 
         var optionVegMe = new Option("VegMe")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -620,7 +620,7 @@ public static class Seed
 
         var optionChevre = new Option("Chevré")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -628,7 +628,7 @@ public static class Seed
 
         var optionSmokedSalmon = new Option("Varmrökt lax")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -636,7 +636,7 @@ public static class Seed
 
         var optionPrawns = new Option("Handskalade räkor")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
@@ -644,7 +644,7 @@ public static class Seed
 
         var optionCheese = new Option("Parmesanost")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
@@ -652,7 +652,7 @@ public static class Seed
 
         var optionGreenOlives = new Option("Gröna oliver")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
@@ -660,7 +660,7 @@ public static class Seed
 
         var optionSoltorkadTomat = new Option("Soltorkade tomater")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
@@ -668,7 +668,7 @@ public static class Seed
 
         var optionInlagdRödlök = new Option("Inlagd rödlök")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
@@ -676,7 +676,7 @@ public static class Seed
 
         var optionRostadAioli = new Option("Rostad aioli")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -684,7 +684,7 @@ public static class Seed
 
         var optionPesto = new Option("Pesto")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -692,7 +692,7 @@ public static class Seed
 
         var optionOrtvinagret = new Option("Örtvinägrett")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -700,7 +700,7 @@ public static class Seed
 
         var optionSoyavinagret = new Option("Soyavinägrett")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -708,7 +708,7 @@ public static class Seed
 
         var optionRhodeIsland = new Option("Rhode Island")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -716,7 +716,7 @@ public static class Seed
 
         var optionKimchimayo = new Option("Kimchimayo")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -724,7 +724,7 @@ public static class Seed
 
         var optionCaesar = new Option("Caesar")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
@@ -732,7 +732,7 @@ public static class Seed
 
         var optionCitronLime = new Option("Citronlime")
         {
-            OptionType = OptionType.YesOrNo,
+            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 

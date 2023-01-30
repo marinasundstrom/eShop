@@ -1,5 +1,5 @@
 ﻿using System.Text.Json;
-using YourBrand.Catalog.Application.Exceptions;
+using YourBrand.Catalog.Exceptions;
 using YourBrand.Catalog.Domain.Exceptions;
 using ApplicationException = YourBrand.Catalog.Domain.Exceptions.ApplicationException;
 

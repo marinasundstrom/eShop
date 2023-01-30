@@ -6,6 +6,13 @@ namespace YourBrand.Catalog.Products;
 partial class ProductAttributesView : ComponentBase
 {
     MudTable<ProductAttributeDto> productAttributesTable = default!;
+    TableGroupDefinition<ProductAttributeDto> tableGroupDefinition = new TableGroupDefinition<ProductAttributeDto>()
+    {
+        GroupName = "Group",
+        Indentation = false,
+        Expandable = true,
+        Selector = (e) => e.Attribute.Group?.Name
+    };
 
     ProductAttributeDto? selectedProductAttribute;
     ProductAttributeDto? productAttributeBeforeEdit;

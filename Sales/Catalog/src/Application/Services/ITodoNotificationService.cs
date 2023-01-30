@@ -1,4 +1,4 @@
-namespace YourBrand.Catalog.Application.Services;
+namespace YourBrand.Catalog.Services;
 
 public interface ITodoNotificationService
 {

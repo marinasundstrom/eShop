@@ -1,11 +1,11 @@
-using YourBrand.Catalog.Application.Products;
-using YourBrand.Catalog.Application.Products.Groups;
-using YourBrand.Catalog.Application.Products.Variants;
-using YourBrand.Catalog.Application.Attributes;
-using YourBrand.Catalog.Application.Options;
-using YourBrand.Catalog.Application.Stores;
+using YourBrand.Catalog.Features.Attributes;
+using YourBrand.Catalog.Features.Options;
+using YourBrand.Catalog.Features.Products;
+using YourBrand.Catalog.Features.Products.Groups;
+using YourBrand.Catalog.Features.Products.Variants;
+using YourBrand.Catalog.Features.Stores;
 
-namespace YourBrand.Catalog.Application;
+namespace YourBrand.Catalog;
 
 public static class Mapping
 {

@@ -1,8 +1,7 @@
 ﻿using MassTransit;
-using YourBrand.Catalog.Application;
+using YourBrand.Catalog;
 using YourBrand.Catalog.Consumers;
 using YourBrand.Catalog.Infrastructure;
-using YourBrand.Catalog.Presentation;
 
 namespace YourBrand.Catalog.Web;
 

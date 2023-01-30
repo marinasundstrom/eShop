@@ -6,6 +6,7 @@
 @inject IDialogService DialogService
 @inject ISnackbar Snackbar
 @using System.ComponentModel.DataAnnotations
+@using YourBrand.Catalog.Products
 @using YourBrand.Catalog.Products.Attributes
 @implements IDisposable
 
@@ -30,33 +31,8 @@ else
 
     @if(product.HasVariants)
     {
-        <MudTable @ref="productVariantsTable" Items="@productVariants" Class="mt-4" Dense="true" Hover="true" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductDto,bool>(FilterProductVariantsFunc)"
-                  @bind-SelectedItem="selectedProductVariant" SortLabel="Sort By">
-            <ToolBarContent>
-                <MudText Typo="Typo.h6">Variants</MudText>
-                <MudIconButton Icon="@Icons.Material.Filled.Add" OnClick="ShowCreateVariantDialog" />
-                <MudSpacer />
-                <MudTextField T="string" ValueChanged="@(s=> OnSearch(s))" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-            </ToolBarContent>
-            <HeaderContent>
-                <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
-                @foreach (var attr in product.Attributes.OrderBy(x => x.Attribute.Id))
-                {
-                    <MudTh>@attr.Attribute.Name</MudTh>
-                }
-            </HeaderContent>
-            <RowTemplate>
-                <a href="@($"/products/{context.Id}/edit")" style="display:contents;">
-                    <MudTd DataLabel="Name">@context.Name</MudTd>
-                    @foreach (var attr in context.Attributes.OrderBy(x => x.Attribute.Id))
-                    {
-                        <MudTd DataLabel="@attr.Value?.Name">@attr.Value?.Name</MudTd>
-                    }
-                </a>
-            </RowTemplate>
-            <PagerContent>
-                <MudTablePager />
-            </PagerContent>
-        </MudTable>
+        <ProductVariantsView ProductId="@ProductId" />
     }
+
+    <ProductOptionsView ProductId="@ProductId" ProductOptions="product.Options.ToList().AsReadOnly()" />
 } 

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using YourBrand.Catalog.Services;
 
 namespace YourBrand.Catalog.Infrastructure.Services;
 

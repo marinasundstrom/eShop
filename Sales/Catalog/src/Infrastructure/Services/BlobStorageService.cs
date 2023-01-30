@@ -1,4 +1,4 @@
-using YourBrand.Catalog.Application.Services;
+using YourBrand.Catalog.Services;
 using Azure.Storage.Blobs;
 
 namespace YourBrand.Catalog.Infrastructure.Services;

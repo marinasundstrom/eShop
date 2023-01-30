@@ -1,0 +1,44 @@
+﻿@inject NavigationManager NavigationManager
+@inject IProductsClient ProductsClient
+@inject IProductGroupsClient ProductGroupsClient
+@inject IOptionsClient OptionsClient
+@inject IDialogService DialogService
+@inject ISnackbar Snackbar
+@using System.ComponentModel.DataAnnotations
+
+<style>
+    .mud-table-cell-custom-group {
+        font-weight: 500;
+        font-size: 12pt;
+    }
+
+    .mud-table-cell-custom-group-footer {
+        padding-bottom: 50px;
+        text-align: right;
+    }
+</style>
+
+<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="true" Hover="true" ReadOnly="false" CanCancelEdit="true" Filter="new Func<OptionDto,bool>(FilterOptionsFunc)"
+          @bind-SelectedItem="selectedProductOption" SortLabel="Sort By" GroupBy="tableGroupDefinition">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Options</MudText>
+        <MudSpacer />
+        <MudTextField T="string" ValueChanged="@(s=> OnSearch(s))" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.DefaultValue?.Name)">Value</MudTableSortLabel></MudTh>
+    </HeaderContent>
+    <GroupHeaderTemplate>
+        <MudTh Class="mud-table-cell-custom-group py-4" colspan="6">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
+    </GroupHeaderTemplate>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Value">@context.DefaultValue?.Name</MudTd>
+    </RowTemplate>
+    @*
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+    *@
+</MudTable>
