@@ -85,7 +85,7 @@ partial class ProductPage
             EventType = EventType.ItemViewed,
             Data = new Dictionary<string, object>
             {
-                { "itemId", productViewModel.Variant?.Id ?? productViewModel.Item!.Id },
+                { "productId", productViewModel.Variant?.Id ?? productViewModel.Product!.Id },
                 { "name", productViewModel.Name },
                 { "isEdit", CartItemId is not null }
             }
@@ -159,7 +159,7 @@ partial class ProductPage
     {
         await CartClient.AddItemToCartAsync(new AddCartItemDto()
         {
-            ProductId = productViewModel?.Variant?.Id ?? productViewModel?.Item?.Id,
+            ProductId = productViewModel?.Variant?.Id ?? productViewModel?.Product?.Id,
             Quantity = quantity,
             Data = Serialize()
         });

@@ -48,5 +48,21 @@ partial class ProductEdit : ComponentBase
 
         StateHasChanged();
     }
+
+    async Task UpdateVisibility(ProductVisibility? value)
+    {
+        try
+        {
+            await ProductsClient.UpdateProductVisibilityAsync(ProductId, value.GetValueOrDefault());
+
+            product!.Visibility = value;
+
+            Snackbar.Add($"The item \"{product.Name}\" is now {product.Visibility.ToString()!.ToLower()}.", Severity.Success);
+        }
+        catch (Exception exc)
+        {
+            Snackbar.Add(exc.Message, Severity.Error);
+        }
+    }
 }
 

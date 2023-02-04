@@ -38,33 +38,12 @@
 
     @if (itemResults is not null)
     {
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-5">
             @foreach (var item in itemResults.Items)
             {
                 <div class="col">
                     <a href="/products/@item.Id" style="all: unset; cursor: pointer;">
-                    <div class="card shadow-sm">
-                        <img class="bd-placeholder-img card-img-top" width="100%" height="225" src="@item.Image"
-                        style="object-fit: cover;" />
-                        <div class="card-body">
-                            <h5 class="card-title">@item.Name</h5>
-                            <p class="card-text">@item.Description</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    @if(item.Available is not null) 
-                                    {
-                                        <p class="text-muted mt-2">@item.Available available</p> 
-                                    }
-                                </div>
-                                @if(!item.HasVariants) 
-                                {
-                                    <div>
-                                        <PriceDisplay Price="@item.Price" CompareAtPrice="@item.CompareAtPrice" />
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
+                        <Site.Components.Products.Product.ProductView Product="@item" />
                     </a>
                 </div>
             }

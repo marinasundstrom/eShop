@@ -86,7 +86,7 @@ partial class ProductPage
             EventType = EventType.ItemViewed,
             Data = new Dictionary<string, object>
             {
-                { "itemId", productViewModel.Variant?.Id ?? productViewModel.Product!.Id },
+                { "productId", productViewModel.Variant?.Id ?? productViewModel.Product!.Id },
                 { "name", productViewModel.Name },
                 { "isEdit", CartItemId is not null }
             }

@@ -1,5 +1,7 @@
 using System.Text.Json;
 
+using YourBrand.StoreFront;
+
 namespace Site.Client.Products.Product;
 
 public class ProductViewModel

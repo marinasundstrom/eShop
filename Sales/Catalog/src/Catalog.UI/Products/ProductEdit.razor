@@ -33,11 +33,9 @@ else
             Parent product
         </MudButton>
     }
-
-    <MudPaper Elevation="25" Class="pt-4 mb-8">
-        <MudGrid>
+        <MudGrid Class="pt-4 mb-8">
             <MudItem md="6">
-                <MudImage Src="@product.Image" Height="200" Width="200" />
+                <MudImage Src="@product.Image" ObjectFit="ObjectFit.Cover" Height="200" Width="200" Alt="Örebro Slott"  Elevation="25" Class="rounded-lg" />
 
                 <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
 
@@ -46,10 +44,19 @@ else
                 </MudButton>
             </MudItem>
             <MudItem md="6">
-
+                    <MudPaper Elevation="25" Class="pa-4">
+                        <MudSelect T="ProductVisibility?" Label="Visibility" Variant="Variant.Outlined" Value="@product.Visibility"
+                                   ValueChanged="async (e) => await UpdateVisibility((ProductVisibility?)e)"
+                                   ToStringFunc="x => x?.ToString()" Class="mt-8">
+                            @foreach (var item in Enum.GetValues<ProductVisibility>().Select(x =>
+                                (ProductVisibility?)x))
+                            {
+                                <MudSelectItem Value="@item" />
+                            }
+                        </MudSelect>
+                    </MudPaper>
             </MudItem>
         </MudGrid>
-    </MudPaper>
 
     <ProductAttributesView ProductId="@ProductId" HasVariants="product.HasVariants" ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
 

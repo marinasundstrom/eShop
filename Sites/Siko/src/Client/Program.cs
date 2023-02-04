@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Site.Client;
 using Site.Client.Authentication;
-using MediatR;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

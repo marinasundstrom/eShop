@@ -23,7 +23,7 @@
     <RowTemplate>
         <a href="@($"/products/{context.Id}/edit")" style="display:contents;">
             <MudTh DataLabel="Image">
-                <MudImage Src="@context.Image" Height="100" Width="100" />
+                <MudImage Src="@context.Image" ObjectFit="ObjectFit.Cover" Height="100" Width="100" Alt="Örebro Slott"  Elevation="25" Class="rounded-lg" />
             </MudTh>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             @foreach (var attr in context.Attributes.OrderBy(x => x.Attribute.Id))
