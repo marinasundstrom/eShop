@@ -30,7 +30,13 @@ else
     <MudPaper Elevation="25" Class="pt-4 mb-8">
         <MudGrid>
             <MudItem md="6">
-                <MudImage Src="@product.Image" />
+                <MudImage Src="@product.Image" Height="200" Width="200" />
+
+                <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
+
+                <MudButton HtmlTag="label" Color="Color.Secondary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
+                    Upload image
+                </MudButton>
             </MudItem>
             <MudItem md="6">
 

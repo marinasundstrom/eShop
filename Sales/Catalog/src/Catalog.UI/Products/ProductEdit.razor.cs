@@ -40,5 +40,13 @@ partial class ProductEdit : ComponentBase
         NavigationManager.LocationChanged -= NavigationManager_LocationChanged;
     }
 
+    private async void UploadFiles(InputFileChangeEventArgs e)
+    {
+        var file = e.GetMultipleFiles().First();
+        product!.Image = await ProductsClient.UploadProductImageAsync(product.Id, new FileParameter(file.OpenReadStream(3 *
+        1000000), file.Name));
+
+        StateHasChanged();
+    }
 }
 

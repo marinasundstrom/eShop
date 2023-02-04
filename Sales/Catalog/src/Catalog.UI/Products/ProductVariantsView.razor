@@ -10,6 +10,7 @@
         <MudTextField T="string" ValueChanged="@(s=> OnSearch(s))" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
+        <MudTh></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
         @if(productVariants?.Any() ?? false)
         {
@@ -21,6 +22,9 @@
     </HeaderContent>
     <RowTemplate>
         <a href="@($"/products/{context.Id}/edit")" style="display:contents;">
+            <MudTh DataLabel="Image">
+                <MudImage Src="@context.Image" Height="100" Width="100" />
+            </MudTh>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             @foreach (var attr in context.Attributes.OrderBy(x => x.Attribute.Id))
             {
