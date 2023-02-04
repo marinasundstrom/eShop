@@ -25,6 +25,9 @@ public record GetProductAttributes(string ProductId) : IRequest<IEnumerable<Prod
                 .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Attribute)
                 .ThenInclude(pv => pv.Group)
+                .Include(pv => pv.ProductAttributes)
+                .ThenInclude(pv => pv.Attribute)
+                .ThenInclude(pv => pv.Values)
                 .FirstAsync(p => p.Id == request.ProductId, cancellationToken);
 
             return product.ProductAttributes.Select(x => x.ToDto());

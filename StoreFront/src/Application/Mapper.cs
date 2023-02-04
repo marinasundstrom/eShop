@@ -1,4 +1,4 @@
-using YourBrand.StoreFront.Application.Carts;
+using YourBrand.StoreFront.Application.Features.Carts;
 
 namespace YourBrand.StoreFront.Application;
 

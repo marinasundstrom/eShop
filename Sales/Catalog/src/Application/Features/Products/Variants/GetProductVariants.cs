@@ -43,6 +43,7 @@ public record GetProductVariants(string ProductId, int Page = 10, int PageSize =
                     .ThenInclude(pv => pv!.Group)
                 .Include(pv => pv.ProductAttributes)
                     .ThenInclude(pv => pv!.Attribute)
+                    .ThenInclude(pv => pv!.Values)
                 .Include(pv => pv.ProductAttributes)
                     .ThenInclude(pv => pv!.Value)
                 .Skip(request.Page * request.PageSize)

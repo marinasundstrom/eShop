@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using YourBrand.StoreFront.Application.UserProfiles;
+using YourBrand.StoreFront.Application.Features.UserProfiles;
 using YourBrand.StoreFront.Application.Common.Models;
 using YourBrand.Orders;
 

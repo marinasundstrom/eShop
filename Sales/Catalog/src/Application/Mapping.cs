@@ -53,6 +53,6 @@ public static class Mapping
 
     public static ProductAttributeDto ToDto(this Domain.Entities.ProductAttribute x)
     {
-        return new ProductAttributeDto(x.Attribute.ToDto2(), x.Value?.ToDto());
+        return new ProductAttributeDto(x.Attribute.ToDto(), x.Value?.ToDto(), x.ForVariant, x.IsMainAttribute);
     }
 }

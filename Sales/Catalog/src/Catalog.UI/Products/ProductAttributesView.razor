@@ -19,7 +19,7 @@
     }
 </style>
 
-<MudTable @ref="productAttributesTable" Items="@ProductAttributes" Dense="true" Hover="true" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductAttributeDto,bool>(FilterAttributesFunc)"
+<MudTable @ref="productAttributesTable" Items="@ProductAttributes" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductAttributeDto,bool>(FilterAttributesFunc)"
           @bind-SelectedItem="selectedProductAttribute" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
           OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
           RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="true" EditTrigger="TableEditTrigger.EditButton"
@@ -31,28 +31,50 @@
     </ToolBarContent>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortBy="new Func<ProductAttributeDto, object>(x=>x.Attribute.Name)">Name</MudTableSortLabel></MudTh>
-        <MudTh>For variant</MudTh>
+        @if(HasVariants) 
+        { 
+            <MudTh>For variant</MudTh>
+            <MudTh>Is Main Attribute</MudTh>
+        }
         <MudTh><MudTableSortLabel SortBy="new Func<ProductAttributeDto, object>(x=>x.Value?.Name)">Value</MudTableSortLabel></MudTh>
     </HeaderContent>
     <GroupHeaderTemplate>
-        <MudTh Class="mud-table-cell-custom-group py-4" colspan="2">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
+        <MudTh Class="mud-table-cell-custom-group py-4" colspan="4">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
     </GroupHeaderTemplate>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Attribute.Name</MudTd>
-        <MudTd DataLabel="For variant"> <MudCheckBox T="bool" ReadOnly></MudCheckBox></MudTd>
-        <MudTd DataLabel="Value">@context.Value?.Name</MudTd>
+        @if(HasVariants) 
+        { 
+            <MudTd DataLabel="For variant"> <MudCheckBox @bind-Checked="@context.ForVariant" ReadOnly></MudCheckBox></MudTd>
+            <MudTd DataLabel="Is Main Attribute"> <MudCheckBox @bind-Checked="@context.IsMainAttribute" ReadOnly></MudCheckBox></MudTd>
+        }
+        <MudTd DataLabel="Value">
+            @if(!context.ForVariant) 
+            { 
+                @context.Value?.Name
+            }
+        </MudTd>
     </RowTemplate>
     <RowEditingTemplate>
         <MudTd DataLabel="Name">@context.Attribute.Name</MudTd>
-        <MudTd DataLabel="For variant">
-            <MudCheckBox T="bool"></MudCheckBox>
-        </MudTd>
+        @if(HasVariants) 
+        { 
+            <MudTd DataLabel="For variant">
+                <MudCheckBox @bind-Checked="@context.ForVariant"></MudCheckBox>
+            </MudTd>
+            <MudTd DataLabel="Main attribute">
+                <MudCheckBox @bind-Checked="@context.IsMainAttribute"></MudCheckBox>
+            </MudTd>
+        }
         <MudTd DataLabel="Value">
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudAutocomplete T="AttributeValueDto" @bind-Value="context.Value" SearchFuncWithCancel="@SearchAttributeValue" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
-                </MudItem>
-            </MudGrid>
+            @if(!context.ForVariant) 
+            {
+                <MudGrid>
+                    <MudItem xs="12">
+                        <MudAutocomplete T="AttributeValueDto" @bind-Value="context.Value" SearchFuncWithCancel="@SearchAttributeValue" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
+                    </MudItem>
+                </MudGrid>    
+            }
         </MudTd>
     </RowEditingTemplate>
     @*

@@ -8,4 +8,4 @@ public record class ProductDto(string Id, string Name, string? Description, Pare
 
 public record class ParentProductDto(string Id, string Name, string? Description, ProductGroupDto? Group);
 
-public record class ProductAttributeDto(Attribute2Dto Attribute, AttributeValueDto? Value);
+public record class ProductAttributeDto(AttributeDto Attribute, AttributeValueDto? Value, bool ForVariant, bool IsMainAttribute);

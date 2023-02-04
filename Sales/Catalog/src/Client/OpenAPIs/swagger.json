@@ -11,27 +11,209 @@
     }
   ],
   "paths": {
-    "/v1/Attributes": {
+    "/v1/ProductGroups": {
       "get": {
         "tags": [
-          "Attributes"
+          "ProductGroups"
         ],
-        "operationId": "Attributes_GetAttributes",
+        "operationId": "ProductGroups_GetProductGroups",
         "parameters": [
           {
-            "name": "ids",
+            "name": "storeId",
             "in": "query",
-            "style": "form",
-            "explode": true,
             "schema": {
-              "type": "array",
-              "nullable": true,
-              "items": {
-                "type": "string"
-              }
+              "type": "string",
+              "nullable": true
             },
             "x-position": 1
           },
+          {
+            "name": "parentGroupId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          },
+          {
+            "name": "includeWithUnlistedProducts",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 3
+          },
+          {
+            "name": "IncludeHidden",
+            "in": "query",
+            "schema": {
+              "type": "boolean",
+              "default": false
+            },
+            "x-position": 4
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductGroupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_CreateProductGroup",
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiCreateProductGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ProductGroups/{id}": {
+      "get": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_GetProductGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_UpdateProductGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiUpdateProductGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_DeleteProductGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Stores": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "Stores_GetStores",
+        "parameters": [
           {
             "name": "page",
             "in": "query",
@@ -40,7 +222,7 @@
               "format": "int32",
               "default": 0
             },
-            "x-position": 2
+            "x-position": 1
           },
           {
             "name": "pageSize",
@@ -50,7 +232,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 3
+            "x-position": 2
           },
           {
             "name": "searchString",
@@ -59,7 +241,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 4
+            "x-position": 3
           },
           {
             "name": "sortBy",
@@ -68,7 +250,7 @@
               "type": "string",
               "nullable": true
             },
-            "x-position": 5
+            "x-position": 4
           },
           {
             "name": "sortDirection",
@@ -85,7 +267,7 @@
                 }
               ]
             },
-            "x-position": 6
+            "x-position": 5
           }
         ],
         "responses": {
@@ -94,470 +276,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfAttributeDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_CreateAttribute",
-        "requestBody": {
-          "x-name": "dto",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateAttributeDto"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttributeDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Attributes/{id}": {
-      "get": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_GetAttribute",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttributeDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_UpdateAttribute",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "dto",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateAttributeDto"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_DeleteAttribute",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/v1/Attributes/{attributeId}/Values": {
-      "get": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_GetAttributesValues",
-        "parameters": [
-          {
-            "name": "attributeId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OptionValueDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Attributes/{id}/Values": {
-      "post": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_CreateAttributeValue",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttributeValueDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_GetAttributeValues",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AttributeValueDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Attributes/{id}/Values/{valueId}": {
-      "post": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_DeleteAttributeValue",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "valueId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Attributes/Groups": {
-      "get": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_GetAttributeGroups",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AttributeGroupDto"
-                  }
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_CreateAttributeGroup",
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiCreateProductAttributeGroup"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttributeGroupDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Attributes/Groups/{id}": {
-      "put": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_UpdateAttributeGroup",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ApiUpdateProductAttributeGroup"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AttributeGroupDto"
-                }
-              }
-            }
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Attributes"
-        ],
-        "operationId": "Attributes_DeleteAttributeGroup",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/octet-stream": {
-                "schema": {
-                  "type": "string",
-                  "format": "binary"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Options": {
-      "get": {
-        "tags": [
-          "Options"
-        ],
-        "operationId": "Options_GetOptions",
-        "parameters": [
-          {
-            "name": "includeChoices",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OptionDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Options/{optionId}/Values": {
-      "get": {
-        "tags": [
-          "Options"
-        ],
-        "operationId": "Options_GetOptionValues",
-        "parameters": [
-          {
-            "name": "optionId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/OptionValueDto"
+                  "$ref": "#/components/schemas/ItemsResultOfStoreDto"
                 }
               }
             }
@@ -2109,48 +1828,21 @@
         }
       }
     },
-    "/v1/ProductGroups": {
+    "/v1/Options": {
       "get": {
         "tags": [
-          "ProductGroups"
+          "Options"
         ],
-        "operationId": "ProductGroups_GetProductGroups",
+        "operationId": "Options_GetOptions",
         "parameters": [
           {
-            "name": "storeId",
+            "name": "includeChoices",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "boolean",
+              "default": false
             },
             "x-position": 1
-          },
-          {
-            "name": "parentGroupId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          },
-          {
-            "name": "includeWithUnlistedProducts",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 3
-          },
-          {
-            "name": "IncludeHidden",
-            "in": "query",
-            "schema": {
-              "type": "boolean",
-              "default": false
-            },
-            "x-position": 4
           }
         ],
         "responses": {
@@ -2159,10 +1851,130 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductGroupDto"
-                  }
+                  "$ref": "#/components/schemas/OptionDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Options/{optionId}/Values": {
+      "get": {
+        "tags": [
+          "Options"
+        ],
+        "operationId": "Options_GetOptionValues",
+        "parameters": [
+          {
+            "name": "optionId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptionValueDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Attributes": {
+      "get": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_GetAttributes",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "array",
+              "nullable": true,
+              "items": {
+                "type": "string"
+              }
+            },
+            "x-position": 1
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 2
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "x-position": 3
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 4
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 5
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SortDirection"
+                    }
+                  ]
+                }
+              ]
+            },
+            "x-position": 6
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemsResultOfAttributeDto"
                 }
               }
             }
@@ -2171,15 +1983,15 @@
       },
       "post": {
         "tags": [
-          "ProductGroups"
+          "Attributes"
         ],
-        "operationId": "ProductGroups_CreateProductGroup",
+        "operationId": "Attributes_CreateAttribute",
         "requestBody": {
-          "x-name": "data",
+          "x-name": "dto",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiCreateProductGroup"
+                "$ref": "#/components/schemas/CreateAttributeDto"
               }
             }
           },
@@ -2192,7 +2004,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductGroupDto"
+                  "$ref": "#/components/schemas/AttributeDto"
                 }
               }
             }
@@ -2200,12 +2012,12 @@
         }
       }
     },
-    "/v1/ProductGroups/{id}": {
+    "/v1/Attributes/{id}": {
       "get": {
         "tags": [
-          "ProductGroups"
+          "Attributes"
         ],
-        "operationId": "ProductGroups_GetProductGroup",
+        "operationId": "Attributes_GetAttribute",
         "parameters": [
           {
             "name": "id",
@@ -2224,7 +2036,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductGroupDto"
+                  "$ref": "#/components/schemas/AttributeDto"
                 }
               }
             }
@@ -2233,9 +2045,101 @@
       },
       "put": {
         "tags": [
-          "ProductGroups"
+          "Attributes"
         ],
-        "operationId": "ProductGroups_UpdateProductGroup",
+        "operationId": "Attributes_UpdateAttribute",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAttributeDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_DeleteAttribute",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/Attributes/{attributeId}/Values": {
+      "get": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_GetAttributesValues",
+        "parameters": [
+          {
+            "name": "attributeId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OptionValueDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Attributes/{id}/Values": {
+      "post": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_CreateAttributeValue",
         "parameters": [
           {
             "name": "id",
@@ -2253,7 +2157,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ApiUpdateProductGroup"
+                "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
               }
             }
           },
@@ -2266,7 +2170,180 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ProductGroupDto"
+                  "$ref": "#/components/schemas/AttributeValueDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_GetAttributeValues",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttributeValueDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Attributes/{id}/Values/{valueId}": {
+      "post": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_DeleteAttributeValue",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "valueId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Attributes/Groups": {
+      "get": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_GetAttributeGroups",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttributeGroupDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_CreateAttributeGroup",
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiCreateProductAttributeGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeGroupDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Attributes/Groups/{id}": {
+      "put": {
+        "tags": [
+          "Attributes"
+        ],
+        "operationId": "Attributes_UpdateAttributeGroup",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ApiUpdateProductAttributeGroup"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttributeGroupDto"
                 }
               }
             }
@@ -2275,9 +2352,9 @@
       },
       "delete": {
         "tags": [
-          "ProductGroups"
+          "Attributes"
         ],
-        "operationId": "ProductGroups_DeleteProductGroup",
+        "operationId": "Attributes_DeleteAttributeGroup",
         "parameters": [
           {
             "name": "id",
@@ -2304,100 +2381,135 @@
           }
         }
       }
-    },
-    "/v1/Stores": {
-      "get": {
-        "tags": [
-          "Stores"
-        ],
-        "operationId": "Stores_GetStores",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            },
-            "x-position": 1
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            },
-            "x-position": 2
-          },
-          {
-            "name": "searchString",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 3
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 4
-          },
-          {
-            "name": "sortDirection",
-            "in": "query",
-            "schema": {
-              "oneOf": [
-                {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SortDirection"
-                    }
-                  ]
-                }
-              ]
-            },
-            "x-position": 5
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfStoreDto"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
     "schemas": {
-      "ItemsResultOfAttributeDto": {
+      "ProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ProductGroupDto"
+              }
+            ]
+          }
+        }
+      },
+      "ApiCreateProductGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentGroupId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ApiUpdateProductGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parentGroupId": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ItemsResultOfStoreDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/AttributeDto"
+              "$ref": "#/components/schemas/StoreDto"
             }
           },
           "totalItems": {
             "type": "integer",
             "format": "int32"
+          }
+        }
+      },
+      "StoreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Desc",
+          "Asc"
+        ],
+        "enum": [
+          "Desc",
+          "Asc"
+        ]
+      },
+      "ProductAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "attribute": {
+            "$ref": "#/components/schemas/AttributeDto"
+          },
+          "value": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/AttributeValueDto"
+              }
+            ]
+          },
+          "forVariant": {
+            "type": "boolean"
+          },
+          "isMainAttribute": {
+            "type": "boolean"
           }
         }
       },
@@ -2461,308 +2573,6 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
-          }
-        }
-      },
-      "SortDirection": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Desc",
-          "Asc"
-        ],
-        "enum": [
-          "Desc",
-          "Asc"
-        ]
-      },
-      "OptionValueDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "sku": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "seq": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        }
-      },
-      "CreateAttributeDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "groupId": {
-            "type": "string",
-            "nullable": true
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
-            }
-          }
-        }
-      },
-      "ApiCreateProductAttributeValue": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "UpdateAttributeDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "groupId": {
-            "type": "string",
-            "nullable": true
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/ApiUpdateProductAttributeValue"
-            }
-          }
-        }
-      },
-      "ApiUpdateProductAttributeValue": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "ApiCreateProductAttributeGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ApiUpdateProductAttributeGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "OptionDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "optionType": {
-            "$ref": "#/components/schemas/OptionType"
-          },
-          "group": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/OptionGroupDto"
-              }
-            ]
-          },
-          "productId": {
-            "type": "string",
-            "nullable": true
-          },
-          "price": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
-          },
-          "isSelected": {
-            "type": "boolean"
-          },
-          "values": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OptionValueDto"
-            }
-          },
-          "defaultValue": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/OptionValueDto"
-              }
-            ]
-          },
-          "minNumericalValue": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "maxNumericalValue": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "defaultNumericalValue": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "textValueMinLength": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "textValueMaxLength": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "defaultTextValue": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "OptionType": {
-        "type": "integer",
-        "description": "",
-        "x-enumNames": [
-          "YesOrNo",
-          "Choice",
-          "NumericalValue",
-          "TextValue"
-        ],
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
-      },
-      "OptionGroupDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "seq": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "min": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "max": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        }
-      },
-      "ProductAttributeDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "attribute": {
-            "$ref": "#/components/schemas/Attribute2Dto"
-          },
-          "value": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/AttributeValueDto"
-              }
-            ]
-          }
-        }
-      },
-      "Attribute2Dto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "group": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/AttributeGroupDto"
-              }
-            ]
           }
         }
       },
@@ -2900,7 +2710,19 @@
           }
         }
       },
-      "ProductGroupDto": {
+      "ProductVisibility": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Unlisted",
+          "Listed"
+        ],
+        "enum": [
+          0,
+          1
+        ]
+      },
+      "OptionDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -2914,27 +2736,146 @@
             "type": "string",
             "nullable": true
           },
-          "parent": {
+          "optionType": {
+            "$ref": "#/components/schemas/OptionType"
+          },
+          "group": {
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ProductGroupDto"
+                "$ref": "#/components/schemas/OptionGroupDto"
               }
             ]
+          },
+          "productId": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "isSelected": {
+            "type": "boolean"
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OptionValueDto"
+            }
+          },
+          "defaultValue": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/OptionValueDto"
+              }
+            ]
+          },
+          "minNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "maxNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMinLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMaxLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultTextValue": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
-      "ProductVisibility": {
+      "OptionType": {
         "type": "integer",
         "description": "",
         "x-enumNames": [
-          "Unlisted",
-          "Listed"
+          "YesOrNo",
+          "Choice",
+          "NumericalValue",
+          "TextValue"
         ],
         "enum": [
           0,
-          1
+          1,
+          2,
+          3
         ]
+      },
+      "OptionGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "seq": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "min": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "max": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
+      },
+      "OptionValueDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "sku": {
+            "type": "string",
+            "nullable": true
+          },
+          "price": {
+            "type": "number",
+            "format": "decimal",
+            "nullable": true
+          },
+          "seq": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        }
       },
       "ApiUpdateProductDetails": {
         "type": "object",
@@ -3334,52 +3275,14 @@
           }
         }
       },
-      "ApiCreateProductGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ApiUpdateProductGroup": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "parentGroupId": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "ItemsResultOfStoreDto": {
+      "ItemsResultOfAttributeDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/StoreDto"
+              "$ref": "#/components/schemas/AttributeDto"
             }
           },
           "totalItems": {
@@ -3388,18 +3291,97 @@
           }
         }
       },
-      "StoreDto": {
+      "CreateAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupId": {
+            "type": "string",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiCreateProductAttributeValue"
+            }
+          }
+        }
+      },
+      "ApiCreateProductAttributeValue": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateAttributeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "groupId": {
+            "type": "string",
+            "nullable": true
+          },
+          "values": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ApiUpdateProductAttributeValue"
+            }
+          }
+        }
+      },
+      "ApiUpdateProductAttributeValue": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "name": {
             "type": "string"
-          },
-          "handle": {
+          }
+        }
+      },
+      "ApiCreateProductAttributeGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
             "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ApiUpdateProductAttributeGroup": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         }
       }

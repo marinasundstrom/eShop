@@ -8,7 +8,7 @@ public class ProductViewModel
     private SiteProductDto? product;
     private SiteProductDto? variant;
     private IEnumerable<OptionDto>? productOptions;
-    private IEnumerable<AttributeDto>? productAttributes;
+    private IEnumerable<ProductAttributeDto>? productAttributes;
 
     public ProductViewModel(IProductsClient productsClient)
     {
@@ -67,10 +67,10 @@ public class ProductViewModel
 
             var attrs = AttributeGroups.SelectMany(x => x.Attributes);
 
-            foreach (var attr in product.VariantAttributes)
+            foreach (var attr in product.Attributes.Where(x => x.ForVariant))
             {
-                var x = attrs.FirstOrDefault(x => x.Id == attr.Id);
-                x.SelectedValueId = attr.ValueId;
+                var x = attrs.FirstOrDefault(x => x.Id == attr.Attribute.Id);
+                x.SelectedValueId = attr.Value.Id;
             }
 
             var selectedAttributeValues = AttributeGroups
@@ -111,10 +111,10 @@ public class ProductViewModel
 
         var attributes = AttributeGroups.SelectMany(x => x.Attributes);
 
-        foreach (var attr in variant.VariantAttributes)
+        foreach (var attr in variant.Attributes.Where(x => x.ForVariant))
         {
-            var selectedAttr = attributes.First(x => x.Id == attr.Id);
-            selectedAttr.SelectedValueId = selectedAttr.Values.FirstOrDefault(x => x.Id == attr.ValueId)?.Id;
+            var selectedAttr = attributes.First(x => x.Id == attr.Attribute.Id);
+            selectedAttr.SelectedValueId = selectedAttr.Values.FirstOrDefault(x => x.Id == attr.Value.Id)?.Id;
         }
 
         Updated?.Invoke(this, EventArgs.Empty);
@@ -195,7 +195,7 @@ public class ProductViewModel
     private void CreateAttributesVM()
     {
         foreach (var attributeGroup in productAttributes
-            .Select(x => x.Group ?? new AttributeGroupDto())
+            .Select(x => x.Attribute.Group ?? new AttributeGroupDto())
             .DistinctBy(x => x.Id))
         {
             var group = new AttributeGroupVM()
@@ -204,19 +204,19 @@ public class ProductViewModel
                 Name = attributeGroup.Name
             };
 
-            foreach (var attribute in productAttributes.Where(x => x.Group?.Id == group.Id))
+            foreach (var attribute in productAttributes.Where(x => x.Attribute.Group?.Id == group.Id))
             {
                 var attr = new AttributeVM
                 {
-                    Id = attribute.Id,
-                    Name = attribute.Name,
+                    Id = attribute.Attribute.Id,
+                    Name = attribute.Attribute.Name,
                     ForVariant = attribute.ForVariant,
                     IsMainAttribute = attribute.IsMainAttribute
                 };
 
                 group.Attributes.Add(attr);
 
-                attr.Values.AddRange(attribute.Values.Select(x => new AttributeValueVM
+                attr.Values.AddRange(attribute.Attribute.Values.Select(x => new AttributeValueVM
                 {
                     Id = x.Id,
                     Name = x.Name

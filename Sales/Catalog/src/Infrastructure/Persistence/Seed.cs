@@ -86,7 +86,7 @@ public static class Seed
 
         item.ProductAttributes.Add(new ProductAttribute {
             ForVariant = true,
-            IsMainAttribute = true,
+            IsMainAttribute = false,
             Attribute = colorAttribute,
             Value = null
         });
@@ -111,13 +111,15 @@ public static class Seed
         variantBlueSmall.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = sizeAttribute,
-            Value = valueSmall
+            Value = valueSmall,
+            ForVariant = true
         });
 
         variantBlueSmall.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = colorAttribute,
             Value = valueBlue,
+            ForVariant = true,
             IsMainAttribute = true
         });
 
@@ -135,13 +137,15 @@ public static class Seed
         variantBlueMedium.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = sizeAttribute,
-            Value = valueMedium
+            Value = valueMedium,
+            ForVariant = true
         });
 
         variantBlueMedium.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = colorAttribute,
             Value = valueBlue,
+            ForVariant = true,
             IsMainAttribute = true
         });
 
@@ -157,13 +161,15 @@ public static class Seed
         variantBlueLarge.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = sizeAttribute,
-            Value = valueLarge
+            Value = valueLarge,  
+            ForVariant = true
         });
 
         variantBlueLarge.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = colorAttribute,
             Value = valueBlue,
+            ForVariant = true,
             IsMainAttribute = true
         });
 
@@ -181,13 +187,15 @@ public static class Seed
         variantRedSmall.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = sizeAttribute,
-            Value = valueSmall
+            Value = valueSmall,
+            ForVariant = true
         });
 
         variantRedSmall.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = colorAttribute,
             Value = valueRed,
+            ForVariant = true,
             IsMainAttribute = true
         });
 
@@ -203,13 +211,15 @@ public static class Seed
         variantRedMedium.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = sizeAttribute,
-            Value = valueMedium
+            Value = valueMedium,     
+            ForVariant = true,
         });
 
         variantRedMedium.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = colorAttribute,
             Value = valueRed,
+            ForVariant = true,
             IsMainAttribute = true
         });
 
@@ -225,13 +235,15 @@ public static class Seed
         variantRedLarge.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = sizeAttribute,
-            Value = valueLarge
+            Value = valueLarge,
+            ForVariant = true
         });
 
         variantRedLarge.ProductAttributes.Add(new ProductAttribute
         {
             Attribute = colorAttribute,
             Value = valueRed,
+            ForVariant = true,
             IsMainAttribute = true
         });
 

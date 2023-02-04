@@ -24,6 +24,9 @@ partial class ProductAttributesView : ComponentBase
     public string ProductId { get; set; } = default!;
 
     [Parameter]
+    public bool HasVariants { get; set; } = false!;
+
+    [Parameter]
     [EditorRequired]
     public IReadOnlyCollection<ProductAttributeDto> ProductAttributes { get; set; } = default!;
 

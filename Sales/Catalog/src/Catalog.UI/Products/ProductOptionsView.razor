@@ -18,7 +18,7 @@
     }
 </style>
 
-<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="true" Hover="true" ReadOnly="false" CanCancelEdit="true" Filter="new Func<OptionDto,bool>(FilterOptionsFunc)"
+<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<OptionDto,bool>(FilterOptionsFunc)"
           @bind-SelectedItem="selectedProductOption" SortLabel="Sort By" GroupBy="tableGroupDefinition">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Options</MudText>

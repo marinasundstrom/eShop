@@ -23,7 +23,7 @@ public record GetProductVariant(string ProductId, string ProductVariantId) : IRe
                 .Include(pv => pv.Variants)
                 .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Attribute)
-                //.ThenInclude(o => o.DefaultValue)
+                .ThenInclude(o => o.Values)
                 .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
                 .FirstOrDefaultAsync(pv => pv.ParentProduct!.Id == request.ProductId && pv.Id == request.ProductVariantId);

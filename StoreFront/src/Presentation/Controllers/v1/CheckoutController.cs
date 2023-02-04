@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using YourBrand.StoreFront.Application.Checkout;
+using YourBrand.StoreFront.Application.Features.Checkout;
 
 namespace YourBrand.StoreFront.Presentation.Controllers;
 

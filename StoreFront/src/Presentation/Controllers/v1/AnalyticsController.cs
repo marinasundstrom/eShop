@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using YourBrand.StoreFront.Application.Analytics;
+using YourBrand.StoreFront.Application.Features.Analytics;
 
 namespace YourBrand.StoreFront.Presentation.Controllers;
 

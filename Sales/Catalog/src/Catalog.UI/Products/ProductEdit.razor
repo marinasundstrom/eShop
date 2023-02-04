@@ -27,7 +27,18 @@ else
         item
     </MudButton>
 
-    <ProductAttributesView ProductId="@ProductId" ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
+    <MudPaper Elevation="25" Class="pt-4 mb-8">
+        <MudGrid>
+            <MudItem md="6">
+                <MudImage Src="@product.Image" />
+            </MudItem>
+            <MudItem md="6">
+
+            </MudItem>
+        </MudGrid>
+    </MudPaper>
+
+    <ProductAttributesView ProductId="@ProductId" HasVariants="product.HasVariants" ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
 
     @if(product.HasVariants)
     {

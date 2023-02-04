@@ -1,7 +1,7 @@
 ﻿@inject IProductsClient ProductsClient
 @inject IDialogService DialogService 
 
-<MudTable @ref="productVariantsTable" Items="@productVariants" Class="mt-4" Dense="true" Hover="true" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductDto,bool>(FilterProductVariantsFunc)"
+<MudTable @ref="productVariantsTable" Items="@productVariants" Class="mt-4" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductDto,bool>(FilterProductVariantsFunc)"
           @bind-SelectedItem="selectedProductVariant" SortLabel="Sort By">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Variants</MudText>

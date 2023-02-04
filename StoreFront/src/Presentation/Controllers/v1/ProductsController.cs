@@ -2,9 +2,9 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using YourBrand.Catalog;
-using YourBrand.StoreFront.Application.Carts;
+using YourBrand.StoreFront.Application.Features.Carts;
 using YourBrand.StoreFront.Application.Common.Models;
-using YourBrand.StoreFront.Application.Products;
+using YourBrand.StoreFront.Application.Features.Products;
 
 namespace YourBrand.StoreFront.Presentation.Controllers;
 
