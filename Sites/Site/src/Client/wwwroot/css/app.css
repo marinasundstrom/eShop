@@ -287,3 +287,19 @@ header.main {
       --bs-gutter-x: 5rem;
   }
 }
+
+.offcanvas-body .nav-item a {
+  color: black;
+}
+
+.offcanvas-body .nav-item a:visited {
+  color: black;
+}
+
+.menu-link {
+  color: white;
+}
+
+.menu-link:hover {
+  color: rgb(209, 209, 209);
+}

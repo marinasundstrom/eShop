@@ -6,7 +6,7 @@
 @inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
 @inject IConfiguration Configuration
 
-<CartDisplay NoOfItems="@(cart?.Items.Count() ?? 0)" SmallIcon="true" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" />
+<CartDisplay NoOfItems="@(cart?.Items.Sum(x => x.Quantity) ?? 0)" SmallIcon="true" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" />
 
 @code
 {

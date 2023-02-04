@@ -3,22 +3,20 @@
 @inject Site.Client.Authentication.IAuthenticationService AuthenticationService
 @inject CartService CartService
 
-<div>
-    <AuthorizeView>
-        <Authorized>
+<AuthorizeView>
+    <Authorized>
 
-        </Authorized>
-        <Authorized>
-            <div class="d-flex">
-                <a class="btn nav-link" href="user/profile"><i class="fa fa-user"></i></a>
-                <button class="btn nav-link" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Sign out</button>
-            </div>
-        </Authorized>
-        <NotAuthorized>
-            <a class="nav-link" href="/login"><i class="fa fa-sign-in-alt me-2" /> Log in</a>
-        </NotAuthorized>
-    </AuthorizeView>
-</div>
+    </Authorized>
+    <Authorized>
+        <div class="d-flex">
+            <a class="menu-link me-3 text-decoration-none" href="user/profile"><i class="fa fa-user"></i></a>
+            <button class="btn menu-link me-3 text-decoration-none" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Log out</button>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <a class="menu-link me-3 text-decoration-none" href="login"><i class="fa fa-sign-in-alt me-2" /> My account</a>
+    </NotAuthorized>
+</AuthorizeView>
 
 @code{
     [CascadingParameter] public IModalService Modal { get; set; } = default!;

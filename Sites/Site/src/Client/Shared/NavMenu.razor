@@ -4,80 +4,84 @@
 @inject IProductsClient ProductsClient
 @inject PersistentComponentState ApplicationState
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-brand px-3">
-    <div class="container">
-        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" @onclick="ToggleOpen">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <a href="/">
-            <img src="/logo.png" class="me-4" alt="Your Brand" />
-        </a>
-            
-        <div style="color: white">
-            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="search">
-                <i class="fa fa-search"></i>
-            </a>
-            
-            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="user/profile">
-                <i class="fa fa-user"></i>
-            </a>
-            
-            <a class="nav-link menu-link me-3 text-decoration-none text-uppercase d-inline-block d-lg-none" 
-                href="#">
-                <CartNavItem DisableDropDown="true" SmallIcon="true" />
+<nav class="navbar navbar-dark bg-brand fixed-top">
+    <div class="container-fluid">
+        <div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="/logo.png" class="ms-2 me-4" alt="Your Brand" />
             </a>
         </div>
-
-        <div class="navbar-collapse offcanvas-collapse bg-brand @(isOpen ? "open" : null)" id="navbarsExampleDefault" @onclick="ToggleOpen">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item active">
-                    <NavLink class="nav-link" href="" Match=@NavLinkMatch.All>Start</NavLink>
-                </li>
-
-                @*
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="groups">Produkter</NavLink>
-                </li>*@
-
-                @if(productGroups is not null) 
-                {
-                    @foreach (var group in productGroups)
+        <div class="offcanvas offcanvas-start text-bg-light" style="z-index: 99999;" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel"><img src="/logo.png" class="me-4"
+                        alt="Your Brand" /></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#" data-bs-dismiss="offcanvas">Home</a>
+                    </li>
+                    @if (productGroups is not null)
                     {
-                        <li class="nav-item">
-                            <NavLink class="nav-link" href="@($"groups/{group.Id}")">@group.Name</NavLink>
-                        </li>
+                        @foreach (var group in productGroups)
+                        {
+                            <li class="nav-item">
+                                <NavLink class="nav-link" href="@($"groups/{group.Id}")" data-bs-dismiss="offcanvas">@group.Name
+                                </NavLink>
+                            </li>
+                        }
                     }
-                }
-            </ul>
-
-            <ul class="navbar-nav d-flex mb-2 mb-lg-0 d-none d-md-flex d-lg-flex">
-                <li class="nav-item me-2">
-                    <form class="d-flex" role="search" style="height: 80%;" @onclick:preventDefault @onclick:stopPropagation>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="d-flex d-none d-lg-flex">
+            <div class="me-4">
+                <form class="d-flex" role="search" style="height: 80%;" @onclick:preventDefault
+                    @onclick:stopPropagation>
                         <div class="input-group">
-                            <input class="form-control border-end-0 border" type="search" placeholder="Sök här" id="example-search-input">
-                            <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-1 border ms-n5" type="button">
+                            <input class="form-control border-end-0 border" type="search" placeholder="Search"
+                                id="example-search-input">
+                            <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-1 border ms-n5"
+                                type="button">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>
-                    </form>
-                </li>
-
-                <li class="nav-item">     
+                </form>   
+            </div>     
+            <ul class="list-inline mb-0 mt-2">
+                <li class="list-inline-item">
                     <LoginDisplay />
                 </li>
-
-                <li class="nav-item dropdown d-none d-md-block d-lg-block">
-                    @*<CartNavItem SmallIcon="true" />*@
-                    <span class="nav-link dropdown-toggle no-toggle">
+                <li class="list-inline-item">
+                    <a class="menu-link me-3 text-decoration-none text-uppercase">
                         <CartNavItem />
-                    </span>
+                    </a>
                 </li>
             </ul>
-
         </div>
+
+
+        <ul class="list-inline mb-0 d-inline-block d-lg-none">
+            <li class="list-inline-item"> <a class="menu-link me-3 text-decoration-none text-uppercase" href="search">
+                    <i class="fa fa-search"></i>
+                </a></li>
+
+            <li class="list-inline-item"> <a class="menu-link me-3 text-decoration-none text-uppercase"
+                    href="user/profile">
+                    <i class="fa fa-user"></i>
+                </a></li>
+
+            <li class="list-inline-item"><a class="menu-link me-3 text-decoration-none text-uppercase" href="#">
+                    <CartNavItem SmallIcon="true" />
+                </a></li>
+        </ul>
     </div>
 </nav>
 
@@ -94,10 +98,10 @@
     {
 
         persistingSubscription =
-            ApplicationState.RegisterOnPersisting(PersistItems);
+        ApplicationState.RegisterOnPersisting(PersistItems);
 
-        if (!ApplicationState.TryTakeFromJson< ICollection<ProductGroupDto>>(
-            "productGroups", out var restored))
+        if (!ApplicationState.TryTakeFromJson<ICollection<ProductGroupDto>>(
+        "productGroups", out var restored))
         {
             productGroups = await ProductsClient.GetProductGroupsAsync(null, true);
         }
@@ -119,7 +123,7 @@
         if (firstRender)
         {
             /* await JS.InvokeVoidAsync(
-                "initDropDown"); */
+            "initDropDown"); */
         }
     }
 
