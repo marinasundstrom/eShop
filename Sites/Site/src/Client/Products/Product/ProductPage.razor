@@ -72,11 +72,13 @@
 
                     @if (productViewModel.Variants is not null && productViewModel.Variants.Any())
                     {
+                        <h3 class="mt-4">@productViewModel.Variants.First().Attributes.First(x => x.IsMainAttribute).Attribute.Name</h3>
+
                         <div class="d-flex">
                                 @foreach(var v in productViewModel.Variants)
                                 {
                                     <div @key="v.Id">
-                                        <div class="card shadow-sm mt-4 me-2" @onclick="async () => await SelectVariant(v!)">
+                                        <div class="card mt-1 me-2 @(v.Id == productViewModel.Variant.Id ? "shadow" : null)" @onclick="async () => await SelectVariant(v!)">
                                         @if ((v?.Image ?? productViewModel.Image) is not null)
                                         {
                                             <img src="@(v?.Image ?? productViewModel.Image)" width="100" height="100%" alt="@v!.Name"/>

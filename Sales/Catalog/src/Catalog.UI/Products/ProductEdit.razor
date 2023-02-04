@@ -22,10 +22,17 @@ else
 
     <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@product.Name</MudText>
 
+    @*
     <MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary" Link="@($"/products/{product.Id}")">
-        View
-        item
-    </MudButton>
+        View product
+    </MudButton> *@
+
+    @if(product.Parent is not null) 
+    {
+         <MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary" Link="@($"/products/{product.Parent.Id}/edit")">
+            Parent product
+        </MudButton>
+    }
 
     <MudPaper Elevation="25" Class="pt-4 mb-8">
         <MudGrid>

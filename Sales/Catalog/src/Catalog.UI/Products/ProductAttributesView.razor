@@ -49,10 +49,7 @@
             <MudTd DataLabel="Is Main Attribute"> <MudCheckBox @bind-Checked="@context.IsMainAttribute" ReadOnly></MudCheckBox></MudTd>
         }
         <MudTd DataLabel="Value">
-            @if(!context.ForVariant) 
-            { 
-                @context.Value?.Name
-            }
+            @context.Value?.Name
         </MudTd>
     </RowTemplate>
     <RowEditingTemplate>
@@ -67,14 +64,11 @@
             </MudTd>
         }
         <MudTd DataLabel="Value">
-            @if(!context.ForVariant) 
-            {
-                <MudGrid>
-                    <MudItem xs="12">
-                        <MudAutocomplete T="AttributeValueDto" @bind-Value="context.Value" SearchFuncWithCancel="@SearchAttributeValue" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
-                    </MudItem>
-                </MudGrid>    
-            }
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudAutocomplete T="AttributeValueDto" @bind-Value="context.Value" SearchFuncWithCancel="@SearchAttributeValue" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
+                </MudItem>
+            </MudGrid>    
         </MudTd>
     </RowEditingTemplate>
     @*
