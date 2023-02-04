@@ -12,7 +12,7 @@
 <SitePageTitle>@(productGroup?.Name ?? "Products")</SitePageTitle>
 
 <div class="container">
-    <h1>@(productGroup?.Name ?? "Products")</h1>
+    <h1 class="mb-4">@(productGroup?.Name ?? "Products")</h1>
 
     @if(subGroups is not null) 
     {
@@ -38,7 +38,7 @@
 
     @if (itemResults is not null)
     {
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-5">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-md-5">
             @foreach (var item in itemResults.Items)
             {
                 <div class="col">

@@ -1,4 +1,4 @@
-<button type="button" class="btn position-relative p-0">
+<button type="button" class="btn position-relative p-0" @attributes="@AdditionalAttributes">
   <span class="fa @(SmallIcon ? "fa-13x" : "fa-2x") fa-shopping-basket"></span>
   @if(NoOfItems > 0) 
   {
@@ -16,4 +16,7 @@
 
     [Parameter]
     public bool SmallIcon { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; } = default!;
 }

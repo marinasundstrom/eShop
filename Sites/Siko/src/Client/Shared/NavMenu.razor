@@ -63,7 +63,10 @@
                     </li>
 
                     <li class="nav-item dropdown d-none d-md-block d-lg-block">
-                        <CartNavItem SmallIcon="true" />
+                        @*<CartNavItem SmallIcon="true" />*@
+                        <span class="nav-link dropdown-toggle no-toggle">
+                            <CartNavItem />
+                        </span>
                     </li>
                 </ul>
 
@@ -84,6 +87,8 @@
         </div>
     </div>
 </nav>
+
+<CartOffCanvas />
 
 @*
 <div class="nav-scroller bg-body shadow-sm mb-4">
@@ -136,8 +141,8 @@
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync(
-                "initDropDown");
+            /* await JS.InvokeVoidAsync(
+                "initDropDown"); */
         }
     }
 

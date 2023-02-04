@@ -6,6 +6,10 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-brand px-3">
     <div class="container">
+        <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" @onclick="ToggleOpen">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
         <a href="/">
             <img src="/logo.png" class="me-4" alt="Your Brand" />
         </a>
@@ -25,10 +29,6 @@
                 href="#">
                 <CartNavItem DisableDropDown="true" SmallIcon="true" />
             </a>
-        
-            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" @onclick="ToggleOpen">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
 
         <div class="navbar-collapse offcanvas-collapse bg-brand @(isOpen ? "open" : null)" id="navbarsExampleDefault" @onclick="ToggleOpen">
@@ -70,13 +70,18 @@
                 </li>
 
                 <li class="nav-item dropdown d-none d-md-block d-lg-block">
-                    <CartNavItem SmallIcon="true" />
+                    @*<CartNavItem SmallIcon="true" />*@
+                    <span class="nav-link dropdown-toggle no-toggle">
+                        <CartNavItem />
+                    </span>
                 </li>
             </ul>
 
         </div>
     </div>
 </nav>
+
+<CartOffCanvas />
 
 @code {
     private PersistingComponentStateSubscription persistingSubscription;
@@ -113,8 +118,8 @@
     {
         if (firstRender)
         {
-            await JS.InvokeVoidAsync(
-                "initDropDown");
+            /* await JS.InvokeVoidAsync(
+                "initDropDown"); */
         }
     }
 

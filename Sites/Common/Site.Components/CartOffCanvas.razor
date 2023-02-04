@@ -1,0 +1,103 @@
+@using Microsoft.AspNetCore.SignalR.Client;
+@using Microsoft.Extensions.Configuration;
+@inject NavigationManager NavigationManager
+@inject CartService CartService
+@inject Site.Client.RenderingContext RenderingContext
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorageService
+@inject IConfiguration Configuration
+
+<div class="offcanvas offcanvas-end" style="z-index: 99999;" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasRightLabel">Basket</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <ul style="
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    ">
+        @if(cart is not null) 
+        {
+            if(cart.Items.Any()) 
+            {
+            <li>
+                <ul class="list-group mb-3">
+                    @foreach (var cartItem in cart.Items)
+                    {
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+                            <div>
+                                <h6 class="my-0">@cartItem.Product.Name x @cartItem.Quantity</h6>
+                                <small class="text-muted">@cartItem.Product.Description</small>
+                            </div>
+                            <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
+                        </li>   
+                    }
+                    <li class="list-group-item d-flex justify-content-between">
+                    <span>Total</span>
+                    <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
+                    </li>
+                </ul>
+            </li>
+            <li><a class="dropdown-item" href="basket" data-bs-dismiss="offcanvas">Manage basket</a></li>
+            <li><a class="btn btn-lg btn-primary" href="checkout" data-bs-dismiss="offcanvas">Check out & Pay</a></li>
+            }
+            else 
+            {
+                <span class="mx-4 my-2">You have not added any items yet :( </span>
+            }
+        }
+    </ul>
+  </div>
+</div>
+
+@code
+{
+    SiteCartDto? cart;
+    static bool initialized;
+    static bool inializing;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (RenderingContext.IsPrerendering)
+            return;
+        
+        CartService.CartUpdated += OnCartUpdated;
+
+        if (!initialized && !inializing)
+        {
+            inializing = true;
+
+            var clientId = await LocalStorageService.GetItemAsync<string>("cid");    
+
+            if(!CartService.IsConnected) 
+            {
+                await CartService.Reload();
+
+                await CartService.Start(Configuration["StorefrontUri"], clientId);
+                
+                initialized = true;
+                inializing = false;
+            }
+        }
+    }
+
+    private async Task OnCartUpdated()
+    {
+        if (RenderingContext.IsPrerendering)
+            return;
+
+        cart = CartService.Cart;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task DisposeAsync()
+    {
+        CartService.CartUpdated -= OnCartUpdated;
+
+        await CartService.Stop();
+
+        initialized = false;
+    }
+}

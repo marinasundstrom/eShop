@@ -7,7 +7,7 @@ body {
   padding: 0;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: auto;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Open Sans", sans-serif;
 
   overflow-x: hidden;
   /* Prevent scroll on narrow devices */
@@ -270,4 +270,20 @@ header.main {
 
 .fa-13x {
   font-size: 1.3em !important;
+}
+
+.card-img-top {
+  height: 20vh;
+  object-fit: cover;
+}
+
+@media (min-width: 768px)
+{
+  .g-md-6, .gy-md-6 {
+    --bs-gutter-y: 5rem;
+  }
+
+  .g-md-6, .gx-md-6 {
+      --bs-gutter-x: 5rem;
+  }
 }
