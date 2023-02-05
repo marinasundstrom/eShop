@@ -63,9 +63,6 @@
 	   <ProjectReference Include="..\..\..\CustomerRelations\Ticketing\src\Ticketing.UI\Ticketing.UI.csproj">
 	     <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	   </ProjectReference>
-	   <ProjectReference Include="..\..\..\Shops\src\Shops.UI\Shops.UI.csproj">
-	     <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-	   </ProjectReference>
 	</ItemGroup>
 
 </Project>
