@@ -2,7 +2,7 @@
 using YourBrand.Analytics.Application;
 using YourBrand.Analytics.Domain;
 
-namespace YourBrand.Analytics.Presentation;
+namespace YourBrand.Analytics.Application;
 
 public static class ControllerExtensions
 {

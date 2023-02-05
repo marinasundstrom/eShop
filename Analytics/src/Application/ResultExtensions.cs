@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YourBrand.Analytics.Domain;
 
-namespace YourBrand.Analytics.Presentation;
+namespace YourBrand.Analytics.Application;
 
 public static class ResultExtensions
 {

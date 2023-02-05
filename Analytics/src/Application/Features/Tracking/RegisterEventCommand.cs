@@ -1,10 +1,10 @@
 ﻿using MediatR;
 
 using Microsoft.EntityFrameworkCore;
-using YourBrand.Analytics.Domain;
 
 using Microsoft.Extensions.Caching.Memory;
-namespace YourBrand.Analytics.Application.Tracking.Commands;
+
+namespace YourBrand.Analytics.Application.Features.Tracking;
 
 public record RegisterEventCommand(string ClientId, string SessionId, Domain.Enums.EventType EventType, Dictionary<string, object> Data) : IRequest<string?>
 {

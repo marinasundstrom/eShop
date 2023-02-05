@@ -2,7 +2,6 @@
 using YourBrand.Analytics.Application;
 using YourBrand.Analytics.Consumers;
 using YourBrand.Analytics.Infrastructure;
-using YourBrand.Analytics.Presentation;
 
 namespace YourBrand.Analytics.Web;
 

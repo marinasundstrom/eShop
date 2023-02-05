@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using YourBrand.Analytics.Presentation.Hubs;
+using YourBrand.Analytics.Application.Hubs;
 
-namespace YourBrand.Analytics.Presentation;
+namespace YourBrand.Analytics.Application;
 
 public static class WebApplicationExtensions
 {
