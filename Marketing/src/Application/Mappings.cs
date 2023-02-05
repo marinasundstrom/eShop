@@ -1,8 +1,8 @@
-using YourBrand.Marketing.Application.Addresses;
+using YourBrand.Marketing.Application.Features.Addresses;
 using YourBrand.Marketing.Domain.Entities;
-using YourBrand.Marketing.Application.Contacts;
-using YourBrand.Marketing.Application.Campaigns;
-using YourBrand.Marketing.Application.Discounts;
+using YourBrand.Marketing.Application.Features.Contacts;
+using YourBrand.Marketing.Application.Features.Campaigns;
+using YourBrand.Marketing.Application.Features.Discounts;
 
 namespace YourBrand.Marketing.Application;
 

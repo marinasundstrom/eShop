@@ -17,7 +17,6 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using YourBrand.Marketing.Application.Services;
 using YourBrand.Marketing.Infrastructure.Persistence;
-using YourBrand.Marketing.Presentation;
 using YourBrand.Marketing.Web;
 using YourBrand.Marketing.Web.Middleware;
 using YourBrand.Marketing.Web.Services;
@@ -25,6 +24,7 @@ using Microsoft.Extensions.Azure;
 using Azure.Storage.Blobs;
 using Azure.Identity;
 using Microsoft.Extensions.Caching.Memory;
+using YourBrand.Marketing.Application;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;

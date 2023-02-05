@@ -2,7 +2,6 @@
 using YourBrand.Marketing.Application;
 using YourBrand.Marketing.Consumers;
 using YourBrand.Marketing.Infrastructure;
-using YourBrand.Marketing.Presentation;
 
 namespace YourBrand.Marketing.Web;
 
