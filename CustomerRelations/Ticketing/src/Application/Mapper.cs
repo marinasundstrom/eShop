@@ -1,6 +1,5 @@
-﻿using YourBrand.Ticketing.Application.Users;
-using YourBrand.Ticketing.Application.Tickets.Dtos;
-using YourBrand.Ticketing.Application.Users;
+﻿using YourBrand.Ticketing.Application.Features.Users;
+using YourBrand.Ticketing.Application.Features.Tickets.Dtos;
 using YourBrand.Ticketing.Domain.Enums;
 using YourBrand.Ticketing.Domain.ValueObjects;
 

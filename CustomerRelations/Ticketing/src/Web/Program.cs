@@ -15,9 +15,10 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+
+using YourBrand.Ticketing.Application;
 using YourBrand.Ticketing.Application.Services;
 using YourBrand.Ticketing.Infrastructure.Persistence;
-using YourBrand.Ticketing.Presentation;
 using YourBrand.Ticketing.Web;
 using YourBrand.Ticketing.Web.Middleware;
 using YourBrand.Ticketing.Web.Services;

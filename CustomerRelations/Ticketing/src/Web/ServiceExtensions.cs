@@ -2,7 +2,6 @@
 using YourBrand.Ticketing.Application;
 using YourBrand.Ticketing.Consumers;
 using YourBrand.Ticketing.Infrastructure;
-using YourBrand.Ticketing.Presentation;
 
 namespace YourBrand.Ticketing.Web;
 
