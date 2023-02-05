@@ -2,7 +2,6 @@
 using YourBrand.Carts.Application;
 using YourBrand.Carts.Consumers;
 using YourBrand.Carts.Infrastructure;
-using YourBrand.Carts.Presentation;
 
 namespace YourBrand.Carts.Web;
 

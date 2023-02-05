@@ -15,9 +15,10 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+
+using YourBrand.Carts.Application;
 using YourBrand.Carts.Application.Services;
 using YourBrand.Carts.Infrastructure.Persistence;
-using YourBrand.Carts.Presentation;
 using YourBrand.Carts.Web;
 using YourBrand.Carts.Web.Middleware;
 using YourBrand.Carts.Web.Services;

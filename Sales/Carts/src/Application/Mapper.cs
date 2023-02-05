@@ -1,5 +1,5 @@
-﻿using YourBrand.Carts.Application.Carts.Dtos;
-using YourBrand.Carts.Application.Users;
+﻿using YourBrand.Carts.Application.Features.Carts.Dtos;
+using YourBrand.Carts.Application.Features.Users;
 using YourBrand.Carts.Domain.ValueObjects;
 
 namespace YourBrand.Carts.Application;
