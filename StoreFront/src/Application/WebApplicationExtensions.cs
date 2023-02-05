@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using YourBrand.StoreFront.Presentation.Hubs;
 
-namespace YourBrand.StoreFront.Presentation;
+using YourBrand.StoreFront.Application.Features.Carts;
+
+namespace YourBrand.StoreFront.Application;
 
 public static class WebApplicationExtensions
 {

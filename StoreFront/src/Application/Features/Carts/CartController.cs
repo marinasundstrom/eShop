@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using YourBrand.StoreFront.Application.Features.Carts;
 
-namespace YourBrand.StoreFront.Presentation.Controllers;
+namespace YourBrand.StoreFront.Application.Features.Carts;
 
 [ApiController]
 [ApiVersion("1")]

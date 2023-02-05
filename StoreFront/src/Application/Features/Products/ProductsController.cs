@@ -4,9 +4,8 @@ using Microsoft.Extensions.Logging;
 using YourBrand.Catalog;
 using YourBrand.StoreFront.Application.Features.Carts;
 using YourBrand.StoreFront.Application.Common.Models;
-using YourBrand.StoreFront.Application.Features.Products;
 
-namespace YourBrand.StoreFront.Presentation.Controllers;
+namespace YourBrand.StoreFront.Application.Features.Products;
 
 [ApiController]
 [ApiVersion("1")]

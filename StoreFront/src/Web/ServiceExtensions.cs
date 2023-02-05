@@ -2,7 +2,6 @@
 using YourBrand.StoreFront.Application;
 using YourBrand.StoreFront.Consumers;
 using YourBrand.StoreFront.Infrastructure;
-using YourBrand.StoreFront.Presentation;
 
 namespace YourBrand.StoreFront.Web;
 

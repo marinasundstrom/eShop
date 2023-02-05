@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using YourBrand.StoreFront.Application.Features.Checkout;
 
-namespace YourBrand.StoreFront.Presentation.Controllers;
+namespace YourBrand.StoreFront.Application.Features.Checkout;
 
 [ApiController]
 [ApiVersion("1")]

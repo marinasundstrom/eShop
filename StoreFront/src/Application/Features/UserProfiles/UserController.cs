@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MediatR;
-using YourBrand.StoreFront.Application.Features.UserProfiles;
 using YourBrand.StoreFront.Application.Common.Models;
 using YourBrand.Orders;
 
-namespace YourBrand.StoreFront.Presentation.Controllers;
+namespace YourBrand.StoreFront.Application.Features.UserProfiles;
 
 [ApiController]
 [ApiVersion("1")]

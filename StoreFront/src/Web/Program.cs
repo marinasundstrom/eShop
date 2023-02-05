@@ -17,7 +17,6 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using YourBrand.StoreFront.Application.Services;
 using YourBrand.StoreFront.Infrastructure.Persistence;
-using YourBrand.StoreFront.Presentation;
 using YourBrand.StoreFront.Web;
 using YourBrand.StoreFront.Web.Middleware;
 using YourBrand.StoreFront.Web.Services;
@@ -39,6 +38,7 @@ using YourBrand.StoreFront.Authentication.Endpoints;
 using YourBrand.StoreFront.Authentication.Data;
 using StackExchange.Redis;
 using Microsoft.Extensions.Options;
+using YourBrand.StoreFront.Application;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;

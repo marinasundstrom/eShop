@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using YourBrand.StoreFront.Domain;
 
-namespace YourBrand.StoreFront.Presentation;
+namespace YourBrand.StoreFront.Application;
 
 public static class ResultExtensions
 {
