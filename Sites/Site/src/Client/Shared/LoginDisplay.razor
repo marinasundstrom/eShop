@@ -10,7 +10,7 @@
     <Authorized>
         <div class="d-flex">
             <a class="menu-link me-3 text-decoration-none" href="user/profile"><i class="fa fa-user"></i></a>
-            <button class="btn menu-link me-3 text-decoration-none" @onclick="BeginSignOut"><i class="fa fa-sign-out-alt" /> Log out</button>
+            <a class="menu-link me-3 text-decoration-none" @onclick="BeginSignOut" @onclick:preventDefault><i class="fa fa-sign-out-alt" /> Log out</a>
         </div>
     </Authorized>
     <NotAuthorized>

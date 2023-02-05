@@ -1,5 +1,6 @@
 @using Site.Client.Authentication
 @using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Authorization
 
 @page "/login"
 @inject IAuthenticationService AuthenticationService
@@ -8,39 +9,66 @@
 
 <SitePageTitle>Login</SitePageTitle>
 
-<div class="form-signin">
-    <EditForm Model="@this" OnValidSubmit="Login">
-        <DataAnnotationsValidator />
+@if(loaded) 
+{
+    <div class="form-signin">
+        <EditForm Model="@this" OnValidSubmit="Login">
+            <DataAnnotationsValidator />
 
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+            <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-        <div class="form-floating">
-            <InputText class="form-control" @bind-Value="SSN"></InputText>
-            <label for="floatingInput">SSN</label>
-            <ValidationMessage For="() => SSN" />
-        </div>
+            <div class="form-floating">
+                <InputText class="form-control" @bind-Value="SSN"></InputText>
+                <label for="floatingInput">SSN</label>
+                <ValidationMessage For="() => SSN" />
+            </div>
 
-        @*<div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" value="remember-me"> Remember me
-            </label>
-        </div>*@
+            @*<div class="checkbox mb-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> Remember me
+                </label>
+            </div>*@
 
-        <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
+            <button class="w-100 btn btn-lg btn-primary mt-3" type="submit">Sign in</button>
 
-        @if(unauthenticated) 
-        {
-            <span style="color: red">You are not a customer</span>
-        }
+            @if(unauthenticated) 
+            {
+                <span style="color: red">You are not a customer</span>
+            }
 
-    </EditForm>
-</div>
+        </EditForm>
+    </div>
+}
 
 @code {
     bool unauthenticated = false;
+    bool loaded = false;
 
     [Required]
     public string SSN { get; set; } = null!;
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationStateTask { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationStateTask;
+        var user = authenticationState.User;
+
+        if(user?.Identity is null) 
+        {
+            return;
+        }
+
+        if(user?.Identity?.IsAuthenticated ?? false)
+        {
+            NavigationManager.NavigateTo("/user/profile");
+
+            return;
+        }
+        
+        loaded = true;
+    }
 
     public async Task Login()
     {
@@ -59,3 +87,4 @@
         }
     }
 }
+
