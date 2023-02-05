@@ -2,7 +2,6 @@
 using YourBrand.Inventory.Application;
 using YourBrand.Inventory.Consumers;
 using YourBrand.Inventory.Infrastructure;
-using YourBrand.Inventory.Presentation;
 
 namespace YourBrand.Inventory.Web;
 

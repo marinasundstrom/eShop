@@ -17,13 +17,13 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using YourBrand.Inventory.Application.Services;
 using YourBrand.Inventory.Infrastructure.Persistence;
-using YourBrand.Inventory.Presentation;
 using YourBrand.Inventory.Web;
 using YourBrand.Inventory.Web.Middleware;
 using YourBrand.Inventory.Web.Services;
 using Microsoft.Extensions.Azure;
 using Azure.Storage.Blobs;
 using Azure.Identity;
+using YourBrand.Inventory.Application;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;

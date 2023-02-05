@@ -1,9 +1,9 @@
 using YourBrand.Inventory.Domain.Entities;
-using YourBrand.Inventory.Application.Items;
-using YourBrand.Inventory.Application.Items.Groups;
-using YourBrand.Inventory.Application.Sites;
-using YourBrand.Inventory.Application.Warehouses;
-using YourBrand.Inventory.Application.Warehouses.Items;
+using YourBrand.Inventory.Application.Features.Items;
+using YourBrand.Inventory.Application.Features.Items.Groups;
+using YourBrand.Inventory.Application.Features.Sites;
+using YourBrand.Inventory.Application.Features.Warehouses;
+using YourBrand.Inventory.Application.Features.Warehouses.Items;
 
 namespace YourBrand.Inventory.Application;
 
