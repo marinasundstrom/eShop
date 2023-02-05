@@ -2,7 +2,6 @@
 using YourBrand.Orders.Application;
 using YourBrand.Orders.Consumers;
 using YourBrand.Orders.Infrastructure;
-using YourBrand.Orders.Presentation;
 
 namespace YourBrand.Orders.Web;
 

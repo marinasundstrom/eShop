@@ -1,6 +1,5 @@
-﻿using YourBrand.Orders.Application.Orders.Dtos;
-using YourBrand.Orders.Application.ProductPriceLists.Dtos;
-using YourBrand.Orders.Application.Users;
+﻿using YourBrand.Orders.Application.Features.Orders.Dtos;
+using YourBrand.Orders.Application.Features.Users;
 using YourBrand.Orders.Domain.ValueObjects;
 
 namespace YourBrand.Orders.Application;
@@ -48,12 +47,7 @@ public static class Mappings
         LastName = billingDetails.LastName,
         Address = billingDetails.Address.ToDto()
     };
-
-    public static ProductPriceListDto ToDto(this ProductPriceList productPriceList) => new (productPriceList.Id,
-        productPriceList.ProductPrices.Select(x => x.ToDto()), productPriceList.Created, productPriceList.CreatedBy?.ToDto(), productPriceList.LastModified, productPriceList.LastModifiedBy?.ToDto());
-
-    public static ProductPriceDto ToDto(this ProductPrice productPrice) => new(productPrice.Id, productPrice.ProductId, productPrice.Price.ToDto(), productPrice.Created, productPrice.CreatedBy?.ToDto(), productPrice.LastModified, productPrice.LastModifiedBy?.ToDto());
-
+    
     public static CurrencyAmountDto ToDto(this CurrencyAmount currencyAmount) => new(currencyAmount.Currency, currencyAmount.Amount);
 
 }
