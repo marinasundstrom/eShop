@@ -1,8 +1,8 @@
-using YourBrand.Customers.Application.Addresses;
+using YourBrand.Customers.Application.Features.Addresses;
 using YourBrand.Customers.Domain.Entities;
-using YourBrand.Customers.Application.Persons;
-using YourBrand.Customers.Application.Customers;
-using YourBrand.Customers.Application.Organizations;
+using YourBrand.Customers.Application.Features.Persons;
+using YourBrand.Customers.Application.Features.Customers;
+using YourBrand.Customers.Application.Features.Organizations;
 
 namespace YourBrand.Customers.Application;
 

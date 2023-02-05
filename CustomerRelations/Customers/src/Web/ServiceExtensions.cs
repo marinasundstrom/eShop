@@ -2,7 +2,6 @@
 using YourBrand.Customers.Application;
 using YourBrand.Customers.Consumers;
 using YourBrand.Customers.Infrastructure;
-using YourBrand.Customers.Presentation;
 
 namespace YourBrand.Customers.Web;
 
