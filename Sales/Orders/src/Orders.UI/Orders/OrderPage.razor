@@ -260,7 +260,7 @@
 
     private async Task UpdateOrderItem(OrderItemViewModel model)
     {
-        if(Model.Status.Id == 1) 
+        if(Model.Status.Id == 5 || Model.Status.Id == 2 || Model.Status.Id == 6 || Model.Status.Id == 7) 
         {
             return;
         }

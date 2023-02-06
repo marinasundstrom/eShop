@@ -43,7 +43,7 @@ public class ModuleInitializer : IModuleInitializer
 
         catalogItem.CreateItem("products", () => resources["Products"], MudBlazor.Icons.Material.Filled.FormatListBulleted, "/products");
 
-        catalogItem.CreateItem("collections", () => resources["Collections"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
+        catalogItem.CreateItem("collections", () => resources["Groups"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
 
         catalogItem.CreateItem("attributes", () => resources["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
     }
