@@ -32,18 +32,9 @@
             </div>
 
             <MudGrid Class="mb-4">
-                @*
                 <MudItem xs="12" sm="12" md="6" lg="3">
-                @if (Model.Status >= OrderStatusDto.Placed)
-                {
-                            <MudField Label="Date">@Model.Date?.ToString("yyyy-MM-dd")</MudField>
-                            <MudField Label="Date">@Model.Date?.ToString("yyyy-MM-dd")</MudField>
-                }
-                else
-                {
-                           <MudDatePicker Label="Date" Date="Model.Date" DateChanged="OnDateChanged" For="() => Model.Date"></MudDatePicker>
-                }
-                </MudItem>*@
+                        <MudField Label="Date">@Model.Date?.ToString("yyyy-MM-dd")</MudField>
+                </MudItem>
 
                 <MudItem xs="12" sm="12" md="6" lg="3">
                     <div class="d-flex">

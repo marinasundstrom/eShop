@@ -33,7 +33,7 @@ public sealed record CreateOrder(string? CustomerId, BillingDetailsDto BillingDe
         public async Task<Result<OrderDto>> Handle(CreateOrder request, CancellationToken cancellationToken)
         {
             var order = new Order();
-            order.OrderNo = await orderRepository.GetAll().CountAsync() + 1;
+            order.OrderNo = (await orderRepository.GetAll().MaxAsync(x => x.OrderNo)) + 1;
             order.StatusId = 3;
 
             order.CustomerId = request.CustomerId;
