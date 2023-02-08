@@ -143,7 +143,7 @@
             ticketStatuses.AddRange((await TicketStatusesClient.GetStatusesAsync(null, 1, 100, null, null, cts.Token)).Items);
 
             hubConnection = new HubConnectionBuilder()
-            .WithUrl($"https://localhost:5001/hubs/tickets", options =>
+            .WithUrl($"{ServiceUrls.CustomerServiceServiceUrl}/hubs/tickets", options =>
             {
                 options.AccessTokenProvider = async () => await AccessTokenProvider.GetAccessTokenAsync();
             })

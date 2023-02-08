@@ -120,7 +120,7 @@
         try
         {
             hubConnection = new HubConnectionBuilder()
-            .WithUrl($"https://localhost:5001/hubs/tickets", options =>
+            .WithUrl($"{ServiceUrls.CustomerServiceServiceUrl}/hubs/tickets", options =>
             {
                 options.AccessTokenProvider = async () => await AccessTokenProvider.GetAccessTokenAsync();
             })
