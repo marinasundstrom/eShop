@@ -37,11 +37,13 @@ else
             <MudItem md="6">
                 <MudImage Src="@product.Image" ObjectFit="ObjectFit.Cover" Height="200" Width="200" Alt="Örebro Slott"  Elevation="25" Class="rounded-lg" />
 
-                <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
+                <div>
+                    <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
 
-                <MudButton HtmlTag="label" Color="Color.Secondary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
-                    Upload image
-                </MudButton>
+                    <MudButton HtmlTag="label" Color="Color.Secondary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
+                        Upload image
+                    </MudButton>
+                </div>
             </MudItem>
             <MudItem md="6">
                     <MudPaper Elevation="25" Class="pa-4">

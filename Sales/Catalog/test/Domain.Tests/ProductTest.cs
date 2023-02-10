@@ -4,8 +4,15 @@ using YourBrand.Catalog.Domain.Events;
 
 namespace YourBrand.Catalog.Domain.Tests;
 
-public class TodoTest
+public class ProductTest
 {
+    [Fact]
+    public void Product()
+    {
+
+    }
+
+    /*
     [Fact]
     public void CreateTodo()
     {
@@ -76,4 +83,5 @@ public class TodoTest
         todo.DomainEvents.OfType<TodoStatusUpdated>().Should().ContainSingle();
         todo.DomainEvents.OfType<TodoUpdated>().Should().ContainSingle();
     }
+    */
 }

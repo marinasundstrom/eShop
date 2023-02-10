@@ -1,4 +1,6 @@
 ﻿using NSubstitute;
+using YourBrand.Catalog.Client;
+using YourBrand.Catalog.Products;
 
 namespace YourBrand.Catalog.UI.Tests;
 
