@@ -1,4 +1,4 @@
-<div class="card mt-4">
+<div class="card mb-5">
      <a href="/products/@Product.Id">
         <img class="bd-placeholder-img card-img-top shadow" src="@Product.Image" />
     </a>
@@ -13,7 +13,7 @@
             <div>
                 @if (Product.Available is not null)
                 {
-                    <p class="text-muted pa-0 mb-0">@Product.Available available</p>
+                    <small class="text-muted pa-0 mb-0">@Product.Available available</small>
                 }
             </div>
             @if (!Product.HasVariants)
@@ -23,6 +23,9 @@
                 </div>
             }
         </div>
+    </div>
+    <div>
+        <a href="/products/@Product.Id" class="d-block mt-3 mx-4 btn btn-primary btm-lg">Beställ</a>
     </div>
 </div>
 
