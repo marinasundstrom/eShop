@@ -1,15 +1,19 @@
-<div class="mb-4">
-    <div class="card shadow">
-        <img class="bd-placeholder-img card-img-top" src="@Product.Image" />
+<div class="card mt-4">
+     <a href="/products/@Product.Id">
+        <img class="bd-placeholder-img card-img-top shadow" src="@Product.Image" />
+    </a>
+    <div class="card-body">
+        <a href="/products/@Product.Id" class="text-decoration-none text-reset">
+            <h5 class="card-title mt-2"><strong>@Product.Name</strong></h5>
+        </a>
+        <p class="card-text mt-2 text-muted">@Product.Description</p>
     </div>
-    <div class="mt-4">
-        <h5 class="mt-2"><strong>@Product.Name</strong></h5>
-        <p class="mt-2 text-muted">@Product.Description</p>
-        <div class="mt-4 d-flex justify-content-between align-items-center">
-            <div class="btn-group">
+    <div class="card-footer">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
                 @if (Product.Available is not null)
                 {
-                    <p class="text-muted mt-2">@Product.Available available</p>
+                    <p class="text-muted pa-0 mb-0">@Product.Available available</p>
                 }
             </div>
             @if (!Product.HasVariants)

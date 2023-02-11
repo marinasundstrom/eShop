@@ -1,25 +1,27 @@
 @using System.Globalization 
 
-@if (Price == 0)
-{
-    <h5 style="display: inline-block; color: red; font-weight: 500; margin-left: 10px; ">Free</h5>
-}
-else
-{
-    @if (CompareAtPrice is null)
+<div @attributes="@AdditionalAttributes">
+    @if (Price == 0)
     {
-        <h5 style="display: inline-block; font-weight: 500">@FormatPrice(Price)</h5>
+        <h5 style="display: inline-block; color: red; font-weight: 500; margin-left: 10px; line-height: 0;">Free</h5>
     }
     else
     {
-        <h5 style="display: inline-block; font-weight: 500; color: red;">@FormatPrice(Price)</h5>
+        @if (CompareAtPrice is null)
+        {
+            <h5 style="display: inline-block; font-weight: 500; line-height: 0;">@FormatPrice(Price)</h5>
+        }
+        else
+        {
+            <h5 style="display: inline-block; font-weight: 500; color: red; line-height: 0;">@FormatPrice(Price)</h5>
+        }
     }
-}
 
-@if (CompareAtPrice != null)
-{
-    <h5 class="text-muted" style="display: inline-block; text-decoration: line-through; color: gray !important; margin-left: 10px">@FormatPrice(CompareAtPrice.GetValueOrDefault())</h5>
-}
+    @if (CompareAtPrice != null)
+    {
+        <h5 class="text-muted" style="display: inline-block; text-decoration: line-through; color: gray !important; margin-left: 10px; line-height: 0;">@FormatPrice(CompareAtPrice.GetValueOrDefault())</h5>
+    }
+</div>
 
 @code {
     [Parameter]
@@ -33,4 +35,7 @@ else
 
     [Parameter]
     public bool Big { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object> AdditionalAttributes { get; set; } = default!;
 }

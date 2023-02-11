@@ -41,10 +41,8 @@
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-md-5">
             @foreach (var item in itemResults.Items)
             {
-                <div class="col">
-                    <a href="/products/@item.Id" style="all: unset; cursor: pointer;">
-                        <Site.Components.Products.Product.ProductView Product="@item" />
-                    </a>
+                <div class="col card-group">
+                    <Site.Components.Products.Product.ProductView Product="@item" />
                 </div>
             }
         </div>
