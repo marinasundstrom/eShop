@@ -166,8 +166,6 @@ partial class ProductPage
         });
 
         hasAddedToCart = true;
-
-        //ToastService.ShowInfo($"{productViewModel.Name} was added to your basket,", "Item added");
     }
 
     async Task UpdateCartItem()

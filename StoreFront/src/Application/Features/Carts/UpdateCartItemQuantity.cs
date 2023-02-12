@@ -9,18 +9,18 @@ public sealed record UpdateCartItemQuantity(string Id, int Quantity) : IRequest
     sealed class Handler : IRequestHandler<UpdateCartItemQuantity>
     {
         private readonly YourBrand.Carts.ICartsClient cartsClient;
-        private readonly IProductsClient itemsClient;
+        private readonly IProductsClient productsClient;
         private readonly ICartHubService cartHubService;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Carts.ICartsClient  cartsClient,
-            YourBrand.Catalog.IProductsClient itemsClient,
+            YourBrand.Catalog.IProductsClient productsClient,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
         {
             this.cartsClient = cartsClient;
-            this.itemsClient = itemsClient;
+            this.productsClient = productsClient;
             this.cartHubService = cartHubService;
             this.currentUserService = currentUserService;
         }

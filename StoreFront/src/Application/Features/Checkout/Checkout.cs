@@ -16,26 +16,26 @@ public sealed record Checkout(
     {
         private readonly YourBrand.Orders.IOrdersClient _ordersClient;
         private readonly YourBrand.Carts.ICartsClient cartsClient;
-        private readonly IItemsClient itemsClient;
-        private readonly IWarehouseItemsClient itemsClient1;
-        private readonly YourBrand.Catalog.IProductsClient itemsClient2;
+        private readonly IItemsClient productsClient;
+        private readonly IWarehouseItemsClient productsClient1;
+        private readonly YourBrand.Catalog.IProductsClient productsClient2;
         private readonly ICurrentUserService currentUserService;
         private readonly ICartHubService cartHubService;
 
         public Handler(
             YourBrand.Orders.IOrdersClient ordersClient,
             YourBrand.Carts.ICartsClient  cartsClient,
-            YourBrand.Inventory.IItemsClient itemsClient,
-            YourBrand.Inventory.IWarehouseItemsClient itemsClient1,
-            YourBrand.Catalog.IProductsClient itemsClient2,
+            YourBrand.Inventory.IItemsClient productsClient,
+            YourBrand.Inventory.IWarehouseItemsClient productsClient1,
+            YourBrand.Catalog.IProductsClient productsClient2,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
         {
             _ordersClient = ordersClient;
             this.cartsClient = cartsClient;
-            this.itemsClient = itemsClient;
-            this.itemsClient1 = itemsClient1;
-            this.itemsClient2 = itemsClient2;
+            this.productsClient = productsClient;
+            this.productsClient1 = productsClient1;
+            this.productsClient2 = productsClient2;
             this.currentUserService = currentUserService;
             this.cartHubService = cartHubService;
         }
@@ -53,7 +53,7 @@ public sealed record Checkout(
 
             foreach (var cartItem in cart.Items)
             {
-                var item = await itemsClient2.GetProductAsync(cartItem.ItemId, cancellationToken);
+                var item = await productsClient2.GetProductAsync(cartItem.ItemId, cancellationToken);
 
                 var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
                 {
@@ -146,7 +146,7 @@ public sealed record Checkout(
             {
                 try
                 {
-                    await itemsClient1.ReserveItemsAsync("66189587-67b2-454a-b786-7b49b64fd242", item.ItemId, new ReserveItemsDto() { Quantity = (int)item.Quantity });
+                    await productsClient1.ReserveItemsAsync("66189587-67b2-454a-b786-7b49b64fd242", item.ItemId, new ReserveItemsDto() { Quantity = (int)item.Quantity });
                 }
                 catch (Exception e)
                 {

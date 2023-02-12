@@ -10,18 +10,18 @@ public sealed record GetCart : IRequest<SiteCartDto>
     sealed class Handler : IRequestHandler<GetCart, SiteCartDto>
     {
         private readonly YourBrand.Carts.ICartsClient  _cartsClient;
-        private readonly YourBrand.Catalog.IProductsClient _itemsClient;
+        private readonly YourBrand.Catalog.IProductsClient _productsClient;
         private readonly ICurrentUserService currentUserService;
         private readonly IDistributedCache cache;
 
         public Handler(
             YourBrand.Carts.ICartsClient  cartsClient,
-            YourBrand.Catalog.IProductsClient itemsClient,
+            YourBrand.Catalog.IProductsClient productsClient,
             ICurrentUserService currentUserService,
             IDistributedCache cache)
         {
             _cartsClient = cartsClient;
-            _itemsClient = itemsClient;
+            _productsClient = productsClient;
             this.currentUserService = currentUserService;
             this.cache = cache;
         }
@@ -59,8 +59,13 @@ public sealed record GetCart : IRequest<SiteCartDto>
                         {
                             options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
 
-                            return await _itemsClient.GetProductAsync(cartItem.ItemId, cancellationToken);
+                            return await _productsClient.GetProductAsync(cartItem.ItemId, cancellationToken);
                         });
+
+                if(string.IsNullOrEmpty(cartItem.Data)) 
+                {
+                    cartItem.Data = "[]";
+                }
 
                 var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
                 {

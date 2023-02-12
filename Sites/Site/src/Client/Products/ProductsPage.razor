@@ -8,6 +8,7 @@
 @inject NavigationManager NavigationManager
 @inject AnalyticsService AnalyticsService
 @inject RenderingContext RenderingContext
+@inject ICartClient CartClient
 
 <SitePageTitle>@(productGroup?.Name ?? "Products")</SitePageTitle>
 
@@ -42,7 +43,7 @@
             @foreach (var item in itemResults.Items)
             {
                 <div class="col card-group">
-                    <Site.Components.Products.Product.ProductView Product="@item" />
+                    <Site.Components.Products.Product.ProductView Product="@item" OnAddItemToCartClicked="AddItemToCart" />
                 </div>
             }
         </div>

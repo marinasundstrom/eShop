@@ -1,4 +1,6 @@
-﻿using MediatR;
+﻿using System.Text.Json;
+
+using MediatR;
 using YourBrand.Catalog;
 using YourBrand.Orders;
 
@@ -9,36 +11,62 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
     sealed class Handler : IRequestHandler<AddItemToCart>
     {
         private readonly YourBrand.Carts.ICartsClient cartsClient;
-        private readonly IProductsClient itemsClient;
+        private readonly IProductsClient productsClient;
         private readonly ICartHubService cartHubService;
         private readonly ICurrentUserService currentUserService;
 
         public Handler(
             YourBrand.Carts.ICartsClient  cartsClient,
-            YourBrand.Catalog.IProductsClient itemsClient,
+            YourBrand.Catalog.IProductsClient productsClient,
             ICartHubService cartHubService,
             ICurrentUserService currentUserService)
         {
             this.cartsClient = cartsClient;
-            this.itemsClient = itemsClient;
+            this.productsClient = productsClient;
             this.cartHubService = cartHubService;
             this.currentUserService = currentUserService;
         }
 
         public async Task<Unit> Handle(AddItemToCart request, CancellationToken cancellationToken)
         {
-            var item = await itemsClient.GetProductAsync(request.ItemId);
+            var item = await productsClient.GetProductAsync(request.ItemId);
 
             if (item.HasVariants)
             {
                 throw new Exception();
             }
 
+            string? data = request.Data;
+
+            if(string.IsNullOrEmpty(data)) 
+            {
+                var dataArray = item.Options.Select(x =>
+                {
+                    return new Option
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        OptionType = (int)x.OptionType,
+                        ProductId = x.ProductId,
+                        Price = x.Price,
+                        IsSelected = x.IsSelected,
+                        SelectedValueId = x.DefaultValue?.Id,
+                        NumericalValue = x.DefaultNumericalValue,
+                        TextValue = x.DefaultTextValue
+                    };
+                });
+                
+                data = JsonSerializer.Serialize(dataArray, new JsonSerializerOptions
+                {
+                    DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
+                });
+            }
+
             var dto2 = new YourBrand.Carts.CreateCartItemRequest()
             {
                 ItemId = request.ItemId,
                 Quantity = request.Quantity,
-                Data = request.Data
+                Data = data
             };
 
             var customerId = currentUserService.CustomerNo;
