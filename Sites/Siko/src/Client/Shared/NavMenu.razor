@@ -6,7 +6,12 @@
 
 <nav class="navbar navbar-expand-lg fixed-top navbar-light px-3">
     <div class="container">
-        <a href="/" class="brand">
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a href="/" class="brand my-auto">
             <img src="/logo.png" class="me-4" alt="Siko AB" style="width: 120px" />
         </a>
             
@@ -26,23 +31,28 @@
                 href="#">
                 <CartNavItem DisableDropDown="true" SmallIcon="true" />
             </a>
-        
-            <button class="navbar-toggler p-0 border-0" type="button" data-toggle="offcanvas" @onclick="ToggleOpen">
-                <span class="navbar-toggler-icon"></span>
-            </button>
         </div>
 
-        <div class="navbar-collapse offcanvas-collapse bg-brand @(isOpen ? "open" : null)" id="navbarsExampleDefault" @onclick="ToggleOpen" style="display: block !important;">
-                
-            <div style="display: flex">
+        <div class="offcanvas offcanvas-start text-bg-light" style="z-index: 99999;" tabindex="-1" id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel">
+
+             <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+                    Your Brand
+                    @*<img src="/logo.png" class="me-4"
+                        alt="Your Brand" />*@
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item active">
-                        <NavLink class="nav-link" href="" Match=@NavLinkMatch.All><i class="fa fa-home"></i> Hem</NavLink>
+                        <NavLink class="nav-link" href="" Match=@NavLinkMatch.All data-bs-dismiss="offcanvas"><i class="fa fa-home"></i> Hem</NavLink>
                     </li>
 
                     <li class="nav-item">
-                        <NavLink class="nav-link" href="groups">Om oss</NavLink>
+                        <NavLink class="nav-link" href="groups" data-bs-dismiss="offcanvas">Om oss</NavLink>
                     </li>
                 </ul>
 
