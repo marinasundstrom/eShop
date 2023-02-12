@@ -165,6 +165,15 @@ partial class ProductsPage
         sb.Append($"/{group.Id}");
     }
 
+    async Task AddItemToCart(SiteProductDto product)
+    {
+        await CartClient.AddItemToCartAsync(new AddCartItemDto()
+        {
+            ProductId = product.Id,
+            Quantity = 1
+         });
+    }
+
     public string SelectedStyle(string path) => NavigationManager.Uri.Contains(path) ? "primary" : "secondary";
 }
 

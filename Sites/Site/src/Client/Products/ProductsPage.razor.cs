@@ -174,7 +174,6 @@ partial class ProductsPage
          });
     }
 
-
     public string SelectedStyle(string path) => NavigationManager.Uri.Contains(path) ? "primary" : "secondary";
 }
 

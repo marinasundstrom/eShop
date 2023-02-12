@@ -1,0 +1,46 @@
+<div class="card mb-5">
+     <a href="/products/@Product.Id">
+        <img class="bd-placeholder-img card-img-top shadow" src="@Product.Image" />
+    </a>
+    <div class="card-body">
+        <a href="/products/@Product.Id" class="text-decoration-none text-reset">
+            <h5 class="card-title mt-2"><strong>@Product.Name</strong></h5>
+        </a>
+        <p class="card-text mt-2 text-muted">@Product.Description</p>
+    </div>
+    <div class="card-footer">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                @if (Product.Available is not null)
+                {
+                    <small class="text-muted pa-0 mb-0">@Product.Available available</small>
+                }
+            </div>
+            @if (!Product.HasVariants)
+            {
+                <div>
+                    <PriceDisplay Price="@Product.Price" CompareAtPrice="@Product.CompareAtPrice" />
+                </div>
+            }
+        </div>
+    </div>
+    <div class="btn-group mt-2">
+        @if(!Product.HasVariants /* || Product.Custom */) 
+        {
+            <button type="button" class="btn btn-primary" @onclick="async () => await OnAddItemToCartClicked.InvokeAsync(Product)" @onclick:preventDefault>+ <i class="fa fa-shopping-basket"></i></button>
+        }
+        @if(Product.Options.Any(/* x => x.IsRequired */)) 
+        {
+            <a href="/products/@Product.Id" class="btn btn-outline-secondary">Customize</a>
+        }
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    [EditorRequired]
+    public SiteProductDto Product { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback<SiteProductDto> OnAddItemToCartClicked { get; set; } = default!;
+}

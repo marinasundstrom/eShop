@@ -7,7 +7,8 @@
 @inject PersistentComponentState ApplicationState
 @inject NavigationManager NavigationManager
 @inject AnalyticsService AnalyticsService
-@inject RenderingContext RenderingContext
+@inject RenderingContext RenderingContext 
+@inject ICartClient CartClient
 
 <SitePageTitle>@(productGroup?.Name ?? "Produkter")</SitePageTitle>
 
@@ -43,7 +44,7 @@
             {
                 <div class="col">
                     <a href="/products/@item.Id" style="all: unset; cursor: pointer;">
-                        <Site.Components.Products.Product.ProductView Product="@item" />
+                        <ProductView Product="@item" OnAddItemToCartClicked="AddItemToCart" />
                     </a>
                 </div>
             }
