@@ -29,7 +29,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("addresses")]
-    public async Task<IEnumerable<YourBrand.Customers.AddressDto>> GetAddresses(CancellationToken cancellationToken)
+    public async Task<IEnumerable<AddressDto>> GetAddresses(CancellationToken cancellationToken)
     {
         return await mediator.Send(new GetAddresses(), cancellationToken);
     }

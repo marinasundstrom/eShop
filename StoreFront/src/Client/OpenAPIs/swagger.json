@@ -11,226 +11,19 @@
     }
   ],
   "paths": {
-    "/v1/Analytics/Event": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "Analytics_RegisterEvent",
-        "parameters": [
-          {
-            "name": "X-Client-Id",
-            "x-originalName": "clientId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "X-Session-Id",
-            "x-originalName": "sessionId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          }
-        ],
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EventData"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 3
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Analytics": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "Analytics_RegisterEvent2",
-        "parameters": [
-          {
-            "name": "X-Client-Id",
-            "x-originalName": "clientId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "X-Session-Id",
-            "x-originalName": "sessionId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          }
-        ],
-        "requestBody": {
-          "x-name": "data",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EventData"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 3
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Analytics/Client": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "Analytics_CreateClient",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Analytics/Session": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "Analytics_StartSession",
-        "parameters": [
-          {
-            "name": "X-Client-Id",
-            "x-originalName": "clientId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Analytics/Session/Coordinates": {
-      "post": {
-        "tags": [
-          "Analytics"
-        ],
-        "operationId": "Analytics_RegisterCoordinates",
-        "parameters": [
-          {
-            "name": "X-Client-Id",
-            "x-originalName": "clientId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "X-Session-Id",
-            "x-originalName": "sessionId",
-            "in": "header",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 2
-          }
-        ],
-        "requestBody": {
-          "x-name": "coordinates",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Coordinates"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 3
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/v1/Cart": {
+    "/v1/User/profile": {
       "get": {
         "tags": [
-          "Cart"
+          "User"
         ],
-        "operationId": "Cart_GetCart",
+        "operationId": "User_GetProfile",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SiteCartDto"
+                  "$ref": "#/components/schemas/UserProfileDto"
                 }
               }
             }
@@ -238,159 +31,67 @@
         }
       }
     },
-    "/v1/Cart/Items": {
-      "post": {
+    "/v1/User/addresses": {
+      "get": {
         "tags": [
-          "Cart"
+          "User"
         ],
-        "operationId": "Cart_AddItemToCart",
-        "requestBody": {
-          "x-name": "dto",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AddCartItemDto"
+        "operationId": "User_GetAddresses",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AddressDto"
+                  }
+                }
               }
             }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Cart"
-        ],
-        "operationId": "Cart_ClearCart",
-        "responses": {
-          "200": {
-            "description": ""
           }
         }
       }
     },
-    "/v1/Cart/Items/{id}": {
-      "put": {
+    "/v1/User/orders": {
+      "get": {
         "tags": [
-          "Cart"
+          "User"
         ],
-        "operationId": "Cart_UpdateCartItem",
+        "operationId": "User_GetOrders",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "requestBody": {
-          "x-name": "dto",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateCartItemDto"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 2
-        },
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/v1/Cart/Items/{itemId}/Quantity": {
-      "put": {
-        "tags": [
-          "Cart"
-        ],
-        "operationId": "Cart_UpdateCartItemQuantity",
-        "parameters": [
-          {
-            "name": "itemId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          },
-          {
-            "name": "quantity",
+            "name": "page",
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int32"
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
             },
             "x-position": 2
           }
         ],
         "responses": {
           "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/v1/Cart/Items/{itemId}": {
-      "delete": {
-        "tags": [
-          "Cart"
-        ],
-        "operationId": "Cart_RemoveItemFromCart",
-        "parameters": [
-          {
-            "name": "itemId",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "nullable": true
-            },
-            "x-position": 1
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      }
-    },
-    "/v1/Checkout": {
-      "post": {
-        "tags": [
-          "Checkout"
-        ],
-        "operationId": "Checkout_Checkout",
-        "requestBody": {
-          "x-name": "dto",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CheckoutDto"
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemsResultOfOrderDto"
+                }
               }
             }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": ""
           }
         }
       }
@@ -763,19 +464,44 @@
         }
       }
     },
-    "/v1/User/profile": {
+    "/v1/Checkout": {
+      "post": {
+        "tags": [
+          "Checkout"
+        ],
+        "operationId": "Checkout_Checkout",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CheckoutDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/Cart": {
       "get": {
         "tags": [
-          "User"
+          "Cart"
         ],
-        "operationId": "User_GetProfile",
+        "operationId": "Cart_GetCart",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/UserProfileDto"
+                  "$ref": "#/components/schemas/SiteCartDto"
                 }
               }
             }
@@ -783,67 +509,341 @@
         }
       }
     },
-    "/v1/User/addresses": {
-      "get": {
+    "/v1/Cart/Items": {
+      "post": {
         "tags": [
-          "User"
+          "Cart"
         ],
-        "operationId": "User_GetAddresses",
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AddressDto2"
-                  }
-                }
+        "operationId": "Cart_AddItemToCart",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddCartItemDto"
               }
             }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "operationId": "Cart_ClearCart",
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
     },
-    "/v1/User/orders": {
-      "get": {
+    "/v1/Cart/Items/{id}": {
+      "put": {
         "tags": [
-          "User"
+          "Cart"
         ],
-        "operationId": "User_GetOrders",
+        "operationId": "Cart_UpdateCartItem",
         "parameters": [
           {
-            "name": "page",
-            "in": "query",
+            "name": "id",
+            "in": "path",
+            "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCartItemDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/Cart/Items/{itemId}/Quantity": {
+      "put": {
+        "tags": [
+          "Cart"
+        ],
+        "operationId": "Cart_UpdateCartItemQuantity",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
             },
             "x-position": 1
           },
           {
-            "name": "pageSize",
+            "name": "quantity",
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "default": 10
+              "format": "int32"
             },
             "x-position": 2
           }
         ],
         "responses": {
           "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/Cart/Items/{itemId}": {
+      "delete": {
+        "tags": [
+          "Cart"
+        ],
+        "operationId": "Cart_RemoveItemFromCart",
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/Analytics/Event": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_RegisterEvent",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventData"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfOrderDto"
+                  "type": "string"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/v1/Analytics": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_RegisterEvent2",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "data",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventData"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Analytics/Client": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_CreateClient",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Analytics/Session": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_StartSession",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Analytics/Session/Coordinates": {
+      "post": {
+        "tags": [
+          "Analytics"
+        ],
+        "operationId": "Analytics_RegisterCoordinates",
+        "parameters": [
+          {
+            "name": "X-Client-Id",
+            "x-originalName": "clientId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          },
+          {
+            "name": "X-Session-Id",
+            "x-originalName": "sessionId",
+            "in": "header",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "coordinates",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Coordinates"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 3
+        },
+        "responses": {
+          "200": {
+            "description": ""
           }
         }
       }
@@ -851,81 +851,355 @@
   },
   "components": {
     "schemas": {
-      "EventData": {
+      "UserProfileDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "eventType": {
-            "$ref": "#/components/schemas/EventType"
+          "customerNo": {
+            "type": "integer",
+            "format": "int32"
           },
-          "data": {
-            "type": "object",
-            "additionalProperties": {}
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "ssn": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "phone": {
+            "type": "string"
+          },
+          "phoneMobile": {
+            "type": "string"
           }
         }
       },
-      "EventType": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "ItemViewed",
-          "ItemGroupViewed"
-        ],
-        "enum": [
-          "itemViewed",
-          "itemGroupViewed"
-        ]
-      },
-      "Coordinates": {
+      "AddressDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "latitude": {
-            "type": "number",
-            "format": "double"
+          "thoroughfare": {
+            "type": "string"
           },
-          "longitude": {
-            "type": "number",
-            "format": "double"
+          "premises": {
+            "type": "string",
+            "nullable": true
+          },
+          "subPremises": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "locality": {
+            "type": "string"
+          },
+          "subAdministrativeArea": {
+            "type": "string"
+          },
+          "administrativeArea": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
           }
         }
       },
-      "SiteCartDto": {
+      "ItemsResultOfOrderDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "OrderDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "id": {
             "type": "string"
+          },
+          "orderNo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "date": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "$ref": "#/components/schemas/OrderStatusDto"
+          },
+          "assigneeId": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          },
+          "customerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "currency": {
+            "type": "string"
+          },
+          "billingDetails": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BillingDetailsDto"
+              }
+            ]
+          },
+          "shippingDetails": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ShippingDetailsDto"
+              }
+            ]
           },
           "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/SiteCartItemDto"
+              "$ref": "#/components/schemas/OrderItemDto"
             }
-          }
-        }
-      },
-      "SiteCartItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
           },
-          "product": {
-            "$ref": "#/components/schemas/SiteProductDto"
+          "subTotal": {
+            "type": "number",
+            "format": "decimal"
           },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
+          "vat": {
+            "type": "number",
+            "format": "decimal"
           },
           "total": {
             "type": "number",
             "format": "decimal"
           },
-          "data": {
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastModifiedBy": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          }
+        }
+      },
+      "OrderStatusDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "UserDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "BillingDetailsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "ssn": {
             "type": "string",
             "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDto2"
+          }
+        }
+      },
+      "AddressDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "thoroughfare": {
+            "type": "string"
+          },
+          "premises": {
+            "type": "string",
+            "nullable": true
+          },
+          "subPremises": {
+            "type": "string",
+            "nullable": true
+          },
+          "postalCode": {
+            "type": "string"
+          },
+          "locality": {
+            "type": "string"
+          },
+          "subAdministrativeArea": {
+            "type": "string"
+          },
+          "administrativeArea": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      },
+      "ShippingDetailsDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "careOf": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDto2"
+          }
+        }
+      },
+      "OrderItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "itemId": {
+            "type": "string",
+            "nullable": true
+          },
+          "unit": {
+            "type": "string",
+            "nullable": true
+          },
+          "unitPrice": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "quantity": {
+            "type": "number",
+            "format": "double"
+          },
+          "vatRate": {
+            "type": "number",
+            "format": "double"
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "notes": {
+            "type": "string",
+            "nullable": true
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "createdBy": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          },
+          "lastModified": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "lastModifiedBy": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
+          }
+        }
+      },
+      "ItemsResultOfSiteProductDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SiteProductDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -1149,6 +1423,9 @@
               }
             ]
           },
+          "isRequired": {
+            "type": "boolean"
+          },
           "productId": {
             "type": "string",
             "nullable": true
@@ -1279,142 +1556,6 @@
           }
         }
       },
-      "AddCartItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "productId": {
-            "type": "string",
-            "nullable": true
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "data": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "UpdateCartItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "quantity": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "data": {
-            "type": "string",
-            "nullable": true
-          }
-        }
-      },
-      "CheckoutDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "billingDetails": {
-            "$ref": "#/components/schemas/BillingDetailsDto"
-          },
-          "shippingDetails": {
-            "$ref": "#/components/schemas/ShippingDetailsDto"
-          }
-        }
-      },
-      "BillingDetailsDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "ssn": {
-            "type": "string",
-            "nullable": true
-          },
-          "phoneNumber": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "address": {
-            "$ref": "#/components/schemas/AddressDto"
-          }
-        }
-      },
-      "AddressDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "thoroughfare": {
-            "type": "string"
-          },
-          "premises": {
-            "type": "string",
-            "nullable": true
-          },
-          "subPremises": {
-            "type": "string",
-            "nullable": true
-          },
-          "postalCode": {
-            "type": "string"
-          },
-          "locality": {
-            "type": "string"
-          },
-          "subAdministrativeArea": {
-            "type": "string"
-          },
-          "administrativeArea": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
-          }
-        }
-      },
-      "ShippingDetailsDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "firstName": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          },
-          "careOf": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "$ref": "#/components/schemas/AddressDto"
-          }
-        }
-      },
-      "ItemsResultOfSiteProductDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/SiteProductDto"
-            }
-          },
-          "totalItems": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
       "SortDirection": {
         "type": "string",
         "description": "",
@@ -1451,14 +1592,22 @@
           }
         }
       },
-      "UserProfileDto": {
+      "CheckoutDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "customerNo": {
-            "type": "integer",
-            "format": "int32"
+          "billingDetails": {
+            "$ref": "#/components/schemas/BillingDetailsDto2"
           },
+          "shippingDetails": {
+            "$ref": "#/components/schemas/ShippingDetailsDto2"
+          }
+        }
+      },
+      "BillingDetailsDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
           "firstName": {
             "type": "string"
           },
@@ -1466,266 +1615,146 @@
             "type": "string"
           },
           "ssn": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
             "type": "string"
           },
           "email": {
             "type": "string"
           },
-          "phone": {
-            "type": "string"
-          },
-          "phoneMobile": {
-            "type": "string"
+          "address": {
+            "$ref": "#/components/schemas/AddressDto"
           }
         }
       },
-      "AddressDto2": {
+      "ShippingDetailsDto2": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "careOf": {
+            "type": "string",
+            "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressDto"
+          }
+        }
+      },
+      "SiteCartDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
           "id": {
             "type": "string"
           },
-          "type": {
-            "$ref": "#/components/schemas/AddressType"
-          },
-          "thoroughfare": {
-            "type": "string"
-          },
-          "premises": {
-            "type": "string",
-            "nullable": true
-          },
-          "subPremises": {
-            "type": "string",
-            "nullable": true
-          },
-          "postalCode": {
-            "type": "string"
-          },
-          "locality": {
-            "type": "string"
-          },
-          "subAdministrativeArea": {
-            "type": "string"
-          },
-          "administrativeArea": {
-            "type": "string"
-          },
-          "country": {
-            "type": "string"
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SiteCartItemDto"
+            }
           }
         }
       },
-      "AddressType": {
+      "SiteCartItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "product": {
+            "$ref": "#/components/schemas/SiteProductDto"
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "number",
+            "format": "decimal"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "AddCartItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "productId": {
+            "type": "string",
+            "nullable": true
+          },
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "UpdateCartItemDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "quantity": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "EventData": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "eventType": {
+            "$ref": "#/components/schemas/EventType"
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": {}
+          }
+        }
+      },
+      "EventType": {
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "Delivery",
-          "Billing"
+          "ItemViewed",
+          "ItemGroupViewed"
         ],
         "enum": [
-          "delivery",
-          "billing"
+          "itemViewed",
+          "itemGroupViewed"
         ]
       },
-      "ItemsResultOfOrderDto": {
+      "Coordinates": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderDto"
-            }
-          },
-          "totalItems": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "OrderDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "orderNo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "date": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "status": {
-            "$ref": "#/components/schemas/OrderStatusDto"
-          },
-          "assigneeId": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
-          },
-          "customerId": {
-            "type": "string",
-            "nullable": true
-          },
-          "currency": {
-            "type": "string"
-          },
-          "billingDetails": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/BillingDetailsDto"
-              }
-            ]
-          },
-          "shippingDetails": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ShippingDetailsDto"
-              }
-            ]
-          },
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OrderItemDto"
-            }
-          },
-          "subTotal": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "vat": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "total": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "created": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
-          },
-          "lastModified": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "lastModifiedBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
-          }
-        }
-      },
-      "OrderStatusDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "UserDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          }
-        }
-      },
-      "OrderItemDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "itemId": {
-            "type": "string",
-            "nullable": true
-          },
-          "unit": {
-            "type": "string",
-            "nullable": true
-          },
-          "unitPrice": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "quantity": {
+          "latitude": {
             "type": "number",
             "format": "double"
           },
-          "vatRate": {
+          "longitude": {
             "type": "number",
             "format": "double"
-          },
-          "total": {
-            "type": "number",
-            "format": "decimal"
-          },
-          "notes": {
-            "type": "string",
-            "nullable": true
-          },
-          "created": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "createdBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
-          },
-          "lastModified": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "lastModifiedBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
           }
         }
       }

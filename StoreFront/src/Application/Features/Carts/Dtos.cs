@@ -24,7 +24,7 @@ public class Option
     public string Name { get; set; } = null!;
 
     public int OptionType { get; set; }
-
+    
     public string? ProductId { get; set; }
 
     public decimal? Price { get; set; }

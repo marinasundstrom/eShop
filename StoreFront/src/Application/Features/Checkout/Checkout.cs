@@ -8,8 +8,8 @@ using YourBrand.StoreFront.Application.Features.Carts;
 namespace YourBrand.StoreFront.Application.Features.Checkout;
 
 public sealed record Checkout(
-    YourBrand.Orders.BillingDetailsDto BillingDetails,
-    YourBrand.Orders.ShippingDetailsDto ShippingDetails)
+    BillingDetailsDto BillingDetails,
+    ShippingDetailsDto ShippingDetails)
     : IRequest
 {
     sealed class Handler : IRequestHandler<Checkout>
@@ -137,8 +137,22 @@ public sealed record Checkout(
             await _ordersClient.CreateOrderAsync(new YourBrand.Orders.CreateOrderRequest()
             {
                 CustomerId = customerId?.ToString(),
-                BillingDetails = request.BillingDetails,
-                ShippingDetails = request.ShippingDetails,
+                BillingDetails = new Orders.BillingDetailsDto
+                {
+                    FirstName = request.BillingDetails.FirstName,
+                    LastName = request.BillingDetails.LastName,
+                    Ssn = request.BillingDetails.SSN,
+                    Email = request.BillingDetails.Email,
+                    PhoneNumber = request.BillingDetails.PhoneNumber,
+                    Address = Map(request.BillingDetails.Address)
+                },
+                ShippingDetails = new Orders.ShippingDetailsDto
+                {
+                    FirstName = request.ShippingDetails.FirstName,
+                    LastName = request.ShippingDetails.LastName,
+                    CareOf = request.ShippingDetails.CareOf,
+                    Address = Map(request.ShippingDetails.Address)
+                },
                 Items = items.ToList()
             }, cancellationToken);
 
@@ -159,6 +173,21 @@ public sealed record Checkout(
             await cartHubService.UpdateCart();
 
             return Unit.Value;
+        }
+
+        private Orders.AddressDto Map(AddressDto address)
+        {
+            return new()
+            {
+                Thoroughfare = address.Thoroughfare,
+                Premises = address.Premises,
+                SubPremises = address.SubPremises,
+                PostalCode = address.PostalCode,
+                Locality = address.Locality,
+                SubAdministrativeArea = address.SubAdministrativeArea,
+                AdministrativeArea = address.AdministrativeArea,
+                Country = address.Country
+            };
         }
 
         private static decimal CalculatePrice(YourBrand.Catalog.ProductDto item, IEnumerable<Option>? options)

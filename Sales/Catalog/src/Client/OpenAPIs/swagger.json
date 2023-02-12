@@ -2747,6 +2747,9 @@
               }
             ]
           },
+          "isRequired": {
+            "type": "boolean"
+          },
           "productId": {
             "type": "string",
             "nullable": true

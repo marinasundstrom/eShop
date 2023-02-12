@@ -277,7 +277,7 @@
 
         await CheckoutClient.CheckoutAsync(new CheckoutDto
         {
-            BillingDetails = new BillingDetailsDto
+            BillingDetails = new BillingDetailsDto2
             {
                 FirstName = FirstName,
                 LastName = LastName,
@@ -287,14 +287,14 @@
                 Address = Map(BillingAddress)
             },
             ShippingDetails = ShipToSameAddress ?
-            new ShippingDetailsDto
+            new ShippingDetailsDto2
             {
                 FirstName = FirstName,
                 LastName = LastName,
                 CareOf = string.Empty,
                 Address = Map(BillingAddress),
             }
-            : new ShippingDetailsDto
+            : new ShippingDetailsDto2
             {
                 FirstName = ShippingDetails.FirstName,
                 LastName = ShippingDetails.LastName,

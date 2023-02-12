@@ -56,7 +56,7 @@ public record GetProductOptions(string ProductId, string? VariantId) : IRequest<
                 options.AddRange(item.ProductOptions.Select(x => x.Option));
             }
 
-            return options.Select(x => new OptionDto(x.Id, x.Name, x.Description, (OptionType)x.OptionType, x.Group == null ? null : new OptionGroupDto(x.Group.Id, x.Group.Name, x.Group.Description, x.Group.Seq, x.Group.Min, x.Group.Max), x.SKU, x.Price, x.IsSelected,
+            return options.Select(x => new OptionDto(x.Id, x.Name, x.Description, (OptionType)x.OptionType, x.Group == null ? null : new OptionGroupDto(x.Group.Id, x.Group.Name, x.Group.Description, x.Group.Seq, x.Group.Min, x.Group.Max), x.IsRequired, x.SKU, x.Price, x.IsSelected,
                 x.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.SKU, x.Price, x.Seq)),
                 x.DefaultValue == null ? null : new OptionValueDto(x.DefaultValue.Id, x.DefaultValue.Name, x.DefaultValue.SKU, x.DefaultValue.Price, x.DefaultValue.Seq), x.MinNumericalValue, x.MaxNumericalValue, x.DefaultNumericalValue, x.TextValueMinLength, x.TextValueMaxLength, x.DefaultTextValue));
         }

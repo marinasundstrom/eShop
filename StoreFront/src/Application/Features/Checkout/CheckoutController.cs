@@ -29,7 +29,7 @@ public class CheckoutController : ControllerBase
 
 public class CheckoutDto
 {
-    public YourBrand.Orders.BillingDetailsDto BillingDetails { get; set; } = null!;
+    public BillingDetailsDto BillingDetails { get; set; } = null!;
 
-    public YourBrand.Orders.ShippingDetailsDto ShippingDetails { get; set; } = null!;
+    public ShippingDetailsDto ShippingDetails { get; set; } = null!;
 }

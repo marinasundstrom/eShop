@@ -29,7 +29,10 @@
         {
             <button type="button" class="btn btn-primary" @onclick="async () => await OnAddItemToCartClicked.InvokeAsync(Product)" @onclick:preventDefault>+ <i class="fa fa-shopping-basket"></i></button>
         }
-        <a href="/products/@Product.Id" class="btn btn-outline-secondary">Customize</a>
+        @if(Product.Options.Any(/* x => x.IsRequired */)) 
+        {
+            <a href="/products/@Product.Id" class="btn btn-outline-secondary">Customize</a>
+        }
     </div>
 </div>
 
