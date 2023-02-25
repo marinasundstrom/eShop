@@ -34,7 +34,12 @@ public class CustomMessageHandler : System.Net.Http.DelegatingHandler
                 }
                 catch (Exception exc)
                 {
-                    token = await _refreshTokenService.TryRefreshToken();
+                    await localStorageService.RemoveItemAsync("authToken");
+                    await localStorageService.RemoveItemAsync("refreshToken");
+
+                    navigationManager.NavigateTo("/login");
+
+                    return await base.SendAsync(request, cancellationToken);
                 }
 
                 if (string.IsNullOrEmpty(token))
