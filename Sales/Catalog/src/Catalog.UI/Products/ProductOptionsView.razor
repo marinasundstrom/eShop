@@ -29,11 +29,14 @@
     </ToolBarContent>
     <HeaderContent>
         <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.DefaultValue?.Name)">Value</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.OptionType)">Type</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.IsRequired)">Is Required</MudTableSortLabel></MudTh>
+        <MudTh>Default Value</MudTh>
+        <MudTh>Price</MudTh>
         <MudTh Style="text-align:right"></MudTh>
     </HeaderContent>
     <GroupHeaderTemplate>
-        <MudTh Class="mud-table-cell-custom-group py-4" colspan="4">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
+        <MudTh Class="mud-table-cell-custom-group py-4" colspan="6">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
         @*
         <MudTh Class="mud-table-cell-custom-group py-4" Style="text-align:right">
             <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionGroupDialog(null!)" />
@@ -42,7 +45,10 @@
     </GroupHeaderTemplate>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Value">@context.DefaultValue?.Name</MudTd>
+        <MudTd DataLabel="Type">@context.OptionType</MudTd>
+        <MudTd DataLabel="Is Required">@context.IsRequired</MudTd>
+        <MudTd DataLabel="Default Value">@((context.OptionType == OptionType.YesOrNo ? (context.IsSelected ? "Yes" : "No") : null) ?? context.DefaultValue?.Name ?? context.DefaultNumericalValue?.ToString() ?? context.DefaultTextValue)</MudTd>
+        <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
         <MudTd Style="text-align:right">
             <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionDialog(context)" />
             <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteOption(context.Id)" />
