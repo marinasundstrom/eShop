@@ -21,7 +21,8 @@ public record GetOption(string OptionId) : IRequest<OptionDto>
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(pv => pv.Group)
-                .Include(pv => pv.Values)
+                .Include(pv => (pv as ChoiceOption)!.Values)
+                .Include(pv => (pv as ChoiceOption)!.DefaultValue)
                 .FirstAsync(o => o.Id == request.OptionId);
 
             return option.ToDto();

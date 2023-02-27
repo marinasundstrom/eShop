@@ -11,6 +11,19 @@ public class OptionConfiguration : IEntityTypeConfiguration<Option>
     {
         builder.ToTable("Options");
 
+        builder.HasDiscriminator(x => x.OptionType)
+            .HasValue(typeof(SelectableOption), Domain.Enums.OptionType.YesOrNo)
+            .HasValue(typeof(ChoiceOption), Domain.Enums.OptionType.Choice)
+            .HasValue(typeof(NumericalValueOption), Domain.Enums.OptionType.NumericalValue)
+            .HasValue(typeof(TextValueOption), Domain.Enums.OptionType.TextValue);
+    }
+}
+
+
+public class ChoiceOptionConfiguration : IEntityTypeConfiguration<ChoiceOption>
+{
+    public void Configure(EntityTypeBuilder<ChoiceOption> builder)
+    {
         builder
             .HasMany(p => p.Values)
             .WithOne(p => p.Option);

@@ -47,7 +47,7 @@
         <MudTd DataLabel="Name">@context.Name</MudTd>
         <MudTd DataLabel="Type">@context.OptionType</MudTd>
         <MudTd DataLabel="Is Required">@context.IsRequired</MudTd>
-        <MudTd DataLabel="Default Value">@((context.OptionType == OptionType.YesOrNo ? (context.IsSelected ? "Yes" : "No") : null) ?? context.DefaultValue?.Name ?? context.DefaultNumericalValue?.ToString() ?? context.DefaultTextValue)</MudTd>
+        <MudTd DataLabel="Default Value">@((context.OptionType == OptionType.YesOrNo ? (context.IsSelected.GetValueOrDefault() ? "Yes" : "No") : null) ?? context.DefaultValue?.Name ?? context.DefaultNumericalValue?.ToString() ?? context.DefaultTextValue)</MudTd>
         <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
         <MudTd Style="text-align:right">
             <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionDialog(context)" />

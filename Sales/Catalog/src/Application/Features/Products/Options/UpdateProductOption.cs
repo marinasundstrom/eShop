@@ -24,7 +24,7 @@ public record UpdateProductOption(string ProductId, string OptionId, ApiUpdatePr
             .FirstAsync(x => x.Id == request.ProductId);
 
             var option = await _context.Options
-                .Include(x => x.Values)
+                .Include(x => (x as ChoiceOption)!.Values)
                 .Include(x => x.Group)
                 .FirstAsync(x => x.Id == request.OptionId);
 
@@ -33,64 +33,82 @@ public record UpdateProductOption(string ProductId, string OptionId, ApiUpdatePr
 
             option.Name = request.Data.Name;
             option.Description = request.Data.Description;
-            option.SKU = request.Data.SKU;
             option.Group = group;
-            option.IsSelected = request.Data.IsSelected;
-            option.Price = request.Data.Price;
-            option.OptionType = (Domain.Enums.OptionType)request.Data.OptionType;
 
-            option.MinNumericalValue = request.Data.MinNumericalValue;
-            option.MaxNumericalValue = request.Data.MaxNumericalValue;
-            option.DefaultNumericalValue = request.Data.DefaultNumericalValue;
-
-            option.TextValueMinLength = request.Data.TextValueMinLength;
-            option.TextValueMaxLength = request.Data.TextValueMaxLength;
-            option.DefaultTextValue = request.Data.DefaultTextValue;
-
-            foreach (var v in request.Data.Values)
+            if (option.OptionType == Domain.Enums.OptionType.YesOrNo) 
             {
-                if (v.Id == null)
+                if(option is SelectableOption selectableOption) 
                 {
-                    var value = new OptionValue(v.Name)
-                    {
-                        SKU = v.SKU,
-                        Price = v.Price
-                    };
-
-                    option.Values.Add(value);
-                    _context.OptionValues.Add(value);
-                }
-                else
-                {
-                    var value = option.Values.First(x => x.Id == v.Id);
-
-                    value.Name = v.Name;
-                    value.SKU = v.SKU;
-                    value.Price = v.Price;
+                    selectableOption.IsSelected = request.Data.IsSelected.GetValueOrDefault();
+                    selectableOption.SKU = request.Data.SKU;
+                    selectableOption.Price = request.Data.Price;
                 }
             }
-
-            option.DefaultValueId = option.Values.FirstOrDefault(x => x.Id == request.Data.DefaultOptionValueId)?.Id;
-
-            foreach (var v in option.Values.ToList())
+            else if(option.OptionType == Domain.Enums.OptionType.NumericalValue) 
             {
-                if (_context.Entry(v).State == EntityState.Added)
-                    continue;
-
-                var value = request.Data.Values.FirstOrDefault(x => x.Id == v.Id);
-
-                if (value is null)
+                if(option is NumericalValueOption numericalValue) 
                 {
-                    option.Values.Remove(v);
+                    numericalValue.MinNumericalValue = request.Data.MinNumericalValue;
+                    numericalValue.MaxNumericalValue = request.Data.MaxNumericalValue;
+                    numericalValue.DefaultNumericalValue = request.Data.DefaultNumericalValue;
+                }
+            }
+            else if(option.OptionType == Domain.Enums.OptionType.TextValue) 
+            {
+                if(option is TextValueOption textValueOption) 
+                {
+                    textValueOption.TextValueMinLength = request.Data.TextValueMinLength;
+                    textValueOption.TextValueMaxLength = request.Data.TextValueMaxLength;
+                    textValueOption.DefaultTextValue = request.Data.DefaultTextValue;
+                }
+            }
+            else if(option.OptionType == Domain.Enums.OptionType.Choice) 
+            {
+                if(option is ChoiceOption choiceOption) 
+                {
+                    foreach (var v in request.Data.Values)
+                    {
+                        if (v.Id == null)
+                        {
+                            var value = new OptionValue(v.Name)
+                            {
+                                SKU = v.SKU,
+                                Price = v.Price
+                            };
+
+                            choiceOption.Values.Add(value);
+                            _context.OptionValues.Add(value);
+                        }
+                        else
+                        {
+                            var value = choiceOption!.Values.First(x => x.Id == v.Id);
+
+                            value.Name = v.Name;
+                            value.SKU = v.SKU;
+                            value.Price = v.Price;
+                        }
+                    }
+
+                    choiceOption!.DefaultValueId = choiceOption!.Values.FirstOrDefault(x => x.Id == request.Data.DefaultOptionValueId)?.Id;
+
+                    foreach (var v in choiceOption!.Values.ToList())
+                    {
+                        if (_context.Entry(v).State == EntityState.Added)
+                            continue;
+
+                        var value = request.Data.Values.FirstOrDefault(x => x.Id == v.Id);
+
+                        if (value is null)
+                        {
+                            choiceOption!.Values.Remove(v);
+                        }
+                    }
                 }
             }
 
             await _context.SaveChangesAsync();
 
-            return new OptionDto(option.Id, option.Name, option.Description, (OptionType)option.OptionType, option.Group == null ? null : new OptionGroupDto(option.Group.Id, option.Group.Name, option.Group.Description, option.Group.Seq, option.Group.Min, option.Group.Max), option.IsRequired, option.SKU, option.Price, option.IsSelected,
-                option.Values.Select(x => new OptionValueDto(x.Id, x.Name, x.SKU, x.Price, x.Seq)),
-                option.DefaultValue == null ? null : new OptionValueDto(option.DefaultValue.Id, option.DefaultValue.Name, option.DefaultValue.SKU, option.DefaultValue.Price, option.DefaultValue.Seq), option.MinNumericalValue, option.MaxNumericalValue, option.DefaultNumericalValue, option.TextValueMinLength, option.TextValueMaxLength, option.DefaultTextValue);
-
+            return option.ToDto();
         }
     }
 }

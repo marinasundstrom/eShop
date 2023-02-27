@@ -21,8 +21,8 @@ public record GetOptions(bool IncludeChoices) : IRequest<IEnumerable<OptionDto>>
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(o => o.Group)
-                .Include(o => o.Values)
-                .Include(o => o.DefaultValue)
+                .Include(o => (o as ChoiceOption)!.Values)
+                .Include(o => (o as ChoiceOption)!.DefaultValue)
                 .AsQueryable();
 
             /*

@@ -2760,7 +2760,8 @@
             "nullable": true
           },
           "isSelected": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "values": {
             "type": "array",
@@ -2980,7 +2981,8 @@
             ]
           },
           "isSelected": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "sku": {
             "type": "string",
@@ -3065,11 +3067,9 @@
             "type": "string",
             "nullable": true
           },
-          "optionType": {
-            "$ref": "#/components/schemas/OptionType"
-          },
           "isSelected": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "sku": {
             "type": "string",

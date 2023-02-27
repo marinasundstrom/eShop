@@ -20,14 +20,14 @@ public record DeleteProductOptionValue(string ProductId, string OptionId, string
             var item = await _context.Products
              .AsSplitQuery()
              .Include(pv => pv.Options)
-             .ThenInclude(pv => pv.Values)
+             .ThenInclude(pv => (pv as ChoiceOption)!.Values)
              .FirstAsync(p => p.Id == request.ProductId);
 
             var option = item.Options.First(o => o.Id == request.OptionId);
 
-            var value = option.Values.First(o => o.Id == request.ValueId);
+            var value = (option as ChoiceOption)!.Values.First(o => o.Id == request.ValueId);
 
-            option.Values.Remove(value);
+            (option as ChoiceOption)!.Values.Remove(value);
             _context.OptionValues.Remove(value);
 
             await _context.SaveChangesAsync();

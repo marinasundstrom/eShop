@@ -13,12 +13,7 @@
 
                 <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
-                <MudSelect Label="Option Type" Variant="Variant.Outlined" Class="mb-6" @bind-Value="OptionType" For="() => OptionType">
-                    @foreach(var optionType in Enum.GetValues<OptionType>())
-                    {
-                        <MudSelectItem Value="@optionType">@Enum.GetName(typeof(OptionType), optionType)</MudSelectItem>
-                    }     
-                </MudSelect>
+                <MudField Label="Option Type" Variant="Variant.Outlined" Class="mb-6">@OptionType</MudField>
 
                 @if (Groups is not null)
                 {
@@ -92,6 +87,8 @@
                             <MudSelectItem Value="@value">@value.Name</MudSelectItem>
                         }
                     </MudSelect>
+
+                    <MudCheckBox Label="Is required" Class="mb-6" Variant="Variant.Outlined" @bind-Checked="IsRequired" For="() => IsRequired" />
                 }
                 else if (OptionType == OptionType.TextValue)
                 {
@@ -133,17 +130,19 @@
     [Required]
     public string Name { get; set; }
 
-    public OptionType OptionType { get; set; }
-
     public string Description { get; set; }
+
+    public OptionType OptionType { get; set; }
 
     public OptionGroupDto? Group { get; set; }
 
-    public bool IsSelected { get; set; }
+    public bool? IsSelected { get; set; }
 
     public string? Id { get; set; }
 
     public decimal? Price { get; set; }
+
+    public bool IsRequired { get; set; }
 
     [ValidateComplexType]
     public List<OptionValueVM> Values { get; set; } = new List<OptionValueVM>();
@@ -169,6 +168,7 @@
         Price = Option.Price;
         Id = Option.Id;
         OptionType = Option.OptionType;
+        IsRequired = Option.IsRequired;
 
         MinNumericalValue = Option.MinNumericalValue;
         MaxNumericalValue = Option.MaxNumericalValue;
@@ -218,10 +218,9 @@
         var data = new ApiUpdateProductOption
         {
             Name = Name,
-            OptionType = OptionType,
             Description = Description,
             GroupId = Group?.Id,
-            IsSelected = IsSelected,
+            IsSelected = IsSelected.GetValueOrDefault(),
             Sku = Id,
             Price = Price,
             Values = Values.Select(x => new ApiUpdateProductOptionValue()
@@ -232,6 +231,7 @@
                 Price = x.Price
             }).ToList(),
             DefaultOptionValueId = SelectedValue?.Id,
+            //IsRequired = IsRequired,
 
             MinNumericalValue = MinNumericalValue,
             MaxNumericalValue = MaxNumericalValue,

@@ -31,7 +31,7 @@ public record CreateProductOptionValue(string ProductId, string OptionId, ApiCre
                 Price = request.Data.Price
             };
 
-            option.Values.Add(value);
+            (option as ChoiceOption)!.Values.Add(value);
 
             await _context.SaveChangesAsync();
 

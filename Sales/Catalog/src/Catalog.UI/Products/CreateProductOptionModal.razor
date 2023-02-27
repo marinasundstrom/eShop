@@ -91,6 +91,8 @@
                             <MudSelectItem Value="@value">@value.Name</MudSelectItem>
                         }
                     </MudSelect>
+
+                    <MudCheckBox Label="Is required" Class="mb-6" Variant="Variant.Outlined" @bind-Checked="IsRequired" For="() => IsRequired" />
                 }
                 else if (OptionType == OptionType.TextValue)
                 {
@@ -140,6 +142,8 @@
     public string? Id { get; set; }
 
     public decimal? Price { get; set; }
+
+    public bool IsRequired { get; set; }
 
     [ValidateComplexType]
     public List<OptionValueVM> Values { get; set; } = new List<OptionValueVM>();
@@ -195,6 +199,7 @@
                 Price = x.Price
             }).ToList() : Array.Empty<ApiCreateProductOptionValue>().ToList(),
             DefaultOptionValueId = SelectedValue?.Id,
+            //IsRequired = IsRequired,
 
             MinNumericalValue = MinNumericalValue,
             MaxNumericalValue = MaxNumericalValue,

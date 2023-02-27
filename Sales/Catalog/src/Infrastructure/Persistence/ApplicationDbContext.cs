@@ -73,6 +73,14 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Option> Options { get; set; } = null!;
 
+    public DbSet<SelectableOption> SelectableOptions { get; set; } = null!;
+
+    public DbSet<ChoiceOption> ChoiceOptions { get; set; } = null!;
+
+    public DbSet<NumericalValueOption> NumericalValueOptions { get; set; } = null!;
+
+    public DbSet<TextValueOption> TextValueOptions { get; set; } = null!;
+
     public DbSet<OptionValue> OptionValues { get; set; } = null!;
 
 

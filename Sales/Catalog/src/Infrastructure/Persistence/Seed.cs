@@ -249,10 +249,7 @@ public static class Seed
 
         item.Variants.Add(variantRedLarge);
 
-        var textOption = new Domain.Entities.Option("Custom text")
-        {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.TextValue
-        };
+        var textOption = new Domain.Entities.TextValueOption("Custom text");
 
         item.Options.Add(textOption);
     }
@@ -269,7 +266,7 @@ public static class Seed
 
         context.Products.Add(item);
 
-        var option = new Option("Sås");
+        var option = new ChoiceOption("Sås");
         item.Options.Add(option);
 
         await context.SaveChangesAsync();
@@ -303,7 +300,7 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        var optionDoneness = new Option("Stekning");
+        var optionDoneness = new ChoiceOption("Stekning");
 
         item.Options.Add(optionDoneness);
 
@@ -328,7 +325,7 @@ public static class Seed
 
         optionDoneness.DefaultValue = optionMediumRare;
 
-        var optionSize = new Option("Extra stor - 50 g mer")
+        var optionSize = new SelectableOption("Extra stor - 50 g mer")
         {
             Price = 15
         };
@@ -359,25 +356,22 @@ public static class Seed
 
         item.OptionGroups.Add(ratterGroup);
 
-        var optionFalafel = new Option("Falafel")
+        var optionFalafel = new NumericalValueOption("Falafel")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.NumericalValue,
             Group = ratterGroup
         };
 
         item.Options.Add(optionFalafel);
 
-        var optionChickenWing = new Option("Spicy Chicken Wing")
+        var optionChickenWing = new NumericalValueOption("Spicy Chicken Wing")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.NumericalValue,
             Group = ratterGroup
         };
 
         item.Options.Add(optionChickenWing);
 
-        var optionRib = new Option("Rib")
+        var optionRib = new NumericalValueOption("Rib")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.NumericalValue,
             Group = ratterGroup
         };
 
@@ -392,9 +386,8 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        var optionSauce = new Option("Sås")
+        var optionSauce = new SelectableOption("Sås")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Price = 10,
             Group = extraGroup
         };
@@ -462,7 +455,7 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        var optionStyle = new Option("Style");
+        var optionStyle = new ChoiceOption("Style");
 
         item.Options.Add(optionStyle);
 
@@ -478,18 +471,16 @@ public static class Seed
 
         optionStyle.Values.Add(valueAmerican);
 
-        var optionHam = new Option("Ham")
+        var optionHam = new SelectableOption("Ham")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = meatGroup,
             Price = 15
         };
 
         item.Options.Add(optionHam);
 
-        var optionKebab = new Option("Kebab")
+        var optionKebab = new SelectableOption("Kebab")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = meatGroup,
             Price = 10,
             IsSelected = true
@@ -497,27 +488,24 @@ public static class Seed
 
         item.Options.Add(optionKebab);
 
-        var optionChicken = new Option("Chicken")
+        var optionChicken = new SelectableOption("Chicken")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = meatGroup,
             Price = 10
         };
 
         item.Options.Add(optionChicken);
 
-        var optionExtraCheese = new Option("Extra cheese")
+        var optionExtraCheese = new SelectableOption("Extra cheese")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = toppingsGroup,
             Price = 5
         };
 
         item.Options.Add(optionExtraCheese);
 
-        var optionGreenOlives = new Option("Green Olives")
+        var optionGreenOlives = new SelectableOption("Green Olives")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = toppingsGroup,
             Price = 5
         };
@@ -571,7 +559,7 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        var optionBase = new Option("Bas")
+        var optionBase = new ChoiceOption("Bas")
         {
             Group = baseGroup
         };
@@ -598,153 +586,134 @@ public static class Seed
 
         optionBase.Values.Add(valueSalladNudlar);
 
-        var optionChicken = new Option("Kycklingfilé")
+        var optionChicken = new SelectableOption("Kycklingfilé")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionChicken);
 
-        var optionSmokedTurkey = new Option("Rökt kalkonfilé")
+        var optionSmokedTurkey = new SelectableOption("Rökt kalkonfilé")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionSmokedTurkey);
 
-        var optionBeanMix = new Option("Marinerad bönmix")
+        var optionBeanMix = new SelectableOption("Marinerad bönmix")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionBeanMix);
 
-        var optionVegMe = new Option("VegMe")
+        var optionVegMe = new SelectableOption("VegMe")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionVegMe);
 
-        var optionChevre = new Option("Chevré")
+        var optionChevre = new SelectableOption("Chevré")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionChevre);
 
-        var optionSmokedSalmon = new Option("Varmrökt lax")
+        var optionSmokedSalmon = new SelectableOption("Varmrökt lax")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionSmokedSalmon);
 
-        var optionPrawns = new Option("Handskalade räkor")
+        var optionPrawns = new SelectableOption("Handskalade räkor")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = proteinGroup
         };
 
         item.Options.Add(optionPrawns);
 
-        var optionCheese = new Option("Parmesanost")
+        var optionCheese = new SelectableOption("Parmesanost")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
         item.Options.Add(optionCheese);
 
-        var optionGreenOlives = new Option("Gröna oliver")
+        var optionGreenOlives = new SelectableOption("Gröna oliver")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
         item.Options.Add(optionGreenOlives);
 
-        var optionSoltorkadTomat = new Option("Soltorkade tomater")
+        var optionSoltorkadTomat = new SelectableOption("Soltorkade tomater")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
         item.Options.Add(optionSoltorkadTomat);
 
-        var optionInlagdRödlök = new Option("Inlagd rödlök")
+        var optionInlagdRödlök = new SelectableOption("Inlagd rödlök")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = additionalGroup
         };
 
         item.Options.Add(optionInlagdRödlök);
 
-        var optionRostadAioli = new Option("Rostad aioli")
+        var optionRostadAioli = new SelectableOption("Rostad aioli")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionRostadAioli);
 
-        var optionPesto = new Option("Pesto")
+        var optionPesto = new SelectableOption("Pesto")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionPesto);
 
-        var optionOrtvinagret = new Option("Örtvinägrett")
+        var optionOrtvinagret = new SelectableOption("Örtvinägrett")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionOrtvinagret);
 
-        var optionSoyavinagret = new Option("Soyavinägrett")
+        var optionSoyavinagret = new SelectableOption("Soyavinägrett")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionSoyavinagret);
 
-        var optionRhodeIsland = new Option("Rhode Island")
+        var optionRhodeIsland = new SelectableOption("Rhode Island")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionRhodeIsland);
 
-        var optionKimchimayo = new Option("Kimchimayo")
+        var optionKimchimayo = new SelectableOption("Kimchimayo")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionKimchimayo);
 
-        var optionCaesar = new Option("Caesar")
+        var optionCaesar = new SelectableOption("Caesar")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 
         item.Options.Add(optionCaesar);
 
-        var optionCitronLime = new Option("Citronlime")
+        var optionCitronLime = new SelectableOption("Citronlime")
         {
-            OptionType = YourBrand.Catalog.Domain.Enums.OptionType.YesOrNo,
             Group = dressingGroup
         };
 

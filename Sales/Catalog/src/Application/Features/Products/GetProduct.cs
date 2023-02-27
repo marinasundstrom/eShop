@@ -34,9 +34,9 @@ public record GetProduct(string ProductId) : IRequest<ProductDto?>
                 .Include(pv => pv.Options)
                     .ThenInclude(pv => pv.Group)
                 .Include(pv => pv.Options)
-                    .ThenInclude(pv => pv.Values)
+                    .ThenInclude(pv => (pv as ChoiceOption)!.Values)
                 .Include(pv => pv.Options)
-                    .ThenInclude(pv => pv.DefaultValue)
+                    .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
                 .FirstOrDefaultAsync(p => p.Id == request.ProductId);
 
             return item?.ToDto();

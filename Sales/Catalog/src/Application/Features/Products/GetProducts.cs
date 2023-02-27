@@ -31,9 +31,9 @@ public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, 
                 .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
                 .Include(pv => pv.Options)
-                .ThenInclude(pv => pv.Values)
+                .ThenInclude(pv => (pv as ChoiceOption)!.Values)
                 .Include(pv => pv.Options)
-                .ThenInclude(pv => pv.DefaultValue)
+                .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
                 .AsQueryable();
 
             if (request.StoreId is not null)

@@ -14,7 +14,7 @@ public class OptionValue : Entity<string>
 
     public int? Seq { get; set; }
 
-    public Option Option { get; set; } = null!;
+    public ChoiceOption Option { get; set; } = null!;
 
     public string Name { get; set; } = null!;
 
