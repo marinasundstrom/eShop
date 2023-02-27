@@ -107,8 +107,7 @@
             "name": "itemGroupId",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -116,8 +115,7 @@
             "name": "itemGroup2Id",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 2
           },
@@ -125,8 +123,7 @@
             "name": "itemGroup3Id",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 3
           },
@@ -154,8 +151,7 @@
             "name": "searchString",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 6
           },
@@ -163,8 +159,7 @@
             "name": "sortBy",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 7
           },
@@ -212,8 +207,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -244,8 +238,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -331,8 +324,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -378,8 +370,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -427,8 +418,7 @@
             "name": "parentGroupId",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -557,8 +547,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -594,8 +583,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -628,8 +616,7 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -653,8 +640,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -663,8 +649,7 @@
             "x-originalName": "sessionId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 2
           }
@@ -707,8 +692,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -717,8 +701,7 @@
             "x-originalName": "sessionId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 2
           }
@@ -781,8 +764,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -813,8 +795,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -823,8 +804,7 @@
             "x-originalName": "sessionId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 2
           }
@@ -946,35 +926,19 @@
             "$ref": "#/components/schemas/OrderStatusDto"
           },
           "assigneeId": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
+            "$ref": "#/components/schemas/UserDto"
           },
           "customerId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "currency": {
             "type": "string"
           },
           "billingDetails": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/BillingDetailsDto"
-              }
-            ]
+            "$ref": "#/components/schemas/BillingDetailsDto"
           },
           "shippingDetails": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/ShippingDetailsDto"
-              }
-            ]
+            "$ref": "#/components/schemas/ShippingDetailsDto"
           },
           "items": {
             "type": "array",
@@ -999,12 +963,7 @@
             "format": "date-time"
           },
           "createdBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
+            "$ref": "#/components/schemas/UserDto"
           },
           "lastModified": {
             "type": "string",
@@ -1012,12 +971,7 @@
             "nullable": true
           },
           "lastModifiedBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
+            "$ref": "#/components/schemas/UserDto"
           }
         }
       },
@@ -1057,8 +1011,7 @@
             "type": "string"
           },
           "ssn": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "phoneNumber": {
             "type": "string"
@@ -1079,12 +1032,10 @@
             "type": "string"
           },
           "premises": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "subPremises": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "postalCode": {
             "type": "string"
@@ -1114,8 +1065,7 @@
             "type": "string"
           },
           "careOf": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "address": {
             "$ref": "#/components/schemas/AddressDto2"
@@ -1133,12 +1083,10 @@
             "type": "string"
           },
           "itemId": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "unit": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "unitPrice": {
             "type": "number",
@@ -1157,20 +1105,14 @@
             "format": "decimal"
           },
           "notes": {
-            "type": "string",
-            "nullable": true
+            "type": "string"
           },
           "created": {
             "type": "string",
             "format": "date-time"
           },
           "createdBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
+            "$ref": "#/components/schemas/UserDto"
           },
           "lastModified": {
             "type": "string",
@@ -1178,12 +1120,7 @@
             "nullable": true
           },
           "lastModifiedBy": {
-            "nullable": true,
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/UserDto"
-              }
-            ]
+            "$ref": "#/components/schemas/UserDto"
           }
         }
       },
@@ -1436,7 +1373,8 @@
             "nullable": true
           },
           "isSelected": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "values": {
             "type": "array",

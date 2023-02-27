@@ -170,7 +170,7 @@ public class ProductViewModel
                     OptionType = option.OptionType,
                     Price = option.Price,
                     ProductId = option.ProductId,
-                    IsSelected = option.IsSelected,
+                    IsSelected = option.IsSelected.GetValueOrDefault(),
                     SelectedValueId = option.DefaultValue?.Id,
                     MinNumericalValue = option.MinNumericalValue,
                     MaxNumericalValue = option.MaxNumericalValue,

@@ -27,7 +27,7 @@ public sealed record FindProductVariantByAttributes(
 
         public async Task<SiteProductDto?> Handle(FindProductVariantByAttributes request, CancellationToken cancellationToken)
         {
-            var r = await _productsClient.FindVariantByAttributeValuesAsync(request.Id, request.Attributes, cancellationToken);
+            var r = await _productsClient.FindVariantByAttributeValuesAsync(request.Id, request.Attributes!, cancellationToken);
             return r?.ToDto();
         }
     }

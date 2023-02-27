@@ -90,6 +90,8 @@ foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
         };
         config.ApiGroupNames = new[] { description.ApiVersion.ToString() };
 
+        config.DefaultReferenceTypeNullHandling = NJsonSchema.Generation.ReferenceTypeNullHandling.NotNull;
+
         config.AddSecurity("JWT", new OpenApiSecurityScheme
         {
             Type = OpenApiSecuritySchemeType.ApiKey,
