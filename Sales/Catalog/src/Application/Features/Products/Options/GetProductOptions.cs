@@ -23,14 +23,11 @@ public record GetProductOptions(string ProductId, string? VariantId) : IRequest<
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(pv => pv.ProductOptions)
-                .ThenInclude(pv => pv.Option)
-                .ThenInclude(pv => pv.Group)
+                .ThenInclude(pv => pv.Option.Group)
                 .Include(pv => pv.ProductOptions)
-                .ThenInclude(pv => pv.Option)
-                .ThenInclude(pv => pv.Values)
+                .ThenInclude(pv => pv.Option.Values)
                 .Include(pv => pv.ProductOptions)
-                .ThenInclude(pv => pv.Option)
-                .ThenInclude(o => o.DefaultValue)
+                .ThenInclude(pv => pv.Option.DefaultValue)
                 .FirstAsync(p => p.Id == request.ProductId);
 
             var options = item.ProductOptions
@@ -43,14 +40,11 @@ public record GetProductOptions(string ProductId, string? VariantId) : IRequest<
                     .AsSplitQuery()
                     .AsNoTracking()
                     .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => pv.Option)
-                    .ThenInclude(pv => pv.Group)
+                    .ThenInclude(pv => pv.Option.Group)
                     .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => pv.Option)
-                    .ThenInclude(pv => pv.Values)
+                    .ThenInclude(pv => pv.Option.Values)
                     .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => pv.Option)
-                    .ThenInclude(o => o.DefaultValue)
+                    .ThenInclude(pv => pv.Option.DefaultValue)
                     .FirstAsync(p => p.Id == request.ProductId);
 
                 options.AddRange(item.ProductOptions.Select(x => x.Option));

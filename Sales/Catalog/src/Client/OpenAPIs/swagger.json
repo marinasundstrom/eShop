@@ -3004,6 +3004,35 @@
           "defaultOptionValueId": {
             "type": "string",
             "nullable": true
+          },
+          "minNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "maxNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMinLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMaxLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultTextValue": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -3062,6 +3091,35 @@
             }
           },
           "defaultOptionValueId": {
+            "type": "string",
+            "nullable": true
+          },
+          "minNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "maxNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultNumericalValue": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMinLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "textValueMaxLength": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "defaultTextValue": {
             "type": "string",
             "nullable": true
           }

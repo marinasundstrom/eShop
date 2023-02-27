@@ -12,16 +12,17 @@ public record class ApiCreateProductGroup(string? Id, string Name, string? Descr
 
 public record class ApiUpdateProductGroup(string Name, string? Description, string? ParentGroupId);
 
-public record class ApiCreateProductOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateProductOptionValue> Values, string? DefaultOptionValueId);
+public record class ApiCreateProductOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateProductOptionValue> Values, 
+    string? DefaultOptionValueId, int? MinNumericalValue, int? MaxNumericalValue, int? DefaultNumericalValue, int? TextValueMinLength, int? TextValueMaxLength, string? DefaultTextValue);
 
 public record class ApiAddProductAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiCreateProductAttributeValue> Values);
-
 
 public record class ApiCreateProductOptionValue(string Name, string? SKU, decimal? Price);
 
 public record class ApiCreateProductAttributeValue(string Name);
 
-public record class ApiUpdateProductOption(string Name, string? Description, OptionType OptionType, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiUpdateProductOptionValue> Values, string? DefaultOptionValueId);
+public record class ApiUpdateProductOption(string Name, string? Description, OptionType OptionType, bool IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiUpdateProductOptionValue> Values,
+    string? DefaultOptionValueId, int? MinNumericalValue, int? MaxNumericalValue, int? DefaultNumericalValue, int? TextValueMinLength, int? TextValueMaxLength, string? DefaultTextValue);
 
 public record class ApiUpdateProductAttribute(string Name, string? Description, bool ForVariant, bool IsMainAttribute, string? GroupId, IEnumerable<ApiUpdateProductAttributeValue> Values);
 

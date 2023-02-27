@@ -39,6 +39,14 @@ public record UpdateProductOption(string ProductId, string OptionId, ApiUpdatePr
             option.Price = request.Data.Price;
             option.OptionType = (Domain.Enums.OptionType)request.Data.OptionType;
 
+            option.MinNumericalValue = request.Data.MinNumericalValue;
+            option.MaxNumericalValue = request.Data.MaxNumericalValue;
+            option.DefaultNumericalValue = request.Data.DefaultNumericalValue;
+
+            option.TextValueMinLength = request.Data.TextValueMinLength;
+            option.TextValueMaxLength = request.Data.TextValueMaxLength;
+            option.DefaultTextValue = request.Data.DefaultTextValue;
+
             foreach (var v in request.Data.Values)
             {
                 if (v.Id == null)

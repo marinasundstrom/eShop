@@ -33,7 +33,15 @@ public record CreateProductOption(string ProductId, ApiCreateProductOption Data)
                 Group = group,
                 IsSelected = request.Data.IsSelected,
                 Price = request.Data.Price,
-                OptionType = (Domain.Enums.OptionType)request.Data.OptionType
+                OptionType = (Domain.Enums.OptionType)request.Data.OptionType,
+
+                MinNumericalValue = request.Data.MinNumericalValue,
+                MaxNumericalValue = request.Data.MaxNumericalValue,
+                DefaultNumericalValue = request.Data.DefaultNumericalValue,
+
+                TextValueMinLength = request.Data.TextValueMinLength,
+                TextValueMaxLength = request.Data.TextValueMaxLength,
+                DefaultTextValue = request.Data.DefaultTextValue,
             };
 
             foreach (var v in request.Data.Values)
