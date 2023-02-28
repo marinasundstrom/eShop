@@ -79,7 +79,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
 
                 foreach (var option in options)
                 {
-                    var opt = item.Options.FirstOrDefault(x => x.Id == option.Id);
+                    var opt = item.Options.FirstOrDefault(x => x.Option.Id == option.Id);
 
                     if (opt is not null)
                     {
@@ -87,7 +87,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                         {
                             var isSelected = option.IsSelected.GetValueOrDefault();
 
-                            if (!isSelected && isSelected != opt.IsSelected)
+                            if (!isSelected && isSelected != opt.Option.IsSelected)
                             {
                                 optionTexts.Add($"No {option.Name}");
 
@@ -111,7 +111,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                         }
                         else if (option.SelectedValueId is not null)
                         {
-                            var value = opt.Values.FirstOrDefault(x => x.Id == option.SelectedValueId)!;
+                            var value = opt.Option.Values.FirstOrDefault(x => x.Id == option.SelectedValueId)!;
 
                             price += value.Price.GetValueOrDefault();
                             compareAtPrice += value.Price.GetValueOrDefault();

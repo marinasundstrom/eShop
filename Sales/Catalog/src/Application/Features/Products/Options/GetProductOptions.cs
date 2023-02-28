@@ -6,9 +6,9 @@ using YourBrand.Catalog.Features.Options;
 
 namespace YourBrand.Catalog.Features.Products.Options;
 
-public record GetProductOptions(string ProductId, string? VariantId) : IRequest<IEnumerable<OptionDto>>
+public record GetProductOptions(string ProductId, string? VariantId) : IRequest<IEnumerable<ProductOptionDto>>
 {
-    public class Handler : IRequestHandler<GetProductOptions, IEnumerable<OptionDto>>
+    public class Handler : IRequestHandler<GetProductOptions, IEnumerable<ProductOptionDto>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -17,7 +17,7 @@ public record GetProductOptions(string ProductId, string? VariantId) : IRequest<
             _context = context;
         }
 
-        public async Task<IEnumerable<OptionDto>> Handle(GetProductOptions request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<ProductOptionDto>> Handle(GetProductOptions request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
                 .AsSplitQuery()
@@ -31,24 +31,7 @@ public record GetProductOptions(string ProductId, string? VariantId) : IRequest<
                 .FirstAsync(p => p.Id == request.ProductId);
 
             var options = item.ProductOptions
-                .Select(x => x.Option)
                 .ToList();
-
-            if (request.VariantId is not null)
-            {
-                item = await _context.Products
-                    .AsSplitQuery()
-                    .AsNoTracking()
-                    .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => pv.Option.Group)
-                    .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => (pv.Option as ChoiceOption)!.Values)
-                    .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => (pv.Option as ChoiceOption)!.DefaultValue)
-                    .FirstAsync(p => p.Id == request.ProductId);
-
-                options.AddRange(item.ProductOptions.Select(x => x.Option));
-            }
 
             return options.Select(x => x.ToDto());
         }

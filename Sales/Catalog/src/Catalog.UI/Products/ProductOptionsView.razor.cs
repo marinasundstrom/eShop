@@ -5,17 +5,17 @@ namespace YourBrand.Catalog.Products;
 
 partial class ProductOptionsView : ComponentBase
 {
-    MudTable<OptionDto> productOptionsTable = default!;
+    MudTable<ProductOptionDto> productOptionsTable = default!;
 
-    TableGroupDefinition<OptionDto> tableGroupDefinition = new TableGroupDefinition<OptionDto>()
+    TableGroupDefinition<ProductOptionDto> tableGroupDefinition = new TableGroupDefinition<ProductOptionDto>()
     {
         GroupName = "Group",
         Indentation = false,
         Expandable = true,
-        Selector = (e) => e.Group?.Name
+        Selector = (e) => e.Option.Group?.Name
     };
 
-    OptionDto? selectedProductOption;
+    ProductOptionDto? selectedProductOption;
 
     string? searchString;
 
@@ -25,14 +25,14 @@ partial class ProductOptionsView : ComponentBase
 
     [Parameter]
     [EditorRequired]
-    public IReadOnlyCollection<OptionDto> ProductOptions { get; set; } = default!;
+    public IReadOnlyCollection<ProductOptionDto> ProductOptions { get; set; } = default!;
 
-    private bool FilterOptionsFunc(OptionDto productOption)
+    private bool FilterOptionsFunc(ProductOptionDto productOption)
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
 
-        if (productOption.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase))
+        if (productOption.Option.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase))
             return true;
 
         return false;
@@ -72,11 +72,11 @@ partial class ProductOptionsView : ComponentBase
         ProductOptions = (await ProductsClient.GetProductOptionsAsync(ProductId, null)).ToList();
     }
 
-    async Task ShowEditOptionDialog(OptionDto option) 
+    async Task ShowEditOptionDialog(ProductOptionDto option) 
     {
         var parameters = new DialogParameters();
         parameters.Add(nameof(UpdateProductOptionModal.ProductId), ProductId);
-        parameters.Add(nameof(UpdateProductOptionModal.Option), option);
+        parameters.Add(nameof(UpdateProductOptionModal.Option), option.Option);
 
         var dialogRef = await DialogService.ShowAsync<UpdateProductOptionModal>("Edit option", parameters);
 

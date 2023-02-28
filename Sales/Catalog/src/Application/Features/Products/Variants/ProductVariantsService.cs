@@ -22,6 +22,15 @@ public class ProductsService
                 .ThenInclude(pv => pv.Attribute)
             .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
+            .Include(pv => pv.ProductOptions)
+                .ThenInclude(pv => pv.Option)
+                .ThenInclude(pv => pv.Group)
+            .Include(pv => pv.ProductOptions)
+                .ThenInclude(pv => pv.Option)
+                .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
+            .Include(pv => pv.ProductOptions)
+                .ThenInclude(pv => pv.Option)
+                .ThenInclude(pv => (pv as ChoiceOption)!.Values)
             .Where(pv => pv.ParentProduct!.Id == productId)
             .AsQueryable();
 

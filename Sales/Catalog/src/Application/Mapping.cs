@@ -29,7 +29,7 @@ public static class Mapping
                item.HasVariants,
                (ProductVisibility?)item.Visibility,
                item.ProductAttributes.Select(x => x.ToDto()),
-               item.Options.Select(x => x.ToDto()));
+               item.ProductOptions.Select(x => x.ToDto()));
     }
 
     public static ParentProductDto ToDto2(this Domain.Entities.Product item)
@@ -54,5 +54,10 @@ public static class Mapping
     public static ProductAttributeDto ToDto(this Domain.Entities.ProductAttribute x)
     {
         return new ProductAttributeDto(x.Attribute.ToDto(), x.Value?.ToDto(), x.ForVariant, x.IsMainAttribute);
+    }
+
+     public static ProductOptionDto ToDto(this Domain.Entities.ProductOption x)
+    {
+        return new ProductOptionDto(x.Option.ToDto(), x.IsInherited.GetValueOrDefault());
     }
 }

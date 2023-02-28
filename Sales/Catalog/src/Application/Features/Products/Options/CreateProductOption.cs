@@ -80,41 +80,23 @@ public record CreateProductOption(string ProductId, ApiCreateProductOption Data)
             option.Description = request.Data.Description;
             option.Group = group;
 
-            /*
-            Option option = new(Guid.NewGuid().ToString())
-            {
-                Name = request.Data.Name,
-                Description = request.Data.Description,
-                SKU = request.Data.SKU,
-                Group = group,
-                IsSelected = request.Data.IsSelected,
-                Price = request.Data.Price,
-                OptionType = (Domain.Enums.OptionType)request.Data.OptionType,
-
-                MinNumericalValue = request.Data.MinNumericalValue,
-                MaxNumericalValue = request.Data.MaxNumericalValue,
-                DefaultNumericalValue = request.Data.DefaultNumericalValue,
-
-                TextValueMinLength = request.Data.TextValueMinLength,
-                TextValueMaxLength = request.Data.TextValueMaxLength,
-                DefaultTextValue = request.Data.DefaultTextValue,
-            };
-
-            foreach (var v in request.Data.Values)
-            {
-                var value = new OptionValue(v.Name)
-                {
-                    SKU = v.SKU,
-                    Price = v.Price
-                };
-
-                (option as ChoiceOption)!.Values.Add(value);
-            }
-
-            (option as ChoiceOption)!.DefaultValueId = (option as ChoiceOption)!.Values.FirstOrDefault(x => x.Id == request.Data.DefaultOptionValueId)?.Id;
-            */
-
             item.Options.Add(option);
+
+            if(item.HasVariants) 
+            {
+                var variants = await _context.Products
+                    .Where(x => x.ParentProductId == item.Id)
+                    .Include(x => x.Options)
+                    .ToArrayAsync(cancellationToken);
+                
+                foreach(var variant in item.Variants) 
+                {
+                    variant.ProductOptions.Add(new ProductOption() {
+                        Option = option,
+                        IsInherited = true
+                    });
+                }
+            }
 
             await _context.SaveChangesAsync();
 

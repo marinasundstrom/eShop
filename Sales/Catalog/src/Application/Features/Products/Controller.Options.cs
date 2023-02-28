@@ -9,7 +9,7 @@ namespace YourBrand.Catalog.Features.Products;
 partial class ProductsController : Controller
 {
     [HttpGet("{productId}/Options")]
-    public async Task<ActionResult<IEnumerable<OptionDto>>> GetProductOptions(string productId, string? variantId, CancellationToken cancellationToken)
+    public async Task<ActionResult<IEnumerable<ProductOptionDto>>> GetProductOptions(string productId, string? variantId, CancellationToken cancellationToken)
     {
         return Ok(await _mediator.Send(new GetProductOptions(productId, variantId), cancellationToken));
     }

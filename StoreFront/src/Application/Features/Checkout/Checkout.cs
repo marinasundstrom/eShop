@@ -68,7 +68,7 @@ public sealed record Checkout(
 
                 foreach (var option in options)
                 {
-                    var opt = item.Options.FirstOrDefault(x => x.Id == option.Id);
+                    var opt = item.Options.FirstOrDefault(x => x.Option.Id == option.Id);
 
                     if (opt is not null)
                     {
@@ -76,7 +76,7 @@ public sealed record Checkout(
                         {
                             var isSelected = option.IsSelected.GetValueOrDefault();
 
-                            if (!isSelected && isSelected != opt.IsSelected)
+                            if (!isSelected && isSelected != opt.Option.IsSelected)
                             {
                                 optionTexts.Add($"No {option.Name}");
 
@@ -97,7 +97,7 @@ public sealed record Checkout(
                         }
                         else if (option.SelectedValueId is not null)
                         {
-                            var value = opt.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
+                            var value = opt.Option.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
 
                             if (value?.Price is not null)
                             {
@@ -197,7 +197,7 @@ public sealed record Checkout(
             foreach (var option in options!
                 .Where(x => x.IsSelected.GetValueOrDefault() || x.SelectedValueId is not null))
             {
-                var o = item.Options.FirstOrDefault(x => x.Id == option.Id);
+                var o = item.Options.FirstOrDefault(x => x.Option.Id == option.Id);
                 if (o is not null)
                 {
                     if (option.IsSelected.GetValueOrDefault())
@@ -206,7 +206,7 @@ public sealed record Checkout(
                     }
                     else if (option.SelectedValueId is not null)
                     {
-                        var sVal = o.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
+                        var sVal = o.Option.Values.FirstOrDefault(x => x.Id == option.SelectedValueId);
                         if (sVal is not null)
                         {
                             price += sVal.Price.GetValueOrDefault();

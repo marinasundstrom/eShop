@@ -26,6 +26,15 @@ public record GetProductVariant(string ProductId, string ProductVariantId) : IRe
                 .ThenInclude(o => o.Values)
                 .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
+                .Include(pv => pv.ProductOptions)
+                    .ThenInclude(pv => pv.Option)
+                    .ThenInclude(pv => pv.Group)
+                .Include(pv => pv.ProductOptions)
+                    .ThenInclude(pv => pv.Option)
+                    .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
+                .Include(pv => pv.ProductOptions)
+                    .ThenInclude(pv => pv.Option)
+                    .ThenInclude(pv => (pv as ChoiceOption)!.Values)
                 .FirstOrDefaultAsync(pv => pv.ParentProduct!.Id == request.ProductId && pv.Id == request.ProductVariantId);
 
             if (itemVariant is null) return null;

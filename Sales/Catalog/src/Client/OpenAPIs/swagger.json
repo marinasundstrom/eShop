@@ -850,7 +850,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/OptionDto"
+                    "$ref": "#/components/schemas/ProductOptionDto"
                   }
                 }
               }
@@ -2608,7 +2608,7 @@
           "options": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OptionDto"
+              "$ref": "#/components/schemas/ProductOptionDto"
             }
           }
         }
@@ -2648,6 +2648,18 @@
           0,
           1
         ]
+      },
+      "ProductOptionDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "option": {
+            "$ref": "#/components/schemas/OptionDto"
+          },
+          "isInherited": {
+            "type": "boolean"
+          }
+        }
       },
       "OptionDto": {
         "type": "object",

@@ -10,7 +10,7 @@ public class ProductOption : Entity<int>
 
     public Option Option { get; set; } = null!;
 
-    public bool? IsSelected { get; set; }
+    public bool? IsInherited { get; set; }
 
     // Add fields for default values
 }

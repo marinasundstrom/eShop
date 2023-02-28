@@ -18,7 +18,7 @@
     }
 </style>
 
-<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<OptionDto,bool>(FilterOptionsFunc)"
+<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductOptionDto,bool>(FilterOptionsFunc)"
           @bind-SelectedItem="selectedProductOption" SortLabel="Sort By" GroupBy="tableGroupDefinition">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Options</MudText>
@@ -28,15 +28,16 @@
         <MudTextField T="string" ValueChanged="@(async s => await OnSearch(s))" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.OptionType)">Type</MudTableSortLabel></MudTh>
-        <MudTh><MudTableSortLabel SortBy="new Func<OptionDto, object>(x=>x.IsRequired)">Is Required</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductOptionDto, object>(x => x.Option.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductOptionDto, object>(x => x.Option.OptionType)">Type</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductOptionDto, object>(x => x.Option.IsRequired)">Is Required</MudTableSortLabel></MudTh>
         <MudTh>Default Value</MudTh>
         <MudTh>Price</MudTh>
+        <MudTh>Is inherited</MudTh>
         <MudTh Style="text-align:right"></MudTh>
     </HeaderContent>
     <GroupHeaderTemplate>
-        <MudTh Class="mud-table-cell-custom-group py-4" colspan="6">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
+        <MudTh Class="mud-table-cell-custom-group py-4" colspan="7">@($"{(context.Key ?? "Miscellaneous")}")</MudTh>
         @*
         <MudTh Class="mud-table-cell-custom-group py-4" Style="text-align:right">
             <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionGroupDialog(null!)" />
@@ -44,14 +45,18 @@
         </MudTh> *@
     </GroupHeaderTemplate>
     <RowTemplate>
-        <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Type">@context.OptionType</MudTd>
-        <MudTd DataLabel="Is Required">@context.IsRequired</MudTd>
-        <MudTd DataLabel="Default Value">@((context.OptionType == OptionType.YesOrNo ? (context.IsSelected.GetValueOrDefault() ? "Yes" : "No") : null) ?? context.DefaultValue?.Name ?? context.DefaultNumericalValue?.ToString() ?? context.DefaultTextValue)</MudTd>
-        <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
+        <MudTd DataLabel="Name">@context.Option.Name</MudTd>
+        <MudTd DataLabel="Type">@context.Option.OptionType</MudTd>
+        <MudTd DataLabel="Is Required">@(context.Option.OptionType == OptionType.YesOrNo ? string.Empty : context.Option.IsRequired)</MudTd>
+        <MudTd DataLabel="Default Value">@((context.Option.OptionType == OptionType.YesOrNo ? (context.Option.IsSelected.GetValueOrDefault() ? "Yes" : "No") : null) ?? context.Option.DefaultValue?.Name ?? context.Option.DefaultNumericalValue?.ToString() ?? context.Option.DefaultTextValue)</MudTd>
+        <MudTd DataLabel="Price">@context.Option.Price?.ToString("c")</MudTd>
+        <MudTd DataLabel="Price">@context.IsInherited</MudTd>
         <MudTd Style="text-align:right">
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionDialog(context)" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteOption(context.Id)" />
+            @if(!context.IsInherited) 
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionDialog(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteOption(context.Option.Id)" />
+            }
         </MudTd>
     </RowTemplate>
     @*

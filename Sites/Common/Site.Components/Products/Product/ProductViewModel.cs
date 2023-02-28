@@ -9,7 +9,7 @@ public class ProductViewModel
     private IProductsClient productsClient;
     private SiteProductDto? product;
     private SiteProductDto? variant;
-    private IEnumerable<OptionDto>? productOptions;
+    private IEnumerable<ProductOptionDto>? productOptions;
     private IEnumerable<ProductAttributeDto>? productAttributes;
 
     public ProductViewModel(IProductsClient productsClient)
@@ -92,8 +92,8 @@ public class ProductViewModel
 
     private async Task Load()
     {
-        productOptions = Product!.Options;
-        productAttributes = Product.Attributes;
+        productOptions = Variant?.Options ?? Product!.Options;
+        productAttributes = Variant?.Attributes ?? Product!.Attributes;
 
         CreateOptionsVM();
         CreateAttributesVM();
@@ -105,11 +105,13 @@ public class ProductViewModel
 
     public List<SiteProductDto> Variants { get; set; } = new List<SiteProductDto>();
 
-    public void SelectVariant(SiteProductDto variant)
+    public async Task SelectVariant(SiteProductDto variant)
     {
         if (this.variant?.Id == variant?.Id) return;
 
         this.variant = variant;
+
+        await Load();
 
         var attributes = AttributeGroups.SelectMany(x => x.Attributes);
 
@@ -142,93 +144,151 @@ public class ProductViewModel
            .Where(x => x.SelectedValueId is not null);
 
         variant = await productsClient.FindProductVariantByAttributesAsync(Id, selectedAttributes.ToDictionary(x => x.Id, x => x.SelectedValueId));
+
+        await Load();
     }
 
     private void CreateOptionsVM()
     {
-        foreach (var optionGroup in productOptions
+        var groups = productOptions
+            .Select(x => x.Option)
             .Select(x => x.Group ?? new OptionGroupDto())
-            .DistinctBy(x => x.Id))
+            .DistinctBy(x => x.Id);
+
+        foreach (var optionGroup in groups)
         {
-            var group = new OptionGroupVM()
+            var group = OptionGroups.FirstOrDefault(x => x.Id == optionGroup.Id);
+            if(group is null) 
             {
-                Id = optionGroup.Id,
-                Name = optionGroup.Name,
-                Description = optionGroup.Description,
-                Min = optionGroup.Min,
-                Max = optionGroup.Max
-            };
-
-            foreach (var option in productOptions.Where(x => x.Group?.Id == group.Id))
-            {
-                var o = new OptionVM
+                group = new OptionGroupVM()
                 {
-                    Id = option.Id,
-                    Name = option.Name,
-                    Description = option.Description,
-                    Group = option.Group,
-                    OptionType = option.OptionType,
-                    Price = option.Price,
-                    ProductId = option.ProductId,
-                    IsSelected = option.IsSelected.GetValueOrDefault(),
-                    SelectedValueId = option.DefaultValue?.Id,
-                    MinNumericalValue = option.MinNumericalValue,
-                    MaxNumericalValue = option.MaxNumericalValue,
-                    NumericalValue = option.DefaultNumericalValue,
-                    TextValue = option.DefaultTextValue,
-                    TextValueMaxLength = option.TextValueMaxLength,
-                    TextValueMinLength = option.TextValueMinLength
+                    Id = optionGroup.Id,
+                    Name = optionGroup.Name,
+                    Description = optionGroup.Description,
+                    Min = optionGroup.Min,
+                    Max = optionGroup.Max      
                 };
-
-                o.Values.AddRange(option.Values.Select(x => new OptionValueVM
-                {
-                    Id = x.Id,
-                    Name = x.Name,
-                    Price = x.Price
-                }));
-
-                group.Options.Add(o);
+                
+                OptionGroups.Add(group);
             }
 
-            OptionGroups.Add(group);
+            foreach (var option in productOptions.Select(x => x.Option).Where(x => x.Group?.Id == group.Id))
+            {
+                var o = group.Options.FirstOrDefault(x => x.Id == option.Id);
+                if(o is null) 
+                {
+                    o = new OptionVM
+                    {
+                        Id = option.Id,
+                        Name = option.Name,
+                        Description = option.Description,
+                        Group = option.Group,
+                        OptionType = option.OptionType,
+                        Price = option.Price,
+                        ProductId = option.ProductId,
+                        IsSelected = option.IsSelected.GetValueOrDefault(),
+                        SelectedValueId = option.DefaultValue?.Id,
+                        MinNumericalValue = option.MinNumericalValue,
+                        MaxNumericalValue = option.MaxNumericalValue,
+                        NumericalValue = option.DefaultNumericalValue,
+                        TextValue = option.DefaultTextValue,
+                        TextValueMaxLength = option.TextValueMaxLength,
+                        TextValueMinLength = option.TextValueMinLength
+                    };
+
+                    o.Values.AddRange(option.Values.Select(x => new OptionValueVM
+                    {
+                        Id = x.Id,
+                        Name = x.Name,
+                        Price = x.Price
+                    }));
+
+                    group.Options.Add(o);
+                }
+            }
+
+            foreach(var option in group.Options.ToList()) 
+            {
+                var o1 = productOptions.FirstOrDefault(x => x.Option.Id == option.Id);
+                if(o1 is null) 
+                {
+                    group.Options.Remove(option);
+                }
+            }
+        }
+
+        foreach(var group in OptionGroups.ToList()) 
+        {
+            var o1 = groups.FirstOrDefault(x => x.Id == group.Id);
+            if(o1 is null) 
+            {
+                OptionGroups.Remove(group);
+            }
         }
     }
 
     private void CreateAttributesVM()
     {
-        foreach (var attributeGroup in productAttributes
+        var groups = productAttributes
             .Select(x => x.Attribute.Group ?? new AttributeGroupDto())
-            .DistinctBy(x => x.Id))
+            .DistinctBy(x => x.Id);
+            
+        foreach (var attributeGroup in groups)
         {
-            var group = new AttributeGroupVM()
+            var group = AttributeGroups.FirstOrDefault(x => x.Id == attributeGroup.Id);
+            if(group is null) 
             {
-                Id = attributeGroup.Id,
-                Name = attributeGroup.Name
-            };
+                group = new AttributeGroupVM()
+                {
+                    Id = attributeGroup.Id,
+                    Name = attributeGroup.Name
+                };
+            
+                AttributeGroups.Add(group);
+            }
 
             foreach (var attribute in productAttributes.Where(x => x.Attribute.Group?.Id == group.Id))
             {
-                var attr = new AttributeVM
+                var attr = group.Attributes.FirstOrDefault(x => x.Id == attribute.Attribute.Id);
+                if(attr is null) 
                 {
-                    Id = attribute.Attribute.Id,
-                    Name = attribute.Attribute.Name,
-                    ForVariant = attribute.ForVariant,
-                    IsMainAttribute = attribute.IsMainAttribute
-                };
+                    attr = new AttributeVM
+                    {
+                        Id = attribute.Attribute.Id,
+                        Name = attribute.Attribute.Name,
+                        ForVariant = attribute.ForVariant,
+                        IsMainAttribute = attribute.IsMainAttribute
+                    };
 
-                group.Attributes.Add(attr);
+                    attr.Values.AddRange(attribute.Attribute.Values.Select(x => new AttributeValueVM
+                    {
+                        Id = x.Id,
+                        Name = x.Name
+                    }));
 
-                attr.Values.AddRange(attribute.Attribute.Values.Select(x => new AttributeValueVM
-                {
-                    Id = x.Id,
-                    Name = x.Name
-                }));
-
-                attr.SelectedValueId = attr.Values.FirstOrDefault()?.Id;
-
+                    attr.SelectedValueId = attr.Values.FirstOrDefault()?.Id;
+                    
+                    group.Attributes.Add(attr);
+                }
             }
 
-            AttributeGroups.Add(group);
+            foreach(var attr in group.Attributes.ToList()) 
+            {
+                var a = productAttributes.FirstOrDefault(x => x.Attribute.Id == attr.Id);
+                if(a is null) 
+                {
+                    group.Attributes.Remove(attr);
+                }
+            }
+        }
+
+        foreach(var group in AttributeGroups.ToList()) 
+        {
+            var o1 = groups.FirstOrDefault(x => x.Id == group.Id);
+            if(o1 is null) 
+            {
+                AttributeGroups.Remove(group);
+            }
         }
     }
 

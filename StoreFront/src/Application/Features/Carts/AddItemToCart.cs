@@ -44,15 +44,15 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
                 {
                     return new Option
                     {
-                        Id = x.Id,
-                        Name = x.Name,
-                        OptionType = (int)x.OptionType,
-                        ProductId = x.ProductId,
-                        Price = x.Price,
-                        IsSelected = x.IsSelected,
-                        SelectedValueId = x.DefaultValue?.Id,
-                        NumericalValue = x.DefaultNumericalValue,
-                        TextValue = x.DefaultTextValue
+                        Id = x.Option.Id,
+                        Name = x.Option.Name,
+                        OptionType = (int)x.Option.OptionType,
+                        ProductId = x.Option.ProductId,
+                        Price = x.Option.Price,
+                        IsSelected = x.Option.IsSelected,
+                        SelectedValueId = x.Option.DefaultValue?.Id,
+                        NumericalValue = x.Option.DefaultNumericalValue,
+                        TextValue = x.Option.DefaultTextValue
                     };
                 });
                 

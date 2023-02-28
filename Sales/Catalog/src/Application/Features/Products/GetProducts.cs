@@ -30,9 +30,14 @@ public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, 
                 .ThenInclude(pv => pv.Values)
                 .Include(pv => pv.ProductAttributes)
                 .ThenInclude(pv => pv.Value)
-                .Include(pv => pv.Options)
+                .Include(pv => pv.ProductOptions)
+                .ThenInclude(pv => pv.Option)
+                .ThenInclude(pv => pv.Group)
+                .Include(pv => pv.ProductOptions)
+                .ThenInclude(pv => pv.Option)
                 .ThenInclude(pv => (pv as ChoiceOption)!.Values)
-                .Include(pv => pv.Options)
+                .Include(pv => pv.ProductOptions)
+                .ThenInclude(pv => pv.Option)
                 .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
                 .AsQueryable();
 
