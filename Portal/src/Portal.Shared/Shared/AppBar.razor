@@ -3,7 +3,7 @@
 @inject ThemeManager ThemeManager
 @inject IStringLocalizer<AppBar> T
 
-<MudAppBar Elevation="25">
+<MudAppBar Elevation="25" Dense="true">
     <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start"
                    OnClick="@(async (e) => await DrawerToggleCallback.InvokeAsync())" />
                    @*
