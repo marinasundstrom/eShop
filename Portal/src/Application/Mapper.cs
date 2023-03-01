@@ -1,7 +1,7 @@
-﻿using YourBrand.Portal.Application.Todos.Dtos;
-using YourBrand.Portal.Application.Users;
+﻿using YourBrand.Portal.Todos.Dtos;
+using YourBrand.Portal.Users;
 
-namespace YourBrand.Portal.Application;
+namespace YourBrand.Portal;
 
 public static class Mappings
 {

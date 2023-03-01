@@ -1,3 +1,5 @@
+extern alias Application;
+
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -17,12 +19,12 @@ using NSwag;
 using NSwag.Generation.Processors.Security;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using YourBrand.Portal.Application.Services;
+using YourBrand.Portal.Services;
 using YourBrand.Portal.Infrastructure.Persistence;
-using YourBrand.Portal.Presentation;
+using YourBrand.Portal;
 using YourBrand.Portal.Web;
 using YourBrand.Portal.Web.Middleware;
-using YourBrand.Portal.Web.Services;
+using Application::YourBrand.Portal;
 
 Activity.DefaultIdFormat = ActivityIdFormat.W3C;
 Activity.ForceDefaultIdFormat = true;
@@ -54,7 +56,7 @@ proxyBuilder.LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+builder.Services.AddScoped<Application::YourBrand.Portal.Services.ICurrentUserService, YourBrand.Portal.Web.Services.CurrentUserService>();
 
 builder.Services.AddApiVersioning(options =>
         {

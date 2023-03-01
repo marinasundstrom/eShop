@@ -4,11 +4,24 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>YourBrand.Portal.Application</RootNamespace>
+    <RootNamespace>YourBrand.Portal</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <WarningsAsErrors>nullable</WarningsAsErrors>
-	<NoWarn>1701;1702;CS1591</NoWarn>
+	  <NoWarn>1701;1702;CS1591</NoWarn>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<IncludeOpenAPIAnalyzers>true</IncludeOpenAPIAnalyzers>
+	</PropertyGroup>	   
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="MassTransit.Abstractions" Version="8.0.8" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.2.2" />
@@ -22,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Contracts\Contracts.csproj" />
   </ItemGroup>
 
 </Project>

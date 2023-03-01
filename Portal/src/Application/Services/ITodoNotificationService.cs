@@ -1,6 +1,6 @@
-using YourBrand.Portal.Application.Todos.Dtos;
+using YourBrand.Portal.Todos.Dtos;
 
-namespace YourBrand.Portal.Application.Services;
+namespace YourBrand.Portal.Services;
 
 public interface ITodoNotificationService
 {

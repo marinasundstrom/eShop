@@ -1,8 +1,10 @@
-﻿using MassTransit;
-using YourBrand.Portal.Application;
+﻿extern alias Application;
+
+using MassTransit;
+using YourBrand.Portal;
 using YourBrand.Portal.Consumers;
 using YourBrand.Portal.Infrastructure;
-using YourBrand.Portal.Presentation;
+using Application::YourBrand.Portal;
 
 namespace YourBrand.Portal.Web;
 

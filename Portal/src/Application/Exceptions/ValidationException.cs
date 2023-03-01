@@ -1,4 +1,4 @@
-﻿namespace YourBrand.Portal.Application.Exceptions;
+﻿namespace YourBrand.Portal.Exceptions;
 
 public class ValidationException : Exception
 {

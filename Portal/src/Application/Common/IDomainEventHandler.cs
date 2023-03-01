@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace YourBrand.Portal.Application.Common;
+namespace YourBrand.Portal.Common;
 
 public interface IDomainEventHandler<TDomainEvent>
     : INotificationHandler<TDomainEvent>

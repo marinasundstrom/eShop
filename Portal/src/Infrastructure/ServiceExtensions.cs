@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
-using YourBrand.Portal.Application.Common;
+using YourBrand.Portal.Common;
 using YourBrand.Portal.Infrastructure.BackgroundJobs;
 using YourBrand.Portal.Infrastructure.Idempotence;
 using YourBrand.Portal.Infrastructure.Persistence;

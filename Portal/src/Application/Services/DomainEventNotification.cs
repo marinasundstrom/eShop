@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace YourBrand.Portal.Application.Services;
+namespace YourBrand.Portal.Services;
 
 public sealed class DomainEventNotification<TDomainEvent> : INotification where TDomainEvent : DomainEvent
 {

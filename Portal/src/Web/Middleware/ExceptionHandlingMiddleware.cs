@@ -1,5 +1,9 @@
-﻿using System.Text.Json;
-using YourBrand.Portal.Application.Exceptions;
+﻿extern alias Application;
+
+using System.Text.Json;
+
+using Application::YourBrand.Portal.Exceptions;
+
 using YourBrand.Portal.Domain.Exceptions;
 using ApplicationException = YourBrand.Portal.Domain.Exceptions.ApplicationException;
 

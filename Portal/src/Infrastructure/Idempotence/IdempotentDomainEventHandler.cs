@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using YourBrand.Portal.Application.Common;
+using YourBrand.Portal.Common;
 using YourBrand.Portal.Infrastructure.Persistence;
 using YourBrand.Portal.Infrastructure.Persistence.Outbox;
 

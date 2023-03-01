@@ -1,4 +1,4 @@
-﻿namespace YourBrand.Portal.Application.Services;
+﻿namespace YourBrand.Portal.Services;
 
 public interface IDateTime
 {
