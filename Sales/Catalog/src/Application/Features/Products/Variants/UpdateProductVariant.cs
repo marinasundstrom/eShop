@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record UpdateProductVariant(string ProductId, string ProductVariantId, ApiUpdateProductVariant Data) : IRequest<ProductDto>
+public record UpdateProductVariant(long ProductId, long ProductVariantId, ApiUpdateProductVariant Data) : IRequest<ProductDto>
 {
     public class Handler : IRequestHandler<UpdateProductVariant, ProductDto>
     {
@@ -18,7 +18,7 @@ public record UpdateProductVariant(string ProductId, string ProductVariantId, Ap
 
         public async Task<ProductDto> Handle(UpdateProductVariant request, CancellationToken cancellationToken)
         {
-            var match = (await _itemVariantsService.FindVariantCore(request.ProductId, request.ProductVariantId, request.Data.Attributes.ToDictionary(x => x.AttributeId, x => x.ValueId)!))
+            var match = (await _itemVariantsService.FindVariantCore(request.ProductId.ToString(), request.ProductVariantId.ToString(), request.Data.Attributes.ToDictionary(x => x.AttributeId, x => x.ValueId)!))
                 .SingleOrDefault();
 
             if (match is not null)

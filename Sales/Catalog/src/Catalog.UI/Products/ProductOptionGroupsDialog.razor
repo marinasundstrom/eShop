@@ -49,12 +49,12 @@
     List<OptionGroupDto>? optionGroups;
 
     [Parameter]
-    public string? ProductId { get; set; }
+    public long? ProductId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        item = await ProductsClient.GetProductAsync(ProductId);
-        optionGroups = (await ProductsClient.GetOptionGroupsAsync(ProductId)).ToList();
+        item = await ProductsClient.GetProductAsync(ProductId.ToString());
+        optionGroups = (await ProductsClient.GetOptionGroupsAsync(ProductId.GetValueOrDefault())).ToList();
     }
 
     async Task CreateGroup()
@@ -97,7 +97,7 @@
             return;
         }
 
-        await ProductsClient.DeleteOptionGroupAsync(ProductId, optionGroup.Id);
+        await ProductsClient.DeleteOptionGroupAsync(ProductId.GetValueOrDefault(), optionGroup.Id);
 
         optionGroups.Remove(optionGroup);
     }

@@ -32,7 +32,7 @@ public partial class ProductGroupsController : Controller
     [HttpPost]
     public async Task<ActionResult<ProductGroupDto>> CreateProductGroup(ApiCreateProductGroup data, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new CreateProductGroup(data.Name, data), cancellationToken));
+        return Ok(await _mediator.Send(new CreateProductGroup(data), cancellationToken));
     }
 
     [HttpPut("{id}")]

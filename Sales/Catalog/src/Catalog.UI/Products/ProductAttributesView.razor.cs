@@ -21,7 +21,7 @@ partial class ProductAttributesView : ComponentBase
 
     [Parameter]
     [EditorRequired]
-    public string ProductId { get; set; } = default!;
+    public long ProductId { get; set; } = default!;
 
     [Parameter]
     public bool HasVariants { get; set; } = false!;

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record UpdateProductVisibility(string ProductId, ProductVisibility Visibility) : IRequest
+public record UpdateProductVisibility(long ProductId, ProductVisibility Visibility) : IRequest
 {
     public class Handler : IRequestHandler<UpdateProductVisibility>
     {

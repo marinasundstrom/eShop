@@ -6,7 +6,7 @@ using YourBrand.Catalog.Features.Options;
 
 namespace YourBrand.Catalog.Features.Products.Options.Groups;
 
-public record GetProductOptionGroups(string ProductId) : IRequest<IEnumerable<OptionGroupDto>>
+public record GetProductOptionGroups(long ProductId) : IRequest<IEnumerable<OptionGroupDto>>
 {
     public class Handler : IRequestHandler<GetProductOptionGroups, IEnumerable<OptionGroupDto>>
     {

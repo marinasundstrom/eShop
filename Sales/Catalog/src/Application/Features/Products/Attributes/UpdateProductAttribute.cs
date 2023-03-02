@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Attributes;
 
-public record UpdateProductAttribute(string ProductId, string AttributeId, string ValueId) : IRequest<ProductAttributeDto>
+public record UpdateProductAttribute(long ProductId, string AttributeId, string ValueId) : IRequest<ProductAttributeDto>
 {
     public class Handler : IRequestHandler<UpdateProductAttribute, ProductAttributeDto>
     {

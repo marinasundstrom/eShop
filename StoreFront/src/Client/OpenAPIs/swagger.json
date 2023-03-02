@@ -195,7 +195,7 @@
         }
       }
     },
-    "/v1/Products/{id}": {
+    "/v1/Products/{productIdOrHandle}": {
       "get": {
         "tags": [
           "Products"
@@ -203,7 +203,7 @@
         "operationId": "Products_GetProduct",
         "parameters": [
           {
-            "name": "id",
+            "name": "productIdOrHandle",
             "in": "path",
             "required": true,
             "schema": {
@@ -226,7 +226,7 @@
         }
       }
     },
-    "/v1/Products/{id}/Variants": {
+    "/v1/Products/{productIdOrHandle}/Variants": {
       "get": {
         "tags": [
           "Products"
@@ -234,7 +234,7 @@
         "operationId": "Products_GetProductVariants",
         "parameters": [
           {
-            "name": "id",
+            "name": "productIdOrHandle",
             "in": "path",
             "required": true,
             "schema": {
@@ -312,7 +312,7 @@
         }
       }
     },
-    "/v1/Products/{id}/Variants/Find": {
+    "/v1/Products/{productIdOrHandle}/Variants/Find": {
       "post": {
         "tags": [
           "Products"
@@ -320,7 +320,7 @@
         "operationId": "Products_FindProductVariantByAttributes",
         "parameters": [
           {
-            "name": "id",
+            "name": "productIdOrHandle",
             "in": "path",
             "required": true,
             "schema": {
@@ -358,7 +358,7 @@
         }
       }
     },
-    "/v1/Products/{id}/Variants/Find2": {
+    "/v1/Products/{productIdOrHandle}/Variants/Find2": {
       "post": {
         "tags": [
           "Products"
@@ -366,7 +366,7 @@
         "operationId": "Products_FindProductVariantByAttributes2",
         "parameters": [
           {
-            "name": "id",
+            "name": "productIdOrHandle",
             "in": "path",
             "required": true,
             "schema": {
@@ -1145,9 +1145,13 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           },
           "description": {
@@ -1210,9 +1214,13 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           },
           "description": {
@@ -1375,7 +1383,7 @@
           "isRequired": {
             "type": "boolean"
           },
-          "productId": {
+          "sku": {
             "type": "string",
             "nullable": true
           },

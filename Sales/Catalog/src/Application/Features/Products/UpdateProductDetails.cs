@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record UpdateProductDetails(string ProductId, ApiUpdateProductDetails Details) : IRequest
+public record UpdateProductDetails(long ProductId, ApiUpdateProductDetails Details) : IRequest
 {
     public class Handler : IRequestHandler<UpdateProductDetails>
     {

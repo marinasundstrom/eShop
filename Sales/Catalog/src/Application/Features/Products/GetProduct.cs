@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record GetProduct(string ProductId) : IRequest<ProductDto?>
+public record GetProduct(string ProductIdOrHandle) : IRequest<ProductDto?>
 {
     public class Handler : IRequestHandler<GetProduct, ProductDto?>
     {
@@ -17,7 +17,9 @@ public record GetProduct(string ProductId) : IRequest<ProductDto?>
 
         public async Task<ProductDto?> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            var item = await _context.Products
+            long.TryParse(request.ProductIdOrHandle, out var productId);
+
+            var query = _context.Products
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(pv => pv.ParentProduct)
@@ -38,8 +40,11 @@ public record GetProduct(string ProductId) : IRequest<ProductDto?>
                     .ThenInclude(pv => pv.Option)
                     .ThenInclude(pv => (pv as ChoiceOption)!.Values)
                 .Include(pv => pv.Options)
-                    .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
-                .FirstOrDefaultAsync(p => p.Id == request.ProductId);
+                    .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue);
+
+            var item = productId == 0 
+                ? await query.FirstOrDefaultAsync(p => p.Handle == request.ProductIdOrHandle, cancellationToken) 
+                : await query.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
 
             return item?.ToDto();
         }

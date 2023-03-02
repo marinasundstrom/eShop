@@ -16,11 +16,11 @@ partial class ProductVariantsView : ComponentBase
     string? searchString;
 
     [Parameter]
-    public string? ProductId { get; set; }
+    public long? ProductId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        productVariants = (await ProductsClient.GetVariantsAsync(ProductId, 0, 20, null, null, null)).Items;
+        productVariants = (await ProductsClient.GetVariantsAsync(ProductId.GetValueOrDefault().ToString(), 0, 20, null, null, null)).Items;
     }
 
     private bool FilterProductVariantsFunc(ProductDto productVariant)

@@ -17,6 +17,6 @@ public sealed class QuantityAvailableChangedConsumer : IConsumer<QuantityAvailab
     {
         var message = context.Message;
 
-        await mediator.Send(new Features.Products.UpdateQuantityAvailable(message.Id, context.Message.Quantity));
+        //await mediator.Send(new Features.Products.UpdateQuantityAvailable(message.Id, context.Message.Quantity));
     }
 }

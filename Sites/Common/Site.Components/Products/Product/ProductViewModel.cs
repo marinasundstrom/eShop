@@ -23,9 +23,9 @@ public class ProductViewModel
 
     public void SetClient(IProductsClient productsClient) => this.productsClient = productsClient;
 
-    public string Id => Product?.Id ?? string.Empty;
+    public string Id => Product?.Handle ?? string.Empty;
 
-    public string VariantId => Variant?.Id ?? string.Empty;
+    public string VariantId => Variant?.Handle ?? string.Empty;
 
     public string Name => Product?.Name ?? string.Empty;
 
@@ -62,7 +62,7 @@ public class ProductViewModel
             else
             {
                 var variants = (await productsClient.GetProductVariantsAsync(Id, 1, 20, null, null, null)).Items;
-                product = await productsClient.GetProductAsync(variants.First().Id);
+                product = await productsClient.GetProductAsync(variants.First().Id.ToString());
             }
 
             AttributeGroups.ForEach(x => x.Attributes.ForEach(x => x.SelectedValueId = null));
@@ -185,7 +185,7 @@ public class ProductViewModel
                         Group = option.Group,
                         OptionType = option.OptionType,
                         Price = option.Price,
-                        ProductId = option.ProductId,
+                        ProductId = option.Sku,
                         IsSelected = option.IsSelected.GetValueOrDefault(),
                         SelectedValueId = option.DefaultValue?.Id,
                         MinNumericalValue = option.MinNumericalValue,

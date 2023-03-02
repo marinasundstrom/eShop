@@ -19,6 +19,7 @@
                 <MudTh>@attr.Attribute.Name</MudTh>
             }
         }
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Price)">Price</MudTableSortLabel></MudTh>
     </HeaderContent>
     <RowTemplate>
         <a href="@($"/products/{context.Id}/edit")" style="display:contents;">
@@ -30,6 +31,9 @@
             {
                 <MudTd DataLabel="@attr.Value?.Name">@attr.Value?.Name</MudTd>
             }
+            <MudTh DataLabel="Price">
+                @context.Price.ToString("c")
+            </MudTh>
         </a>
     </RowTemplate>
     @*

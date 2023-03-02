@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record GetProductVariant(string ProductId, string ProductVariantId) : IRequest<ProductDto?>
+public record GetProductVariant(string ProductIdOrHandle, string ProductVariantIdOrHandle) : IRequest<ProductDto?>
 {
     public class Handler : IRequestHandler<GetProductVariant, ProductDto?>
     {
@@ -17,7 +17,10 @@ public record GetProductVariant(string ProductId, string ProductVariantId) : IRe
 
         public async Task<ProductDto?> Handle(GetProductVariant request, CancellationToken cancellationToken)
         {
-            var itemVariant = await _context.Products
+            long.TryParse(request.ProductIdOrHandle, out var productId);
+            long.TryParse(request.ProductVariantIdOrHandle, out var productVariantId);
+
+            var query = _context.Products
                 .AsSplitQuery()
                 .AsNoTracking()
                 .Include(pv => pv.Variants)
@@ -35,7 +38,15 @@ public record GetProductVariant(string ProductId, string ProductVariantId) : IRe
                 .Include(pv => pv.ProductOptions)
                     .ThenInclude(pv => pv.Option)
                     .ThenInclude(pv => (pv as ChoiceOption)!.Values)
-                .FirstOrDefaultAsync(pv => pv.ParentProduct!.Id == request.ProductId && pv.Id == request.ProductVariantId);
+                .AsQueryable();
+
+            query = productId == 0 ? 
+                query.Where(pv => pv.ParentProduct!.Handle == request.ProductIdOrHandle)
+                : query.Where(pv => pv.ParentProduct!.Id == productId);
+
+            var itemVariant = productVariantId == 0 ? 
+                await query.FirstOrDefaultAsync(pv => pv!.Id == productVariantId, cancellationToken)
+                : await query.FirstOrDefaultAsync(pv => pv!.Handle == request.ProductVariantIdOrHandle, cancellationToken);
 
             if (itemVariant is null) return null;
 

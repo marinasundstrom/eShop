@@ -4,7 +4,7 @@ using System;
 
 using YourBrand.Catalog.Features.Options;
 
-public record class ApiCreateProduct(string Name, bool HasVariants, string? Description, string? GroupId, string? Id, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
+public record class ApiCreateProduct(string Name, string Handle, bool HasVariants, string? Description, string? GroupId, string? Sku, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
 
 public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, string? GroupId);
 
@@ -44,7 +44,7 @@ public record class ApiUpdateProductAttributeGroup(string Name, string? Descript
 
 
 
-public record class ApiCreateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
+public record class ApiCreateProductVariant(string Name, string Handle, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
 
 public record class ApiCreateProductVariantAttribute(string AttributeId, string ValueId);
 

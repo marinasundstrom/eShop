@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Options;
 
-public record DeleteProductOptionValue(string ProductId, string OptionId, string ValueId) : IRequest
+public record DeleteProductOptionValue(long ProductId, string OptionId, string ValueId) : IRequest
 {
     public class Handler : IRequestHandler<DeleteProductOptionValue>
     {

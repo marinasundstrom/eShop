@@ -72,7 +72,7 @@ public static class Seed
         var valueRed = new AttributeValue("Red");
         colorAttribute.Values.Add(valueRed);
 
-        var item = new Product("tshirt", "T-shirt")
+        var item = new Product("T-shirt", "tshirt")
         {
             Description = "T-shirt i olika färger",
             HasVariants = true,
@@ -86,7 +86,7 @@ public static class Seed
 
         item.ProductAttributes.Add(new ProductAttribute {
             ForVariant = true,
-            IsMainAttribute = false,
+            IsMainAttribute = true,
             Attribute = colorAttribute,
             Value = null
         });
@@ -94,14 +94,14 @@ public static class Seed
         item.ProductAttributes.Add(new ProductAttribute
         {
             ForVariant = true,
-            IsMainAttribute = true,
+            IsMainAttribute = false,
             Attribute = sizeAttribute,
             Value = null
         });
 
         ///*
 
-        var variantBlueSmall = new Product("tshirt-blue-small", "Blue S")
+        var variantBlueSmall = new Product("Blue S", "tshirt-blue-small")
         {
             GTIN = "4345547457457",
             Price = 120,
@@ -127,7 +127,7 @@ public static class Seed
 
         //*/
 
-        var variantBlueMedium = new Product("tshirt-blue-medium", "Blue M")
+        var variantBlueMedium = new Product("Blue M", "tshirt-blue-medium")
         {
             GTIN = "543453454567",
             Price = 120,
@@ -151,7 +151,7 @@ public static class Seed
 
         item.Variants.Add(variantBlueMedium);
 
-        var variantBlueLarge = new Product("tshirt-blue-large", "Blue L")
+        var variantBlueLarge = new Product("Blue L", "tshirt-blue-large")
         {
             GTIN = "6876345345345",
             Price = 60,
@@ -177,7 +177,7 @@ public static class Seed
 
         /////
 
-        var variantRedSmall = new Product("tshirt-red-small", "Red S")
+        var variantRedSmall = new Product("Red S", "tshirt-red-small")
         {
             GTIN = "4345547457457",
             Price = 120,
@@ -201,7 +201,7 @@ public static class Seed
 
         item.Variants.Add(variantRedSmall);
 
-        var variantRedMedium = new Product("tshirt-red-medium", "Red M")
+        var variantRedMedium = new Product("Red M", "tshirt-red-medium")
         {
             GTIN = "543453454567",
             Price = 120,
@@ -225,7 +225,7 @@ public static class Seed
 
         item.Variants.Add(variantRedMedium);
 
-        var variantRedLarge = new Product("tshirt-red-large", "Red L")
+        var variantRedLarge = new Product("Red L", "tshirt-red-large")
         {
             GTIN = "6876345345345",
             Price = 120,
@@ -256,7 +256,7 @@ public static class Seed
 
     public static async Task CreateKebabPlate(ApplicationDbContext context)
     {
-        var item = new Product("kebabtallrik", "Kebabtallrik")
+        var item = new Product("Kebabtallrik", "kebabtallrik")
         {
             Description = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
             Price = 89,
@@ -288,7 +288,7 @@ public static class Seed
 
     public static async Task CreateHerrgardsStek(ApplicationDbContext context)
     {
-        var item = new Product("herrgardsstek", "Herrgårdsstek")
+        var item = new Product("Herrgårdsstek", "herrgardsstek")
         {
             Description = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
             Price = 179,
@@ -337,7 +337,7 @@ public static class Seed
 
     public static async Task CreateKorg(ApplicationDbContext context)
     {
-        var item = new Product("korg", "Korg")
+        var item = new Product("Korg", "korg")
         {
             Description = "En korg med smårätter",
             Price = 179,
@@ -405,7 +405,7 @@ public static class Seed
 
     public static async Task CreatePizza(ApplicationDbContext context)
     {
-        var item = new Product("pizza", "Pizza")
+        var item = new Product("Pizza", "pizza")
         {
             Description = "Custom pizza",
             Price = 40,
@@ -515,7 +515,7 @@ public static class Seed
 
     public static async Task CreateSalad(ApplicationDbContext context)
     {
-        var item = new Product("sallad", "Sallad")
+        var item = new Product("Sallad", "sallad")
         {
             Description = "Din egna sallad",
             Price = 52,

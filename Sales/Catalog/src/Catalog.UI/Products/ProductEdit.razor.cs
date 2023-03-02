@@ -14,7 +14,7 @@ partial class ProductEdit : ComponentBase
     ProductDto? product;
 
     [Parameter]
-    public string? ProductId { get; set; }
+    public long? ProductId { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -32,7 +32,7 @@ partial class ProductEdit : ComponentBase
 
     private async Task LoadAsync()
     {
-        product = await ProductsClient.GetProductAsync(ProductId);
+        product = await ProductsClient.GetProductAsync(ProductId.ToString());
     }
 
     public void Dispose()
@@ -53,7 +53,7 @@ partial class ProductEdit : ComponentBase
     {
         try
         {
-            await ProductsClient.UpdateProductVisibilityAsync(ProductId, value.GetValueOrDefault());
+            await ProductsClient.UpdateProductVisibilityAsync(ProductId.GetValueOrDefault(), value.GetValueOrDefault());
 
             product!.Visibility = value;
 

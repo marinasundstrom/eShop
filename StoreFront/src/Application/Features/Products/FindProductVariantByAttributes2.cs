@@ -5,7 +5,7 @@ using YourBrand.StoreFront.Application.Features.Carts;
 namespace YourBrand.StoreFront.Application.Features.Products;
 
 public sealed record FindProductVariantByAttributes2(
-    string Id, Dictionary<string, string> Attributes)
+    string ProductIdOrHandle, Dictionary<string, string> Attributes)
     : IRequest<IEnumerable<SiteProductDto>>
 {
     sealed class Handler : IRequestHandler<FindProductVariantByAttributes2, IEnumerable<SiteProductDto>>
@@ -27,7 +27,7 @@ public sealed record FindProductVariantByAttributes2(
 
         public async Task<IEnumerable<SiteProductDto>> Handle(FindProductVariantByAttributes2 request, CancellationToken cancellationToken)
         {
-            var r = await _productsClient.FindVariantByAttributeValues2Async(request.Id, request.Attributes!, cancellationToken);
+            var r = await _productsClient.FindVariantByAttributeValues2Async(request.ProductIdOrHandle, request.Attributes!, cancellationToken);
             return r.Select(x => x.ToDto());
         }
     }

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Attributes;
 
-public record AddProductAttribute(string ProductId, string AttributeId, string ValueId) : IRequest<ProductAttributeDto>
+public record AddProductAttribute(long ProductId, string AttributeId, string ValueId) : IRequest<ProductAttributeDto>
 {
     public class Handler : IRequestHandler<AddProductAttribute, ProductAttributeDto>
     {

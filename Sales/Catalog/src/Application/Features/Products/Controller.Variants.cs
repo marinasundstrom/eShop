@@ -8,39 +8,39 @@ namespace YourBrand.Catalog.Features.Products;
 
 partial class ProductsController : Controller
 {
-    [HttpGet("{productId}/Variants")]
-    public async Task<ActionResult<ItemsResult<ProductDto>>> GetVariants(string productId, int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    [HttpGet("{productIdOrHandle}/Variants")]
+    public async Task<ActionResult<ItemsResult<ProductDto>>> GetVariants(string productIdOrHandle, int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProductVariants(productId, page, pageSize, searchString, sortBy, sortDirection)));
+        return Ok(await _mediator.Send(new GetProductVariants(productIdOrHandle, page, pageSize, searchString, sortBy, sortDirection)));
     }
 
     [HttpDelete("{productId}/Variants/{variantId}")]
-    public async Task<ActionResult> DeleteVariant(string productId, string variantId)
+    public async Task<ActionResult> DeleteVariant(long productId, long variantId)
     {
         await _mediator.Send(new DeleteProductVariant(productId, variantId));
         return Ok();
     }
 
-    [HttpGet("{productId}/Variants/{variantId}")]
-    public async Task<ActionResult<ProductDto>> GetVariant(string productId, string variantId)
+    [HttpGet("{productIdOrHandle}/Variants/{variantIdOrHandle}")]
+    public async Task<ActionResult<ProductDto>> GetVariant(string productIdOrHandle, string variantIdOrHandle)
     {
-        return Ok(await _mediator.Send(new GetProductVariant(productId, variantId)));
+        return Ok(await _mediator.Send(new GetProductVariant(productIdOrHandle, variantIdOrHandle)));
     }
 
-    [HttpPost("{productId}/Variants/Find")]
-    public async Task<ActionResult<ProductDto>> FindVariantByAttributeValues(string productId, Dictionary<string, string?> selectedAttributeValues)
+    [HttpPost("{productIdOrHandle}/Variants/Find")]
+    public async Task<ActionResult<ProductDto>> FindVariantByAttributeValues(string productIdOrHandle, Dictionary<string, string?> selectedAttributeValues)
     {
-        return Ok(await _mediator.Send(new FindProductVariant(productId, selectedAttributeValues)));
+        return Ok(await _mediator.Send(new FindProductVariant(productIdOrHandle, selectedAttributeValues)));
     }
 
-    [HttpPost("{productId}/Variants/Find2")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> FindVariantByAttributeValues2(string productId, Dictionary<string, string?> selectedAttributeValues)
+    [HttpPost("{productIdOrHandle}/Variants/Find2")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> FindVariantByAttributeValues2(string productIdOrHandle, Dictionary<string, string?> selectedAttributeValues)
     {
-        return Ok(await _mediator.Send(new FindProductVariants(productId, selectedAttributeValues)));
+        return Ok(await _mediator.Send(new FindProductVariants(productIdOrHandle, selectedAttributeValues)));
     }
 
     [HttpGet("{productId}/Variants/{variantId}/Options")]
-    public async Task<ActionResult<ProductVariantAttributeDto>> GetVariantAttributes(string productId, string variantId)
+    public async Task<ActionResult<ProductVariantAttributeDto>> GetVariantAttributes(long productId, long variantId)
     {
         return Ok(await _mediator.Send(new GetProductVariantAttributes(productId, variantId)));
     }
@@ -48,7 +48,7 @@ partial class ProductsController : Controller
     [HttpPost("{productId}/Variants")]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDto>> CreateVariant(string productId, ApiCreateProductVariant data)
+    public async Task<ActionResult<ProductDto>> CreateVariant(long productId, ApiCreateProductVariant data)
     {
         try
         {
@@ -67,7 +67,7 @@ partial class ProductsController : Controller
     [HttpPut("{productId}/Variants/{variantId}")]
     [ProducesResponseType(typeof(ProductDto), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<ProductDto>> UpdateVariant(string productId, string variantId, ApiUpdateProductVariant data)
+    public async Task<ActionResult<ProductDto>> UpdateVariant(long productId, long variantId, ApiUpdateProductVariant data)
     {
         try
         {
@@ -85,7 +85,7 @@ partial class ProductsController : Controller
 
     [HttpPost("{productId}/Variants/{variantId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<ActionResult> UploadVariantImage([FromRoute] string productId, string variantId, IFormFile file, CancellationToken cancellationToken)
+    public async Task<ActionResult> UploadVariantImage([FromRoute] long productId, long variantId, IFormFile file, CancellationToken cancellationToken)
     {
         var url = await _mediator.Send(new UploadProductVariantImage(productId, variantId, file.Name, file.OpenReadStream()), cancellationToken);
         return Ok(url);

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record DeleteProductVariant(string ProductId, string ProductVariantId) : IRequest
+public record DeleteProductVariant(long ProductId, long ProductVariantId) : IRequest
 {
     public class Handler : IRequestHandler<DeleteProductVariant>
     {

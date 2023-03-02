@@ -6,7 +6,7 @@ using YourBrand.Catalog.Features.Attributes;
 
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record GetAvailableAttributeValues(string ProductId, string AttributeId, IDictionary<string, string?> SelectedAttributeValues) : IRequest<IEnumerable<AttributeValueDto>>
+public record GetAvailableAttributeValues(long ProductId, string AttributeId, IDictionary<string, string?> SelectedAttributeValues) : IRequest<IEnumerable<AttributeValueDto>>
 {
     public class Handler : IRequestHandler<GetAvailableAttributeValues, IEnumerable<AttributeValueDto>>
     {

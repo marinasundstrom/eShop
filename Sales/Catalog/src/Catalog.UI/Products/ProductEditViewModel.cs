@@ -16,9 +16,9 @@ public class ProductEditViewModel
         this.attributesClient = attributesClient;
     }
 
-    public async Task InitializeAsync(string id)
+    public async Task InitializeAsync(long id)
     {
-        var product = await productsClient.GetProductAsync(id);
+        var product = await productsClient.GetProductAsync(id.ToString());
 
         var productOptions = await productsClient.GetProductOptionsAsync(id, null);
     }

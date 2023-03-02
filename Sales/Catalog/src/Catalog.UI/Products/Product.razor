@@ -307,12 +307,12 @@
     {
         item = await ProductsClient.GetProductAsync(ProductId);
 
-        var attributes = await ProductsClient.GetProductAttributesAsync(ProductId);
+        var attributes = await ProductsClient.GetProductAttributesAsync(item.Id);
         attributeGroups = attributes
             .OrderBy(x => x.Attribute.Group?.Id)
             .GroupBy(x => x.Attribute.Group?.Name);
 
-        var options2 = await ProductsClient.GetProductOptionsAsync(ProductId, null);
+        var options2 = await ProductsClient.GetProductOptionsAsync(item.Id, null);
         optionGroups = options2
             .OrderBy(x => x.Group?.Seq)
             .GroupBy(x => x.Group?.Name);
@@ -450,7 +450,7 @@
                 .Where(x => x.SelectedValue is not null)
                 .ToDictionary(x => x.Id, x => x.SelectedValue!.Id);
 
-            variants = await ProductsClient.FindVariantByAttributeValues2Async(ProductId, selectedAttributeValues);
+            variants = await ProductsClient.FindVariantByAttributeValues2Async(item.Id, selectedAttributeValues);
 
             await Update(vm, null!);
         }

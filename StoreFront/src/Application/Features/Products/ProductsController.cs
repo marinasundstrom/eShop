@@ -34,29 +34,29 @@ public class ProductsController : ControllerBase
             page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
     }
 
-    [HttpGet("{id}")]
-    public async Task<SiteProductDto?> GetProduct(string id, CancellationToken cancellationToken = default)
+    [HttpGet("{productIdOrHandle}")]
+    public async Task<SiteProductDto?> GetProduct(string productIdOrHandle, CancellationToken cancellationToken = default)
     {
-        return await mediator.Send(new GetProduct(id), cancellationToken);
+        return await mediator.Send(new GetProduct(productIdOrHandle), cancellationToken);
     }
 
-    [HttpGet("{id}/Variants")]
-    public async Task<ItemsResult<SiteProductDto>> GetProductVariants(string id, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, YourBrand.Catalog.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
+    [HttpGet("{productIdOrHandle}/Variants")]
+    public async Task<ItemsResult<SiteProductDto>> GetProductVariants(string productIdOrHandle, int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null, YourBrand.Catalog.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await mediator.Send(new GetProductVariants(id, page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
+        return await mediator.Send(new GetProductVariants(productIdOrHandle, page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
     }
 
-    [HttpPost("{id}/Variants/Find")]
-    public async Task<SiteProductDto?> FindProductVariantByAttributes(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
+    [HttpPost("{productIdOrHandle}/Variants/Find")]
+    public async Task<SiteProductDto?> FindProductVariantByAttributes(string productIdOrHandle, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
     {
-        return await mediator.Send(new FindProductVariantByAttributes(id, attributes), cancellationToken);
+        return await mediator.Send(new FindProductVariantByAttributes(productIdOrHandle, attributes), cancellationToken);
     }
 
-    [HttpPost("{id}/Variants/Find2")]
-    public async Task<IEnumerable<SiteProductDto>> FindProductVariantByAttributes2(string id, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
+    [HttpPost("{productIdOrHandle}/Variants/Find2")]
+    public async Task<IEnumerable<SiteProductDto>> FindProductVariantByAttributes2(string productIdOrHandle, Dictionary<string, string> attributes, CancellationToken cancellationToken = default)
     {
 
-        return await mediator.Send(new FindProductVariantByAttributes2(id, attributes), cancellationToken);
+        return await mediator.Send(new FindProductVariantByAttributes2(productIdOrHandle, attributes), cancellationToken);
     }
 
     [HttpGet("Categories")]

@@ -1,9 +1,9 @@
 <div class="card mb-5">
-     <a href="/products/@Product.Id">
+     <a href="/products/@Product.Handle">
         <img class="bd-placeholder-img card-img-top shadow" src="@Product.Image" />
     </a>
     <div class="card-body">
-        <a href="/products/@Product.Id" class="text-decoration-none text-reset">
+        <a href="/products/@Product.Handle" class="text-decoration-none text-reset">
             <h5 class="card-title mt-2"><strong>@Product.Name</strong></h5>
         </a>
         <p class="card-text mt-2 text-muted">@Product.Description</p>
@@ -31,7 +31,7 @@
         }
         @if(Product.Options.Any(/* x => x.IsRequired */)) 
         {
-            <a href="/products/@Product.Id" class="btn btn-outline-secondary">Customize</a>
+            <a href="/products/@Product.Handle" class="btn btn-outline-secondary">Customize</a>
         }
     </div>
 </div>

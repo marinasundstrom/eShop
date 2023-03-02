@@ -1,7 +1,7 @@
 using MediatR;
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record FindProductVariants(string ProductId, Dictionary<string, string?> SelectedOptions) : IRequest<IEnumerable<ProductDto>>
+public record FindProductVariants(string ProductIdOrHandle, Dictionary<string, string?> SelectedOptions) : IRequest<IEnumerable<ProductDto>>
 {
     public class Handler : IRequestHandler<FindProductVariants, IEnumerable<ProductDto>>
     {
@@ -16,7 +16,7 @@ public record FindProductVariants(string ProductId, Dictionary<string, string?> 
 
         public async Task<IEnumerable<ProductDto>> Handle(FindProductVariants request, CancellationToken cancellationToken)
         {
-            var variants = await _itemVariantsService.FindVariantCore(request.ProductId, null, request.SelectedOptions);
+            var variants = await _itemVariantsService.FindVariantCore(request.ProductIdOrHandle, null, request.SelectedOptions);
 
             return variants
                 .OrderBy(x => x.Id)

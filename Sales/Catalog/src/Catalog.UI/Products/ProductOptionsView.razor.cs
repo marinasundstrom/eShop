@@ -21,7 +21,7 @@ partial class ProductOptionsView : ComponentBase
 
     [Parameter]
     [EditorRequired]
-    public string ProductId { get; set; } = default!;
+    public long ProductId { get; set; } = default!;
 
     [Parameter]
     [EditorRequired]

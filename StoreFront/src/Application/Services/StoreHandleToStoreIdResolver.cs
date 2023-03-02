@@ -25,6 +25,8 @@ public class StoreHandleToStoreIdResolver : IStoreHandleToStoreIdResolver
     {
         return (await cache.GetOrCreateAsync("store", async (options, cancellationToken) =>
         {
+            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
+            
             var result = await storesClient.GetStoresAsync(0, 100, null, null, null, cancellationToken);
             return result.Items;
         }))!;

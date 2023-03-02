@@ -1,4 +1,4 @@
-﻿@page "/products/{productId}/edit"
+﻿@page "/products/{productId:long}/edit"
 @inject NavigationManager NavigationManager
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
@@ -60,12 +60,12 @@ else
             </MudItem>
         </MudGrid>
 
-    <ProductAttributesView ProductId="@ProductId" HasVariants="product.HasVariants" ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
+    <ProductAttributesView ProductId="@ProductId.GetValueOrDefault()" HasVariants="product.HasVariants" ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
 
     @if(product.HasVariants)
     {
         <ProductVariantsView ProductId="@ProductId" />
     }
 
-    <ProductOptionsView ProductId="@ProductId" ProductOptions="product.Options.ToList().AsReadOnly()" />
+    <ProductOptionsView ProductId="@ProductId.GetValueOrDefault()" ProductOptions="product.Options.ToList().AsReadOnly()" />
 } 

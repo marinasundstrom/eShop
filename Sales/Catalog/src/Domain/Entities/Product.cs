@@ -2,13 +2,14 @@
 
 namespace YourBrand.Catalog.Domain.Entities;
 
-public sealed class Product : AggregateRoot<string>
+public sealed class Product : AggregateRoot<long>
 {
     private Product() { }
 
-    public Product(string id, string name) : base(id)
+    public Product(string name, string handle) : base(0)
     {
         Name = name;
+        Handle = handle;
     }
 
     public Store Store { get; set; } = null!;
@@ -21,13 +22,15 @@ public sealed class Product : AggregateRoot<string>
 
     public string Name { get; set; } = null!;
 
+    public string Handle { get; set; } = null!;
+
     public string? Substitle { get; set; }
 
     //public bool IsNew { get; set; }
 
     public Product? ParentProduct { get; set; }
 
-    public string? ParentProductId { get; set; }
+    public long? ParentProductId { get; set; }
 
     public ProductGroup? Group { get; set; }
 

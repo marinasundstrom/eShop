@@ -6,7 +6,7 @@ using YourBrand.Catalog.Features.Options;
 
 namespace YourBrand.Catalog.Features.Products.Options.Groups;
 
-public record UpdateProductOptionGroup(string ProductId, string OptionGroupId, ApiUpdateProductOptionGroup Data) : IRequest<OptionGroupDto>
+public record UpdateProductOptionGroup(long ProductId, string OptionGroupId, ApiUpdateProductOptionGroup Data) : IRequest<OptionGroupDto>
 {
     public class Handler : IRequestHandler<UpdateProductOptionGroup, OptionGroupDto>
     {

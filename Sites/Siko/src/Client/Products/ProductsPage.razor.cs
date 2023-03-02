@@ -169,7 +169,7 @@ partial class ProductsPage
     {
         await CartClient.AddItemToCartAsync(new AddCartItemDto()
         {
-            ProductId = product.Id,
+            ProductId = product.Id.ToString(),
             Quantity = 1
          });
     }

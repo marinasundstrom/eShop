@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record CreateProductGroup(string ProductId, ApiCreateProductGroup Data) : IRequest<ProductGroupDto>
+public record CreateProductGroup(ApiCreateProductGroup Data) : IRequest<ProductGroupDto>
 {
     public class Handler : IRequestHandler<CreateProductGroup, ProductGroupDto>
     {

@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record UploadProductImage(string ProductId, string FileName, Stream Stream) : IRequest<string?>
+public record UploadProductImage(long ProductId, string FileName, Stream Stream) : IRequest<string?>
 {
     public class Handler : IRequestHandler<UploadProductImage, string?>
     {

@@ -6,7 +6,7 @@ using YourBrand.StoreFront.Application.Common.Models;
 namespace YourBrand.StoreFront.Application.Features.Products;
 
 public sealed record GetProductVariants(
-    string Id, int Page = 1, int PageSize = 10,
+    string ProductIdOrHandle, int Page = 1, int PageSize = 10,
     string? SearchString = null, string? SortBy = null, YourBrand.Catalog.SortDirection? SortDirection = null)
     : IRequest<ItemsResult<SiteProductDto>>
 {
@@ -29,7 +29,7 @@ public sealed record GetProductVariants(
 
         public async Task<ItemsResult<SiteProductDto>> Handle(GetProductVariants request, CancellationToken cancellationToken)
         {
-            var result = await _productsClient.GetVariantsAsync(request.Id, request.Page - 1, request.PageSize, request.SearchString, request.SortBy, request.SortDirection, cancellationToken);
+            var result = await _productsClient.GetVariantsAsync(request.ProductIdOrHandle, request.Page - 1, request.PageSize, request.SearchString, request.SortBy, request.SortDirection, cancellationToken);
 
             return new ItemsResult<SiteProductDto>(result.Items.Select(x => x.ToDto()), result.TotalItems);
         }

@@ -6,7 +6,7 @@ using YourBrand.Catalog.Features.Options;
 
 namespace YourBrand.Catalog.Features.Products.Options;
 
-public record CreateProductOption(string ProductId, ApiCreateProductOption Data) : IRequest<OptionDto>
+public record CreateProductOption(long ProductId, ApiCreateProductOption Data) : IRequest<OptionDto>
 {
     public class Handler : IRequestHandler<CreateProductOption, OptionDto>
     {

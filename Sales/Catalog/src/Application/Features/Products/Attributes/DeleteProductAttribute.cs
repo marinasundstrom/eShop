@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Attributes;
 
-public record DeleteProductAttribute(string ProductId, string AttributeId) : IRequest
+public record DeleteProductAttribute(long ProductId, string AttributeId) : IRequest
 {
     public class Handler : IRequestHandler<DeleteProductAttribute>
     {

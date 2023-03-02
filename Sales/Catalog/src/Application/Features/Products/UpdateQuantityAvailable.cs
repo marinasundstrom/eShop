@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record UpdateQuantityAvailable(string ProductId, int Quantity) : IRequest<ProductDto?>
+public record UpdateQuantityAvailable(long ProductId, int Quantity) : IRequest<ProductDto?>
 {
     public class Handler : IRequestHandler<UpdateQuantityAvailable, ProductDto?>
     {

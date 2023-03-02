@@ -19,6 +19,7 @@ public static class Mapping
         return new ProductDto(
                item.Id,
                item.Name,
+               item.Handle,
                item.Description,
                item.ParentProduct?.ToDto2(),
                item.Group?.ToDto(),
@@ -37,6 +38,7 @@ public static class Mapping
         return new ParentProductDto(
                 item.Id,
                 item.Name,
+                item.Handle,
                 item.Description,
                 item.Group?.ToDto());
     }

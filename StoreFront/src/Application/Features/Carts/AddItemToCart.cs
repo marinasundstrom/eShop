@@ -47,7 +47,7 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
                         Id = x.Option.Id,
                         Name = x.Option.Name,
                         OptionType = (int)x.Option.OptionType,
-                        ProductId = x.Option.ProductId,
+                        ProductId = x.Option.Sku,
                         Price = x.Option.Price,
                         IsSelected = x.Option.IsSelected,
                         SelectedValueId = x.Option.DefaultValue?.Id,

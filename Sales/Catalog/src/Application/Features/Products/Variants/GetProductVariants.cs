@@ -6,7 +6,7 @@ using YourBrand.Catalog.Common.Models;
 
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record GetProductVariants(string ProductId, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
+public record GetProductVariants(string ProductIdOrHandle, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
 {
     public class Handler : IRequestHandler<GetProductVariants, ItemsResult<ProductDto>>
     {
@@ -19,8 +19,15 @@ public record GetProductVariants(string ProductId, int Page = 10, int PageSize =
 
         public async Task<ItemsResult<ProductDto>> Handle(GetProductVariants request, CancellationToken cancellationToken)
         {
-            var query = _context.Products
-                .Where(pv => pv.ParentProduct!.Id == request.ProductId)
+            long.TryParse(request.ProductIdOrHandle, out var productId);
+
+            var query = _context.Products.AsQueryable();
+
+            query = productId == 0 ?
+                query.Where(pv => pv.ParentProduct!.Handle == request.ProductIdOrHandle)
+                : query.Where(pv => pv.ParentProduct!.Id == productId);
+
+            query = query
                 .OrderBy(x => x.Id)
                 .AsSplitQuery()
                 .AsNoTracking()

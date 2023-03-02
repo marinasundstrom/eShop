@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Variants;
 
-public record GetProductVariantAttributes(string ProductId, string ProductVariantId) : IRequest<IEnumerable<ProductVariantAttributeDto>>
+public record GetProductVariantAttributes(long ProductId, long ProductVariantId) : IRequest<IEnumerable<ProductVariantAttributeDto>>
 {
     public class Handler : IRequestHandler<GetProductVariantAttributes, IEnumerable<ProductVariantAttributeDto>>
     {
