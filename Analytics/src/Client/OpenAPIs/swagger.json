@@ -55,8 +55,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -65,8 +64,7 @@
             "x-originalName": "sessionId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 2
           }
@@ -112,8 +110,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           }
@@ -156,8 +153,7 @@
             "x-originalName": "clientId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -166,8 +162,7 @@
             "x-originalName": "sessionId",
             "in": "header",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 2
           }
@@ -367,12 +362,12 @@
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "ItemViewed",
-          "ItemGroupViewed"
+          "ProductViewed",
+          "ProductGroupViewed"
         ],
         "enum": [
-          "itemViewed",
-          "itemGroupViewed"
+          "productViewed",
+          "productGroupViewed"
         ]
       },
       "SessionData": {

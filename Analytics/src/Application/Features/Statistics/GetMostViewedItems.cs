@@ -18,7 +18,7 @@ public record GetMostViewedItems(DateTime? From = null, DateTime? To = null, boo
         public async Task<Data> Handle(GetMostViewedItems request, CancellationToken cancellationToken)
         {
             var events = await context.Events
-                       .Where(x => x.EventType == YourBrand.Analytics.Domain.Enums.EventType.ItemViewed)
+                       .Where(x => x.EventType == YourBrand.Analytics.Domain.Enums.EventType.ProductViewed)
                        .OrderBy(x => x.DateTime)
                        .AsNoTracking()
                        .AsSplitQuery()

@@ -1704,12 +1704,12 @@
         "type": "string",
         "description": "",
         "x-enumNames": [
-          "ItemViewed",
-          "ItemGroupViewed"
+          "ProductViewed",
+          "ProductGroupViewed"
         ],
         "enum": [
-          "itemViewed",
-          "itemGroupViewed"
+          "productViewed",
+          "productGroupViewed"
         ]
       },
       "Coordinates": {

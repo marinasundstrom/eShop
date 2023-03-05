@@ -37,15 +37,15 @@ partial class ProductsPage
 
         if (!RenderingContext.IsPrerendering)
         {
-            _ = ItemGroupViewed();
+            _ = ProductGroupViewed();
         }
     }
 
-    private async Task ItemGroupViewed()
+    private async Task ProductGroupViewed()
     {
         await AnalyticsService.RegisterEvent(new EventData
         {
-            EventType = EventType.ItemGroupViewed,
+            EventType = EventType.ProductGroupViewed,
             Data = new Dictionary<string, object>
             {
                 { "groupId", Group3Id ?? Group2Id ?? GroupId ?? productGroup!.Handle },
@@ -68,7 +68,7 @@ partial class ProductsPage
 
             StateHasChanged();
 
-            _ = ItemGroupViewed();
+            _ = ProductGroupViewed();
         }
     }
 

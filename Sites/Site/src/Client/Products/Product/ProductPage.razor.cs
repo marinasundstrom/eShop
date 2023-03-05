@@ -75,15 +75,15 @@ partial class ProductPage
 
         if (!RenderingContext.IsPrerendering)
         {
-            _ = ItemViewed();
+            _ = ProductViewed();
         }
     }
 
-    private async Task ItemViewed()
+    private async Task ProductViewed()
     {
         await AnalyticsService.RegisterEvent(new EventData
         {
-            EventType = EventType.ItemViewed,
+            EventType = EventType.ProductViewed,
             Data = new Dictionary<string, object>
             {
                 { "productId", productViewModel.Variant?.Id ?? productViewModel.Product!.Id },
@@ -99,7 +99,7 @@ partial class ProductPage
 
         await UpdateUrl();
 
-        _ = ItemViewed();
+        _ = ProductViewed();
     }
 
     async Task SelectVariant(SiteProductDto v)
@@ -112,7 +112,7 @@ partial class ProductPage
 
             await UpdateUrl();
 
-            _ = ItemViewed();
+            _ = ProductViewed();
         }
     }
 
