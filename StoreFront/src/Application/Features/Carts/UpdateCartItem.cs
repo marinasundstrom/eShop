@@ -4,7 +4,7 @@ using YourBrand.Orders;
 
 namespace YourBrand.StoreFront.Application.Features.Carts;
 
-public sealed record UpdateCartItem(string Id, int Quantity, string? Data) : IRequest
+public sealed record UpdateCartItem(string CartItemId, int Quantity, string? Data) : IRequest
 {
     sealed class Handler : IRequestHandler<UpdateCartItem>
     {
@@ -34,11 +34,11 @@ public sealed record UpdateCartItem(string Id, int Quantity, string? Data) : IRe
 
             var cart = await cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
-            var cartItem = cart.Items.First(x => x.Id == request.Id);
+            var cartItem = cart.Items.First(x => x.Id == request.CartItemId);
 
-            await cartsClient.UpdateCartItemQuantityAsync(cart.Id, cartItem.Id, request.Quantity, cancellationToken);
+            await cartsClient.UpdateCartItemQuantityAsync(cart.Id, (string)cartItem.Id, request.Quantity, cancellationToken);
 
-            await cartsClient.UpdateCartItemDataAsync(cart.Id, cartItem.Id, request.Data, cancellationToken);
+            await cartsClient.UpdateCartItemDataAsync(cart.Id, (string)cartItem.Id, request.Data, cancellationToken);
 
             await cartHubService.UpdateCart();
 

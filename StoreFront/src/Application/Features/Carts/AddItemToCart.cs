@@ -6,7 +6,7 @@ using YourBrand.Orders;
 
 namespace YourBrand.StoreFront.Application.Features.Carts;
 
-public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : IRequest
+public sealed record AddItemToCart(string ProductId, int Quantity, string? Data) : IRequest
 {
     sealed class Handler : IRequestHandler<AddItemToCart>
     {
@@ -29,9 +29,9 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
 
         public async Task<Unit> Handle(AddItemToCart request, CancellationToken cancellationToken)
         {
-            var item = await productsClient.GetProductAsync(request.ItemId);
+            var product = await productsClient.GetProductAsync(request.ProductId);
 
-            if (item.HasVariants)
+            if (product.HasVariants)
             {
                 throw new Exception();
             }
@@ -40,7 +40,7 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
 
             if(string.IsNullOrEmpty(data)) 
             {
-                var dataArray = item.Options.Select(x =>
+                var dataArray = product.Options.Select(x =>
                 {
                     return new Option
                     {
@@ -64,7 +64,7 @@ public sealed record AddItemToCart(string ItemId, int Quantity, string? Data) : 
 
             var dto2 = new YourBrand.Carts.CreateCartItemRequest()
             {
-                ItemId = request.ItemId,
+                ItemId = request.ProductId,
                 Quantity = request.Quantity,
                 Data = data
             };

@@ -4,7 +4,7 @@ using YourBrand.Orders;
 
 namespace YourBrand.StoreFront.Application.Features.Carts;
 
-public sealed record RemoveItemFromCart(string Id) : IRequest
+public sealed record RemoveItemFromCart(string CartItemId) : IRequest
 {
     sealed class Handler : IRequestHandler<RemoveItemFromCart>
     {
@@ -34,7 +34,7 @@ public sealed record RemoveItemFromCart(string Id) : IRequest
 
             var cart = await cartsClient.GetCartByTagAsync(tag, cancellationToken);
 
-            await cartsClient.RemoveCartItemAsync(cart.Id, request.Id, cancellationToken);
+            await cartsClient.RemoveCartItemAsync(cart.Id, request.CartItemId, cancellationToken);
 
             await cartHubService.UpdateCart();
 

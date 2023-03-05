@@ -104,7 +104,7 @@
         "operationId": "Products_GetProducts",
         "parameters": [
           {
-            "name": "itemGroupId",
+            "name": "productGroupId",
             "in": "query",
             "schema": {
               "type": "string"
@@ -112,7 +112,7 @@
             "x-position": 1
           },
           {
-            "name": "itemGroup2Id",
+            "name": "productGroup2Id",
             "in": "query",
             "schema": {
               "type": "string"
@@ -120,7 +120,7 @@
             "x-position": 2
           },
           {
-            "name": "itemGroup3Id",
+            "name": "productGroup3Id",
             "in": "query",
             "schema": {
               "type": "string"

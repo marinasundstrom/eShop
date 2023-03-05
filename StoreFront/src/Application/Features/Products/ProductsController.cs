@@ -26,11 +26,11 @@ public class ProductsController : ControllerBase
 
     [HttpGet]
     public async Task<ItemsResult<SiteProductDto>> GetProducts(
-        string? itemGroupId = null, string? itemGroup2Id = null, string? itemGroup3Id = null,
+        string? productGroupId = null, string? productGroup2Id = null, string? productGroup3Id = null,
         int page = 1, int pageSize = 10, string? searchString = null, string? sortBy = null,
         YourBrand.Catalog.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return await mediator.Send(new GetProducts(itemGroupId, itemGroup2Id, itemGroup3Id,
+        return await mediator.Send(new GetProducts(productGroupId, productGroup2Id, productGroup3Id,
             page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
     }
 

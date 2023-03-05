@@ -53,22 +53,22 @@ public sealed record Checkout(
 
             foreach (var cartItem in cart.Items)
             {
-                var item = await productsClient2.GetProductAsync(cartItem.ItemId, cancellationToken);
+                var product = await productsClient2.GetProductAsync(cartItem.ItemId, cancellationToken);
 
                 var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
                 {
                     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
                 })!;
 
-                decimal price = item.Price;
+                decimal price = product.Price;
 
-                price += CalculatePrice(item, options);
+                price += CalculatePrice(product, options);
 
                 List<string> optionTexts = new List<string>();
 
                 foreach (var option in options)
                 {
-                    var opt = item.Options.FirstOrDefault(x => x.Option.Id == option.Id);
+                    var opt = product.Options.FirstOrDefault(x => x.Option.Id == option.Id);
 
                     if (opt is not null)
                     {
@@ -125,7 +125,7 @@ public sealed record Checkout(
 
                 items.Add(new CreateOrderItemDto
                 {
-                    Description = item.Name,
+                    Description = product.Name,
                     ItemId = cartItem.ItemId,
                     Notes = string.Join(", ", optionTexts),
                     UnitPrice = price,
