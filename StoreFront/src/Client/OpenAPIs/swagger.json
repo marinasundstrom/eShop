@@ -418,7 +418,9 @@
             "name": "parentGroupId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64",
+              "nullable": true
             },
             "x-position": 1
           },
@@ -1242,9 +1244,13 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           },
           "parent": {
@@ -1531,9 +1537,13 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           },
           "description": {

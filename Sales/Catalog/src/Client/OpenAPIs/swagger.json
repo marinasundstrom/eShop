@@ -22,7 +22,8 @@
             "name": "storeId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "nullable": true
             },
             "x-position": 1
           },
@@ -30,7 +31,9 @@
             "name": "parentGroupId",
             "in": "query",
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64",
+              "nullable": true
             },
             "x-position": 2
           },
@@ -100,7 +103,7 @@
         }
       }
     },
-    "/v1/ProductGroups/{id}": {
+    "/v1/ProductGroups/{productGroupIdOrHandle}": {
       "get": {
         "tags": [
           "ProductGroups"
@@ -108,7 +111,7 @@
         "operationId": "ProductGroups_GetProductGroup",
         "parameters": [
           {
-            "name": "id",
+            "name": "productGroupIdOrHandle",
             "in": "path",
             "required": true,
             "schema": {
@@ -129,7 +132,9 @@
             }
           }
         }
-      },
+      }
+    },
+    "/v1/ProductGroups/{id}": {
       "put": {
         "tags": [
           "ProductGroups"
@@ -141,7 +146,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
             "x-position": 1
           }
@@ -182,7 +188,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "integer",
+              "format": "int64"
             },
             "x-position": 1
           }
@@ -2351,9 +2358,13 @@
         "additionalProperties": false,
         "properties": {
           "id": {
-            "type": "string"
+            "type": "integer",
+            "format": "int64"
           },
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           },
           "description": {
@@ -2374,11 +2385,10 @@
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           },
           "description": {
@@ -2386,7 +2396,8 @@
             "nullable": true
           },
           "parentGroupId": {
-            "type": "string",
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           }
         }
@@ -2403,7 +2414,8 @@
             "nullable": true
           },
           "parentGroupId": {
-            "type": "string",
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           }
         }
@@ -2892,7 +2904,8 @@
             "nullable": true
           },
           "groupId": {
-            "type": "string",
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           }
         }
@@ -2907,6 +2920,9 @@
           "handle": {
             "type": "string"
           },
+          "storeId": {
+            "type": "string"
+          },
           "hasVariants": {
             "type": "boolean"
           },
@@ -2915,7 +2931,8 @@
             "nullable": true
           },
           "groupId": {
-            "type": "string",
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
           "sku": {
@@ -3244,7 +3261,8 @@
             "nullable": true
           },
           "id": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "price": {
             "type": "number",

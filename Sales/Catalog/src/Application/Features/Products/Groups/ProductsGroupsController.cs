@@ -19,15 +19,15 @@ public partial class ProductGroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductGroupDto>>> GetProductGroups(string? storeId = null, string? parentGroupId = null, bool includeWithUnlistedProducts = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<IEnumerable<ProductGroupDto>>> GetProductGroups(string? storeId = null, long? parentGroupId = null, bool includeWithUnlistedProducts = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
     {
         return Ok(await _mediator.Send(new GetProductGroups(storeId, parentGroupId, includeWithUnlistedProducts, IncludeHidden), cancellationToken));
     }
 
-    [HttpGet("{id}")]
-    public async Task<ActionResult<ProductGroupDto>> GetProductGroup(string id, CancellationToken cancellationToken = default)
+    [HttpGet("{productGroupIdOrHandle}")]
+    public async Task<ActionResult<ProductGroupDto>> GetProductGroup(string productGroupIdOrHandle, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProductGroup(id), cancellationToken));
+        return Ok(await _mediator.Send(new GetProductGroup(productGroupIdOrHandle), cancellationToken));
     }
     [HttpPost]
     public async Task<ActionResult<ProductGroupDto>> CreateProductGroup(ApiCreateProductGroup data, CancellationToken cancellationToken = default)
@@ -36,13 +36,13 @@ public partial class ProductGroupsController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(string id, ApiUpdateProductGroup data, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(long id, ApiUpdateProductGroup data, CancellationToken cancellationToken = default)
     {
         return Ok(await _mediator.Send(new UpdateProductGroup(id, data), cancellationToken));
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteProductGroup(string id, CancellationToken cancellationToken = default)
+    public async Task<ActionResult> DeleteProductGroup(long id, CancellationToken cancellationToken = default)
     {
         await _mediator.Send(new DeleteProductGroup(id), cancellationToken);
         return Ok();

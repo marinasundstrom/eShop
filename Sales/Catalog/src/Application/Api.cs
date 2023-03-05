@@ -4,13 +4,13 @@ using System;
 
 using YourBrand.Catalog.Features.Options;
 
-public record class ApiCreateProduct(string Name, string Handle, bool HasVariants, string? Description, string? GroupId, string? Sku, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
+public record class ApiCreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description, long? GroupId, string? Sku, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
 
-public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, string? GroupId);
+public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, long? GroupId);
 
-public record class ApiCreateProductGroup(string? Id, string Name, string? Description, string? ParentGroupId);
+public record class ApiCreateProductGroup(string Name, string Handle, string? Description, long? ParentGroupId);
 
-public record class ApiUpdateProductGroup(string Name, string? Description, string? ParentGroupId);
+public record class ApiUpdateProductGroup(string Name, string? Description, long? ParentGroupId);
 
 public record class ApiCreateProductOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool? IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateProductOptionValue> Values, 
     string? DefaultOptionValueId, int? MinNumericalValue, int? MaxNumericalValue, int? DefaultNumericalValue, int? TextValueMinLength, int? TextValueMaxLength, string? DefaultTextValue);
@@ -44,7 +44,7 @@ public record class ApiUpdateProductAttributeGroup(string Name, string? Descript
 
 
 
-public record class ApiCreateProductVariant(string Name, string Handle, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
+public record class ApiCreateProductVariant(string Name, string Handle, string? Description, string? Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
 
 public record class ApiCreateProductVariantAttribute(string AttributeId, string ValueId);
 

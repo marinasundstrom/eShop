@@ -20,9 +20,10 @@ public record CreateProductGroup(ApiCreateProductGroup Data) : IRequest<ProductG
             var parentGroup = await _context.ProductGroups
                 .FirstOrDefaultAsync(x => x.Id == request.Data.ParentGroupId);
 
-            var itemGroup = new ProductGroup(request.Data.Id ?? Guid.NewGuid().ToString(), request.Data.Name)
+            var itemGroup = new ProductGroup(request.Data.Name)
             {
                 Name = request.Data.Name,
+                Handle = request.Data.Handle,
                 Description = request.Data.Description,
                 Parent = parentGroup
             };

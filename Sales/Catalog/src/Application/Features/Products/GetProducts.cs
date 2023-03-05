@@ -6,7 +6,7 @@ using YourBrand.Catalog.Common.Models;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, bool GroupProducts = true, string? GroupId = null, string? Group2Id = null, string? Group3Id = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
+public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, bool GroupProducts = true, string? GroupIdOrHandle = null, string? Group2IdOrHandle = null, string? Group3IdOrHandle = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
 {
     public class Handler : IRequestHandler<GetProducts, ItemsResult<ProductDto>>
     {
@@ -22,24 +22,7 @@ public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, 
             var query = _context.Products
                 .AsSplitQuery()
                 .AsNoTracking()
-                .Include(pv => pv.ParentProduct)
-                .ThenInclude(pv => pv!.Group)
-                .Include(pv => pv.Group)
-                .Include(pv => pv.ProductAttributes)
-                .ThenInclude(pv => pv.Attribute)
-                .ThenInclude(pv => pv.Values)
-                .Include(pv => pv.ProductAttributes)
-                .ThenInclude(pv => pv.Value)
-                .Include(pv => pv.ProductOptions)
-                .ThenInclude(pv => pv.Option)
-                .ThenInclude(pv => pv.Group)
-                .Include(pv => pv.ProductOptions)
-                .ThenInclude(pv => pv.Option)
-                .ThenInclude(pv => (pv as ChoiceOption)!.Values)
-                .Include(pv => pv.ProductOptions)
-                .ThenInclude(pv => pv.Option)
-                .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue)
-                .AsQueryable();
+                .IncludeAll();
 
             if (request.StoreId is not null)
             {
@@ -51,17 +34,29 @@ public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, 
                 query = query.Where(x => x.Visibility == Domain.Enums.ProductVisibility.Listed);
             }
 
-            if (request.GroupId is not null)
+            if (request.GroupIdOrHandle is not null)
             {
-                query = query.Where(x => x.Group!.Id == request.GroupId);
+                long.TryParse(request.GroupIdOrHandle, out var groupId);
 
-                if (request.Group2Id is not null)
+                query = groupId == 0 
+                            ? query.Where(x => x.Group!.Handle == request.GroupIdOrHandle)
+                            : query.Where(x => x.Group!.Id == groupId);
+
+                if (request.Group2IdOrHandle is not null)
                 {
-                    query = query.Where(x => x.Group2!.Id == request.Group2Id);
+                    long.TryParse(request.Group2IdOrHandle, out var group2Id);
+                    
+                    query = group2Id == 0 
+                        ? query.Where(x => x.Group2!.Handle == request.Group2IdOrHandle)
+                        : query.Where(x => x.Group2!.Id == group2Id);
 
-                    if (request.Group2Id is not null)
+                    if (request.Group3IdOrHandle is not null)
                     {
-                        query = query.Where(x => x.Group3!.Id == request.Group3Id);
+                        long.TryParse(request.Group3IdOrHandle, out var group3Id);
+
+                         query = group3Id == 0 
+                            ? query.Where(x => x.Group3!.Handle == request.Group3IdOrHandle)
+                            : query.Where(x => x.Group3!.Id == group3Id);
                     }
                 }
             }

@@ -10,7 +10,12 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync(); 
+
         context.Stores.Add(new Store("Joes", "joes"));
+
+        context.Stores.Add(new Store("Siko", "siko"));
 
         await context.SaveChangesAsync();
 
@@ -18,21 +23,38 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        context.ProductGroups.Add(new ProductGroup("clothes", "Clothes")
+        var r = context.ProductGroups.Add(new ProductGroup("Clothes")
         {
+            Handle = "clothes",
             Description = null,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         });
 
-        context.ProductGroups.Add(new ProductGroup("food", "Food")
+        context.ProductGroups.Add(new ProductGroup("T-shirts")
         {
+            Handle = "t-shirts",
+            Description = null,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes"),
+            Parent = r.Entity
+        });
+
+        context.ProductGroups.Add(new ProductGroup("Food")
+        {
+            Handle = "food",
+            Description = null,
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
+        });
+
+        context.ProductGroups.Add(new ProductGroup("Drinks")
+        {
+            Handle = "drinks",
             Description = null,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         });
 
         await context.SaveChangesAsync();
 
-        await CreateShirt2(context);
+        await CreateShirt(context);
 
         await CreateKebabPlate(context);
 
@@ -43,11 +65,9 @@ public static class Seed
         await CreatePizza(context);
 
         await CreateSalad(context);
-
-        await context.SaveChangesAsync();
     }
 
-    public static async Task CreateShirt2(ApplicationDbContext context)
+    public static async Task CreateShirt(ApplicationDbContext context)
     {
         var sizeAttribute = new Domain.Entities.Attribute("Size");
 
@@ -72,11 +92,12 @@ public static class Seed
         var valueRed = new AttributeValue("Red");
         colorAttribute.Values.Add(valueRed);
 
-        var item = new Product("T-shirt", "tshirt")
+        var item = new Product("Färgad t-shirt", "fargad-tshirt")
         {
             Description = "T-shirt i olika färger",
             HasVariants = true,
-            Group = await context.ProductGroups.FirstAsync(x => x.Name == "Clothes"),
+            Group = await context.ProductGroups.FirstAsync(x => x.Handle == "clothes"),
+            Group2 = await context.ProductGroups.FirstAsync(x => x.Handle == "t-shirts"),
             Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,
             Brand = await context.Brands.FirstAsync(x => x.Id == "myBrand"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
@@ -252,6 +273,8 @@ public static class Seed
         var textOption = new Domain.Entities.TextValueOption("Custom text");
 
         item.Options.Add(textOption);
+
+        await context.SaveChangesAsync();
     }
 
     public static async Task CreateKebabPlate(ApplicationDbContext context)
@@ -265,6 +288,8 @@ public static class Seed
         };
 
         context.Products.Add(item);
+
+        await context.SaveChangesAsync();
 
         var option = new ChoiceOption("Sås");
         item.Options.Add(option);
@@ -284,6 +309,8 @@ public static class Seed
         option.DefaultValue = valueSmall;
 
         option.Values.Add(valueLarge);
+        
+        await context.SaveChangesAsync();
     }
 
     public static async Task CreateHerrgardsStek(ApplicationDbContext context)
@@ -386,19 +413,20 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        var optionSauce = new SelectableOption("Sås")
+        var optionSauce = new ChoiceOption("Sås")
         {
-            Price = 10,
             Group = extraGroup
         };
 
         item.Options.Add(optionSauce);
 
-        /*
-        optionSauce.Values.Add(new OptionValue() {
-            Name = "Favoritsås", 
+        optionSauce.Values.Add(new OptionValue("Favoritsås"){
+            Price = 10    
         });
-        */
+
+        optionSauce.Values.Add(new OptionValue("Barbecuesås"){
+            Price = 10    
+        });
 
         await context.SaveChangesAsync();
     }
@@ -511,6 +539,8 @@ public static class Seed
         };
 
         item.Options.Add(optionGreenOlives);
+
+        await context.SaveChangesAsync();
     }
 
     public static async Task CreateSalad(ApplicationDbContext context)
@@ -718,5 +748,7 @@ public static class Seed
         };
 
         item.Options.Add(optionCitronLime);
+        
+        await context.SaveChangesAsync();
     }
 }

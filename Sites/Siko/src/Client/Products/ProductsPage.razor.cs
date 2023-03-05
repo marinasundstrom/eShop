@@ -48,7 +48,7 @@ partial class ProductsPage
             EventType = EventType.ItemGroupViewed,
             Data = new Dictionary<string, object>
             {
-                { "groupId", Group3Id ?? Group2Id ?? GroupId ?? productGroup!.Id },
+                { "groupId", Group3Id ?? Group2Id ?? GroupId ?? productGroup!.Handle},
                 { "name", GetGroupName() ?? productGroup.Name }
             }
         });
@@ -57,7 +57,7 @@ partial class ProductsPage
     private string? GetGroupName()
     {
         var groupId = Group3Id ?? Group2Id ?? GroupId;
-        return subGroups.FirstOrDefault(x => x.Id == groupId)?.Name;
+        return subGroups.FirstOrDefault(x => x.Handle == groupId)?.Name;
     }
 
     private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
@@ -94,9 +94,9 @@ partial class ProductsPage
 
         if (GroupId is not null)
         {
-            productGroup = itemGroups.FirstOrDefault(x => x.Id == GroupId);
+            productGroup = itemGroups.FirstOrDefault(x => x.Handle == GroupId);
 
-            subGroups = await ProductsClient.GetProductGroupsAsync(GroupId!, true);
+            subGroups = await ProductsClient.GetProductGroupsAsync(productGroup.Id!, true);
         }
         else
         {
@@ -162,7 +162,7 @@ partial class ProductsPage
             GetPath(sb, group.Parent);
         }
 
-        sb.Append($"/{group.Id}");
+        sb.Append($"/{group.Handle}");
     }
 
     async Task AddItemToCart(SiteProductDto product)

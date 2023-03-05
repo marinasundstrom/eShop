@@ -13,6 +13,8 @@
 
                 <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
+                <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
+
                 @foreach (var productAttribute in productAttributes.OrderBy(x => x.Attribute.Id))
                 {
                     <MudAutocomplete T="AttributeValueDto" Class="mb-6" Label="@productAttribute.Attribute.Name" @bind-Value="productAttribute.Value" SearchFuncWithCancel="@(async (string value, CancellationToken ct) => await SearchAttributeValue(productAttribute.Attribute.Id, value, ct))" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
@@ -38,6 +40,8 @@
 
     [Required] public string Name { get; set; } = default!;
 
+    [Required] public string Handle { get; set; } = default!;
+
     protected override async Task OnInitializedAsync()
     {
         productAttributes = await ProductsClient.GetProductAttributesAsync(ProductId);
@@ -48,7 +52,8 @@
         ApiCreateProductVariant data = new()
         {
             Name = Name,
-            Id = Name.ToLowerInvariant().Replace(" ", "-"),
+            Handle = Handle,
+            Id = null,
             Attributes = productAttributes.Select(x => new ApiCreateProductVariantAttribute
             {
                 AttributeId = x.Attribute.Id,

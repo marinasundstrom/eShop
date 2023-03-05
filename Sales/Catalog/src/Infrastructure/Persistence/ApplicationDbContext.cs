@@ -55,6 +55,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<ProductGroup> ProductGroups { get; set; } = null!;
 
+    public DbSet<ProductGroupAttribute> ProductGroupAttributes { get; set; } = null!;
+
     public DbSet<Product> Products { get; set; } = null!;
 
     public DbSet<ProductAttribute> ProductAttributes { get; set; } = null!;

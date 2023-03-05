@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record UpdateProductGroup(string ProductGroupId, ApiUpdateProductGroup Data) : IRequest<ProductGroupDto>
+public record UpdateProductGroup(long ProductGroupId, ApiUpdateProductGroup Data) : IRequest<ProductGroupDto>
 {
     public class Handler : IRequestHandler<UpdateProductGroup, ProductGroupDto>
     {

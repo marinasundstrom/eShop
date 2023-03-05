@@ -12,6 +12,8 @@ public interface IApplicationDbContext
 
     DbSet<ProductGroup> ProductGroups { get; }
 
+    DbSet<ProductGroupAttribute> ProductGroupAttributes { get; }
+
     DbSet<Product> Products { get; }
 
     DbSet<ProductAttribute> ProductAttributes { get; }

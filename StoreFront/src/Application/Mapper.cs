@@ -10,7 +10,7 @@ public static class Mapper
     public static SiteParentProductDto ToDto2(this YourBrand.Catalog.ParentProductDto product) =>
         new SiteParentProductDto(product.Id, product.Name, product.Handle, product.Description, product.Group?.ToDto());
 
-    public static SiteProductGroupDto ToDto(this YourBrand.Catalog.ProductGroupDto dto) => new SiteProductGroupDto(dto.Id, dto.Name, dto.Parent?.ToDto());
+    public static SiteProductGroupDto ToDto(this YourBrand.Catalog.ProductGroupDto dto) => new SiteProductGroupDto(dto.Id, dto.Name, dto.Handle, dto.Parent?.ToDto());
 
     public static AddressDto ToDto(this YourBrand.Orders.AddressDto address) => new()
     {

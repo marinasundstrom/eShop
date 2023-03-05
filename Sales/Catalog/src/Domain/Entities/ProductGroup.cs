@@ -1,10 +1,10 @@
 ﻿namespace YourBrand.Catalog.Domain.Entities;
 
-public class ProductGroup : Entity<string>
+public class ProductGroup : Entity<long>
 {
     protected ProductGroup() { }
 
-    public ProductGroup(string id, string name) : base(id)
+    public ProductGroup(string name) : base(0)
     {
         Name = name;
     }
@@ -16,6 +16,8 @@ public class ProductGroup : Entity<string>
     public int? Seq { get; set; }
 
     public string Name { get; set; } = null!;
+
+    public string Handle { get; set; } = null!;
 
     public string? Description { get; set; }
 

@@ -88,7 +88,7 @@
                     @foreach (var group in itemGroups)
                     {
                     <li class="nav-item">
-                        <NavLink class="nav-link" href="@($"groups/{group.Id}")">@group.Name</NavLink>
+                        <NavLink class="nav-link" href="@($"groups/{group.Handle}")">@group.Name</NavLink>
                     </li>
                     }
                 }

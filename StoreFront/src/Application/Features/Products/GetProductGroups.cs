@@ -4,7 +4,7 @@ using YourBrand.Catalog;
 namespace YourBrand.StoreFront.Application.Features.Products;
 
 public sealed record GetProductGroups(
-    string? ParentGroupId, bool IncludeWithUnlisted)
+    long? ParentGroupId, bool IncludeWithUnlisted)
     : IRequest<IEnumerable<ProductGroupDto>>
 {
     sealed class Handler : IRequestHandler<GetProductGroups, IEnumerable<ProductGroupDto>>

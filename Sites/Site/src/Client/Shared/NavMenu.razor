@@ -36,7 +36,7 @@
                         @foreach (var group in productGroups)
                         {
                             <li class="nav-item">
-                                <NavLink class="nav-link" href="@($"groups/{group.Id}")" data-bs-dismiss="offcanvas">@group.Name
+                                <NavLink class="nav-link" href="@($"groups/{group.Handle}")" data-bs-dismiss="offcanvas">@group.Name
                                 </NavLink>
                             </li>
                         }

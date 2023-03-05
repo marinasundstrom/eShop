@@ -5,7 +5,7 @@ using YourBrand.StoreFront.Application.Features.Carts;
 
 namespace YourBrand.StoreFront.Application.Features.Products;
 
-public sealed record GetProduct(string Id)
+public sealed record GetProduct(string ProductIdOrHandle)
     : IRequest<SiteProductDto?>
 {
     sealed class Handler : IRequestHandler<GetProduct, SiteProductDto?>
@@ -30,7 +30,7 @@ public sealed record GetProduct(string Id)
 
         public async Task<SiteProductDto?> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            var product = await _productsClient.GetProductAsync(request.Id, cancellationToken);
+            var product = await _productsClient.GetProductAsync(request.ProductIdOrHandle, cancellationToken);
             /*
             int? available = null;
             try 

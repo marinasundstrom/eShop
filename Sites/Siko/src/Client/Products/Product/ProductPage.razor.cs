@@ -18,7 +18,7 @@ partial class ProductPage
     private PersistingComponentStateSubscription persistingSubscription;
 
     [Parameter]
-    public string Id { get; set; }
+    public string Id { get; set; } = null!;
 
     [Parameter]
     public string? VariantId { get; set; }

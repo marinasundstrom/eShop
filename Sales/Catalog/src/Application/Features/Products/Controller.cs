@@ -58,6 +58,6 @@ public partial class ProductsController : Controller
     [HttpPost]
     public async Task<ActionResult<ProductDto>> CreateProduct(ApiCreateProduct data, CancellationToken cancellationToken)
     {
-        return Ok(await _mediator.Send(new CreateProduct(data.Name, data.Handle, data.HasVariants, data.Description, data.GroupId, data.Sku, data.Price, data.Visibility), cancellationToken));
+        return Ok(await _mediator.Send(new CreateProduct(data.Name, data.Handle, data.StoreId, data.HasVariants, data.Description, data.GroupId, data.Sku, data.Price, data.Visibility), cancellationToken));
     }
 }

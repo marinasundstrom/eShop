@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record DeleteProductGroup(string ProductGroupId) : IRequest
+public record DeleteProductGroup(long ProductGroupId) : IRequest
 {
     public class Handler : IRequestHandler<DeleteProductGroup>
     {

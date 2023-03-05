@@ -13,6 +13,8 @@
 
             <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
 
+            <YourBrand.Catalog.Stores.StoreSelector @bind-Value="Store" For="() => Store" Variant="Variant.Outlined" Class="mb-6" />
+
             <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
             @if (Groups is not null)
@@ -52,6 +54,9 @@
     [Required]
     public string Name { get; set; }
 
+    [Required]
+    public StoreDto? Store { get; set; }
+
     public bool HasVariants { get; set; }
 
     public string? Description { get; set; }
@@ -75,6 +80,7 @@
         {
             Name = Name,
             Handle = Handle,
+            StoreId = Store.Id!,
             HasVariants = HasVariants,
             Description = Description,
             GroupId = Group.Id,

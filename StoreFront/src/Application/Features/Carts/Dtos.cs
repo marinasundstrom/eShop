@@ -11,7 +11,7 @@ public record SiteProductDto(long Id, string Name, string Handle, string? Descri
 
 public record SiteParentProductDto(long Id, string Name, string Handle, string? Description, SiteProductGroupDto? Group);
 
-public record SiteProductGroupDto(string Id, string Name, SiteProductGroupDto? Parent);
+public record SiteProductGroupDto(long Id, string Name, string Handle, SiteProductGroupDto? Parent);
 
 public record SiteCartDto(string Id, IEnumerable<SiteCartItemDto> Items);
 

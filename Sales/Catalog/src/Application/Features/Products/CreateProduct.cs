@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record CreateProduct(string Name, string Handle, bool HasVariants, string? Description,  string? GroupId, string? Sku, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
+public record CreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description,  long? GroupId, string? Sku, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
 {
     public class Handler : IRequestHandler<CreateProduct, ProductDto?>
     {
@@ -26,6 +26,7 @@ public record CreateProduct(string Name, string Handle, bool HasVariants, string
             {
                 Name = request.Name,
                 Description = request.Description,
+                StoreId = request.StoreId,
                 Group = group,
                 Price = request.Price,
                 HasVariants = request.HasVariants

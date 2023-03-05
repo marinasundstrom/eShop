@@ -1,3 +1,3 @@
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record class ProductGroupDto(string Id, string Name, string? Description, ProductGroupDto? Parent);
+public record class ProductGroupDto(long Id, string Name, string Handle, string? Description, ProductGroupDto? Parent);

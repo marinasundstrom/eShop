@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record GetProductGroups(string? StoreId, string? ParentGroupId, bool IncludeWithUnlistedProducts, bool IncludeHidden) : IRequest<IEnumerable<ProductGroupDto>>
+public record GetProductGroups(string? StoreId, long? ParentGroupId, bool IncludeWithUnlistedProducts, bool IncludeHidden) : IRequest<IEnumerable<ProductGroupDto>>
 {
     public class Handler : IRequestHandler<GetProductGroups, IEnumerable<ProductGroupDto>>
     {

@@ -22,25 +22,7 @@ public record GetProduct(string ProductIdOrHandle) : IRequest<ProductDto?>
             var query = _context.Products
                 .AsSplitQuery()
                 .AsNoTracking()
-                .Include(pv => pv.ParentProduct)
-                    .ThenInclude(pv => pv!.Group)
-                .Include(pv => pv.Group)
-                .Include(pv => pv.ProductAttributes)
-                    .ThenInclude(pv => pv.Attribute)
-                    .ThenInclude(o => o.Group)
-                .Include(pv => pv.ProductAttributes)
-                    .ThenInclude(pv => pv.Attribute)
-                    .ThenInclude(pv => pv.Values)
-                .Include(pv => pv.ProductAttributes)
-                    .ThenInclude(pv => pv.Value)
-                .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => pv.Option)
-                    .ThenInclude(pv => pv.Group)
-                .Include(pv => pv.ProductOptions)
-                    .ThenInclude(pv => pv.Option)
-                    .ThenInclude(pv => (pv as ChoiceOption)!.Values)
-                .Include(pv => pv.Options)
-                    .ThenInclude(pv => (pv as ChoiceOption)!.DefaultValue);
+                .IncludeAll();
 
             var item = productId == 0 
                 ? await query.FirstOrDefaultAsync(p => p.Handle == request.ProductIdOrHandle, cancellationToken) 
