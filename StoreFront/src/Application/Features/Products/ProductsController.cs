@@ -64,4 +64,10 @@ public class ProductsController : ControllerBase
     {
         return await mediator.Send(new GetProductGroups(parentGroupId, includeWithUnlisted), cancellationToken);
     }
+
+    [HttpGet("Categories/{*productGroupIdOrPath}")]
+    public async Task<ProductGroupDto?> GetProductGroup(string productGroupIdOrPath, CancellationToken cancellationToken = default)
+    {
+        return await mediator.Send(new GetProductGroup(productGroupIdOrPath), cancellationToken);
+    }
 }

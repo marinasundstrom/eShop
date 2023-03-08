@@ -165,6 +165,16 @@ partial class ProductsPage
         sb.Append($"/{group.Handle}");
     }
 
+    private void GetPath(System.Text.StringBuilder sb, ParentProductGroupDto group)
+    {
+        if (group.Parent is not null)
+        {
+            GetPath(sb, group.Parent);
+        }
+
+        sb.Append($"/{group.Handle}");
+    }
+
     async Task AddItemToCart(SiteProductDto product)
     {
         await CartClient.AddItemToCartAsync(new AddCartItemDto()

@@ -103,7 +103,7 @@
         }
       }
     },
-    "/v1/ProductGroups/{productGroupIdOrHandle}": {
+    "/v1/ProductGroups/{productGroupIdOrPath}": {
       "get": {
         "tags": [
           "ProductGroups"
@@ -111,7 +111,7 @@
         "operationId": "ProductGroups_GetProductGroup",
         "parameters": [
           {
-            "name": "productGroupIdOrHandle",
+            "name": "productGroupIdOrPath",
             "in": "path",
             "required": true,
             "schema": {
@@ -2367,6 +2367,9 @@
           "handle": {
             "type": "string"
           },
+          "path": {
+            "type": "string"
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -2375,7 +2378,34 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ProductGroupDto"
+                "$ref": "#/components/schemas/ParentProductGroupDto"
+              }
+            ]
+          }
+        }
+      },
+      "ParentProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParentProductGroupDto"
               }
             ]
           }

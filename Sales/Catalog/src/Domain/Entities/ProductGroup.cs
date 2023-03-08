@@ -19,6 +19,8 @@ public class ProductGroup : Entity<long>
 
     public string Handle { get; set; } = null!;
 
+    public string Path { get; set; } = null!;
+
     public string? Description { get; set; }
 
     public ProductGroup? Parent { get; set; }

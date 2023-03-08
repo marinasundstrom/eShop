@@ -18,6 +18,7 @@ public record CreateProductGroup(ApiCreateProductGroup Data) : IRequest<ProductG
         public async Task<ProductGroupDto> Handle(CreateProductGroup request, CancellationToken cancellationToken)
         {
             var parentGroup = await _context.ProductGroups
+                .Include(x => x.Parent)
                 .FirstOrDefaultAsync(x => x.Id == request.Data.ParentGroupId);
 
             var itemGroup = new ProductGroup(request.Data.Name)

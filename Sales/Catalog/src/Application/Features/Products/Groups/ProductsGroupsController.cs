@@ -24,10 +24,10 @@ public partial class ProductGroupsController : Controller
         return Ok(await _mediator.Send(new GetProductGroups(storeId, parentGroupId, includeWithUnlistedProducts, IncludeHidden), cancellationToken));
     }
 
-    [HttpGet("{productGroupIdOrHandle}")]
-    public async Task<ActionResult<ProductGroupDto>> GetProductGroup(string productGroupIdOrHandle, CancellationToken cancellationToken = default)
+    [HttpGet("{*productGroupIdOrPath}")]
+    public async Task<ActionResult<ProductGroupDto>> GetProductGroup(string productGroupIdOrPath, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProductGroup(productGroupIdOrHandle), cancellationToken));
+        return Ok(await _mediator.Send(new GetProductGroup(productGroupIdOrPath), cancellationToken));
     }
     [HttpPost]
     public async Task<ActionResult<ProductGroupDto>> CreateProductGroup(ApiCreateProductGroup data, CancellationToken cancellationToken = default)

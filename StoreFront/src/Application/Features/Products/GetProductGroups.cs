@@ -1,4 +1,5 @@
 ﻿using MediatR;
+
 using YourBrand.Catalog;
 
 namespace YourBrand.StoreFront.Application.Features.Products;

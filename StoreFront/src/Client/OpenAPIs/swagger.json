@@ -456,6 +456,37 @@
         }
       }
     },
+    "/v1/Products/Categories/{productGroupIdOrPath}": {
+      "get": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_GetProductGroup",
+        "parameters": [
+          {
+            "name": "productGroupIdOrPath",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Checkout": {
       "post": {
         "tags": [
@@ -1253,11 +1284,41 @@
           "handle": {
             "type": "string"
           },
+          "path": {
+            "type": "string"
+          },
           "parent": {
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/SiteProductGroupDto"
+                "$ref": "#/components/schemas/SiteParentProductGroupDto"
+              }
+            ]
+          }
+        }
+      },
+      "SiteParentProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/SiteParentProductGroupDto"
               }
             ]
           }
@@ -1546,6 +1607,9 @@
           "handle": {
             "type": "string"
           },
+          "path": {
+            "type": "string"
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -1554,7 +1618,34 @@
             "nullable": true,
             "oneOf": [
               {
-                "$ref": "#/components/schemas/ProductGroupDto"
+                "$ref": "#/components/schemas/ParentProductGroupDto"
+              }
+            ]
+          }
+        }
+      },
+      "ParentProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParentProductGroupDto"
               }
             ]
           }
