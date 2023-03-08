@@ -1,7 +1,4 @@
-﻿@page "/groups"
-@page "/groups/{groupId}"
-@page "/groups/{groupId}/{group2Id}"
-@page "/groups/{groupId}/{group2Id}/{group3Id}"
+﻿@page "/groups/{*Path}"
 @implements IDisposable
 @inject IProductsClient ProductsClient
 @inject PersistentComponentState ApplicationState
@@ -13,24 +10,26 @@
 <SitePageTitle>@(productGroup?.Name ?? "Products")</SitePageTitle>
 
 <div class="container">
-    <h1 class="mb-4">@(productGroup?.Name ?? "Products")</h1>
-
     @if(subGroups is not null) 
     {
+        var id = productGroup?.Parent?.Handle ?? productGroup?.Handle;
+        var name = productGroup?.Parent?.Name ?? productGroup?.Name;
+        var path = productGroup?.Parent?.Path ?? productGroup?.Path;
+
+        <h1 class="mb-4">@(name ?? "Products")</h1>
+
         <div class="mb-3">
-            <a href="/groups/@GroupId">
+            <a href="/groups/@id">
                 <h5 style="display: inline-block;">
-                    <span class="badge rounded-pill text-bg-secondary me-2">All</span>
+                    <span class="badge rounded-pill text-bg-@SelectedStyle(path) me-2">All</span>
                 </h5>
             </a>
 
             @foreach(var group in subGroups) 
             {
-                var path = GetPath(group);
-
-                <a href="@path">
+                <a href="/groups/@group.Path">
                     <h5 style="display: inline-block;">
-                        <span class="badge rounded-pill text-bg-@SelectedStyle(path) me-2">@group.Name</span>
+                        <span class="badge rounded-pill text-bg-@SelectedStyle(group.Path) me-2">@group.Name</span>
                     </h5>
                 </a>
             }

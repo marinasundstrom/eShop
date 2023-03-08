@@ -9,9 +9,7 @@ using YourBrand.StoreFront.Application.Services;
 namespace YourBrand.StoreFront.Application.Features.Products;
 
 public sealed record GetProducts(
-    string? ProductGroupId = null,
-    string? ProductGroup2Id = null,
-    string? ProductGroup3Id = null,
+    string? ProductGroupIdOrPath = null,
     int Page = 1,
     int PageSize = 10,
     string? SearchString = null,
@@ -46,8 +44,8 @@ public sealed record GetProducts(
             var storeId = await storeHandleToStoreIdResolver.ToStoreId(currentUserService.Host!);
 
             var result = await _productsClient.GetProductsAsync(storeId,
-                false, true, request.ProductGroupId, request.ProductGroup2Id,
-                request.ProductGroup3Id, request.Page - 1, request.PageSize, request.SearchString,
+                false, true, request.ProductGroupIdOrPath, 
+                request.Page - 1, request.PageSize, request.SearchString,
                 request.SortBy, request.SortDirection, cancellationToken);
 
             List<SiteProductDto> products = new List<SiteProductDto>();

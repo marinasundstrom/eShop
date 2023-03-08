@@ -21,10 +21,10 @@ public partial class ProductsController : Controller
 
     [HttpGet]
     public async Task<ActionResult<ItemsResult<ProductDto>>> GetProducts(
-        string? storeId = null, bool includeUnlisted = false, bool groupProducts = true, string? groupId = null, string? group2Id = null, string? group3Id = null,
+        string? storeId = null, bool includeUnlisted = false, bool groupProducts = true, string? productGroupIdOrPath = null,
         int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProducts(storeId, includeUnlisted, groupProducts, groupId, group2Id, group3Id, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
+        return Ok(await _mediator.Send(new GetProducts(storeId, includeUnlisted, groupProducts, productGroupIdOrPath, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
     }
 
     [HttpGet("{productIdOrHandle}")]

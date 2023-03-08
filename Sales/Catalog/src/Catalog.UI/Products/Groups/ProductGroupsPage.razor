@@ -18,12 +18,14 @@
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate Context="group">
-        <MudTd DataLabel="Name">@group.Name</MudTd>
-        <MudTd DataLabel="Description">@group.Description</MudTd>
-        <MudTd>
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateGroup(group)" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
-        </MudTd>
+         <a href="@($"/products/groups/{group.Path}")"  style="display:contents;">
+            <MudTd DataLabel="Name">@group.Name</MudTd>
+            <MudTd DataLabel="Description">@group.Description</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateGroup(group)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
+            </MudTd>
+        </a>
     </RowTemplate>
     <NoRecordsContent>
         <MudText>No matching records found</MudText>

@@ -548,28 +548,12 @@
             "x-position": 3
           },
           {
-            "name": "groupId",
+            "name": "productGroupIdOrPath",
             "in": "query",
             "schema": {
               "type": "string"
             },
             "x-position": 4
-          },
-          {
-            "name": "group2Id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 5
-          },
-          {
-            "name": "group3Id",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 6
           },
           {
             "name": "page",
@@ -579,7 +563,7 @@
               "format": "int32",
               "default": 0
             },
-            "x-position": 7
+            "x-position": 5
           },
           {
             "name": "pageSize",
@@ -589,7 +573,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 8
+            "x-position": 6
           },
           {
             "name": "searchString",
@@ -597,7 +581,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 9
+            "x-position": 7
           },
           {
             "name": "sortBy",
@@ -605,7 +589,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 10
+            "x-position": 8
           },
           {
             "name": "sortDirection",
@@ -622,7 +606,7 @@
                 }
               ]
             },
-            "x-position": 11
+            "x-position": 9
           }
         ],
         "responses": {

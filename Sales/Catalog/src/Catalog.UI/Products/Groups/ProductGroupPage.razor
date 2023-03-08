@@ -3,10 +3,11 @@
 @inject IProductGroupsClient ProductGroupsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
+@implements IDisposable
 
-<AppPageTitle>Product Groups</AppPageTitle>
+<AppPageTitle>@itemGroup?.Name</AppPageTitle>
 
-<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">Product Groups</MudText>
+<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@itemGroup?.Name</MudText>
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateGroup" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create group</MudButton>
 
@@ -18,12 +19,14 @@
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate Context="group">
-        <MudTd DataLabel="Name">@group.Name</MudTd>
-        <MudTd DataLabel="Description">@group.Description</MudTd>
-        <MudTd>
-            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateGroup(group)" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
-        </MudTd>
+        <a href="@($"/products/groups/{group.Path}")"  style="display:contents;">
+            <MudTd DataLabel="Name">@group.Name</MudTd>
+            <MudTd DataLabel="Description">@group.Description</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateGroup(group)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
+            </MudTd>
+        </a>
     </RowTemplate>
     <NoRecordsContent>
         <MudText>No matching records found</MudText>
@@ -35,6 +38,7 @@
 
 @code
 {
+    ProductGroupDto? itemGroup;
     List<ProductGroupDto>? itemGroups;
 
     [Parameter]
@@ -45,9 +49,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Console.WriteLine(Path);
+        NavigationManager.LocationChanged += OnLocationChanged;
 
-        var itemGroup = await ProductGroupsClient.GetProductGroupAsync(Path);
+        await LoadData();
+    }
+
+    private async void OnLocationChanged(object? sender, LocationChangedEventArgs arg) 
+    {
+        await LoadData();
+
+        StateHasChanged();
+    }
+
+    public void Dispose() 
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+    private async Task LoadData() 
+    {
+        itemGroup = await ProductGroupsClient.GetProductGroupAsync(Path);
 
         itemGroups = (await ProductGroupsClient.GetProductGroupsAsync(null, itemGroup.Id, true, true)).ToList();
     }
@@ -55,6 +76,7 @@
     async Task CreateGroup()
     {
         DialogParameters parameters = new();
+        parameters.Add(nameof(CreateProductGroupModal.ParentGroupId), itemGroup.Id);
 
         var modalRef = DialogService.Show<CreateProductGroupModal>("Create Group", parameters);
 
