@@ -154,4 +154,3 @@ partial class ProductsPage
 
     public string SelectedStyle(string path) => NavigationManager.Uri.EndsWith(path) ? "primary" : "secondary";
 }
-

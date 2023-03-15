@@ -7,7 +7,6 @@ namespace Site.Client.Products;
 partial class ProductsPage
 {
     ProductGroupDto? productGroup;
-    IEnumerable<ProductGroupDto>? itemGroups;
     IEnumerable<ProductGroupDto>? subGroups;
     ItemsResultOfSiteProductDto? itemResults;
 
@@ -17,13 +16,7 @@ partial class ProductsPage
     private PersistingComponentStateSubscription persistingSubscription;
 
     [Parameter]
-    public string? GroupId { get; set; }
-
-    [Parameter]
-    public string? Group2Id { get; set; }
-
-    [Parameter]
-    public string? Group3Id { get; set; }
+    public string? Path { get; set; }
 
     [Parameter]
     [SupplyParameterFromQuery]
@@ -48,7 +41,7 @@ partial class ProductsPage
             EventType = EventType.ProductGroupViewed,
             Data = new Dictionary<string, object>
             {
-                { "groupId", Group3Id ?? Group2Id ?? GroupId ?? productGroup!.Handle},
+                { "groupId", productGroup!.Id },
                 { "name", GetGroupName() ?? productGroup.Name }
             }
         });
@@ -56,11 +49,10 @@ partial class ProductsPage
 
     private string? GetGroupName()
     {
-        var groupId = Group3Id ?? Group2Id ?? GroupId;
-        return subGroups.FirstOrDefault(x => x.Handle == groupId)?.Name;
+        return subGroups.FirstOrDefault(x => x.Path == Path)?.Name;
     }
 
-    private async void OnLocationChanged(object sender, LocationChangedEventArgs e)
+    private async void OnLocationChanged(object? sender, LocationChangedEventArgs e)
     {
         if (e.Location.Contains("/groups"))
         {
@@ -80,33 +72,40 @@ partial class ProductsPage
         }
 
         persistingSubscription =
-        ApplicationState.RegisterOnPersisting(PersistItems);
+            ApplicationState.RegisterOnPersisting(PersistItems);
+
+        Console.WriteLine(Path);
+
+        if (!string.IsNullOrEmpty(Path))
+        {
+            if (!ApplicationState.TryTakeFromJson<ProductGroupDto>(
+                "productGroup", out var restored01))
+            { 
+                
+                productGroup = await ProductsClient.GetProductGroupAsync(Path);
+            }
+            else
+            {
+                productGroup = restored01!;
+            }
+        }
 
         if (!ApplicationState.TryTakeFromJson<IEnumerable<ProductGroupDto>>(
-            "itemGroups", out var restored0))
-        {
-            itemGroups = await ProductsClient.GetProductGroupsAsync(null, true);
+            "productGroups", out var restored0))
+        { 
+            var id = productGroup?.Parent?.Id ?? productGroup?.Id;
+
+            subGroups = await ProductsClient.GetProductGroupsAsync(id, true);
         }
         else
         {
-            itemGroups = restored0!;
-        }
-
-        if (GroupId is not null)
-        {
-            productGroup = itemGroups.FirstOrDefault(x => x.Handle == GroupId);
-
-            subGroups = await ProductsClient.GetProductGroupsAsync(productGroup.Id!, true);
-        }
-        else
-        {
-            productGroup = null;
+            subGroups = restored0!;
         }
 
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteProductDto>(
             "itemResults", out var restored))
         {
-            itemResults = await ProductsClient.GetProductsAsync(GroupId, Group2Id, Group3Id, Page.GetValueOrDefault(), pageSize, null, null, null);
+            itemResults = await ProductsClient.GetProductsAsync(Path, Page.GetValueOrDefault(), pageSize, null, null, null);
         }
         else
         {
@@ -144,27 +143,6 @@ partial class ProductsPage
         */
     }
 
-    private string GetPath(ProductGroupDto group)
-    {
-        var str = new System.Text.StringBuilder();
-
-        str.Append("/groups");
-
-        GetPath(str, group);
-
-        return str.ToString();
-    }
-
-    private void GetPath(System.Text.StringBuilder sb, ProductGroupDto group)
-    {
-        if (group.Parent is not null)
-        {
-            GetPath(sb, group.Parent);
-        }
-
-        sb.Append($"/{group.Handle}");
-    }
-
     async Task AddItemToCart(SiteProductDto product)
     {
         await CartClient.AddItemToCartAsync(new AddCartItemDto()
@@ -174,6 +152,5 @@ partial class ProductsPage
          });
     }
 
-    public string SelectedStyle(string path) => NavigationManager.Uri.Contains(path) ? "primary" : "secondary";
+    public string SelectedStyle(string path) => NavigationManager.Uri.EndsWith(path) ? "primary" : "secondary";
 }
-

@@ -87,7 +87,9 @@
 
     async Task OnPageChanged(int page)
     {
-        var result = await ProductsClient.GetProductsAsync(null, false, true, GroupId.ToString(), null, null, page - 1, pageSize, null, null, null);
+
+        ProductGroupDto? group = GroupId is null ? null : itemGroups.FirstOrDefault(x => x.Id == GroupId);
+        var result = await ProductsClient.GetProductsAsync(null, false, true, group?.Path?.ToString(), page - 1, pageSize, null, null, null);
         items = result.Items;
         
         this.pages = (int)Math.Ceiling((double)result.TotalItems / (double)pageSize);
