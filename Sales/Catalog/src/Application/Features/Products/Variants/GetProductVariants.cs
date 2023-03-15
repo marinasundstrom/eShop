@@ -19,13 +19,13 @@ public record GetProductVariants(string ProductIdOrHandle, int Page = 10, int Pa
 
         public async Task<ItemsResult<ProductDto>> Handle(GetProductVariants request, CancellationToken cancellationToken)
         {
-            long.TryParse(request.ProductIdOrHandle, out var productId);
+            bool isProductId = long.TryParse(request.ProductIdOrHandle, out var productId);
 
             var query = _context.Products.AsQueryable();
 
-            query = productId == 0 ?
-                query.Where(pv => pv.ParentProduct!.Handle == request.ProductIdOrHandle)
-                : query.Where(pv => pv.ParentProduct!.Id == productId);
+            query = isProductId ?
+                query.Where(pv => pv.ParentProduct!.Id == productId)
+                : query.Where(pv => pv.ParentProduct!.Handle == request.ProductIdOrHandle);
 
             query = query
                 .OrderBy(x => x.Id)

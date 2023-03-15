@@ -50,7 +50,7 @@ public static class Mapping
 
     public static ProductGroupTreeNodeDto ToDto3(this Domain.Entities.ProductGroup itemGroup)
     {
-        return new ProductGroupTreeNodeDto(itemGroup.Id, itemGroup.Name, itemGroup.Handle, itemGroup.Path, itemGroup.Description, itemGroup.Parent?.ToDto2(), itemGroup.SubGroups.Select(x => x.ToDto3()));
+        return new ProductGroupTreeNodeDto(itemGroup.Id, itemGroup.Name, itemGroup.Handle, itemGroup.Path, itemGroup.Description, itemGroup.Parent?.ToDto2(), itemGroup.SubGroups.Select(x => x.ToDto3()), itemGroup.ProductsCount);
     }
 
     public static ParentProductGroupDto ToDto2(this Domain.Entities.ProductGroup itemGroup)

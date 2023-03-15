@@ -1,4 +1,5 @@
 ﻿@page "/products"
+@layout MainLayout2
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
 @inject IDialogService DialogService
@@ -13,21 +14,22 @@
     <MudButton Variant="Variant.Filled" Color="Color.Secondary" Link="/products/list">All products</MudButton>
 </section>
 
-<div class="py-5">
-        <div class="mb-4">
-            <MudChipSet SelectedChip="chip" SelectedChipChanged="async (MudChip e) => await SetGroup(e)">
-                @if (itemGroups is not null)
-                {
-                    <MudChip Color="Color.Primary" Text="All"></MudChip>
+<MudGrid Spacing="6" Class="mt-2">
+    <MudItem xs="12" sm="4" md="4" lg="2">
+        @if(tree is not null) 
+        {
+            <MudPaper Width="300px" Elevation="25">
+                <MudTreeView T="ProductGroupTreeNodeDto" Items="(new HashSet<ProductGroupTreeNodeDto>(tree))" Hover="true" SelectedValueChanged="async (e) => await SetGroup(e)">
+                    <ItemTemplate>
+                        <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
+                            Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
+                    </ItemTemplate>
+                </MudTreeView>
+            </MudPaper>
+        }
+    </MudItem>
 
-                    foreach (var pg in itemGroups)
-                    {
-                        <MudChip Color="Color.Secondary" Text="@pg.Name"></MudChip>
-                    }
-                }
-            </MudChipSet>
-        </div>
-
+    <MudItem xs="12" sm="8" md="8" lg="10">
         @if (items is null)
         {
             <YourBrand.Portal.LoadingIndicator />
@@ -63,7 +65,26 @@
 
             <MudPagination Color="Color.Primary" Count="pages" SelectedChanged="OnPageChanged" />
         }
+    </MudItem>
+</MudGrid>
+
+@*
+<div class="py-5">
+        <div class="mb-4">
+            <MudChipSet SelectedChip="chip" SelectedChipChanged="async (MudChip e) => await SetGroup(e)">
+                @if (itemGroups is not null)
+                {
+                    <MudChip Color="Color.Primary" Text="All"></MudChip>
+
+                    foreach (var pg in itemGroups)
+                    {
+                        <MudChip Color="Color.Secondary" Text="@pg.Name"></MudChip>
+                    }
+                }
+            </MudChipSet>
+        </div>
 </div>
+*@
 
 @code
 {
@@ -78,8 +99,11 @@
     [SupplyParameterFromQuery]
     public long? GroupId { get; set; }
 
+    IEnumerable<ProductGroupTreeNodeDto> tree;
+
     protected override async Task OnInitializedAsync()
     {
+        tree = await ProductGroupsClient.GetProductGroupsTreeAsync(null);
         itemGroups = await ProductGroupsClient.GetProductGroupsAsync(null, null, true, true);
 
         await OnPageChanged(1);
@@ -88,7 +112,7 @@
     async Task OnPageChanged(int page)
     {
 
-        ProductGroupDto? group = GroupId is null ? null : itemGroups.FirstOrDefault(x => x.Id == GroupId);
+        ProductGroupDto? group = GroupId is null ? null : await ProductGroupsClient.GetProductGroupAsync(GroupId?.ToString());
         var result = await ProductsClient.GetProductsAsync(null, false, true, group?.Path?.ToString(), page - 1, pageSize, null, null, null);
         items = result.Items;
         
@@ -117,6 +141,17 @@
         await OnPageChanged(1);
 
         this.chip = chip;
+
+        NavigationManager.NavigateTo($"/products?groupId={GroupId}", replace: true);
+    }
+
+    async Task SetGroup(ProductGroupTreeNodeDto? productGroupTreeNode)
+    {
+        if(productGroupTreeNode is null) return;
+
+        GroupId = productGroupTreeNode.Id;
+
+        await OnPageChanged(1);
 
         NavigationManager.NavigateTo($"/products?groupId={GroupId}", replace: true);
     }

@@ -36,12 +36,12 @@ public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, 
 
             if (request.ProductGroupIdOrPath is not null)
             {
-                long.TryParse(request.ProductGroupIdOrPath, out var groupId);
+                bool isProductGroupId = long.TryParse(request.ProductGroupIdOrPath, out var groupId);
 
-                query = groupId == 0 
-                            ? query.Where(x => 
-                                x.Group!.Path.StartsWith(request.ProductGroupIdOrPath))
-                            : query.Where(x => x.Group!.Id == groupId);
+                query = isProductGroupId 
+                            ? query.Where(x => x.Group!.Id == groupId)
+                            : query.Where(x => 
+                                x.Group!.Path.StartsWith(request.ProductGroupIdOrPath));
             }
 
             if (request.GroupProducts)

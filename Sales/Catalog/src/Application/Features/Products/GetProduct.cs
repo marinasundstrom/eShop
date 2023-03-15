@@ -17,16 +17,16 @@ public record GetProduct(string ProductIdOrHandle) : IRequest<ProductDto?>
 
         public async Task<ProductDto?> Handle(GetProduct request, CancellationToken cancellationToken)
         {
-            long.TryParse(request.ProductIdOrHandle, out var productId);
+            bool isProductId = long.TryParse(request.ProductIdOrHandle, out var productId);
 
             var query = _context.Products
                 .AsSplitQuery()
                 .AsNoTracking()
                 .IncludeAll();
 
-            var item = productId == 0 
-                ? await query.FirstOrDefaultAsync(p => p.Handle == request.ProductIdOrHandle, cancellationToken) 
-                : await query.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken);
+            var item = isProductId
+                ? await query.FirstOrDefaultAsync(p => p.Id == productId, cancellationToken) 
+                : await query.FirstOrDefaultAsync(p => p.Handle == request.ProductIdOrHandle, cancellationToken);
 
             return item?.ToDto();
         }

@@ -1,7 +1,5 @@
 ﻿@inherits LayoutComponentBase
-@using YourBrand.Portal.Theming
 @using Blazored.LocalStorage
-@using MudBlazor.Services
 @inject ThemeManager ThemeManager
 @inject ILocalStorageService LocalStorage
 
@@ -24,6 +22,10 @@
     </MudMainContent>
 </MudLayout>
 
+<MudScrollToTop>
+    <MudFab Color="Color.Tertiary" Icon="@Icons.Filled.ArrowCircleUp" />
+</MudScrollToTop>
+
 @code {
     private MudTheme _theme = new MudTheme()
     {
@@ -37,16 +39,14 @@
         Palette = new Palette
         {
             Background = "#f9f9f9",
-            AppbarBackground = "#242222",
-            Primary = "#63a9cb",
+            AppbarBackground = "#137cdf", 
+            Primary = "#4892d7"
             //Secondary = "#00000000"
         }
     };
 
     bool _drawerOpen = false;
     ColorScheme? _currentColorScheme;
-    Guid _subscriptionId;
-    DrawerVariant _drawerVariant = DrawerVariant.Persistent;
     bool _disableOverlay = true;
 
     protected override async Task OnInitializedAsync()
@@ -57,13 +57,13 @@
         _drawerOpen = await LocalStorage.GetItemAsync<bool?>("drawerOpen") ?? true;
     }
 
-    async Task OpenChanged(bool isOpen) 
+    async Task OpenChanged(bool isOpen)
     {
         _drawerOpen = isOpen;
         await LocalStorage.SetItemAsync("drawerOpen", _drawerOpen);
     }
 
-    async Task DrawerToggle()
+    void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }

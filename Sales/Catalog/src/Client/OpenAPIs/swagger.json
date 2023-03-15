@@ -2463,6 +2463,10 @@
             "items": {
               "$ref": "#/components/schemas/ProductGroupTreeNodeDto"
             }
+          },
+          "productsCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

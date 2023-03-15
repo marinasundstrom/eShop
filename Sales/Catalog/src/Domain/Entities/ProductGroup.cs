@@ -29,6 +29,15 @@ public class ProductGroup : Entity<long>
 
     public bool Hidden { get; set; }
 
+    public int ProductsCount { get; private set; }
+
+    public void AddProductCount()
+    {
+        ProductsCount++;
+
+        Parent?.AddProductCount();
+    }
+
     public List<ProductGroup> SubGroups { get; } = new List<ProductGroup>();
 
     public List<Product> Products { get; } = new List<Product>();

@@ -17,8 +17,8 @@ public record GetProductVariant(string ProductIdOrHandle, string ProductVariantI
 
         public async Task<ProductDto?> Handle(GetProductVariant request, CancellationToken cancellationToken)
         {
-            long.TryParse(request.ProductIdOrHandle, out var productId);
-            long.TryParse(request.ProductVariantIdOrHandle, out var productVariantId);
+            bool isProductId = long.TryParse(request.ProductIdOrHandle, out var productId);
+            bool isProductVariantId = long.TryParse(request.ProductVariantIdOrHandle, out var productVariantId);
 
             var query = _context.Products
                 .AsSplitQuery()
@@ -40,13 +40,13 @@ public record GetProductVariant(string ProductIdOrHandle, string ProductVariantI
                     .ThenInclude(pv => (pv as ChoiceOption)!.Values)
                 .AsQueryable();
 
-            query = productId == 0 ? 
-                query.Where(pv => pv.ParentProduct!.Handle == request.ProductIdOrHandle)
-                : query.Where(pv => pv.ParentProduct!.Id == productId);
+            query = isProductId ? 
+                query.Where(pv => pv.ParentProduct!.Id == productId)
+                : query.Where(pv => pv.ParentProduct!.Handle == request.ProductIdOrHandle);
 
-            var itemVariant = productVariantId == 0 ? 
-                await query.FirstOrDefaultAsync(pv => pv!.Id == productVariantId, cancellationToken)
-                : await query.FirstOrDefaultAsync(pv => pv!.Handle == request.ProductVariantIdOrHandle, cancellationToken);
+            var itemVariant = isProductVariantId ? 
+                await query.FirstOrDefaultAsync(pv => pv!.Handle == request.ProductVariantIdOrHandle, cancellationToken)
+                : await query.FirstOrDefaultAsync(pv => pv!.Id == productVariantId, cancellationToken);
 
             if (itemVariant is null) return null;
 

@@ -12,6 +12,12 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.ToTable("Products");
 
         builder
+            .Property(x => x.Handle)
+            .HasMaxLength(150);
+            
+        builder.HasIndex(x => x.Handle);
+
+        builder
             .HasMany(p => p.Options)
             .WithMany(p => p.Products)
             .UsingEntity<ProductOption>();

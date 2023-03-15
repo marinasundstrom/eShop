@@ -21,15 +21,15 @@ public record GetProductGroup(string ProductGroupIdOrPath) : IRequest<ProductGro
         {
             string decoded = WebUtility.UrlDecode(request.ProductGroupIdOrPath);
 
-            long.TryParse(decoded, out var productGroupId);
+            bool isProductId = long.TryParse(decoded, out var productGroupId);
 
             var query = _context.ProductGroups
                 .Include(x => x.Parent)
                 .AsNoTracking();
 
-            var itemGroup = productGroupId == 0 
-                ? await query.FirstOrDefaultAsync(p => p.Path == decoded, cancellationToken) 
-                : await query.FirstOrDefaultAsync(p => p.Id == productGroupId, cancellationToken);
+            var itemGroup = isProductId 
+                ? await query.FirstOrDefaultAsync(p => p.Id == productGroupId, cancellationToken) 
+                : await query.FirstOrDefaultAsync(p => p.Path == decoded, cancellationToken);
 
             return itemGroup?.ToDto();
         }

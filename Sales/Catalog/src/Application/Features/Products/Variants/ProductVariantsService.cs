@@ -13,7 +13,7 @@ public class ProductsService
 
     public async Task<IEnumerable<Product>> FindVariantCore(string productIdOrHandle, string? itemVariantIdOrHandle, IDictionary<string, string?> selectedAttributeValues)
     {
-        long.TryParse(productIdOrHandle, out var productId);
+        bool isProductId = long.TryParse(productIdOrHandle, out var productId);
 
         var query = _context.Products
             .AsSplitQuery()
@@ -35,17 +35,17 @@ public class ProductsService
                 .ThenInclude(pv => (pv as ChoiceOption)!.Values)
             .AsQueryable();
 
-        query = productId == 0 ? 
-            query.Where(pv => pv.ParentProduct!.Handle == productIdOrHandle)
-            : query.Where(pv => pv.ParentProduct!.Id == productId);
+        query = isProductId ? 
+            query.Where(pv => pv.ParentProduct!.Id == productId)
+            : query.Where(pv => pv.ParentProduct!.Handle == productIdOrHandle);
 
         if (itemVariantIdOrHandle is not null)
         {
-            long.TryParse(itemVariantIdOrHandle, out var itemVariantId);
+            bool isItemVariantId = long.TryParse(itemVariantIdOrHandle, out var itemVariantId);
 
-            query = productId == 0 ? 
-                query.Where(pv => pv.Handle == itemVariantIdOrHandle)
-                : query.Where(pv => pv.Id == itemVariantId);
+            query = isItemVariantId ? 
+                query.Where(pv => pv.Id == itemVariantId)
+                : query.Where(pv => pv.Handle == itemVariantIdOrHandle);
         }
 
         IEnumerable<Product> variants = await query

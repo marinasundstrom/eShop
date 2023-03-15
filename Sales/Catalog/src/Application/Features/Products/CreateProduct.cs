@@ -20,6 +20,7 @@ public record CreateProduct(string Name, string Handle, string StoreId, bool Has
             var group = await _context.ProductGroups
                 .Include(x => x.Attributes)
                 .Include(x => x.Options)
+                .Include(x => x.Parent)
                 .FirstOrDefaultAsync(x => x.Id == request.GroupId);
 
             var item = new Product(request.Name, request.Handle)
@@ -31,6 +32,8 @@ public record CreateProduct(string Name, string Handle, string StoreId, bool Has
                 Price = request.Price,
                 HasVariants = request.HasVariants
             };
+
+            group!.AddProductCount();
 
             /*
             foreach (var attribute in group!.Attributes)
