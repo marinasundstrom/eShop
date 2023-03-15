@@ -96,8 +96,7 @@ public static class Seed
         {
             Description = "T-shirt i olika färger",
             HasVariants = true,
-            Group = await context.ProductGroups.FirstAsync(x => x.Handle == "clothes"),
-            Group2 = await context.ProductGroups.FirstAsync(x => x.Handle == "t-shirts"),
+            Group = await context.ProductGroups.FirstAsync(x => x.Handle == "t-shirts"),
             Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,
             Brand = await context.Brands.FirstAsync(x => x.Id == "myBrand"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")

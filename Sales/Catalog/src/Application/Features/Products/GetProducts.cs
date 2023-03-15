@@ -40,9 +40,7 @@ public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, 
 
                 query = groupId == 0 
                             ? query.Where(x => 
-                                x.Group!.Path.StartsWith(request.ProductGroupIdOrPath)
-                                || x.Group2!.Path.StartsWith(request.ProductGroupIdOrPath)
-                                || x.Group3!.Path.StartsWith(request.ProductGroupIdOrPath))
+                                x.Group!.Path.StartsWith(request.ProductGroupIdOrPath))
                             : query.Where(x => x.Group!.Id == groupId);
             }
 

@@ -24,6 +24,12 @@ public partial class ProductGroupsController : Controller
         return Ok(await _mediator.Send(new GetProductGroups(storeId, parentGroupId, includeWithUnlistedProducts, IncludeHidden), cancellationToken));
     }
 
+    [HttpGet("Tree")]
+    public async Task<ActionResult<IEnumerable<ProductGroupTreeNodeDto>>> GetProductGroupsTree(string? storeId = null, CancellationToken cancellationToken = default)
+    {
+        return Ok(await _mediator.Send(new GetProductGroupTree(storeId), cancellationToken));
+    }
+
     [HttpGet("{*productGroupIdOrPath}")]
     public async Task<ActionResult<ProductGroupDto>> GetProductGroup(string productGroupIdOrPath, CancellationToken cancellationToken = default)
     {

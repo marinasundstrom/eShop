@@ -37,13 +37,5 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder
             .HasOne(p => p.Group)
             .WithMany(p => p.Products);
-
-        builder
-            .HasOne(p => p.Group2)
-            .WithMany(p => p.Products2);
-
-        builder
-            .HasOne(p => p.Group3)
-            .WithMany(p => p.Products3);
     }
 }

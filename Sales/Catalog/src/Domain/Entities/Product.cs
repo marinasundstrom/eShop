@@ -34,10 +34,6 @@ public sealed class Product : AggregateRoot<long>
 
     public ProductGroup? Group { get; set; }
 
-    public ProductGroup? Group2 { get; set; }
-
-    public ProductGroup? Group3 { get; set; }
-
     public string? Description { get; set; } = null!;
 
     public string? ManufacturerProductId { get; set; }

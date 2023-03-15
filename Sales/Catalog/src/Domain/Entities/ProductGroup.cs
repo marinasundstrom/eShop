@@ -33,10 +33,6 @@ public class ProductGroup : Entity<long>
 
     public List<Product> Products { get; } = new List<Product>();
 
-    public List<Product> Products2 { get; } = new List<Product>();
-
-    public List<Product> Products3 { get; } = new List<Product>();
-
     public List<Attribute> Attributes { get; } = new List<Attribute>();
 
     public List<Option> Options { get; } = new List<Option>();

@@ -103,6 +103,40 @@
         }
       }
     },
+    "/v1/ProductGroups/Tree": {
+      "get": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_GetProductGroupsTree",
+        "parameters": [
+          {
+            "name": "storeId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ProductGroupTreeNodeDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/ProductGroups/{productGroupIdOrPath}": {
       "get": {
         "tags": [
@@ -2392,6 +2426,43 @@
                 "$ref": "#/components/schemas/ParentProductGroupDto"
               }
             ]
+          }
+        }
+      },
+      "ProductGroupTreeNodeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "parent": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ParentProductGroupDto"
+              }
+            ]
+          },
+          "subGroups": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductGroupTreeNodeDto"
+            }
           }
         }
       },
