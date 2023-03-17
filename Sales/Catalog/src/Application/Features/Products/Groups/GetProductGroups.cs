@@ -32,9 +32,11 @@ public record GetProductGroups(string? StoreId, long? ParentGroupId, bool Includ
                 query = query.Where(x => !x.Hidden);
             }
 
-            if (!request.IncludeWithUnlistedProducts)
+            var doNotIncludeWithUnlisted = !request.IncludeWithUnlistedProducts;
+            if (doNotIncludeWithUnlisted)
             {
-                query = query.Where(x => x.Products.Any(z => z.Visibility == Domain.Enums.ProductVisibility.Listed));
+                query = query.Where(x => x.Products.Any() 
+                && !x.Products.All(z => z.Visibility == Domain.Enums.ProductVisibility.Unlisted));
             }
 
             var itemGroups = await query
