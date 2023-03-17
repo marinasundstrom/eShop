@@ -18,7 +18,7 @@
     <MudItem xs="12" sm="4" md="4" lg="2">
         @if(tree is not null) 
         {
-            <MudPaper Width="300px" Elevation="25">
+            <MudPaper Elevation="25">
                 <MudTreeView T="ProductGroupTreeNodeDto" Items="(new HashSet<ProductGroupTreeNodeDto>(tree))" Hover="true" SelectedValueChanged="async (e) => await SetGroup(e)">
                     <ItemTemplate>
                         <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
