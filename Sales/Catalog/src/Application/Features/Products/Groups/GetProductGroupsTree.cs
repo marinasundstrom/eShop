@@ -19,12 +19,19 @@ public record GetProductGroupTree(string? StoreId) : IRequest<IEnumerable<Produc
 
         public async Task<IEnumerable<ProductGroupTreeNodeDto>> Handle(GetProductGroupTree request, CancellationToken cancellationToken)
         {
-            var itemGroups = await _context.ProductGroups
+            var query = _context.ProductGroups
                 .Include(x => x.Parent)
                 .ThenInclude(x => x!.Parent)
                 .Include(x => x.SubGroups)
                 .Where(x => x.Parent == null)
-                .AsNoTracking()
+                .AsNoTracking();
+
+            if (request.StoreId is not null)
+            {
+                query = query.Where(x => x.StoreId == request.StoreId);
+            }
+
+            var itemGroups = await query
                 .ToArrayAsync(cancellationToken);
 
             return itemGroups.Select(x => x.ToDto3());

@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
+@inject IDialogService DialogService
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
@@ -11,6 +12,43 @@
             <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
             <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
+
+                 <div class="d-flex flex-grow-1 mb-4">
+                    <div class="flex-1 d-flex">
+                        <MudField Label="Parent group" Variant="Variant.Outlined">@(parentGroup is null ? null : GetProductGroup(parentGroup))</MudField>
+                    </div>
+
+                    @code
+                    {
+
+        string GetProductGroup(ProductGroupDto pg)
+        {
+            if(pg is null)
+            {
+                return null;
+            }
+
+            if (pg.Parent is null)
+            {
+                return pg.Name;
+            }
+
+            return GetProductGroup(pg.Parent) + " » " + pg.Name;
+        }
+
+        string GetProductGroup(ParentProductGroupDto pg)
+        {
+            if (pg.Parent is null)
+            {
+                return pg.Name;
+            }
+
+            return GetProductGroup(pg.Parent) + " » " + pg.Name;
+        }
+                }
+
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="UpdateGroup" />
+            </div>
 
             <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
@@ -24,6 +62,8 @@
 </EditForm>
 
 @code {
+    ProductGroupDto? parentGroup;
+
     [CascadingParameter] MudDialogInstance Modal { get; set; }
 
     [Required]
@@ -43,11 +83,22 @@
             Name = Name,
             Handle = Handle,
             Description = Description,
-            ParentGroupId = ParentGroupId
+            ParentGroupId = parentGroup?.Id ?? ParentGroupId
         };
         var result = await ProductGroupsClient.CreateProductGroupAsync(data);
         Modal.Close(DialogResult.Ok(result));
     }
 
+    async Task UpdateGroup() 
+    {
+        var dref = DialogService.Show<ProductGroupSelectorModal>();
+        var r = await dref.Result;
+
+        if(r.Canceled) return;
+
+        var data = (ProductGroupTreeNodeDto)r.Data;
+
+        parentGroup = await ProductGroupsClient.GetProductGroupAsync(data.Id.ToString());
+    }
 }
 

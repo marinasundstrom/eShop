@@ -33,7 +33,7 @@ public sealed record CreateProduct(string Name, string Handle, string StoreId, b
                 HasVariants = request.HasVariants
             };
 
-            group!.AddProductCount();
+            group!.IncrementProductCount();
 
             /*
             foreach (var attribute in group!.Attributes)

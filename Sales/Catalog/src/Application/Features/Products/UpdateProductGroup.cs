@@ -2,11 +2,13 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
+using YourBrand.Catalog.Features.Products.Groups;
+
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest
+public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest<ProductGroupDto>
 {
-    public sealed class Handler : IRequestHandler<UpdateProductGroup>
+    public sealed class Handler : IRequestHandler<UpdateProductGroup, ProductGroupDto>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,16 +17,27 @@ public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateProductGroup request, CancellationToken cancellationToken)
+        public async Task<ProductGroupDto> Handle(UpdateProductGroup request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
+                .Include(x => x.Group)
+                .ThenInclude(x => x!.Parent)
                 .FirstAsync(x => x.Id == request.ProductId);
 
-            item.Group = await _context.ProductGroups.FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+            item.Group!.DecrementProductCount();
+
+            item.Group = await _context.ProductGroups
+                .FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+
+            item.Group!.IncrementProductCount();
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            var dto = await _context.ProductGroups
+                .Include(x => x.Parent)
+                .FirstAsync(x => x.Id == request.GroupId, cancellationToken);
+
+            return dto.ToDto();
         }
     }
 }

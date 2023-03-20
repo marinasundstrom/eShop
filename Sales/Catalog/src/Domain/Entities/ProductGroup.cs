@@ -31,11 +31,18 @@ public class ProductGroup : Entity<long>
 
     public int ProductsCount { get; private set; }
 
-    public void AddProductCount()
+    public void IncrementProductCount()
     {
         ProductsCount++;
 
-        Parent?.AddProductCount();
+        Parent?.IncrementProductCount();
+    }
+
+    public void DecrementProductCount()
+    {
+        ProductsCount--;
+
+        Parent?.DecrementProductCount();
     }
 
     public List<ProductGroup> SubGroups { get; } = new List<ProductGroup>();

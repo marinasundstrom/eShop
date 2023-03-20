@@ -1,0 +1,75 @@
+@inject IProductGroupsClient ProductGroupsClient
+
+<MudDialog DisableSidePadding="true">
+    <DialogContent>
+        <MudContainer Style="max-height: 450px; min-width: 300px; overflow-y: scroll">
+            @if(tree is not null) 
+            {
+                <MudPaper Elevation="0">
+                    <MudTreeView T="ProductGroupTreeNodeDto" Items="(new HashSet<ProductGroupTreeNodeDto>(tree))" Hover="true" @bind-SelectedValue="productGroupTreeNode">
+                        <ItemTemplate>
+                            <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
+                                Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
+                        </ItemTemplate>
+                    </MudTreeView>
+                </MudPaper>
+            }
+        </MudContainer>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton OnClick="() => Modal.Cancel()">Cancel</MudButton>
+        <MudButton Color="Color.Primary" OnClick="() => Modal.Close(productGroupTreeNode)">Select</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code 
+{
+    ProductGroupTreeNodeDto? productGroupTreeNode;
+    IEnumerable<ProductGroupTreeNodeDto> tree;
+        
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public long? GroupId { get; set; }
+
+    [CascadingParameter] MudDialogInstance Modal { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Modal.SetTitle("Select group");
+
+        tree = await ProductGroupsClient.GetProductGroupsTreeAsync(null);
+        
+        if(GroupId is not null) 
+        {
+            foreach(var childNode in tree) 
+            {
+                productGroupTreeNode = FindNode(childNode, GroupId.GetValueOrDefault());
+
+                if(productGroupTreeNode is not null) 
+                {
+                    //Console.WriteLine(productGroupTreeNode.Name);
+                    break;
+                }
+            }
+        }
+
+        ProductGroupTreeNodeDto? FindNode(ProductGroupTreeNodeDto productGroupTreeNode, long groupId) 
+        {
+            if(productGroupTreeNode.Id == groupId) 
+            {
+                return productGroupTreeNode;
+            }
+
+            foreach(var childNode in productGroupTreeNode.SubGroups) 
+            {
+                var r = FindNode(childNode, groupId);
+
+                if(r is not null) 
+                    return r;
+            }
+
+            return null;
+        }
+    }
+}

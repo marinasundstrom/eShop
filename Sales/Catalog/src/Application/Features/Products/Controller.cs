@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Common.Models;
+using YourBrand.Catalog.Features.Products.Groups;
 
 namespace YourBrand.Catalog.Features.Products;
 
@@ -56,10 +57,10 @@ public partial class ProductsController : Controller
     }
 
     [HttpPost("{productId}/Group")]
-    public async Task<ActionResult> UpdateProductGroup(long productId, long groupId, CancellationToken cancellationToken)
+    public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(long productId, long groupId, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateProductGroup(productId, groupId), cancellationToken);
-        return Ok();
+        var dto = await _mediator.Send(new UpdateProductGroup(productId, groupId), cancellationToken);
+        return Ok(dto);
     }
 
     [HttpPost("{productId}/Price")]

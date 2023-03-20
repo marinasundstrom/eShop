@@ -64,5 +64,20 @@ partial class ProductEdit : ComponentBase
             Snackbar.Add(exc.Message, Severity.Error);
         }
     }
+
+    async Task UpdateGroup() 
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ProductGroupSelectorModal.GroupId), product!.Group!.Id);
+
+        var dref = DialogService.Show<ProductGroupSelectorModal>("", parameters);
+        var r = await dref.Result;
+
+        if(r.Canceled) return;
+
+        var data = (ProductGroupTreeNodeDto)r.Data;
+
+        product!.Group = await ProductsClient.UpdateProductGroupAsync(product!.Id, data.Id);
+    }
 }
 
