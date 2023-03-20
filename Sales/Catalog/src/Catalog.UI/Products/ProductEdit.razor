@@ -23,49 +23,135 @@ else
     <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@product.Name</MudText>
 
     @*
-    <MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary" Link="@($"/products/{product.Id}")">
-        View product
-    </MudButton> *@
+<MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary" Link="@($"/products/{product.Id}")">
+View product
+</MudButton> *@
 
-    @if(product.Parent is not null) 
+    @if (product.Parent is not null)
     {
-         <MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary" Link="@($"/products/{product.Parent.Id}/edit")">
-            Parent product
-        </MudButton>
+        <MudButton StartIcon="@Icons.Material.Filled.Link" Color="Color.Primary"
+    Link="@($"/products/{product.Parent.Id}/edit")">
+    Parent product
+</MudButton>
     }
-        <MudGrid Class="pt-4 mb-8">
-            <MudItem md="6">
-                <MudImage Src="@product.Image" ObjectFit="ObjectFit.Cover" Height="200" Width="200" Alt="Örebro Slott"  Elevation="25" Class="rounded-lg" />
+    <MudGrid Class="pt-4 mb-8">
+        <MudItem xs="12" sm="6" md="4">
+            <MudImage Src="@product.Image" ObjectFit="ObjectFit.Cover" Height="200" Width="200" Alt="Örebro Slott"
+            Elevation="25" Class="rounded-lg" />
 
-                <div>
-                    <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
+            <div>
+                <InputFile id="fileInput" OnChange="UploadFiles" hidden accept="*.jpg, *.jpeg, *.png" />
 
-                    <MudButton HtmlTag="label" Color="Color.Secondary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
-                        Upload image
-                    </MudButton>
+                <MudButton HtmlTag="label" Color="Color.Secondary" StartIcon="@Icons.Filled.CloudUpload" for="fileInput">
+                    Upload image
+                </MudButton>
+            </div>
+        </MudItem>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="25" Class="pa-4">
+                <MudField Label="Id" Variant="Variant.Outlined" Class="mb-4">@product.Id</MudField>
+
+                <div class="d-flex flex-grow-1 mb-4">
+                    <div class="flex-1 d-flex">
+                        <MudField Label="Group" Variant="Variant.Outlined">@GetProductGroup(product)</MudField>
+                    </div>
+
+                    @code
+                    {
+
+        string GetProductGroup(ProductDto product) 
+        {
+            if(product.Group is null)
+            {
+                return GetProductGroup(product.Parent.Group);
+            }
+
+            return GetProductGroup(product.Group);
+        }
+
+        string GetProductGroup(ProductGroupDto pg)
+        {
+            if(pg is null)
+            {
+                return null;
+            }
+
+            if (pg.Parent is null)
+            {
+                return pg.Name;
+            }
+
+            return GetProductGroup(pg.Parent) + " » " + pg.Name;
+        }
+
+        string GetProductGroup(ParentProductGroupDto pg)
+        {
+            if (pg.Parent is null)
+            {
+                return pg.Name;
+            }
+
+            return GetProductGroup(pg.Parent) + " » " + pg.Name;
+        }
+                }
+
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="() => {}" />
+            </div>
+
+            <MudSelect T="ProductVisibility?" Label="Visibility" Variant="Variant.Outlined" Value="@product.Visibility"
+                ValueChanged="async (e) => await UpdateVisibility((ProductVisibility?)e)"
+                ToStringFunc="x => x?.ToString()">
+                @foreach (var item in Enum.GetValues<ProductVisibility>().Select(x =>
+                   (ProductVisibility?)x))
+                    {
+                        <MudSelectItem Value="@item" />
+                    }
+                </MudSelect>
+            </MudPaper>
+
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+
+        <MudPaper Elevation="25" Class="pa-4 mb-4">
+            <div class="d-flex flex-grow-1">
+                <div class="flex-1 d-flex me-2">
+                    <MudField Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.Price</MudField>
                 </div>
-            </MudItem>
-            <MudItem md="6">
-                    <MudPaper Elevation="25" Class="pa-4">
-                        <MudSelect T="ProductVisibility?" Label="Visibility" Variant="Variant.Outlined" Value="@product.Visibility"
-                                   ValueChanged="async (e) => await UpdateVisibility((ProductVisibility?)e)"
-                                   ToStringFunc="x => x?.ToString()" Class="mt-8">
-                            @foreach (var item in Enum.GetValues<ProductVisibility>().Select(x =>
-                                (ProductVisibility?)x))
-                            {
-                                <MudSelectItem Value="@item" />
-                            }
-                        </MudSelect>
-                    </MudPaper>
-            </MudItem>
-        </MudGrid>
 
-    <ProductAttributesView ProductId="@ProductId.GetValueOrDefault()" HasVariants="product.HasVariants" ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
+                @if(product.CompareAtPrice is not null) 
+                {
+                    <div class="flex-1 d-flex">
+                        <MudField Label="Regular Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.CompareAtPrice</MudField>
+                    </div>
+                }
 
-    @if(product.HasVariants)
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="() => {}" />
+            </div>
+        </MudPaper>
+
+        @if(product.Sku is not null) 
+        {
+            <MudPaper Elevation="25" Class="pa-4 mb-4">
+                <div class="d-flex flex-grow-1">
+                    <div class="flex-1 d-flex me-2">
+                        <MudField Label="SKU" Variant="Variant.Outlined">@product.Sku</MudField>
+                    </div>
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="() => {}" />
+                </div>
+            </MudPaper>
+        }
+        </MudItem>
+    </MudGrid>
+
+    <ProductAttributesView ProductId="@ProductId.GetValueOrDefault()" HasVariants="product.HasVariants"
+    ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
+
+    @if (product.HasVariants)
     {
         <ProductVariantsView ProductId="@ProductId" />
     }
 
     <ProductOptionsView ProductId="@ProductId.GetValueOrDefault()" ProductOptions="product.Options.ToList().AsReadOnly()" />
-} 
+}

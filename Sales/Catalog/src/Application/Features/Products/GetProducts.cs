@@ -6,9 +6,9 @@ using YourBrand.Catalog.Common.Models;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, bool GroupProducts = true, string? ProductGroupIdOrPath = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
+public sealed record GetProducts(string? StoreId = null, bool IncludeUnlisted = false, bool GroupProducts = true, string? ProductGroupIdOrPath = null, int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductDto>>
 {
-    public class Handler : IRequestHandler<GetProducts, ItemsResult<ProductDto>>
+    public sealed class Handler : IRequestHandler<GetProducts, ItemsResult<ProductDto>>
     {
         private readonly IApplicationDbContext _context;
 

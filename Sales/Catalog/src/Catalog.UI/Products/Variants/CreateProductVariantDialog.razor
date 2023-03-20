@@ -17,7 +17,7 @@
 
                 @foreach (var productAttribute in productAttributes.OrderBy(x => x.Attribute.Id))
                 {
-                    <MudAutocomplete T="AttributeValueDto" Class="mb-6" Label="@productAttribute.Attribute.Name" @bind-Value="productAttribute.Value" SearchFuncWithCancel="@(async (string value, CancellationToken ct) => await SearchAttributeValue(productAttribute.Attribute.Id, value, ct))" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
+                    <MudAutocomplete T="AttributeValueDto" Class="mb-6" Variant="Variant.Outlined" Label="@productAttribute.Attribute.Name" @bind-Value="productAttribute.Value" SearchFuncWithCancel="@(async (string value, CancellationToken ct) => await SearchAttributeValue(productAttribute.Attribute.Id, value, ct))" ShowProgressIndicator="true" ToStringFunc="(x) => x.Name" Required />
                 }
 
             </MudContainer>

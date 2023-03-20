@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record UpdateProductDetails(long ProductId, ApiUpdateProductDetails Details) : IRequest
+public sealed record UpdateProductDetails(long ProductId, ApiUpdateProductDetails Details) : IRequest
 {
-    public class Handler : IRequestHandler<UpdateProductDetails>
+    public sealed class Handler : IRequestHandler<UpdateProductDetails>
     {
         private readonly IApplicationDbContext _context;
 

@@ -48,10 +48,31 @@ public partial class ProductsController : Controller
         return Ok(url);
     }
 
-    [HttpGet("{productId}/Visibility")]
+    [HttpPost("{productId}/Visibility")]
     public async Task<ActionResult> UpdateProductVisibility(long productId, ProductVisibility visibility, CancellationToken cancellationToken)
     {
         await _mediator.Send(new UpdateProductVisibility(productId, visibility), cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("{productId}/Group")]
+    public async Task<ActionResult> UpdateProductGroup(long productId, long groupId, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new UpdateProductGroup(productId, groupId), cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("{productId}/Price")]
+    public async Task<ActionResult> UpdateProductPrice(long productId, UpdateProductPriceRequest dto, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new UpdateProductPrice(productId, dto.Price), cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("{productId}/Sku")]
+    public async Task<ActionResult> UpdateProductSku(long productId, string sku, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new UpdateProductSku(productId, sku), cancellationToken);
         return Ok();
     }
 
@@ -61,3 +82,5 @@ public partial class ProductsController : Controller
         return Ok(await _mediator.Send(new CreateProduct(data.Name, data.Handle, data.StoreId, data.HasVariants, data.Description, data.GroupId, data.Sku, data.Price, data.Visibility), cancellationToken));
     }
 }
+
+public sealed record UpdateProductPriceRequest(decimal Price);

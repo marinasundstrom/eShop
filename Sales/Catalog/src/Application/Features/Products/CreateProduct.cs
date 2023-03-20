@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record CreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description,  long? GroupId, string? Sku, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
+public sealed record CreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description,  long? GroupId, string? Sku, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
 {
-    public class Handler : IRequestHandler<CreateProduct, ProductDto?>
+    public sealed class Handler : IRequestHandler<CreateProduct, ProductDto?>
     {
         private readonly IApplicationDbContext _context;
 

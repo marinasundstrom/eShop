@@ -24,6 +24,8 @@ public sealed class Product : AggregateRoot<long>
 
     public string Handle { get; set; } = null!;
 
+    public string? SKU { get; set; } = null!;
+
     public string? Substitle { get; set; }
 
     //public bool IsNew { get; set; }

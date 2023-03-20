@@ -31,6 +31,9 @@ partial class ProductVariantsView : ComponentBase
         if (productVariant.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase))
             return true;
 
+        if (productVariant.Sku?.Contains(searchString, StringComparison.InvariantCultureIgnoreCase) ?? false)
+            return true;
+
         return false;
     }
 

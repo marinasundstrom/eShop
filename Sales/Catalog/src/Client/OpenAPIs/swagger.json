@@ -811,7 +811,7 @@
       }
     },
     "/v1/Products/{productId}/Visibility": {
-      "get": {
+      "post": {
         "tags": [
           "Products"
         ],
@@ -832,6 +832,134 @@
             "in": "query",
             "schema": {
               "$ref": "#/components/schemas/ProductVisibility"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Products/{productId}/Group": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_UpdateProductGroup",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "groupId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Products/{productId}/Price": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_UpdateProductPrice",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductPriceRequest"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Products/{productId}/Sku": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_UpdateProductSku",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "sku",
+            "in": "query",
+            "schema": {
+              "type": "string"
             },
             "x-position": 2
           }
@@ -2689,6 +2817,10 @@
           "handle": {
             "type": "string"
           },
+          "sku": {
+            "type": "string",
+            "nullable": true
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -2765,6 +2897,10 @@
           },
           "handle": {
             "type": "string"
+          },
+          "sku": {
+            "type": "string",
+            "nullable": true
           },
           "description": {
             "type": "string",
@@ -2996,6 +3132,16 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          }
+        }
+      },
+      "UpdateProductPriceRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "price": {
+            "type": "number",
+            "format": "decimal"
           }
         }
       },

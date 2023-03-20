@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public record UploadProductImage(long ProductId, string FileName, Stream Stream) : IRequest<string?>
+public sealed record UploadProductImage(long ProductId, string FileName, Stream Stream) : IRequest<string?>
 {
-    public class Handler : IRequestHandler<UploadProductImage, string?>
+    public sealed class Handler : IRequestHandler<UploadProductImage, string?>
     {
         private readonly IApplicationDbContext _context;
         private readonly IBlobStorageService _blobStorageService;

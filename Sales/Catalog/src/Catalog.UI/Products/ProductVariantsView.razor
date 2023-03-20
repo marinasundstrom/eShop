@@ -12,6 +12,7 @@
     <HeaderContent>
         <MudTh></MudTh>
         <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<ProductDto, object>(x=>x.Sku)">SKU</MudTableSortLabel></MudTh>
         @if(productVariants?.Any() ?? false)
         {
             foreach (var attr in productVariants.First().Attributes.OrderBy(x => x.Attribute.Id))
@@ -27,6 +28,7 @@
                 <MudImage Src="@context.Image" ObjectFit="ObjectFit.Cover" Height="100" Width="100" Alt="Örebro Slott"  Elevation="25" Class="rounded-lg" />
             </MudTh>
             <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Sku">@context.Sku</MudTd>
             @foreach (var attr in context.Attributes.OrderBy(x => x.Attribute.Id))
             {
                 <MudTd DataLabel="@attr.Value?.Name">@attr.Value?.Name</MudTd>

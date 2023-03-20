@@ -20,6 +20,7 @@ public static class Mapping
                item.Id,
                item.Name,
                item.Handle,
+               item.SKU,
                item.Description,
                item.ParentProduct?.ToDto2(),
                item.Group?.ToDto(),
@@ -39,6 +40,7 @@ public static class Mapping
                 item.Id,
                 item.Name,
                 item.Handle,
+                item.SKU,
                 item.Description,
                 item.Group?.ToDto());
     }
