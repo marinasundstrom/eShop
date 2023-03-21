@@ -25,7 +25,7 @@ public class UnitTest1
                 },
                 Parent = null,
                 Price = 1,
-                CompareAtPrice = null,
+                RegularPrice = null,
                 QuantityAvailable = null,
                 Image = "",
                 Visibility = ProductVisibility.Listed

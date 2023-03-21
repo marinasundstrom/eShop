@@ -7,7 +7,7 @@
     }
     else
     {
-        @if (CompareAtPrice is null)
+        @if (RegularPrice is null)
         {
             <h5 style="display: inline-block; font-weight: 500; line-height: 0;">@FormatPrice(Price)</h5>
         }
@@ -17,9 +17,9 @@
         }
     }
 
-    @if (CompareAtPrice != null)
+    @if (RegularPrice != null)
     {
-        <h5 class="text-muted" style="display: inline-block; text-decoration: line-through; color: gray !important; margin-left: 10px; line-height: 0;">@FormatPrice(CompareAtPrice.GetValueOrDefault())</h5>
+        <h5 class="text-muted" style="display: inline-block; text-decoration: line-through; color: gray !important; margin-left: 10px; line-height: 0;">@FormatPrice(RegularPrice.GetValueOrDefault())</h5>
     }
 </div>
 
@@ -28,7 +28,7 @@
     public decimal Price { get; set; }
 
     [Parameter]
-    public decimal? CompareAtPrice { get; set; }
+    public decimal? RegularPrice { get; set; }
 
     [Parameter]
     public Func<decimal, string> FormatPrice { get; set; } = (price) => price.ToString("c");

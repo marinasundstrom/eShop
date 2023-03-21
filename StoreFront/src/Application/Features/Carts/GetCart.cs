@@ -73,7 +73,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                 })!;
 
                 var price = item!.Price;
-                var compareAtPrice = item.CompareAtPrice;
+                var regularPrice = item.RegularPrice;
 
                 List<string> optionTexts = new List<string>();
 
@@ -97,7 +97,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                             if (isSelected)
                             {
                                 price += option.Price.GetValueOrDefault();
-                                compareAtPrice += option.Price.GetValueOrDefault();
+                                regularPrice += option.Price.GetValueOrDefault();
 
                                 if (option.Price is not null)
                                 {
@@ -114,7 +114,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                             var value = opt.Option.Values.FirstOrDefault(x => x.Id == option.SelectedValueId)!;
 
                             price += value.Price.GetValueOrDefault();
-                            compareAtPrice += value.Price.GetValueOrDefault();
+                            regularPrice += value.Price.GetValueOrDefault();
 
                             if (value.Price is not null)
                             {
@@ -128,7 +128,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                         else if (option.NumericalValue is not null)
                         {
                             //price += option.Price.GetValueOrDefault();
-                            //compareAtPrice += option.Price.GetValueOrDefault();
+                            //regularPrice += option.Price.GetValueOrDefault();
 
                             optionTexts.Add($"{option.NumericalValue} {option.Name}");
                         }

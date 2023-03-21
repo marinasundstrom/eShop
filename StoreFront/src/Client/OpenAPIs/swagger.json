@@ -1199,7 +1199,7 @@
             "type": "number",
             "format": "decimal"
           },
-          "compareAtPrice": {
+          "regularPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true

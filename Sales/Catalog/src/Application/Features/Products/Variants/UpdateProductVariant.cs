@@ -43,7 +43,7 @@ public record UpdateProductVariant(long ProductId, long ProductVariantId, ApiUpd
             variant.Name = request.Data.Name;
             variant.Description = request.Data.Description;
             variant.Price = request.Data.Price;
-            variant.CompareAtPrice = request.Data.CompareAtPrice;
+            variant.RegularPrice = request.Data.RegularPrice;
 
             foreach (var v in request.Data.Attributes)
             {

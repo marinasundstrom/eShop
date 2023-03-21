@@ -3043,7 +3043,7 @@
             "type": "number",
             "format": "decimal"
           },
-          "compareAtPrice": {
+          "regularPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true
@@ -3317,7 +3317,7 @@
             "format": "decimal",
             "nullable": true
           },
-          "compareAtPrice": {
+          "regularPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true
@@ -3373,7 +3373,7 @@
             "format": "decimal",
             "nullable": true
           },
-          "compareAtPrice": {
+          "regularPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true
@@ -3697,7 +3697,7 @@
             "type": "number",
             "format": "decimal"
           },
-          "compareAtPrice": {
+          "regularPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true
@@ -3740,7 +3740,7 @@
             "type": "number",
             "format": "decimal"
           },
-          "compareAtPrice": {
+          "regularPrice": {
             "type": "number",
             "format": "decimal",
             "nullable": true

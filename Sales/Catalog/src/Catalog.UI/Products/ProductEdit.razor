@@ -119,10 +119,10 @@ View product
                     <MudField Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.Price</MudField>
                 </div>
 
-                @if(product.CompareAtPrice is not null) 
+                @if(product.RegularPrice is not null) 
                 {
                     <div class="flex-1 d-flex">
-                        <MudField Label="Regular Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.CompareAtPrice</MudField>
+                        <MudField Label="Regular Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.RegularPrice</MudField>
                     </div>
                 }
 

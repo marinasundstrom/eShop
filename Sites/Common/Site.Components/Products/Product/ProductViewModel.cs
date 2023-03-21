@@ -41,7 +41,7 @@ public class ProductViewModel
                 .Select(x => x.Price.GetValueOrDefault() + (x.Values.FirstOrDefault(x3 => x3.Id == x?.SelectedValueId)?.Price ?? 0))
                 .Sum();
 
-    public decimal? CompareAtPrice => Product?.CompareAtPrice;
+    public decimal? RegularPrice => Product?.RegularPrice;
 
     public int? Available => Variant?.Available ?? Product?.Available;
 

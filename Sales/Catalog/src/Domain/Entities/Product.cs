@@ -46,7 +46,7 @@ public sealed class Product : AggregateRoot<long>
 
     public decimal? Price { get; set; }
 
-    public decimal? CompareAtPrice { get; set; }
+    public decimal? RegularPrice { get; set; }
 
     public int? QuantityAvailable { get; set; }
 

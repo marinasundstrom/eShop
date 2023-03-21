@@ -27,7 +27,7 @@ public sealed record UpdateProductDetails(long ProductId, ApiUpdateProductDetail
             item.Description = request.Details.Description;
             item.Group = group;
             item.Price = request.Details.Price;
-            item.CompareAtPrice = request.Details.CompareAtPrice;
+            item.RegularPrice = request.Details.RegularPrice;
 
             await _context.SaveChangesAsync();
 

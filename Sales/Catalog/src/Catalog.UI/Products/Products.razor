@@ -82,9 +82,9 @@
                                 </MudCardContent>
                                 <MudCardActions Class="mx-2 d-flex justify-space-between flex-grow-1 gap-4">
                                     <MudText Typo="Typo.body2">
-                                    @if(item.CompareAtPrice is not null) 
+                                    @if(item.RegularPrice is not null) 
                                     {
-                                        <span class="me-3" style="text-decoration: line-through; color: gray;">@item.CompareAtPrice?.ToString("c") </span> 
+                                        <span class="me-3" style="text-decoration: line-through; color: gray;">@item.RegularPrice?.ToString("c") </span> 
                                     }
                                     @item.Price.ToString("c")</MudText>
                                     <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}/edit")">Learn More</MudButton>

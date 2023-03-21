@@ -27,7 +27,7 @@ public static class Mapping
                item.Group?.ToDto(),
                GetImageUrl(item.Image),
                item.Price.GetValueOrDefault(),
-               item.CompareAtPrice,
+               item.RegularPrice,
                item.QuantityAvailable,
                item.HasVariants,
                (ProductVisibility?)item.Visibility,

@@ -4,9 +4,9 @@ using System;
 
 using YourBrand.Catalog.Features.Options;
 
-public record class ApiCreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description, long? GroupId, string? Sku, decimal? Price, decimal? CompareAtPrice, ProductVisibility? Visibility);
+public record class ApiCreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description, long? GroupId, string? Sku, decimal? Price, decimal? RegularPrice, ProductVisibility? Visibility);
 
-public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? CompareAtPrice, long? GroupId);
+public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? RegularPrice, long? GroupId);
 
 public record class ApiCreateProductGroup(string Name, string Handle, string? Description, long? ParentGroupId);
 
@@ -44,12 +44,12 @@ public record class ApiUpdateProductAttributeGroup(string Name, string? Descript
 
 
 
-public record class ApiCreateProductVariant(string Name, string Handle, string? Description, string? Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
+public record class ApiCreateProductVariant(string Name, string Handle, string? Description, string? Id, decimal Price, decimal? RegularPrice, IEnumerable<ApiCreateProductVariantAttribute> Attributes);
 
 public record class ApiCreateProductVariantAttribute(string AttributeId, string ValueId);
 
 
-public record class ApiUpdateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? CompareAtPrice, IEnumerable<ApiUpdateProductVariantAttribute> Attributes);
+public record class ApiUpdateProductVariant(string Name, string? Description, string Id, decimal Price, decimal? RegularPrice, IEnumerable<ApiUpdateProductVariantAttribute> Attributes);
 
 public record class ApiUpdateProductVariantAttribute(int? Id, string AttributeId, string ValueId);
 

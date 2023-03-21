@@ -27,6 +27,8 @@ public class ProductGroup : Entity<long>
 
     public string? Image { get; set; }
 
+    public bool AllowItems { get; set; }
+
     public bool Hidden { get; set; }
 
     public int ProductsCount { get; private set; }
