@@ -1,5 +1,4 @@
 ﻿@using System.Runtime.CompilerServices
-@using Navigation
 @inject NavManager NavManager
 @inject YourBrand.Portal.Services.ICurrentUserService CurrentUserService
 @inject IStringLocalizer<NavMenu> T
@@ -8,8 +7,7 @@
 
 <MudNavMenu>
     <MudSpacer />
-
-    <YourBrand.Portal.Navigation.NavItemListView Items="NavManager.Items" SaveCallback="Save" />
+    <NavItemListView Items="NavManager.Items" SaveCallback="Save" />
 </MudNavMenu>
 
 @code {

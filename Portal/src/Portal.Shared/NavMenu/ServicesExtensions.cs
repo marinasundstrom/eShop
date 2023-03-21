@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace YourBrand.Portal.Navigation;
+namespace YourBrand.Portal.NavMenu;
 
 public static class ServicesExtensions
 {

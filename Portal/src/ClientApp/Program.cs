@@ -1,16 +1,14 @@
 using System.Net.Http.Json;
 using System.Reflection;
-using Blazored.LocalStorage;
+
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Localization;
-using MudBlazor.Services;
-using Polly;
-using Polly.Contrib.WaitAndRetry;
-using Polly.Extensions.Http;
+
 using YourBrand.Portal;
+using YourBrand.Portal.AppBar;
 using YourBrand.Portal.Modules;
-using YourBrand.Portal.Navigation;
+using YourBrand.Portal.NavMenu;
 using YourBrand.Portal.Theming;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
@@ -28,6 +26,7 @@ builder.Services
     .AddServices()
     .AddThemeServices()
     .AddNavigationServices()
+    .AddAppBar()
     .AddScoped<ModuleLoader>();
 
 await LoadModules(builder.Services);

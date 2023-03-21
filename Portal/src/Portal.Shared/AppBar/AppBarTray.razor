@@ -1,0 +1,62 @@
+@using MudBlazor.Services
+@implements IAsyncDisposable
+@inject IAppBarTrayService AppBarTrayService
+@inject IBreakpointService BreakpointListener
+
+@foreach (var item in AppBarTrayService.Items.Where(i => i.IsVisible))
+{
+    @if(item.ComponentType is not null) 
+    {
+        <DynamicComponent @key="@item.Id" Type="item.ComponentType" />
+    }
+    else 
+    {
+        <MudIconButton @key="@item.Id" Icon="@item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@item.OnClick" />
+    }
+}
+
+@code 
+{
+    private Guid _subscriptionId;
+	private Breakpoint _start;
+
+    protected override void OnInitialized()
+    {
+        AppBarTrayService.ItemAdded += AppBarTrayUpdated;
+        AppBarTrayService.ItemRemoved += AppBarTrayUpdated;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			var subscriptionResult = await BreakpointListener.Subscribe((breakpoint) =>
+			{
+				InvokeAsync(StateHasChanged);
+			}, new ResizeOptions
+			{
+				ReportRate = 250,
+				NotifyOnBreakpointOnly = true,
+			});
+
+			_start = subscriptionResult.Breakpoint;
+			_subscriptionId = subscriptionResult.SubscriptionId;
+			StateHasChanged();
+		}
+
+		await base.OnAfterRenderAsync(firstRender);
+	}
+
+    private void AppBarTrayUpdated(object? sender, EventArgs e) 
+    {
+        StateHasChanged();
+    }
+
+    public async ValueTask DisposeAsync() 
+    {
+        await BreakpointListener.Unsubscribe(_subscriptionId);
+        
+        AppBarTrayService.ItemAdded -= AppBarTrayUpdated;
+        AppBarTrayService.ItemRemoved -= AppBarTrayUpdated;
+    }
+}

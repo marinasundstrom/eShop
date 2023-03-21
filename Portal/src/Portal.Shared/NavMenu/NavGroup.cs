@@ -1,10 +1,12 @@
-namespace YourBrand.Portal.Navigation;
+﻿namespace YourBrand.Portal.NavMenu;
 
-public class NavItem : INavItem
+public class NavGroup : NavItemsCollection, INavItem
 {
     private string? name;
 
     public string Id { get; set; } = null!;
+
+    public string? Icon { get; set; }
 
     public string Name
     {
@@ -14,23 +16,12 @@ public class NavItem : INavItem
 
     public Func<string>? NameFunc { get; set; }
 
-    public void SetName(string name)
-    {
-        Name = name;
-    }
-
-    public void SetName(Func<string> nameFunc)
-    {
-        NameFunc = nameFunc;
-    }
-
-    public string? Icon { get; set; }
-
-    public string Href { get; set; } = null!;
+    public bool Expanded { get; set; }
 
     public bool Visible { get; set; } = true;
 
     public bool RequiresAuthorization { get; set; }
 
     public IEnumerable<string>? Roles { get; set; }
+
 }

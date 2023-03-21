@@ -1,6 +1,8 @@
 ﻿@inherits LayoutComponentBase
 @using Blazored.LocalStorage
-@inject ThemeManager ThemeManager
+@using YourBrand.Portal.AppBar
+@using YourBrand.Portal.NavMenu
+@inject IThemeManager ThemeManager
 @inject ILocalStorageService LocalStorage
 
 <MudThemeProvider IsDarkMode="@(_currentColorScheme == ColorScheme.Dark)" Theme="_theme" />

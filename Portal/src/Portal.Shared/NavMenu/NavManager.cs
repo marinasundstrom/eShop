@@ -1,4 +1,4 @@
-﻿namespace YourBrand.Portal.Navigation;
+﻿namespace YourBrand.Portal.NavMenu;
 
 public class NavManager : NavItemsCollection
 {

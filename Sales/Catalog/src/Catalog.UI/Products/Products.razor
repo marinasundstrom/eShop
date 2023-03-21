@@ -1,10 +1,12 @@
 ﻿@page "/products"
 @layout MainLayout2
+@implements IDisposable
 @inject IStoresClient StoresClient
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
+@inject IStoreProvider StoreProvider
 
 <AppPageTitle>Products</AppPageTitle>
 
@@ -117,9 +119,27 @@
 
     protected override async Task OnInitializedAsync()
     {
+        StoreProvider.CurrentStoreChanged += OnCurrentStoreChanged;
+
+        stores = await StoreProvider.GetAvailableStoresAsync();
+
         tree = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
 
         await OnPageChanged(1);
+    }
+
+    private async void OnCurrentStoreChanged(object? sender, EventArgs e) 
+    {
+        store = StoreProvider.CurrentStore;
+
+        await OnPageChanged(1);
+
+        StateHasChanged();
+    }
+
+    public void Dispose() 
+    {
+        StoreProvider.CurrentStoreChanged -= OnCurrentStoreChanged;
     }
 
     async Task OnPageChanged(int page)

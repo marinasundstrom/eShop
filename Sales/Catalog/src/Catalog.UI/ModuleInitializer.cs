@@ -4,8 +4,10 @@ using Microsoft.Extensions.DependencyInjection;
 using YourBrand.Portal;
 using YourBrand.Catalog.Client;
 using YourBrand.Portal.Modules;
-using YourBrand.Portal.Navigation;
+using YourBrand.Portal.NavMenu;
 using Microsoft.Extensions.Localization;
+using YourBrand.Portal.AppBar;
+using MudBlazor;
 
 namespace YourBrand.Catalog;
 
@@ -23,12 +25,15 @@ public class ModuleInitializer : IModuleInitializer
         {
             //builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
         });
+
+        services.AddScoped<IStoreProvider, StoreProvider>();
     }
 
     public static void ConfigureServices(IServiceProvider services)
     {
         var navManager = services
             .GetRequiredService<NavManager>();
+
 
         var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
 
@@ -48,5 +53,15 @@ public class ModuleInitializer : IModuleInitializer
         catalogItem.CreateItem("attributes", () => resources["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
 
         catalogItem.CreateItem("brands", () => resources["Brands"], MudBlazor.Icons.Material.Filled.List, "/brands");
+
+        var appBarTray = services
+            .GetRequiredService<IAppBarTrayService>();
+
+        var snackbar = services
+            .GetRequiredService<ISnackbar>();
+
+        appBarTray.AddItem(new AppBarTrayItem("show", typeof(StoreSelector)));
+
+        appBarTray.AddItem(new AppBarTrayItem("show2", "Test", MudBlazor.Icons.Material.Filled.List, () => snackbar.Add ("Hello!") ));
     }
 }

@@ -2,7 +2,23 @@
 
 namespace YourBrand.Portal.Theming;
 
-public class ThemeManager : IDisposable
+public interface IThemeManager : IDisposable 
+{
+    void Initialize();
+
+    ColorScheme CurrentColorScheme { get; }
+
+    ColorScheme? PreferredColorScheme { get; set;}
+
+    void UseSystemScheme();
+
+    void SetPreferredColorScheme(ColorScheme colorScheme);
+
+    event EventHandler<ColorSchemeChangedEventArgs>? ColorSchemeChanged;
+
+}
+
+public sealed class ThemeManager : IThemeManager
 {
     private const string PreferredColorSchemeKey = "preferredColorScheme";
     private readonly SystemColorSchemeDetector _systemColorSchemeDetector;
@@ -68,7 +84,7 @@ public class ThemeManager : IDisposable
         _localStorage.SetItem<ColorScheme?>(PreferredColorSchemeKey, colorScheme);
     }
 
-    public event EventHandler<ColorSchemeChangedEventArgs> ColorSchemeChanged = null!;
+    public event EventHandler<ColorSchemeChangedEventArgs>? ColorSchemeChanged;
 
     public void Dispose()
     {

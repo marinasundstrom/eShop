@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using YourBrand.Portal;
 using YourBrand.Customers.Client;
 using YourBrand.Portal.Modules;
-using YourBrand.Portal.Navigation;
+using YourBrand.Portal.NavMenu;
 using Microsoft.Extensions.Localization;
 
 namespace YourBrand.Customers;
