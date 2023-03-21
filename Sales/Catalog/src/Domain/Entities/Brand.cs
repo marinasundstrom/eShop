@@ -1,15 +1,18 @@
 namespace YourBrand.Catalog.Domain.Entities;
 
-public sealed class Brand : AggregateRoot<string>
+public sealed class Brand : AggregateRoot<int>
 {
-    private Brand() { }
+    private Brand() : base(0) { }
 
-    public Brand(string id, string name) : base(id)
+    public Brand(string name, string handle) : base()
     {
         Name = name;
+        Handle = handle;
     }
 
     public string Name { get; set; } = null!;
+
+    public string Handle { get; set; } = null!;
 }
 
 /*

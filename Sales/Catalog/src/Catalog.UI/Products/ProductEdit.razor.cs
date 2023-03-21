@@ -68,9 +68,9 @@ partial class ProductEdit : ComponentBase
     async Task UpdateGroup() 
     {
         var parameters = new DialogParameters();
-        parameters.Add(nameof(ProductGroupSelectorModal.GroupId), product!.Group!.Id);
+        parameters.Add(nameof(Groups.ProductGroupSelectorModal.GroupId), product!.Group!.Id);
 
-        var dref = DialogService.Show<ProductGroupSelectorModal>("", parameters);
+        var dref = DialogService.Show<Groups.ProductGroupSelectorModal>("", parameters);
         var r = await dref.Result;
 
         if(r.Canceled) return;
@@ -78,6 +78,25 @@ partial class ProductEdit : ComponentBase
         var data = (ProductGroupTreeNodeDto)r.Data;
 
         product!.Group = await ProductsClient.UpdateProductGroupAsync(product!.Id, data.Id);
+    }
+
+    async Task UpdatePrice() 
+    {
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(UpdatePriceModal.Price), product!.Price);
+
+        var dref = DialogService.Show<UpdatePriceModal>("Update price", parameters);
+        var r = await dref.Result;
+
+        if(r.Canceled) return;
+
+        var data = (decimal)r.Data;
+
+        await ProductsClient.UpdateProductPriceAsync(product!.Id, new UpdateProductPriceRequest {
+            Price = data
+        });
+
+        product!.Price = data;
     }
 }
 

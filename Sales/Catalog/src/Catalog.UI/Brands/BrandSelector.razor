@@ -1,11 +1,11 @@
 @using System.Linq.Expressions
-@inject IStoresClient StoresClient
+@inject IBrandsClient BrandsClient
 @inject IDialogService DialogService
 
 <div class="d-flex flex-grow-1">
     <div class="flex-1 d-flex">
-        <MudAutocomplete T="StoreDto" Label="@Label" Dense="true" Variant="Variant" Style="@Style" Class="@Class" Value="Value" ValueChanged="ValueChanged"
-            For="For" SearchFunc="SearchStores" ToStringFunc="(x) => x.Name"
+        <MudAutocomplete T="BrandDto" Label="@Label" Dense="true" Variant="Variant" Style="@Style" Class="@Class" Value="Value" ValueChanged="ValueChanged"
+            For="For" SearchFunc="SearchBrands" ToStringFunc="(x) => x.Name"
             ResetValueOnEmptyText="true" CoerceText="false" CoerceValue="false">
             <ItemTemplate Context="context2">
                 <MudText Typo="Typo.body1">@context2.Name</MudText>
@@ -19,22 +19,22 @@
     
     @if(ShowAddButton) 
     {
-        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddStores" />
+        <MudIconButton Icon="@Icons.Filled.Add" OnClick="AddBrands" />
     }
 </div>
 
 @code {
     [Parameter]
-    public string Label { get; set; } = "Store";
+    public string Label { get; set; } = "Brand";
 
     [Parameter]
-    public StoreDto Value { get; set; }
+    public BrandDto Value { get; set; }
 
     [Parameter]
-    public EventCallback<StoreDto> ValueChanged { get; set; }
+    public EventCallback<BrandDto> ValueChanged { get; set; }
 
     [Parameter]
-    public Expression<Func<StoreDto>> For { get; set; }
+    public Expression<Func<BrandDto>> For { get; set; }
 
     [Parameter]
     public string Style { get; set; }
@@ -46,16 +46,16 @@
     public Variant Variant { get; set; }
 
     [Parameter]
-    public string StoresAreaId { get; set; }
+    public string BrandsAreaId { get; set; }
 
     [Parameter]
     public bool ShowAddButton { get; set; }
 
-    async Task<IEnumerable<StoreDto>> SearchStores(string text)
+    async Task<IEnumerable<BrandDto>> SearchBrands(string text)
     {
         try
         {
-            var results = await StoresClient.GetStoresAsync(0, 10, text, null, null);
+            var results = await BrandsClient.GetBrandsAsync(0, 10, text, null, null);
             return results.Items;
         }
         catch (AccessTokenNotAvailableException exception)
@@ -66,16 +66,16 @@
         return null;
     }
 
-    async Task AddStores() 
+    async Task AddBrands() 
     {
         try
         {
             var parameters = new DialogParameters();
 
             var type = System.Reflection.Assembly.Load("Showroom.UI")
-                .GetType("YourBrand.Catalog.Stores.StoresDialog");
+                .GetType("YourBrand.Catalog.Brands.BrandsDialog");
 
-            var dialogReference = DialogService.Show(type, "New Stores", parameters, new DialogOptions {
+            var dialogReference = DialogService.Show(type, "New Brands", parameters, new DialogOptions {
                 //FullScreen = true,
                 MaxWidth = MaxWidth.ExtraLarge
             });
@@ -85,7 +85,7 @@
             if(result.Cancelled)
                 return;
 
-            Value = (StoreDto)result.Data;
+            Value = (BrandDto)result.Data;
 
             await ValueChanged.InvokeAsync(Value);
         }

@@ -19,7 +19,7 @@ public static class Seed
 
         await context.SaveChangesAsync();
 
-        context.Brands.Add(new Brand("myBrand", "MyBrand"));
+        context.Brands.Add(new Brand("MyBrand", "myBrand"));
 
         await context.SaveChangesAsync();
 
@@ -98,7 +98,7 @@ public static class Seed
             HasVariants = true,
             Group = await context.ProductGroups.FirstAsync(x => x.Handle == "t-shirts"),
             Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,
-            Brand = await context.Brands.FirstAsync(x => x.Id == "myBrand"),
+            Brand = await context.Brands.FirstAsync(x => x.Handle == "myBrand"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
         };
 

@@ -1,4 +1,5 @@
 using YourBrand.Catalog.Features.Attributes;
+using YourBrand.Catalog.Features.Brands;
 using YourBrand.Catalog.Features.Options;
 using YourBrand.Catalog.Features.Products;
 using YourBrand.Catalog.Features.Products.Groups;
@@ -70,8 +71,13 @@ public static class Mapping
         return new ProductAttributeDto(x.Attribute.ToDto(), x.Value?.ToDto(), x.ForVariant, x.IsMainAttribute);
     }
 
-     public static ProductOptionDto ToDto(this Domain.Entities.ProductOption x)
+    public static ProductOptionDto ToDto(this Domain.Entities.ProductOption x)
     {
         return new ProductOptionDto(x.Option.ToDto(), x.IsInherited.GetValueOrDefault());
+    }
+
+    public static BrandDto ToDto(this Domain.Entities.Brand brand)
+    {
+        return new BrandDto(brand.Id, brand.Name);
     }
 }

@@ -43,8 +43,10 @@ public class ModuleInitializer : IModuleInitializer
 
         catalogItem.CreateItem("products", () => resources["Products"], MudBlazor.Icons.Material.Filled.FormatListBulleted, "/products");
 
-        catalogItem.CreateItem("collections", () => resources["Groups"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
+        catalogItem.CreateItem("groups", () => resources["Groups"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
 
         catalogItem.CreateItem("attributes", () => resources["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
+
+        catalogItem.CreateItem("brands", () => resources["Brands"], MudBlazor.Icons.Material.Filled.List, "/brands");
     }
 }

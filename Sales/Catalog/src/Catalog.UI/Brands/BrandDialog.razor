@@ -1,0 +1,85 @@
+@using System.ComponentModel.DataAnnotations
+@inject IBrandsClient BrandsClient
+@inject ISnackbar Snackbar
+
+<EditForm EditContext="@context" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudDialog DisableSidePadding="true">
+        <DialogContent>
+            <MudContainer Style="max-height: 500px; overflow-y: scroll">
+                <MudTextField Label="Name" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Name"
+                              For="@(() => Name)" />
+            </MudContainer>
+        </DialogContent>
+
+        <DialogActions>
+            <MudButton Variant="Variant.Text" Color="Color.Secondary" OnClick="() => Dialog.Cancel()">Cancel</MudButton>
+            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Text" Color="Color.Primary">
+                @if(BrandId is null) 
+                {
+                    <text>Add</text>
+                }
+                else 
+                {
+                    <text>Update</text>
+                }
+            </MudButton>
+        </DialogActions>
+    </MudDialog>
+
+</EditForm>
+
+@code
+{
+    EditContext context = null!;
+
+    [CascadingParameter]
+    public MudDialogInstance Dialog { get; set; } = null!;
+
+    [Parameter]
+    public int? BrandId { get; set; } = null!;
+
+    //[Required]
+    //public BrandDto Area { get; set; }
+
+    [Required]
+    public string Name { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        context = new EditContext(this);
+
+        if (BrandId is not null) 
+        {
+            var brand = await BrandsClient.GetBrandAsync(BrandId.GetValueOrDefault());
+            //Area = brand.Area;
+            Name = brand.Name;
+        }
+    }
+
+    public async Task OnValidSubmit()
+    {
+        if(BrandId is null) 
+        {
+            var brand = await BrandsClient.CreateBrandAsync(new CreateBrandDto {
+                //BrandId = Area.Id,
+                Name = Name
+            });
+
+            Dialog.Close(brand);
+        }
+        else 
+        {
+            if (context.IsModified())
+            {
+                await BrandsClient.UpdateBrandAsync(BrandId.GetValueOrDefault(), new UpdateBrandDto
+                {
+                    //BrandId = Area.Id,
+                    Name = Name
+                });
+            }
+
+            Dialog.Close();
+        }
+    }
+}

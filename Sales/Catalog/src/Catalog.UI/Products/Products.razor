@@ -13,19 +13,9 @@
 
     <MudPaper Elevation="25" Class="pa-2">
         <div class="d-flex flex-grow-1 gap-4">
-            <div class="justify-start" style="max-width: 250px">
-                <MudAutocomplete Class="flex-none" T="StoreDto" Label="Store" Dense="true" Variant="Variant.Outlined" Value="store" ValueChanged="OnStoreChanged"
-                    For="() => store" SearchFunc="SearchStores" ToStringFunc="(x) => x.Name"
-                    ResetValueOnEmptyText="true" CoerceText="false" CoerceValue="false">
-                    <ItemTemplate Context="context2">
-                        <MudText Typo="Typo.body1">@context2.Name</MudText>
-                    </ItemTemplate>
-
-                    <ItemSelectedTemplate Context="context2">
-                        <MudText Typo="Typo.body1">@context2.Name</MudText>
-                    </ItemSelectedTemplate>
-                </MudAutocomplete>
-            </div>   
+            @* <div class="justify-start" style="max-width: 250px">
+                
+            </div> *@  
 
             <div>
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateProduct" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create product</MudButton>
@@ -39,6 +29,21 @@
 
 <MudGrid Spacing="6" Class="mt-2">
     <MudItem xs="12" sm="4" md="4" lg="2">
+
+        <MudPaper Elevation="25" Class="pa-4 mb-4">
+            <MudAutocomplete Class="flex-none" T="StoreDto" Label="Store" Dense="true" Variant="Variant.Outlined" Value="store" ValueChanged="OnStoreChanged"
+                            For="() => store" SearchFunc="SearchStores" ToStringFunc="(x) => x.Name"
+                            ResetValueOnEmptyText="true" CoerceText="false" CoerceValue="false">
+                            <ItemTemplate Context="context2">
+                                <MudText Typo="Typo.body1">@context2.Name</MudText>
+                            </ItemTemplate>
+
+                            <ItemSelectedTemplate Context="context2">
+                                <MudText Typo="Typo.body1">@context2.Name</MudText>
+                            </ItemSelectedTemplate>
+                        </MudAutocomplete>
+        </MudPaper>
+
         @if(tree is not null) 
         {
             <MudPaper Elevation="25" Class="pa-4">
