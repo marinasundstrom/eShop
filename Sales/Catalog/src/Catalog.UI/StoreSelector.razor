@@ -31,6 +31,8 @@
         StoreProvider.CurrentStoreChanged += OnCurrentStoreChanged;
 
         items = await StoreProvider.GetAvailableStoresAsync();
+
+        StateHasChanged();
     }
 
     private void OnCurrentStoreChanged(object? sender, EventArgs e) 

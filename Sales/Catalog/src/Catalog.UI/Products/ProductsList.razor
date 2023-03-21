@@ -2,6 +2,7 @@
 @inject IProductsClient ProductsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
+@inject IStoreProvider StoreProvider
 
 <AppPageTitle>Products</AppPageTitle>
 
@@ -9,6 +10,8 @@
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateProduct" StartIcon="@Icons.Material.Filled.Add"
     Class="my-2">Create product</MudButton>
+
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.GridView" Link="/products">Grid view</MudButton>  
 
 <MudButton Variant="Variant.Filled" Color="Color.Secondary" Link="/products/groups" Class="my-2">Product groups
 </MudButton>
@@ -45,7 +48,7 @@
             <MudTableSortLabel SortLabel="Price" T="ProductDto">Price</MudTableSortLabel>
         </MudTh>
         <MudTh>
-            <MudTableSortLabel SortLabel="CompareAtPrice" T="ProductDto">Compare At Price</MudTableSortLabel>
+            <MudTableSortLabel SortLabel="CompareAtPrice" T="ProductDto">Regular Price</MudTableSortLabel>
         </MudTh>
         <MudTh>
             <MudTableSortLabel SortLabel="Visibility" T="ProductDto">Visibility</MudTableSortLabel>
@@ -98,10 +101,34 @@
 {
 
     MudTable<ProductDto> table;
+    StoreDto? store;
 
     [Parameter]
     [SupplyParameterFromQuery]
     public string? GroupId { get; set; }
+
+    protected override async Task OnInitializedAsync() 
+    {
+        StoreProvider.CurrentStoreChanged += OnCurrentStoreChanged;
+
+        store = StoreProvider.CurrentStore;
+    }
+
+    private async void OnCurrentStoreChanged(object? sender, EventArgs e) 
+    {
+        store = StoreProvider.CurrentStore;
+
+        Console.WriteLine(store.Id);
+
+        await table.ReloadServerData();
+
+        StateHasChanged();
+    }
+
+    public void Dispose() 
+    {
+        StoreProvider.CurrentStoreChanged -= OnCurrentStoreChanged;
+    }
 
     void ShowProduct(ProductDto item)
     {
@@ -119,12 +146,11 @@
         var item = (ProductDto)result.Data;
 
         NavigationManager.NavigateTo($"/products/{item.Id}/edit");
-
     }
 
     private async Task<TableData<ProductDto>> ServerReload(TableState state)
     {
-        var result = await ProductsClient.GetProductsAsync(null, true, null, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
+        var result = await ProductsClient.GetProductsAsync(store?.Id, true, null, null, state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
 
         return new TableData<ProductDto>() { TotalItems = result.TotalItems, Items = result.Items };
     }
