@@ -1,5 +1,16 @@
 namespace YourBrand.Catalog;
 
+public interface IStoreProvider
+{
+     Task<IEnumerable<StoreDto>> GetAvailableStoresAsync();
+
+    StoreDto? CurrentStore { get; set; }
+
+    Task SetCurrentStore(string storeId);
+
+    event EventHandler? CurrentStoreChanged;
+}
+
 public sealed class StoreProvider : IStoreProvider
 {
     IStoresClient _storesClient;
@@ -13,7 +24,7 @@ public sealed class StoreProvider : IStoreProvider
     public async Task<IEnumerable<StoreDto>> GetAvailableStoresAsync() 
     {
         var items = _stores = (await _storesClient.GetStoresAsync(null, null, null, null, null)).Items;
-        await SetCurrentStore(items.First().Id);
+        if(CurrentStore is null) await SetCurrentStore(items.First().Id);
         return items;
     }
 
@@ -29,15 +40,4 @@ public sealed class StoreProvider : IStoreProvider
     }
 
     public event EventHandler? CurrentStoreChanged;
-}
-
-public interface IStoreProvider
-{
-     Task<IEnumerable<StoreDto>> GetAvailableStoresAsync();
-
-    StoreDto? CurrentStore { get; set; }
-
-    Task SetCurrentStore(string storeId);
-
-    event EventHandler? CurrentStoreChanged;
 }

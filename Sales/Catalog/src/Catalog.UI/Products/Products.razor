@@ -123,6 +123,8 @@
 
         stores = await StoreProvider.GetAvailableStoresAsync();
 
+        store = StoreProvider.CurrentStore;
+
         tree = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
 
         await OnPageChanged(1);
@@ -131,6 +133,8 @@
     private async void OnCurrentStoreChanged(object? sender, EventArgs e) 
     {
         store = StoreProvider.CurrentStore;
+
+        tree = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
 
         await OnPageChanged(1);
 
