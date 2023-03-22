@@ -21,7 +21,26 @@
 
             <div>
                 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateProduct" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create product</MudButton>
-                <MudButton Variant="Variant.Filled" Color="Color.Secondary" StartIcon="@Icons.Material.Filled.ViewList" Link="/products/list">List view</MudButton>  
+                <MudMenu Dense="true" Color="Color.Inherit" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter"
+                        PopoverClass="docs-layout-menu-shadow" ListClass="pa-2 docs-menu-list" LockScroll="true">
+                    <ActivatorContent>
+                        <MudIconButton Icon="@(mode == ProductsViewMode.List ? Icons.Material.Filled.ViewList : Icons.Material.Filled.GridView)" Color="Color.Inherit" Edge="Edge.End" Class="me-2" />
+                    </ActivatorContent>
+                    <ChildContent>
+                        <MudMenuItem OnClick="() => SetViewMode(ProductsViewMode.List)">
+                            <div class="d-flex">
+                                <MudIcon Icon="@Icons.Material.Filled.ViewList" class="me-2" />
+                                <MudText Style="overflow: hidden; white-space: nowrap;">List</MudText>
+                            </div>
+                        </MudMenuItem>
+                        <MudMenuItem OnClick="() => SetViewMode(ProductsViewMode.Grid)">
+                            <div class="d-flex">
+                                <MudIcon Icon="@Icons.Material.Filled.GridView" class="me-2" />
+                                <MudText Style="overflow: hidden; white-space: nowrap;">Grid</MudText>
+                            </div>
+                        </MudMenuItem>
+                    </ChildContent>
+                </MudMenu>
             </div>   
         </div>
 
@@ -29,130 +48,39 @@
 
 </section>
 
-<MudGrid Spacing="6" Class="mt-2">
-    <MudItem xs="12" sm="4" md="4" lg="2">
-
-        <MudPaper Elevation="25" Class="pa-4 mb-4">
-            <MudAutocomplete Class="flex-none" T="StoreDto" Label="Store" Dense="true" Variant="Variant.Outlined" Value="store" ValueChanged="OnStoreChanged"
-                            For="() => store" SearchFunc="SearchStores" ToStringFunc="(x) => x.Name"
-                            ResetValueOnEmptyText="true" CoerceText="false" CoerceValue="false">
-                            <ItemTemplate Context="context2">
-                                <MudText Typo="Typo.body1">@context2.Name</MudText>
-                            </ItemTemplate>
-
-                            <ItemSelectedTemplate Context="context2">
-                                <MudText Typo="Typo.body1">@context2.Name</MudText>
-                            </ItemSelectedTemplate>
-                        </MudAutocomplete>
-        </MudPaper>
-
-        @if(tree is not null) 
-        {
-            <MudPaper Elevation="25" Class="pa-4">
-                <MudTreeView T="ProductGroupTreeNodeDto" Items="(new HashSet<ProductGroupTreeNodeDto>(tree))" Hover="true" SelectedValue="@productGroupTreeNode" SelectedValueChanged="async (e) => await SetGroup(e)">
-                    <ItemTemplate>
-                        <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
-                            Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
-                    </ItemTemplate>
-                </MudTreeView>
-
-                <MudButton Class="mt-4" Size="@Size.Small" StartIcon="@Icons.Material.Filled.Clear" OnClick="async () => { productGroupTreeNode = null; await OnInitializedAsync(); }">Clear selection</MudButton>
-            </MudPaper>
-        }
-    </MudItem>
-
-    <MudItem xs="12" sm="8" md="8" lg="10">
-        @if (items is null)
-        {
-            <YourBrand.Portal.LoadingIndicator />
-        }
-        else
-        {
-            <MudGrid Spacing="6" Class="mb-4">
-                @foreach (var item in items)
-                {
-                    <MudItem xs="12" sm="6" md="4" lg="4">
-                        <a href="/products/@item.Id/edit">
-                            <MudCard Elevation="25">
-                                <MudCardMedia Image="@item.Image" Height="200" />
-
-                                <MudCardContent>
-                                    <MudText Typo="Typo.h5">@item.Name</MudText>
-                                    <MudText Typo="Typo.body2">@item.Description</MudText>
-                                </MudCardContent>
-                                <MudCardActions Class="mx-2 d-flex justify-space-between flex-grow-1 gap-4">
-                                    <MudText Typo="Typo.body2">
-                                    @if(item.RegularPrice is not null) 
-                                    {
-                                        <span class="me-3" style="text-decoration: line-through; color: gray;">@item.RegularPrice?.ToString("c") </span> 
-                                    }
-                                    @item.Price.ToString("c")</MudText>
-                                    <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}/edit")">Learn More</MudButton>
-                                </MudCardActions>
-                            </MudCard>
-                        </a> 
-                    </MudItem>
-                }
-            </MudGrid>
-
-            <MudPagination Color="Color.Primary" Count="pages" SelectedChanged="OnPageChanged" />
-        }
-    </MudItem>
-</MudGrid>
+<ProductsView @ref="productsView" Mode="@mode" StoreId="@store?.Id" GroupId="@GroupId" />
 
 @code
 {
-    int pageSize = 9;
-    int pages = 0;
-    int page = 1;
-
+    ProductsView? productsView;
     StoreDto? store = null;
-    IEnumerable<StoreDto>? stores = null;
-    IEnumerable<ProductDto>? items = null;
+    ProductsViewMode mode = ProductsViewMode.List;
 
     [Parameter]
     [SupplyParameterFromQuery]
     public long? GroupId { get; set; }
 
-    ProductGroupTreeNodeDto? productGroupTreeNode;
-    IEnumerable<ProductGroupTreeNodeDto> tree;
-
     protected override async Task OnInitializedAsync()
     {
         StoreProvider.CurrentStoreChanged += OnCurrentStoreChanged;
 
-        stores = await StoreProvider.GetAvailableStoresAsync();
-
         store = StoreProvider.CurrentStore;
-
-        tree = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
-
-        await OnPageChanged(1);
     }
 
     private async void OnCurrentStoreChanged(object? sender, EventArgs e) 
     {
         store = StoreProvider.CurrentStore;
+    }
 
-        tree = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
-
-        await OnPageChanged(1);
-
-        StateHasChanged();
+    private async Task SetViewMode(ProductsViewMode mode) 
+    {
+        this.mode = mode;
+        await productsView.SetMode(mode);
     }
 
     public void Dispose() 
     {
         StoreProvider.CurrentStoreChanged -= OnCurrentStoreChanged;
-    }
-
-    async Task OnPageChanged(int page)
-    {
-        var result = await ProductsClient.GetProductsAsync(store?.Id, false, true, productGroupTreeNode?.Path?.ToString(), page - 1, pageSize, null, null, null);
-        items = result.Items;
-        
-        this.pages = (int)Math.Ceiling((double)result.TotalItems / (double)pageSize);
-        this.page = page;
     }
 
     async Task CreateProduct()
@@ -166,41 +94,6 @@
         var item = (ProductDto)result.Data;
 
         NavigationManager.NavigateTo($"/products/{item.Id}/edit");
-    }
-
-    async Task SetGroup(ProductGroupTreeNodeDto? productGroupTreeNode)
-    {
-        if(productGroupTreeNode is null) return;
-
-        this.productGroupTreeNode = productGroupTreeNode;
-    
-        GroupId = productGroupTreeNode.Id;
-
-        await OnPageChanged(1);
-
-        NavigationManager.NavigateTo($"/products?groupId={GroupId}", replace: true);
-    }
-
-    async Task<IEnumerable<StoreDto>> SearchStores(string text)
-    {
-        try
-        {
-            var results = await StoresClient.GetStoresAsync(null, null, text, null, null);
-            return results.Items;
-        }
-        catch (AccessTokenNotAvailableException exception)
-        {
-            exception.Redirect();
-        }
-
-        return null;
-    }
-
-    async Task OnStoreChanged(StoreDto store) 
-    {
-        this.store = store;
-
-        await OnInitializedAsync();
     }
 }
 

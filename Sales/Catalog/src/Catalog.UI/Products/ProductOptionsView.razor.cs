@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+
 using MudBlazor;
 
 namespace YourBrand.Catalog.Products;
@@ -125,4 +126,3 @@ partial class ProductOptionsView : ComponentBase
         ProductOptions = (await ProductsClient.GetProductOptionsAsync(ProductId, null)).ToList();
     }
 }
-

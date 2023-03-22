@@ -1,0 +1,124 @@
+@implements IDisposable
+@inject IStoresClient StoresClient
+@inject IProductsClient ProductsClient
+@inject IProductGroupsClient ProductGroupsClient
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+@inject IStoreProvider StoreProvider
+
+<MudGrid Spacing="6" Class="mt-2">
+    <MudItem xs="12" sm="4" md="4" lg="2">
+        @if (productGroupTreeNodes is not null)
+        {
+            <MudPaper Elevation="25" Class="pa-4">
+                <MudTreeView T="ProductGroupTreeNodeDto"
+                Items="(new HashSet<ProductGroupTreeNodeDto>(productGroupTreeNodes))" Hover="true"
+                    SelectedValueChanged="async (e) => await SetGroup(e)">
+                    <ItemTemplate>
+                        <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
+                        Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
+                    </ItemTemplate>
+                </MudTreeView>
+
+                <MudButton Class="mt-4" Size="@Size.Small" StartIcon="@Icons.Material.Filled.Clear"
+                OnClick="async () => { productGroupTreeNode = null; GroupId = null; }">Clear selection
+                </MudButton>
+            </MudPaper>
+        }
+    </MudItem>
+
+    <MudItem xs="12" sm="8" md="8" lg="10">
+            @if (Mode == ProductsViewMode.List)
+            {
+                <ProductsListView StoreId="@StoreId" Path="@productGroupTreeNode?.Path" />
+            }
+            else if (Mode == ProductsViewMode.Grid)
+            {
+                <ProductsGridView StoreId="@StoreId" Path="@productGroupTreeNode?.Path" />
+            }
+    </MudItem>
+</MudGrid>
+
+@code
+{
+    StoreDto? store;
+    IEnumerable<ProductGroupTreeNodeDto>? productGroupTreeNodes;
+    ProductGroupTreeNodeDto? productGroupTreeNode;
+
+    [Parameter]
+    public long? GroupId { get; set; }
+
+    [Parameter]
+    public string? StoreId { get; set; }
+
+    [Parameter]
+    public ProductsViewMode Mode { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        StoreProvider.CurrentStoreChanged += OnCurrentStoreChanged;
+
+        await StoreProvider.GetAvailableStoresAsync();
+
+        store = StoreProvider.CurrentStore;
+
+        productGroupTreeNodes = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
+        productGroupTreeNode = productGroupTreeNodes.FindNode(GroupId.GetValueOrDefault());
+    }
+
+    private async void OnCurrentStoreChanged(object? sender, EventArgs e)
+    {
+        store = StoreProvider.CurrentStore;
+
+        StoreId = store.Id;
+        GroupId = null;
+
+        productGroupTreeNodes = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
+        productGroupTreeNode = productGroupTreeNodes.FindNode(string.Empty);
+
+        NavigationManager.NavigateTo($"/products", replace: true);
+
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        StoreProvider.CurrentStoreChanged -= OnCurrentStoreChanged;
+    }
+
+    async Task CreateProduct()
+    {
+        var modalRef = DialogService.Show<CreateProductModal>("New Product");
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        var item = (ProductDto)result.Data;
+
+        NavigationManager.NavigateTo($"/products/{item.Id}/edit");
+    }
+
+    async Task SetGroup(ProductGroupTreeNodeDto? productGroupTreeNode)
+    {
+        if (productGroupTreeNode is null) return;
+
+        this.productGroupTreeNode = productGroupTreeNode;
+
+        GroupId = productGroupTreeNode.Id;
+
+        NavigationManager.NavigateTo($"/products?groupId={GroupId}", replace: true);
+    }
+
+    void ShowProduct(ProductDto item)
+    {
+        NavigationManager.NavigateTo($"/products/{item.Id}/edit");
+    }
+
+    public async Task SetMode(ProductsViewMode mode)
+    {
+        Mode = mode;
+
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,51 @@
+@inject IProductGroupsClient ProductGroupsClient
+
+@if(tree is not null) 
+{
+    <div @onclick:stopPropagation @onclick:preventDefault>
+        <MudTreeView @ref="treeView" T="ProductGroupTreeNodeDto" Items="(new HashSet<ProductGroupTreeNodeDto>(tree))" Hover="true" Expanded="@Expanded"
+            SelectedValue="ProductGroupTreeNode" SelectedValueChanged="OnProductGroupTreeNodeChanged">
+            <ItemTemplate>
+                <MudTreeViewItem Expanded="@Expanded" Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
+                    Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
+            </ItemTemplate>
+        </MudTreeView>
+    </div>
+}
+
+@code
+{
+    MudTreeView<ProductGroupTreeNodeDto>? treeView;
+    IEnumerable<ProductGroupTreeNodeDto> tree;
+
+    [Parameter]
+    public long? GroupId { get; set; }
+
+    [Parameter]
+    public string? StoreId { get; set; }
+
+    [Parameter]
+    public ProductGroupTreeNodeDto? ProductGroupTreeNode { get; set; }
+
+    [Parameter]
+    public EventCallback<ProductGroupTreeNodeDto?> ProductGroupTreeNodeChanged { get; set; }
+
+    [Parameter]
+    public bool Expanded { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        tree = await ProductGroupsClient.GetProductGroupsTreeAsync(StoreId);
+
+        if (GroupId is not null)
+        {
+            ProductGroupTreeNode = tree.FindNode(GroupId.GetValueOrDefault());
+        }
+    }
+
+    private async Task OnProductGroupTreeNodeChanged(ProductGroupTreeNodeDto? node) 
+    {
+        ProductGroupTreeNode = node;
+        await ProductGroupTreeNodeChanged.InvokeAsync(node);
+    }
+}
