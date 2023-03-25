@@ -173,7 +173,7 @@
         "tags": [
           "ProductGroups"
         ],
-        "operationId": "ProductGroups_UpdateProductGroup",
+        "operationId": "ProductGroups_UpdateDetails",
         "parameters": [
           {
             "name": "id",
@@ -236,6 +236,88 @@
                 "schema": {
                   "type": "string",
                   "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ProductGroups/{id}/Parent": {
+      "put": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_UpdateParent",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "parent",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64",
+              "nullable": true
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/ProductGroups/{id}/AllowItems": {
+      "put": {
+        "tags": [
+          "ProductGroups"
+        ],
+        "operationId": "ProductGroups_UpdateAllowItems",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "allowItems",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductGroupDto"
                 }
               }
             }
@@ -2721,6 +2803,9 @@
                 "$ref": "#/components/schemas/ParentProductGroupDto"
               }
             ]
+          },
+          "allowItems": {
+            "type": "boolean"
           }
         }
       },
@@ -2789,6 +2874,9 @@
           "productsCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "allowItems": {
+            "type": "boolean"
           }
         }
       },
@@ -2810,6 +2898,9 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "allowItems": {
+            "type": "boolean"
           }
         }
       },
@@ -2820,6 +2911,9 @@
           "name": {
             "type": "string"
           },
+          "handle": {
+            "type": "string"
+          },
           "description": {
             "type": "string",
             "nullable": true
@@ -2828,6 +2922,9 @@
             "type": "integer",
             "format": "int64",
             "nullable": true
+          },
+          "allowItems": {
+            "type": "boolean"
           }
         }
       },

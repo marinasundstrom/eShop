@@ -10,6 +10,8 @@
 
             <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
+            <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
+
             <MudTextField Lines="3" Class="mb-6" Label="Description" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
         </DialogContent>
@@ -29,15 +31,15 @@
     [Required]
     public string Name { get; set; }
 
+    [Required]
+    public string Handle { get; set; }
+
     public string? Description { get; set; }
-
-    public int? Min { get; set; }
-
-    public int? Max { get; set; }
 
     protected override void OnInitialized()
     {
         Name = ProductGroup.Name;
+        Handle = ProductGroup.Handle;
         Description = ProductGroup.Description;
     }
 
@@ -46,9 +48,10 @@
         ApiUpdateProductGroup data = new()
         {
             Name = Name,
-            Description = Description,
+            Handle = Handle,
+            Description = Description
         };
-        var result = await ProductGroupsClient.UpdateProductGroupAsync(ProductGroup.Id, data);
+        var result = await ProductGroupsClient.UpdateDetailsAsync(ProductGroup.Id, data);
         Modal.Close(DialogResult.Ok(result));
     }
 

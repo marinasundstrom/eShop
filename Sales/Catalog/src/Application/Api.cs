@@ -8,9 +8,9 @@ public record class ApiCreateProduct(string Name, string Handle, string StoreId,
 
 public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? RegularPrice, long? GroupId);
 
-public record class ApiCreateProductGroup(string Name, string Handle, string? Description, long? ParentGroupId);
+public record class ApiCreateProductGroup(string Name, string Handle, string? Description, long? ParentGroupId, bool AllowItems);
 
-public record class ApiUpdateProductGroup(string Name, string? Description, long? ParentGroupId);
+public record class ApiUpdateProductGroup(string Name, string Handle, string? Description, long? ParentGroupId, bool AllowItems);
 
 public record class ApiCreateProductOption(string Name, string? Description, OptionType OptionType, OptionGroupDto? Group, bool? IsSelected, string? SKU, decimal? Price, string? GroupId, IEnumerable<ApiCreateProductOptionValue> Values, 
     string? DefaultOptionValueId, int? MinNumericalValue, int? MaxNumericalValue, int? DefaultNumericalValue, int? TextValueMinLength, int? TextValueMaxLength, string? DefaultTextValue);

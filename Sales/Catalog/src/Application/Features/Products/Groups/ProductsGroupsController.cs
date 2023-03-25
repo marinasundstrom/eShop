@@ -42,9 +42,21 @@ public partial class ProductGroupsController : Controller
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(long id, ApiUpdateProductGroup data, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ProductGroupDto>> UpdateDetails(long id, ApiUpdateProductGroup data, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new UpdateProductGroup(id, data), cancellationToken));
+        return Ok(await _mediator.Send(new UpdateDetails(id, data), cancellationToken));
+    }
+
+    [HttpPut("{id}/Parent")]
+    public async Task<ActionResult<ProductGroupDto>> UpdateParent(long id, long? parent, CancellationToken cancellationToken = default)
+    {
+        return Ok(await _mediator.Send(new UpdateParent(id, parent), cancellationToken));
+    }
+
+    [HttpPut("{id}/AllowItems")]
+    public async Task<ActionResult<ProductGroupDto>> UpdateAllowItems(long id, bool allowItems, CancellationToken cancellationToken = default)
+    {
+        return Ok(await _mediator.Send(new UpdateAllowItems(id, allowItems), cancellationToken));
     }
 
     [HttpDelete("{id}")]

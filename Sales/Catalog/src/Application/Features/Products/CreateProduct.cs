@@ -23,6 +23,16 @@ public sealed record CreateProduct(string Name, string Handle, string StoreId, b
                 .Include(x => x.Parent)
                 .FirstOrDefaultAsync(x => x.Id == request.GroupId);
 
+            if(group is null) 
+            {
+                throw new Exception();
+            }
+
+            if(!group.AllowItems) 
+            {
+                throw new Exception();
+            }
+
             var item = new Product(request.Name, request.Handle)
             {
                 Name = request.Name,

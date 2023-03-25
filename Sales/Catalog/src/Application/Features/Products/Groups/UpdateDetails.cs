@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record UpdateProductGroup(long ProductGroupId, ApiUpdateProductGroup Data) : IRequest<ProductGroupDto>
+public record UpdateDetails(long ProductGroupId, ApiUpdateProductGroup Data) : IRequest<ProductGroupDto>
 {
-    public class Handler : IRequestHandler<UpdateProductGroup, ProductGroupDto>
+    public class Handler : IRequestHandler<UpdateDetails, ProductGroupDto>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,7 +15,7 @@ public record UpdateProductGroup(long ProductGroupId, ApiUpdateProductGroup Data
             _context = context;
         }
 
-        public async Task<ProductGroupDto> Handle(UpdateProductGroup request, CancellationToken cancellationToken)
+        public async Task<ProductGroupDto> Handle(UpdateDetails request, CancellationToken cancellationToken)
         {
             var itemGroup = await _context.ProductGroups
                     .FirstAsync(x => x.Id == request.ProductGroupId);
@@ -24,8 +24,8 @@ public record UpdateProductGroup(long ProductGroupId, ApiUpdateProductGroup Data
                 .FirstOrDefaultAsync(x => x.Id == request.Data.ParentGroupId);
 
             itemGroup.Name = request.Data.Name;
+            itemGroup.Handle = request.Data.Handle;
             itemGroup.Description = request.Data.Description;
-            itemGroup.Parent = parentGroup;
 
             await _context.SaveChangesAsync();
 

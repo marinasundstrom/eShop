@@ -26,8 +26,20 @@ public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest
 
             item.Group!.DecrementProductCount();
 
-            item.Group = await _context.ProductGroups
+            var group = await _context.ProductGroups
                 .FirstOrDefaultAsync(x => x.Id == request.GroupId, cancellationToken);
+
+            if(group is null) 
+            {
+                throw new Exception();
+            }
+
+            if(!group.AllowItems) 
+            {
+                throw new Exception();
+            }
+
+            item.Group = group;
 
             item.Group!.IncrementProductCount();
 

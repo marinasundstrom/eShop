@@ -27,7 +27,8 @@ public record CreateProductGroup(ApiCreateProductGroup Data) : IRequest<ProductG
                 Handle = request.Data.Handle,
                 Description = request.Data.Description,
                 Parent = parentGroup,
-                Path = parentGroup is null ? request.Data.Handle : $"{parentGroup.Path}/{request.Data.Handle}"
+                Path = parentGroup is null ? request.Data.Handle : $"{parentGroup.Path}/{request.Data.Handle}",
+                AllowItems = request.Data.AllowItems
             };
 
             _context.ProductGroups.Add(itemGroup);
