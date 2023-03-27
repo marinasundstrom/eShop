@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Portal\src\Portal.Shared\Portal.Shared.csproj" />
+    <ProjectReference Include="..\..\..\..\Portal\src\Portal.Shell\Portal.Shell.csproj" />
     <ProjectReference Include="..\..\..\..\Portal\src\Portal.Modules\Portal.Modules.csproj" />
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Orders.Components\Orders.Components.csproj" />

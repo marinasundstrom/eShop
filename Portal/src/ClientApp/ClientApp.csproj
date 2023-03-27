@@ -39,7 +39,7 @@
 	  <ProjectReference Include="..\Portal.Modules.Loader\Portal.Modules.Loader.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
-	  <ProjectReference Include="..\Portal.Shared\Portal.Shared.csproj">
+	  <ProjectReference Include="..\Portal.Shell\Portal.Shell.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
 	  <ProjectReference Include="..\..\..\Sales\Catalog\src\Catalog.UI\Catalog.UI.csproj">
