@@ -5,13 +5,31 @@
 
 @foreach (var item in AppBarTrayService.Items.Where(i => i.IsVisible))
 {
-    @if(item.ComponentType is not null) 
+    @if(item.RequiresAuthorization) 
     {
-        <DynamicComponent @key="@item.Id" Type="item.ComponentType" />
+        <AuthorizeView Roles="@(item.Roles is null ? null : string.Join(",", item.Roles))" Policy="@item.Policy">
+            <Authorized>
+                @if(item.ComponentType is not null) 
+                {
+                    <DynamicComponent @key="@item.Id" Type="item.ComponentType" />
+                }
+                else 
+                {
+                    <MudIconButton @key="@item.Id" Icon="@item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@item.OnClick" />
+                }
+            </Authorized>
+        </AuthorizeView>
     }
     else 
     {
-        <MudIconButton @key="@item.Id" Icon="@item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@item.OnClick" />
+        if(item.ComponentType is not null) 
+        {
+            <DynamicComponent @key="@item.Id" Type="item.ComponentType" />
+        }
+        else 
+        {
+            <MudIconButton @key="@item.Id" Icon="@item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@item.OnClick" />
+        }
     }
 }
 

@@ -33,4 +33,6 @@ public class NavItem : INavItem
     public bool RequiresAuthorization { get; set; }
 
     public IEnumerable<string>? Roles { get; set; }
+
+    public string? Policy { get; set; }
 }

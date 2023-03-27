@@ -24,4 +24,5 @@ public class NavGroup : NavItemsCollection, INavItem
 
     public IEnumerable<string>? Roles { get; set; }
 
+    public string? Policy { get; set; }
 }

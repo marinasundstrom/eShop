@@ -11,4 +11,6 @@ public interface INavItem
     bool RequiresAuthorization { get; }
 
     IEnumerable<string>? Roles { get; }
+
+    string? Policy { get; }
 }

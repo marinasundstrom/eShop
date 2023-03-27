@@ -49,6 +49,12 @@ public sealed class AppBarTrayItem
     public Action? OnClick { get; }
     
     public bool IsVisible { get; set; } = true;
+
+    public bool RequiresAuthorization { get; set; }
+
+    public IEnumerable<string>? Roles { get; set; }
+
+    public string? Policy { get; set; }
 }
 
 public sealed class AppBarTrayService : IAppBarTrayService
