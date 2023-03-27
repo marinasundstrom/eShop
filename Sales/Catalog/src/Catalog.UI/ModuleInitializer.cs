@@ -31,29 +31,37 @@ public class ModuleInitializer : IModuleInitializer
 
     public static void ConfigureServices(IServiceProvider services)
     {
-        var navManager = services
+        InitNavBar(services);
+        InitAppBarTray(services);
+    }
+
+    private static void InitNavBar(IServiceProvider services) 
+    {        
+         var navManager = services
             .GetRequiredService<NavManager>();
 
+        var t = services.GetRequiredService<IStringLocalizer<Resources>>();
 
-        var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
-
-        var group = navManager.GetGroup("sales") ?? navManager.CreateGroup("sales", () => resources["Sales"]);
+        var group = navManager.GetGroup("sales") ?? navManager.CreateGroup("sales", () => t["Sales"]);
         group.RequiresAuthorization = true;
 
         var catalogItem = group.CreateGroup("catalog", options =>
         {
-            options.Name = resources["Catalog"];
+            options.Name = t["Catalog"];
             options.Icon = MudBlazor.Icons.Material.Filled.Book;
         });
 
-        catalogItem.CreateItem("products", () => resources["Products"], MudBlazor.Icons.Material.Filled.FormatListBulleted, "/products");
+        catalogItem.CreateItem("products", () => t["Products"], MudBlazor.Icons.Material.Filled.FormatListBulleted, "/products");
 
-        catalogItem.CreateItem("groups", () => resources["Groups"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
+        catalogItem.CreateItem("groups", () => t["Groups"], MudBlazor.Icons.Material.Filled.Collections, "/products/groups");
 
-        catalogItem.CreateItem("attributes", () => resources["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
+        catalogItem.CreateItem("attributes", () => t["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
 
-        catalogItem.CreateItem("brands", () => resources["Brands"], MudBlazor.Icons.Material.Filled.List, "/brands");
+        catalogItem.CreateItem("brands", () => t["Brands"], MudBlazor.Icons.Material.Filled.List, "/brands");
+    }
 
+    private static void InitAppBarTray(IServiceProvider services) 
+    {
         var appBarTray = services
             .GetRequiredService<IAppBarTrayService>();
 

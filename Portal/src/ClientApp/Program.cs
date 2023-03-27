@@ -39,11 +39,11 @@ moduleBuilder.ConfigureServices();
 var navManager = app.Services
     .GetRequiredService<NavManager>();
 
-var resources = app.Services.GetRequiredService<IStringLocalizer<YourBrand.Portal.Resources>>();
+var t = app.Services.GetRequiredService<IStringLocalizer<YourBrand.Portal.Resources>>();
 
 navManager.CreateItem("home", options =>
 {
-    options.NameFunc = () => resources["Home"];
+    options.NameFunc = () => t["Home"];
     options.Icon = MudBlazor.Icons.Material.Filled.Home;
     options.Href = "/";
     options.RequiresAuthorization = false;
@@ -51,11 +51,11 @@ navManager.CreateItem("home", options =>
 });
 
 /*
-var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => resources["Administration"]);
+var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => t["Administration"]);
 
 group.CreateItem("users", options =>
 {
-    options.NameFunc = () => resources["Users"];
+    options.NameFunc = () => t["Users"];
     options.Icon = MudBlazor.Icons.Material.Filled.Person;
     options.Href = "/users";
     options.RequiresAuthorization = true;
@@ -63,7 +63,7 @@ group.CreateItem("users", options =>
 
 group.CreateItem("setup", options =>
 {
-    options.NameFunc = () => resources["SetUp"];
+    options.NameFunc = () => t["SetUp"];
     options.Icon = MudBlazor.Icons.Material.Filled.Settings;
     options.Href = "/setup";
 });

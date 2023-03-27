@@ -30,11 +30,11 @@ public class ModuleInitializer : IModuleInitializer
         var navManager = services
             .GetRequiredService<NavManager>();
 
-        var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
+        var t = services.GetRequiredService<IStringLocalizer<Resources>>();
 
-        var group = navManager.GetGroup("sales") ?? navManager.CreateGroup("sales", () => resources["Orders"]);
+        var group = navManager.GetGroup("sales") ?? navManager.CreateGroup("sales", () => t["Orders"]);
         group.RequiresAuthorization = true;
 
-        group.CreateItem("orders", () => resources["Orders"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/orders");
+        group.CreateItem("orders", () => t["Orders"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/orders");
     }
 }

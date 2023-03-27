@@ -31,15 +31,15 @@ public class ModuleInitializer : IModuleInitializer
         var navManager = services
             .GetRequiredService<NavManager>();
 
-        var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
+        var t = services.GetRequiredService<IStringLocalizer<Resources>>();
 
-        var group = navManager.GetGroup("customer-relations") ?? navManager.CreateGroup("customer-relations", () => resources["Customer relations"]);
+        var group = navManager.GetGroup("customer-relations") ?? navManager.CreateGroup("customer-relations", () => t["Customer relations"]);
         group.RequiresAuthorization = true;
 
-        var group2 = group.GetGroup("customer-support") ?? group.CreateGroup("customer-support", () => resources["Support"],  MudBlazor.Icons.Material.Filled.Support);
+        var group2 = group.GetGroup("customer-support") ?? group.CreateGroup("customer-support", () => t["Support"],  MudBlazor.Icons.Material.Filled.Support);
 
-        group2.CreateItem("board", () => resources["Board"], MudBlazor.Icons.Material.Filled.TableView, "/Tickets/Board");
+        group2.CreateItem("board", () => t["Board"], MudBlazor.Icons.Material.Filled.TableView, "/Tickets/Board");
 
-        group2.CreateItem("tickets", () => resources["Tickets"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/Tickets");
+        group2.CreateItem("tickets", () => t["Tickets"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/Tickets");
     }
 }

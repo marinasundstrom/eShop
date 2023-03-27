@@ -30,25 +30,25 @@ public class ModuleInitializer : IModuleInitializer
         var navManager = services
             .GetRequiredService<NavManager>();
 
-        var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
+        var t = services.GetRequiredService<IStringLocalizer<Resources>>();
 
         var group = navManager.GetGroup("marketing") ?? navManager.CreateGroup("marketing", options =>
         {
-            options.SetName(() => resources["Marketing"]);
+            options.SetName(() => t["Marketing"]);
             options.RequiresAuthorization = true;
         });
 
-        group.CreateItem("campaigns", () => resources["Campaigns"], MudBlazor.Icons.Material.Filled.List, "/marketing/campaigns");
+        group.CreateItem("campaigns", () => t["Campaigns"], MudBlazor.Icons.Material.Filled.List, "/marketing/campaigns");
 
-        group.CreateItem("discounts", () => resources["Discounts"], MudBlazor.Icons.Material.Filled.Discount, "/marketing/discounts");
+        group.CreateItem("discounts", () => t["Discounts"], MudBlazor.Icons.Material.Filled.Discount, "/marketing/discounts");
 
         /*
 
-        group.CreateItem("contacts", () => resources["Contacts"], MudBlazor.Icons.Material.Filled.Person, "/contacts");
+        group.CreateItem("contacts", () => t["Contacts"], MudBlazor.Icons.Material.Filled.Person, "/contacts");
 
-        var group2 = group.CreateGroup("campaigns", () => resources["Campaigns"], MudBlazor.Icons.Material.Filled.ListAlt);
+        var group2 = group.CreateGroup("campaigns", () => t["Campaigns"], MudBlazor.Icons.Material.Filled.ListAlt);
 
-        group2.CreateItem("list", () => resources["List"], MudBlazor.Icons.Material.Filled.ListAlt, "/campaigns");
+        group2.CreateItem("list", () => t["List"], MudBlazor.Icons.Material.Filled.ListAlt, "/campaigns");
 
         */
     }

@@ -30,14 +30,14 @@ public class ModuleInitializer : IModuleInitializer
         var navManager = services
             .GetRequiredService<NavManager>();
 
-        var resources = services.GetRequiredService<IStringLocalizer<Resources>>();
+        var t = services.GetRequiredService<IStringLocalizer<Resources>>();
 
         var group = navManager.GetGroup("analytics") ?? navManager.CreateGroup("analytics", options =>
         {
-            options.SetName(() => resources["Analytics"]);
+            options.SetName(() => t["Analytics"]);
             options.RequiresAuthorization = true;
         });
 
-        group.CreateItem("engagement", () => resources["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics/engagement");
+        group.CreateItem("engagement", () => t["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics/engagement");
     }
 }
