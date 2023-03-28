@@ -24,6 +24,8 @@ public interface IAppBarTrayService
 
 public sealed class AppBarTrayItem 
 {
+    private string? name;
+
     public AppBarTrayItem(string id, string name, string icon, Action onClick)
     {
         Id = id;
@@ -39,9 +41,30 @@ public sealed class AppBarTrayItem
         ComponentType = componentType;
     }
 
-    public string Id { get; }
+    public AppBarTrayItem(string id, Func<string> nameFunc, string icon, Action onClick)
+    {
+        Id = id;
+        NameFunc = nameFunc;
+        Icon = icon;
+        OnClick = onClick;
+    }
 
-    public string Name { get; set; }
+    public AppBarTrayItem(string id, Func<string> nameFunc, Type componentType)
+    {
+        Id = id;
+        NameFunc = nameFunc;
+        ComponentType = componentType;
+    }
+
+    public string Id { get; set; } = null!;
+
+    public string Name
+    {
+        get => name ?? NameFunc?.Invoke() ?? throw new Exception();
+        set => name = value;
+    }
+
+    public Func<string>? NameFunc { get; set; }
 
     public string Icon { get; set; }
 

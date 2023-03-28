@@ -70,6 +70,6 @@ public class ModuleInitializer : IModuleInitializer
 
         var t = services.GetRequiredService<IStringLocalizer<Resources>>();
 
-        appBarTray.AddItem(new AppBarTrayItem("show", t["Store"], typeof(StoreSelector)));
+        appBarTray.AddItem(new AppBarTrayItem("show", () => t["Store"], typeof(StoreSelector)));
     }
 }
