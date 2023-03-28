@@ -24,9 +24,7 @@ builder.Services.AddScoped<YourBrand.Portal.Services.IAccessTokenProvider, YourB
 
 builder.Services
     .AddServices()
-    .AddThemeServices()
-    .AddNavigationServices()
-    .AddAppBar()
+    .AddShellServices()
     .AddScoped<ModuleLoader>();
 
 await LoadModules(builder.Services);

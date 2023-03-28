@@ -23,13 +23,10 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-
         services.AddMudServices();
 
         services.AddBlazoredLocalStorage();
-
-        services.AddThemeServices();
-
+        
         services.AddLocalization();
 
         services.AddScoped<CustomAuthorizationMessageHandler>();

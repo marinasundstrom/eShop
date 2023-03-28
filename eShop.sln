@@ -79,8 +79,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portal.Modules.Loader", "Po
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portal.Shell", "Portal\src\Portal.Shell\Portal.Shell.csproj", "{A5CD3EDC-03E9-4D05-9F69-5C437FEAA1B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portal.Theming", "Portal\src\Portal.Theming\Portal.Theming.csproj", "{F7B13CBA-ACAB-4ED7-BED9-96AB13CFA8A6}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Portal.Services", "Portal\src\Portal.Services\Portal.Services.csproj", "{3A568B11-2AA8-412A-8FA6-1ACC4047D16D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Inventory", "Inventory", "{ED6EBF0C-2F4E-4D01-B8FE-3B2460D78BBB}"

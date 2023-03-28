@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Portal.Services\Portal.Services.csproj" />
-    <ProjectReference Include="..\Portal.Theming\Portal.Theming.csproj" />
   </ItemGroup>
 
   <ItemGroup>

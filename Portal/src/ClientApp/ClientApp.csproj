@@ -30,9 +30,6 @@
 	  <ProjectReference Include="..\Client\Client.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
-	  <ProjectReference Include="..\Portal.Theming\Portal.Theming.csproj">
-	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
-	  </ProjectReference>
 	  <ProjectReference Include="..\Portal.Modules\Portal.Modules.csproj">
 	    <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
 	  </ProjectReference>
