@@ -1,6 +1,7 @@
 using YourBrand.Portal.AppBar;
 using YourBrand.Portal.Authentication;
 using YourBrand.Portal.Localization;
+using YourBrand.Portal.NavMenu;
 using YourBrand.Portal.Theming;
 using MudBlazor;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,27 +13,42 @@ public static class ShellInit
 {
     public static IServiceProvider InitShell(this IServiceProvider services) 
     {
-        var appBarTray = services
-            .GetRequiredService<IAppBarTrayService>();
+        var navManager = services
+            .GetRequiredService<NavManager>();
 
-        var t = services.GetRequiredService<IStringLocalizer<AppBar.AppBar>>();
-        
-        var themeSelectorId = "Shell.ThemeSelector";
+        var t = services.GetRequiredService<IStringLocalizer<YourBrand.Portal.Resources>>();
 
-        appBarTray.AddItem(new AppBarTrayItem(themeSelectorId, t["theme"], typeof(ThemeSelector)));
+        navManager.CreateItem("home", options =>
+        {
+            options.NameFunc = () => t["Home"];
+            options.Icon = MudBlazor.Icons.Material.Filled.Home;
+            options.Href = "/";
+            options.RequiresAuthorization = false;
+            options.Index = 0;
+        });
 
-        var loginDisplayId = "Shell.LoginDisplay";
+        /*
+        var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => t["Administration"]);
 
-        appBarTray.AddItem(new AppBarTrayItem(loginDisplayId, t["Login"], typeof(LoginDisplay)));
+        group.CreateItem("users", options =>
+        {
+            options.NameFunc = () => t["Users"];
+            options.Icon = MudBlazor.Icons.Material.Filled.Person;
+            options.Href = "/users";
+            options.RequiresAuthorization = true;
+        });
 
-        var localeSelector = "Shell.LocaleSelector";
+        group.CreateItem("setup", options =>
+        {
+            options.NameFunc = () => t["SetUp"];
+            options.Icon = MudBlazor.Icons.Material.Filled.Settings;
+            options.Href = "/setup";
+        });
+        */
 
-        appBarTray.AddItem(new AppBarTrayItem(localeSelector, t["ChangeLocale"], MudBlazor.Icons.Material.Filled.Language, async () => { 
-            var dialogService = services.GetRequiredService<IDialogService>();
-            var dialogRef = dialogService.Show<CultureSelector>(t["ChangeLocale"]);
-            await dialogRef.Result;
-        }));
-
-        return services;
+        return services
+            .UseTheming()
+            .UseLocalization()
+            .UseAuthentication();
     }
 }

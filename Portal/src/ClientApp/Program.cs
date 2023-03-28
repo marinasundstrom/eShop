@@ -33,44 +33,11 @@ await LoadModules(builder.Services);
 
 var app = builder.Build();
 
-var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
-moduleBuilder.ConfigureServices();
-
-var navManager = app.Services
-    .GetRequiredService<NavManager>();
-
-var t = app.Services.GetRequiredService<IStringLocalizer<YourBrand.Portal.Resources>>();
-
-navManager.CreateItem("home", options =>
-{
-    options.NameFunc = () => t["Home"];
-    options.Icon = MudBlazor.Icons.Material.Filled.Home;
-    options.Href = "/";
-    options.RequiresAuthorization = false;
-    options.Index = 0;
-});
-
-/*
-var group = navManager.GetGroup("administration") ?? navManager.CreateGroup("administration", () => t["Administration"]);
-
-group.CreateItem("users", options =>
-{
-    options.NameFunc = () => t["Users"];
-    options.Icon = MudBlazor.Icons.Material.Filled.Person;
-    options.Href = "/users";
-    options.RequiresAuthorization = true;
-});
-
-group.CreateItem("setup", options =>
-{
-    options.NameFunc = () => t["SetUp"];
-    options.Icon = MudBlazor.Icons.Material.Filled.Settings;
-    options.Href = "/setup";
-});
-*/
-
 await app.Services.Localize();
 app.Services.InitShell();
+
+var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
+moduleBuilder.ConfigureServices();
 
 await app.RunAsync();
 
