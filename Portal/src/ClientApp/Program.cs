@@ -32,7 +32,7 @@ await LoadModules(builder.Services);
 var app = builder.Build();
 
 await app.Services.Localize();
-app.Services.InitShell();
+app.Services.UseShell();
 
 var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
 moduleBuilder.ConfigureServices();

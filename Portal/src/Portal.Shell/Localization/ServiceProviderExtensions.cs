@@ -6,9 +6,16 @@ using Microsoft.Extensions.Localization;
 
 namespace YourBrand.Portal.Localization;
 
-public static class ServicesProvider
+public static class ServiceProviderExtensions
 {
-    public static IServiceProvider UseLocalization(this IServiceProvider services) 
+    public static IServiceProvider UseLocalization(this IServiceProvider services)
+    {
+        AddAppBarTrayItems(services);
+
+        return services;
+    }
+
+    private static void AddAppBarTrayItems(IServiceProvider services)
     {
         var appBarTray = services
             .GetRequiredService<IAppBarTrayService>();
@@ -17,12 +24,11 @@ public static class ServicesProvider
 
         var localeSelector = "Shell.LocaleSelector";
 
-        appBarTray.AddItem(new AppBarTrayItem(localeSelector, () => t["ChangeLocale"], MudBlazor.Icons.Material.Filled.Language, async () => { 
+        appBarTray.AddItem(new AppBarTrayItem(localeSelector, () => t["ChangeLocale"], MudBlazor.Icons.Material.Filled.Language, async () =>
+        {
             var dialogService = services.GetRequiredService<IDialogService>();
             var dialogRef = dialogService.Show<CultureSelector>(t["ChangeLocale"]);
             await dialogRef.Result;
         }));
-
-        return services;
     }
 }

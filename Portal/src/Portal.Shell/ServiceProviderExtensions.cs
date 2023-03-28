@@ -9,9 +9,19 @@ using Microsoft.Extensions.Localization;
 
 namespace YourBrand.Portal;
 
-public static class ShellInit
+public static class ServiceProviderExtensions
 {
-    public static IServiceProvider InitShell(this IServiceProvider services) 
+    public static IServiceProvider UseShell(this IServiceProvider services)
+    {
+        CreateNavMenu(services);
+
+        return services
+            .UseTheming()
+            .UseLocalization()
+            .UseAuthentication();
+    }
+
+    private static void CreateNavMenu(IServiceProvider services)
     {
         var navManager = services
             .GetRequiredService<NavManager>();
@@ -45,10 +55,5 @@ public static class ShellInit
             options.Href = "/setup";
         });
         */
-
-        return services
-            .UseTheming()
-            .UseLocalization()
-            .UseAuthentication();
     }
 }

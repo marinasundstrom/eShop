@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace YourBrand.Portal.AppBar;
 
-public static class ServicesExtensions
+public static class ServiceExtensions
 {
     public static IServiceCollection AddAppBar(this IServiceCollection services)
     {

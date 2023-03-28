@@ -6,9 +6,16 @@ using Microsoft.Extensions.Localization;
 
 namespace YourBrand.Portal.Authentication;
 
-public static class ServicesProvider
+public static class ServiceProviderExtensions
 {
-    public static IServiceProvider UseAuthentication(this IServiceProvider services) 
+    public static IServiceProvider UseAuthentication(this IServiceProvider services)
+    {
+        AddAppBarTrayItems(services);
+
+        return services;
+    }
+
+    private static void AddAppBarTrayItems(IServiceProvider services)
     {
         var appBarTray = services
             .GetRequiredService<IAppBarTrayService>();
@@ -18,7 +25,5 @@ public static class ServicesProvider
         var loginDisplayId = "Shell.LoginDisplay";
 
         appBarTray.AddItem(new AppBarTrayItem(loginDisplayId, () => t["Login"], typeof(LoginDisplay)));
-        
-        return services;
     }
 }
