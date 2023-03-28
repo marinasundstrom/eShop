@@ -19,13 +19,11 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
-        services.AddMudServices();
-
-        services.AddBlazoredLocalStorage();
-        
-        services.AddLocalization();
-
-        services.AddClients();
+        services
+            .AddMudServices()
+            .AddBlazoredLocalStorage()
+            .AddLocalization()
+            .AddClients();
 
         return services;
     }
@@ -59,7 +57,6 @@ public static class ServiceExtensions
 
         return services;
     }
-
 
     static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
     {
