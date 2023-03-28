@@ -67,24 +67,4 @@ public static class ServiceExtensions
              .HandleTransientHttpError()
              .WaitAndRetryAsync(Backoff.DecorrelatedJitterBackoffV2(medianFirstRetryDelay: TimeSpan.FromSeconds(1), retryCount: 5));
     }
-
-    public static async Task Localize(this IServiceProvider serviceProvider)
-    {
-        CultureInfo culture;
-        var js = serviceProvider.GetRequiredService<IJSRuntime>();
-        var result = await js.InvokeAsync<string>("blazorCulture.get");
-
-        if (result != null)
-        {
-            culture = new CultureInfo(result);
-        }
-        else
-        {
-            culture = new CultureInfo("en-US");
-            await js.InvokeVoidAsync("blazorCulture.set", "en-US");
-        }
-
-        CultureInfo.DefaultThreadCurrentCulture = culture;
-        CultureInfo.DefaultThreadCurrentUICulture = culture;
-    }
 }

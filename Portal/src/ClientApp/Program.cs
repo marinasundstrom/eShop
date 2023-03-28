@@ -6,10 +6,8 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Localization;
 
 using YourBrand.Portal;
-using YourBrand.Portal.AppBar;
+using YourBrand.Portal.Localization;
 using YourBrand.Portal.Modules;
-using YourBrand.Portal.NavMenu;
-using YourBrand.Portal.Theming;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -31,7 +29,8 @@ await LoadModules(builder.Services);
 
 var app = builder.Build();
 
-await app.Services.Localize();
+await app.Services.ApplyLocalization();
+
 app.Services.UseShell();
 
 var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
