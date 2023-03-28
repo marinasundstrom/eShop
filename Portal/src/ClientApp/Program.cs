@@ -23,35 +23,16 @@ builder.Services.AddScoped<YourBrand.Portal.Services.IAccessTokenProvider, YourB
 builder.Services
     .AddServices()
     .AddShellServices()
-    .AddScoped<ModuleLoader>();
+    .AddModuleLoader();
 
-await LoadModules(builder.Services);
+await builder.Services.LoadModules($"/modules.json");
 
 var app = builder.Build();
 
 await app.Services.ApplyLocalization();
 
-app.Services.UseShell();
-
-var moduleBuilder = app.Services.GetRequiredService<ModuleLoader>();
-moduleBuilder.ConfigureServices();
+app.Services
+    .UseShell()
+    .UseModules();
 
 await app.RunAsync();
-
-async Task LoadModules(IServiceCollection services)
-{
-    var http = builder.Services
-        .BuildServiceProvider()
-        .GetRequiredService<HttpClient>();
-
-    var entries = await http.GetFromJsonAsync<IEnumerable<ModuleDefinition>>($"/modules.json");
-
-    entries!.Where(x => x.Enabled).ToList().ForEach(x =>
-        ModuleLoader.LoadModule(x.Name, Assembly.Load(x.Assembly), x.Enabled));
-
-    ModuleLoader.AddServices(builder.Services);
-}
-
-record ModuleEntry(Assembly Assembly, bool Enabled);
-
-public record ModuleDefinition(string Name, string Assembly, bool Enabled);
