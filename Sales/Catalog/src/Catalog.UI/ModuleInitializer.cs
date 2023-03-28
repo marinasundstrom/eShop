@@ -69,12 +69,5 @@ public class ModuleInitializer : IModuleInitializer
             .GetRequiredService<ISnackbar>();
 
         appBarTray.AddItem(new AppBarTrayItem("show", typeof(StoreSelector)));
-        
-        var itemId = "show2";
-
-        appBarTray.AddItem(new AppBarTrayItem(itemId, "Test", MudBlazor.Icons.Material.Filled.List, () => { 
-            snackbar.Add ("Hello!");
-            appBarTray.RemoveItem(itemId);
-        }));
     }
 }

@@ -70,6 +70,7 @@ group.CreateItem("setup", options =>
 */
 
 await app.Services.Localize();
+app.Services.InitShell();
 
 await app.RunAsync();
 
