@@ -3,10 +3,6 @@
 using YourBrand.Portal.Services;
 using YourBrand.Portal;
 
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Http;
 using Microsoft.JSInterop;
 
 using MudBlazor;
@@ -29,13 +25,7 @@ public static class ServiceExtensions
         
         services.AddLocalization();
 
-        services.AddScoped<CustomAuthorizationMessageHandler>();
-
         services.AddClients();
-
-        // Shared
-        services.AddScoped<ICurrentUserService, CurrentUserService>();
-        services.AddScoped<Services.IAccessTokenProvider, AccessTokenProvider>();
 
         return services;
     }

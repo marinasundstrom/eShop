@@ -9,17 +9,6 @@ using Microsoft.Extensions.Localization;
 
 namespace YourBrand.Portal;
 
-public static class ServiceExtensions 
-{
-    public static IServiceCollection AddShellServices(this IServiceCollection services) 
-    {
-        return services
-            .AddThemeServices()
-            .AddNavigationServices()
-            .AddAppBar();
-    }
-}
-
 public static class ShellInit
 {
     public static IServiceProvider InitShell(this IServiceProvider services) 
