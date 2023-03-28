@@ -32,9 +32,10 @@ public sealed class AppBarTrayItem
         OnClick = onClick;
     }
 
-    public AppBarTrayItem(string id, Type componentType)
+    public AppBarTrayItem(string id, string name, Type componentType)
     {
         Id = id;
+        Name = name;
         ComponentType = componentType;
     }
 

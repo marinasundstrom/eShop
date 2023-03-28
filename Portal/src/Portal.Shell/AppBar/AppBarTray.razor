@@ -5,32 +5,22 @@
 
 @foreach (var item in AppBarTrayService.Items.Where(i => i.IsVisible))
 {
-    @if(item.RequiresAuthorization) 
-    {
-        <AuthorizeView Roles="@(item.Roles is null ? null : string.Join(",", item.Roles))" Policy="@item.Policy">
-            <Authorized>
-                @if(item.ComponentType is not null) 
-                {
-                    <DynamicComponent @key="@item.Id" Type="item.ComponentType" />
-                }
-                else 
-                {
-                    <MudIconButton @key="@item.Id" Icon="@item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@item.OnClick" />
-                }
-            </Authorized>
-        </AuthorizeView>
-    }
-    else 
-    {
-        if(item.ComponentType is not null) 
-        {
-            <DynamicComponent @key="@item.Id" Type="item.ComponentType" />
-        }
-        else 
-        {
-            <MudIconButton @key="@item.Id" Icon="@item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@item.OnClick" />
-        }
-    }
+    <AppBarTrayItemView @key="@item.GetHashCode()" Item="@item" />
+}
+
+@if(false) 
+{
+<MudMenu Dense="true" Color="Color.Inherit" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter"
+            PopoverClass="docs-layout-menu-shadow" ListClass="pa-2 docs-menu-list" LockScroll="true">
+    <ActivatorContent>
+        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" Class="me-2" />
+    </ActivatorContent>
+    <ChildContent>
+        <MudMenuItem>
+            
+        </MudMenuItem>
+    </ChildContent>
+</MudMenu>
 }
 
 @code 

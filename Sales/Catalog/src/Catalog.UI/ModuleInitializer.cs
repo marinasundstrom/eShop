@@ -68,6 +68,8 @@ public class ModuleInitializer : IModuleInitializer
         var snackbar = services
             .GetRequiredService<ISnackbar>();
 
-        appBarTray.AddItem(new AppBarTrayItem("show", typeof(StoreSelector)));
+        var t = services.GetRequiredService<IStringLocalizer<Resources>>();
+
+        appBarTray.AddItem(new AppBarTrayItem("show", t["Store"], typeof(StoreSelector)));
     }
 }
