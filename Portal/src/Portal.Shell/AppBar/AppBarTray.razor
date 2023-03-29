@@ -3,24 +3,24 @@
 @inject IAppBarTrayService AppBarTrayService
 @inject IBreakpointService BreakpointListener
 
-@foreach (var item in AppBarTrayService.Items.Where(i => i.IsVisible))
+@foreach (var item in AppBarTrayService.Items)
 {
     <AppBarTrayItemView @key="@item.GetHashCode()" Item="@item" />
 }
 
 @if(false) 
 {
-<MudMenu Dense="true" Color="Color.Inherit" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter"
-            PopoverClass="docs-layout-menu-shadow" ListClass="pa-2 docs-menu-list" LockScroll="true">
-    <ActivatorContent>
-        <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" Class="me-2" />
-    </ActivatorContent>
-    <ChildContent>
-        <MudMenuItem>
-            
-        </MudMenuItem>
-    </ChildContent>
-</MudMenu>
+    <MudMenu Dense="true" Color="Color.Inherit" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopCenter"
+                PopoverClass="docs-layout-menu-shadow" ListClass="pa-2 docs-menu-list" LockScroll="true">
+        <ActivatorContent>
+            <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" Class="me-2" />
+        </ActivatorContent>
+        <ChildContent>
+            <MudMenuItem>
+                
+            </MudMenuItem>
+        </ChildContent>
+    </MudMenu>
 }
 
 @code 
@@ -32,6 +32,7 @@
     {
         AppBarTrayService.ItemAdded += AppBarTrayUpdated;
         AppBarTrayService.ItemRemoved += AppBarTrayUpdated;
+        AppBarTrayService.ItemUpdated += AppBarTrayUpdated;
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -57,7 +58,7 @@
 
     private void AppBarTrayUpdated(object? sender, EventArgs e) 
     {
-        StateHasChanged();
+        InvokeAsync(StateHasChanged);
     }
 
     public async ValueTask DisposeAsync() 
@@ -66,5 +67,6 @@
         
         AppBarTrayService.ItemAdded -= AppBarTrayUpdated;
         AppBarTrayService.ItemRemoved -= AppBarTrayUpdated;
+        AppBarTrayService.ItemUpdated -= AppBarTrayUpdated;
     }
 }

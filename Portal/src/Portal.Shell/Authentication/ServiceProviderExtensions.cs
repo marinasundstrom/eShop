@@ -24,6 +24,6 @@ public static class ServiceProviderExtensions
 
         var loginDisplayId = "Shell.LoginDisplay";
 
-        appBarTray.AddItem(new AppBarTrayItem(loginDisplayId, () => t["Login"], typeof(LoginDisplay)));
+        appBarTray.AddItem(new AppBarTrayItem(loginDisplayId, string.Empty, typeof(LoginDisplay)));
     }
 }

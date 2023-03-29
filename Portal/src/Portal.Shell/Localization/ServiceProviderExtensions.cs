@@ -26,7 +26,7 @@ public static class ServiceProviderExtensions
 
         var localeSelector = "Shell.LocaleSelector";
 
-        appBarTray.AddItem(new AppBarTrayItem(localeSelector, () => t["ChangeLocale"], MudBlazor.Icons.Material.Filled.Language, async () =>
+        appBarTray.AddItem(new AppBarTrayItem(localeSelector, () => t["Locale"], MudBlazor.Icons.Material.Filled.Language, async () =>
         {
             var dialogService = services.GetRequiredService<IDialogService>();
             var dialogRef = dialogService.Show<CultureSelector>(t["ChangeLocale"]);

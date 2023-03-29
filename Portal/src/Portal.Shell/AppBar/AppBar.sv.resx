@@ -121,6 +121,10 @@
     <value>YourBrand</value>
     <comment/>
   </data>
+  <data name="Login" xml:space="preserve">
+    <value>Logga in</value>
+    <comment/>
+  </data>
   <data name="Dark" xml:space="preserve">
     <value>Mörkt</value>
     <comment/>
@@ -133,8 +137,16 @@
     <value>System</value>
     <comment/>
   </data>
+  <data name="Locale" xml:space="preserve">
+    <value>Språk</value>
+    <comment/>
+  </data>
   <data name="ChangeLocale" xml:space="preserve">
     <value>Ändra språk</value>
+    <comment/>
+  </data>
+  <data name="Theme" xml:space="preserve">
+    <value>Tema</value>
     <comment/>
   </data>
 </root>

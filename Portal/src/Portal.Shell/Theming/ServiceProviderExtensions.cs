@@ -24,6 +24,6 @@ public static class ServiceProviderExtensions
 
         var themeSelectorId = "Shell.ThemeSelector";
 
-        appBarTray.AddItem(new AppBarTrayItem(themeSelectorId, () => t["theme"], typeof(ThemeSelector)));
+        appBarTray.AddItem(new AppBarTrayItem(themeSelectorId, () => t["Theme"], typeof(ThemeSelector)));
     }
 }

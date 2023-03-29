@@ -1,3 +1,4 @@
+@using YourBrand.Portal.AppBar
 @using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject NavigationManager Navigation
@@ -29,8 +30,17 @@
 </AuthorizeView>
 
 @code {
+    [CascadingParameter]
+    public AppBarTrayItem? TrayItem { get; set; }
+
     private async Task BeginSignOut(MouseEventArgs args)
     {
+        /*
+        TrayItem.Name = "Foo";
+        TrayItem.Hide();
+        return;
+        */
+
         var result = await DialogService.ShowMessageBox(T["LogOut"], T["AreYouSure"], T["Yes"], T["No"]);
 
         if (!result.GetValueOrDefault())
