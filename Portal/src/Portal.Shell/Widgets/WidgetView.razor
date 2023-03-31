@@ -1,0 +1,64 @@
+@implements IDisposable
+
+@if (Widget.RequiresAuthorization)
+{
+    <AuthorizeView Roles="@(Widget.Roles is null ? null : string.Join(",", Widget.Roles))" Policy="@Widget.Policy">
+        <Authorized>
+            <div class="widget-view" style="@Style">
+                <CascadingValue Value="@Widget">
+                    <DynamicComponent @key="@Widget.Id" Type="Widget.ComponentType" />
+                </CascadingValue>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+}
+else
+{
+    <CascadingValue Value="@Widget">
+        <div style="@Style">
+            <DynamicComponent @key="@Widget.Id" Type="Widget.ComponentType" />
+        </div>
+    </CascadingValue>
+}
+
+@code
+{
+    [Parameter]
+    [EditorRequired]
+    public Widget Widget { get; set; } = default!;
+
+    [CascadingParameter]
+    public WidgetArea WidgetArea { get; set; } = default!;
+
+    public string Style => $"grid-column: {X} / span {Width}; grid-row: {Y} / span {Height};"; //$"grid-column-end: span {Width}"; 
+
+    [Parameter]
+    [EditorRequired]
+    public int Height { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int Width { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int X { get; set; }
+
+    [Parameter]
+    [EditorRequired]
+    public int Y { get; set; }
+    protected override void OnInitialized()
+    {
+        Widget.Updated += OnWidgetUpdated;
+    }
+
+    private void OnWidgetUpdated(object? sender, EventArgs e)
+    {
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        Widget.Updated -= OnWidgetUpdated;
+    }
+}

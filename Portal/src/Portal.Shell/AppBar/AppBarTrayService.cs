@@ -150,7 +150,7 @@ public sealed class AppBarTrayService : IAppBarTrayService, IDisposable
         _items.Add(item.Id, item);
         ItemAdded?.Invoke(this, EventArgs.Empty);
 
-        item.Updated -= ItemUpdated;
+        item.Updated += OnItemUpdated;
     }
 
     void IAppBarTrayService.RemoveItem(string id)
@@ -160,7 +160,7 @@ public sealed class AppBarTrayService : IAppBarTrayService, IDisposable
         _items.Remove(id);
         ItemRemoved?.Invoke(this, EventArgs.Empty);
 
-        item.Updated -= ItemUpdated;
+        item.Updated -= OnItemUpdated;
     }
 
     private void OnItemUpdated(object? sender, EventArgs e) 
@@ -172,7 +172,7 @@ public sealed class AppBarTrayService : IAppBarTrayService, IDisposable
     {
         foreach(var item in Items) 
         {
-            item.Updated -= ItemUpdated;
+            item.Updated -= OnItemUpdated;
         }
     }
 }

@@ -1,41 +1,38 @@
 @implements IDisposable
 
-@if(Item.IsVisible)
+@if(Item.RequiresAuthorization) 
 {
-    if(Item.RequiresAuthorization) 
-    {
-        <AuthorizeView Roles="@(Item.Roles is null ? null : string.Join(",", Item.Roles))" Policy="@Item.Policy">
-            <Authorized>
-                <MudTooltip Text="@Item.Name" ShowOnFocus="@(!string.IsNullOrEmpty(Item.Name))" ShowOnClick="false">
-                    <CascadingValue Value="@Item">
-                        @if(Item.ComponentType is not null) 
-                        {
-                            <DynamicComponent @key="@Item.Id" Type="Item.ComponentType" />
-                        }
-                        else 
-                        {
-                            <MudIconButton @key="@Item.Id" Icon="@Item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@Item.OnClick" />
-                        }
-                    </CascadingValue>
-                </MudTooltip>
-            </Authorized>
-        </AuthorizeView>
-    }
-    else 
-    {
-        <MudTooltip Text="@Item.Name" ShowOnFocus="@(!string.IsNullOrEmpty(Item.Name))" ShowOnClick="false">
-            <CascadingValue Value="@Item">
-                @if(Item.ComponentType is not null) 
-                {
-                    <DynamicComponent @key="@Item.Id" Type="Item.ComponentType" />
-                }
-                else 
-                {
-                    <MudIconButton @key="@Item.Id" Icon="@Item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@Item.OnClick" />
-                }
-            </CascadingValue>
-        </MudTooltip>
-    }
+    <AuthorizeView Roles="@(Item.Roles is null ? null : string.Join(",", Item.Roles))" Policy="@Item.Policy">
+        <Authorized>
+            <MudTooltip Text="@Item.Name" ShowOnFocus="@(!string.IsNullOrEmpty(Item.Name))" ShowOnClick="false">
+                <CascadingValue Value="@Item">
+                    @if(Item.ComponentType is not null) 
+                    {
+                        <DynamicComponent @key="@Item.Id" Type="Item.ComponentType" />
+                    }
+                    else 
+                    {
+                        <MudIconButton @key="@Item.Id" Icon="@Item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@Item.OnClick" />
+                    }
+                </CascadingValue>
+            </MudTooltip>
+        </Authorized>
+    </AuthorizeView>
+}
+else 
+{
+    <MudTooltip Text="@Item.Name" ShowOnFocus="@(!string.IsNullOrEmpty(Item.Name))" ShowOnClick="false">
+        <CascadingValue Value="@Item">
+            @if(Item.ComponentType is not null) 
+            {
+                <DynamicComponent @key="@Item.Id" Type="Item.ComponentType" />
+            }
+            else 
+            {
+                <MudIconButton @key="@Item.Id" Icon="@Item.Icon" Color="Color.Inherit" Class="me-2" OnClick="@Item.OnClick" />
+            }
+        </CascadingValue>
+    </MudTooltip>
 }
 
 @code 

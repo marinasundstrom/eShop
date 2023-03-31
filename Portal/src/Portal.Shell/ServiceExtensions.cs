@@ -7,7 +7,7 @@ using YourBrand.Portal.Theming;
 using MudBlazor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-
+using YourBrand.Portal.Widgets;
 
 namespace YourBrand.Portal;
 
@@ -16,6 +16,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddShellServices(this IServiceCollection services) 
     {
         return services
+            .AddWidgets()
             .AddThemeServices()
             .AddNavigationServices()
             .AddAppBar()

@@ -5,7 +5,10 @@
 
 @foreach (var item in AppBarTrayService.Items)
 {
-    <AppBarTrayItemView @key="@item.GetHashCode()" Item="@item" />
+    if(item.IsVisible) 
+    {
+        <AppBarTrayItemView @key="@item.GetHashCode()" Item="@item" />
+    }
 }
 
 @if(false) 

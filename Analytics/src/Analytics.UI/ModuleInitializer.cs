@@ -6,6 +6,7 @@ using YourBrand.Analytics.Client;
 using YourBrand.Portal.Modules;
 using YourBrand.Portal.NavMenu;
 using Microsoft.Extensions.Localization;
+using YourBrand.Portal.Widgets;
 
 namespace YourBrand.Analytics;
 
@@ -39,5 +40,13 @@ public class ModuleInitializer : IModuleInitializer
         });
 
         group.CreateItem("engagement", () => t["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics/engagement");
+
+        var dashboardService =
+            services.GetRequiredService<IWidgetService>();
+
+        dashboardService.RegisterWidget(new Widget("analytics.engagements", "Engagements", typeof(EngagementsWidget))
+        {
+            Size = WidgetSize.Medium
+        });
     }
 }

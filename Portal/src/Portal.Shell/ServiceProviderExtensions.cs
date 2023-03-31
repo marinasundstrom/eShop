@@ -3,9 +3,9 @@ using YourBrand.Portal.Authentication;
 using YourBrand.Portal.Localization;
 using YourBrand.Portal.NavMenu;
 using YourBrand.Portal.Theming;
-using MudBlazor;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using YourBrand.Portal.Widgets;
 
 namespace YourBrand.Portal;
 
@@ -14,6 +14,8 @@ public static class ServiceProviderExtensions
     public static IServiceProvider UseShell(this IServiceProvider services)
     {
         CreateNavMenu(services);
+
+        CreateDashboard(services);
 
         return services
             .UseTheming()
@@ -53,6 +55,24 @@ public static class ServiceProviderExtensions
             options.NameFunc = () => t["SetUp"];
             options.Icon = MudBlazor.Icons.Material.Filled.Settings;
             options.Href = "/setup";
+        });
+        */
+    }
+
+    private static void CreateDashboard(IServiceProvider services)
+    {
+        var dashboardService = 
+            services.GetRequiredService<IWidgetService>();
+
+        dashboardService.RegisterWidget(new Widget("sample-widget", "Sample Widget", typeof(SampleWidget)));
+
+        /*
+        dashboardService.RegisterWidget(new Widget("sample-widget2", "Sample Widget", typeof(SampleWidget)) {
+            Size = WidgetSize.Medium
+        });
+
+        dashboardService.RegisterWidget(new Widget("sample-widget3", "Sample Widget", typeof(SampleWidget2)) {
+            Size = WidgetSize.Large
         });
         */
     }
