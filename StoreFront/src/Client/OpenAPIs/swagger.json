@@ -1197,7 +1197,8 @@
           },
           "price": {
             "type": "number",
-            "format": "decimal"
+            "format": "decimal",
+            "nullable": true
           },
           "regularPrice": {
             "type": "number",
@@ -1605,6 +1606,9 @@
                 "$ref": "#/components/schemas/ParentProductGroupDto"
               }
             ]
+          },
+          "allowItems": {
+            "type": "boolean"
           }
         }
       },

@@ -3116,6 +3116,14 @@
             "type": "string",
             "nullable": true
           },
+          "brand": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BrandDto"
+              }
+            ]
+          },
           "parent": {
             "nullable": true,
             "oneOf": [
@@ -3138,7 +3146,8 @@
           },
           "price": {
             "type": "number",
-            "format": "decimal"
+            "format": "decimal",
+            "nullable": true
           },
           "regularPrice": {
             "type": "number",
@@ -3175,6 +3184,19 @@
           }
         }
       },
+      "BrandDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
       "ParentProductDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3196,6 +3218,14 @@
           "description": {
             "type": "string",
             "nullable": true
+          },
+          "brand": {
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BrandDto"
+              }
+            ]
           },
           "group": {
             "nullable": true,
@@ -3454,6 +3484,11 @@
           },
           "description": {
             "type": "string",
+            "nullable": true
+          },
+          "brandId": {
+            "type": "integer",
+            "format": "int64",
             "nullable": true
           },
           "groupId": {
@@ -3880,19 +3915,6 @@
           "totalItems": {
             "type": "integer",
             "format": "int32"
-          }
-        }
-      },
-      "BrandDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "name": {
-            "type": "string"
           }
         }
       },

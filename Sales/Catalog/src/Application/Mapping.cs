@@ -23,10 +23,11 @@ public static class Mapping
                item.Handle,
                item.SKU,
                item.Description,
+               item.Brand?.ToDto(),
                item.ParentProduct?.ToDto2(),
                item.Group?.ToDto(),
                GetImageUrl(item.Image),
-               item.Price.GetValueOrDefault(),
+               item.Price,
                item.RegularPrice,
                item.QuantityAvailable,
                item.HasVariants,
@@ -43,6 +44,7 @@ public static class Mapping
                 item.Handle,
                 item.SKU,
                 item.Description,
+                item.Brand?.ToDto(),
                 item.Group?.ToDto());
     }
 

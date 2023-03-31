@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record CreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description,  long? GroupId, string? Sku, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
+public sealed record CreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description, long? BrandId, long? GroupId, string? Sku, decimal? Price, ProductVisibility? Visibility) : IRequest<ProductDto?>
 {
     public sealed class Handler : IRequestHandler<CreateProduct, ProductDto?>
     {
@@ -25,12 +25,25 @@ public sealed record CreateProduct(string Name, string Handle, string StoreId, b
 
             if(group is null) 
             {
-                throw new Exception();
+                throw new Exception("Group not found");
             }
 
             if(!group.AllowItems) 
             {
-                throw new Exception();
+                throw new Exception("Cannot add items to category");
+            }
+
+            Brand? brand = null;
+
+            if(request.BrandId is not null) 
+            {
+                brand = await _context.Brands
+                    .FirstOrDefaultAsync(x => x.Id == request.BrandId);
+
+                if(brand is null) 
+                {
+                    throw new Exception();
+                }
             }
 
             var item = new Product(request.Name, request.Handle)
@@ -38,6 +51,7 @@ public sealed record CreateProduct(string Name, string Handle, string StoreId, b
                 Name = request.Name,
                 Description = request.Description,
                 StoreId = request.StoreId,
+                Brand = brand,
                 Group = group,
                 Price = request.Price,
                 HasVariants = request.HasVariants

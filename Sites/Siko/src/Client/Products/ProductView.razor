@@ -19,7 +19,7 @@
             @if (!Product.HasVariants)
             {
                 <div>
-                    <PriceDisplay Price="@Product.Price" RegularPrice="@Product.RegularPrice" />
+                    <PriceDisplay Price="@Product.Price.GetValueOrDefault()" RegularPrice="@Product.RegularPrice" />
                 </div>
             }
         </div>

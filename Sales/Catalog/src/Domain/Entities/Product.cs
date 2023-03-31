@@ -16,7 +16,7 @@ public sealed class Product : AggregateRoot<long>
 
     public string? StoreId { get; set; }
 
-    public Brand Brand { get; set; } = null!;
+    public Brand? Brand { get; set; } = null!;
 
     public int? BrandId { get; private set; }
 

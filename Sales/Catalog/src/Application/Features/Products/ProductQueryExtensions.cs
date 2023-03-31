@@ -9,6 +9,7 @@ public static class ProductQueryExtensions
         return source.Include(pv => pv.ParentProduct)
                     .ThenInclude(pv => pv!.Group)
                     .ThenInclude(pv => pv!.Parent)
+                .Include(pv => pv.Brand)
                 .Include(pv => pv.Group)
                     .ThenInclude(pv => pv!.Parent)
                 .Include(pv => pv.ProductAttributes)

@@ -74,7 +74,7 @@
         GroupId = null;
 
         productGroupTreeNodes = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
-        productGroupTreeNode = productGroupTreeNodes.FindNode(string.Empty);
+        productGroupTreeNode = null;
 
         NavigationManager.NavigateTo($"/products", replace: true);
 

@@ -135,7 +135,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                     }
                 }
 
-                items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(string.Join(", ", optionTexts)), (int)cartItem.Quantity, (decimal)cartItem.Quantity * price, cartItem.Data));
+                items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(string.Join(", ", optionTexts)), (int)cartItem.Quantity, (decimal)cartItem.Quantity * price.GetValueOrDefault(), cartItem.Data));
             }
 
             return new SiteCartDto(cart.Id, items);

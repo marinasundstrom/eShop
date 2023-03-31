@@ -60,7 +60,7 @@ public sealed record Checkout(
                     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
                 })!;
 
-                decimal price = product.Price;
+                decimal price = product.Price.GetValueOrDefault();
 
                 price += CalculatePrice(product, options);
 

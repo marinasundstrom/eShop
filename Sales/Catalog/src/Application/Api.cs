@@ -4,7 +4,7 @@ using System;
 
 using YourBrand.Catalog.Features.Options;
 
-public record class ApiCreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description, long? GroupId, string? Sku, decimal? Price, decimal? RegularPrice, ProductVisibility? Visibility);
+public record class ApiCreateProduct(string Name, string Handle, string StoreId, bool HasVariants, string? Description, long? BrandId, long? GroupId, string? Sku, decimal? Price, decimal? RegularPrice, ProductVisibility? Visibility);
 
 public record class ApiUpdateProductDetails(string Name, string? Description, string? Id, string? Image, decimal? Price, decimal? RegularPrice, long? GroupId);
 

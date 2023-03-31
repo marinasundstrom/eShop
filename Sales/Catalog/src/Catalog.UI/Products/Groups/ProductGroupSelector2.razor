@@ -1,0 +1,63 @@
+﻿@using System.Linq.Expressions
+@using System.ComponentModel.DataAnnotations
+@inject IProductsClient ProductsClient
+@inject IProductGroupsClient ProductGroupsClient
+@inject IDialogService DialogService
+
+<div class="d-flex flex-grow-1 mb-4">
+    <div class="flex-1 d-flex">
+        <MudTextField T="string" Label="@Label" Variant="Variant.Outlined" Value="@(Group is null ? null : GetProductGroup(Group))" ReadOnly Required />
+    </div>
+
+    <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="UpdateGroup" />
+</div>
+
+@code
+{
+    [Parameter] public string? Label { get; set; }
+
+    [Parameter] public ProductGroupDto? Group { get; set; }
+
+    [Parameter] public EventCallback<ProductGroupDto> GroupChanged { get; set; }
+
+    [Parameter] public Expression<Func<ProductGroupDto>> For { get; set; } = default!;
+
+    async Task UpdateGroup()
+    {
+        var dref = DialogService.Show<ProductGroupSelectorModal>();
+        var r = await dref.Result;
+
+        if (r.Canceled) return;
+
+        var data = (ProductGroupTreeNodeDto)r.Data;
+
+        Group = await ProductGroupsClient.GetProductGroupAsync(data.Id.ToString());
+
+        await GroupChanged.InvokeAsync(Group);
+    }
+
+    string? GetProductGroup(ProductGroupDto pg)
+    {
+        if (pg is null)
+        {
+            return null;
+        }
+
+        if (pg.Parent is null)
+        {
+            return pg.Name;
+        }
+
+        return GetProductGroup(pg.Parent) + " » " + pg.Name;
+    }
+
+    string GetProductGroup(ParentProductGroupDto pg)
+    {
+        if (pg.Parent is null)
+        {
+            return pg.Name;
+        }
+
+        return GetProductGroup(pg.Parent) + " » " + pg.Name;
+    }
+}

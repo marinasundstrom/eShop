@@ -34,7 +34,7 @@
                 <MudTd DataLabel="@attr.Value?.Name">@attr.Value?.Name</MudTd>
             }
             <MudTh DataLabel="Price">
-                @context.Price.ToString("c")
+                @context.Price?.ToString("c")
             </MudTh>
         </a>
     </RowTemplate>

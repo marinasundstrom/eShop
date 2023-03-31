@@ -20,7 +20,7 @@
                         <MudTableSortLabel SortLabel="Name" T="ProductDto">Name</MudTableSortLabel>
                     </MudTh>
                     <MudTh>
-                        <MudTableSortLabel SortLabel="Description" T="ProductDto">Description</MudTableSortLabel>
+                        <MudTableSortLabel SortLabel="Brand" T="ProductDto">Brand</MudTableSortLabel>
                     </MudTh>
                     <MudTh>
                         <MudTableSortLabel SortLabel="Group" T="ProductDto">Group</MudTableSortLabel>
@@ -63,11 +63,11 @@
                     </MudTd>
                     <MudTd DataLabel="Id">@context.Id</MudTd>
                     <MudTd DataLabel="Name">@context.Name</MudTd>
-                    <MudTd DataLabel="Description">@context.Description</MudTd>
+                    <MudTd DataLabel="Brand">@context.Brand?.Name</MudTd>
                     <MudTd DataLabel="Group">@context.Group?.Name</MudTd>
-                    <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : "No")</MudTd>
+                    <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : string.Empty)</MudTd>
                         @* <MudTd DataLabel="Handle">@context.Handle</MudTd> *@
-                        <MudTd DataLabel="Price">@context.Price.ToString("c")</MudTd>
+                        <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
                         <MudTd DataLabel="Compare At Price">@context.RegularPrice?.ToString("c")</MudTd>
                         <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
                         <MudTd>

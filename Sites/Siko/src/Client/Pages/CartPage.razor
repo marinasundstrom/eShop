@@ -77,7 +77,7 @@
         }
         await CartClient.UpdateCartItemQuantityAsync(cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
-        cartItem.Total = cartItem.Quantity * cartItem.Product.Price;
+        cartItem.Total = cartItem.Quantity * cartItem.Product.Price.GetValueOrDefault();
     }
 
     async Task UpdateItem(SiteCartItemDto cartItem)

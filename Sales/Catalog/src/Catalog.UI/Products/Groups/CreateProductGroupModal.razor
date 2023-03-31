@@ -13,42 +13,7 @@
 
             <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
 
-                 <div class="d-flex flex-grow-1 mb-4">
-                    <div class="flex-1 d-flex">
-                        <MudField Label="Parent group" Variant="Variant.Outlined">@(parentGroup is null ? null : GetProductGroup(parentGroup))</MudField>
-                    </div>
-
-                    @code
-                    {
-
-        string GetProductGroup(ProductGroupDto pg)
-        {
-            if(pg is null)
-            {
-                return null;
-            }
-
-            if (pg.Parent is null)
-            {
-                return pg.Name;
-            }
-
-            return GetProductGroup(pg.Parent) + " » " + pg.Name;
-        }
-
-        string GetProductGroup(ParentProductGroupDto pg)
-        {
-            if (pg.Parent is null)
-            {
-                return pg.Name;
-            }
-
-            return GetProductGroup(pg.Parent) + " » " + pg.Name;
-        }
-                }
-
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="UpdateGroup" />
-            </div>
+            <ProductGroupSelector2 @bind-Group="parentGroup" />
 
             <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
@@ -67,10 +32,10 @@
     [CascadingParameter] MudDialogInstance Modal { get; set; }
 
     [Required]
-    public string Name { get; set; }
-    
+    public string Name { get; set; } = default!;
+
     [Required]
-    public string? Handle { get; set; }
+    public string Handle { get; set; } = default!;
 
     public string? Description { get; set; }
 

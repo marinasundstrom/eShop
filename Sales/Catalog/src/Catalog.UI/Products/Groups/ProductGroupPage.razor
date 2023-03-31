@@ -1,4 +1,5 @@
 ﻿@page "/products/groups/{*path}"
+@using System.ComponentModel.DataAnnotations
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
 @inject IDialogService DialogService
@@ -8,6 +9,20 @@
 <AppPageTitle>@itemGroup?.Name</AppPageTitle>
 
 <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@itemGroup?.Name</MudText>
+
+<MudPaper Class="pa-4 mb-8" Elevation="25">
+    <EditForm Model="@this" OnValidSubmit="() => {}">
+
+        <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
+
+        <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
+
+        <ProductGroupSelector2 Label="Group" @bind-Group="ParentGroup" />
+
+        <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary">Update</MudButton>
+
+    </EditForm>
+</MudPaper>
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateGroup" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create group</MudButton>
 
@@ -24,7 +39,7 @@
         <MudTd DataLabel="Description">@group.Description</MudTd>
         <MudTd>
             <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await UpdateGroup(group)" />
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />    
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
         </MudTd>
     </RowTemplate>
     <NoRecordsContent>
@@ -46,6 +61,17 @@
     [Parameter]
     public string? Path { get; set; }
 
+    [Required]
+    public string Name { get; set; }
+
+    [Required]
+    public string? Handle { get; set; }
+
+    public string? Description { get; set; }
+
+    [Required]
+    public ProductGroupDto? ParentGroup { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         NavigationManager.LocationChanged += OnLocationChanged;
@@ -53,19 +79,19 @@
         await LoadData();
     }
 
-    private async void OnLocationChanged(object? sender, LocationChangedEventArgs arg) 
+    private async void OnLocationChanged(object? sender, LocationChangedEventArgs arg)
     {
         await LoadData();
 
         StateHasChanged();
     }
 
-    public void Dispose() 
+    public void Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
 
-    private async Task LoadData() 
+    private async Task LoadData()
     {
         itemGroup = await ProductGroupsClient.GetProductGroupAsync(Path);
 
