@@ -66,11 +66,11 @@ public static class ServiceProviderExtensions
 
         dashboardService.RegisterWidget(new Widget("sample-widget", "Sample Widget", typeof(SampleWidget)));
 
-        /*
-        dashboardService.RegisterWidget(new Widget("sample-widget2", "Sample Widget", typeof(SampleWidget)) {
-            Size = WidgetSize.Medium
+        dashboardService.RegisterWidget(new Widget("sample-widget2", "Sample Widget", typeof(SampleWidget2)) {
+            Size = WidgetSize.Small
         });
 
+        /*
         dashboardService.RegisterWidget(new Widget("sample-widget3", "Sample Widget", typeof(SampleWidget2)) {
             Size = WidgetSize.Large
         });

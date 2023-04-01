@@ -1,4 +1,5 @@
 ﻿@page "/"
+@layout MainLayout2
 @using YourBrand.Portal.Widgets
 @inject IStringLocalizer<HomePage> T
 @inject IWidgetsClient WidgetsClient
@@ -6,6 +7,6 @@
 
 <AppPageTitle>@T["Title"]</AppPageTitle>
 
-@* <MudText Typo="Typo.h4" GutterBottom="true">@T["Title"]</MudText> *@
+<MudText Typo="Typo.h4" GutterBottom="true" Class="d-inline-flex">@T["Activity"]</MudText> <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" class="ms-2" />
 
 <WidgetDisplay WidgetAreaId="dashboard" />

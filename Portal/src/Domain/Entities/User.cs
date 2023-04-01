@@ -9,8 +9,6 @@ public class User : AggregateRoot<string>, IAuditable
         Email = email;
     }
 
-    public string Id { get; private set; }
-
     public string Name { get; private set; }
 
     public string Email { get; private set; }

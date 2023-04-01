@@ -9,9 +9,11 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
-        context.Set<Widget>().AddRange(
-            new Widget("analytics.engagements", "dashboard",  null, null),
-            new Widget("sample-widget", "dashboard", null, null));
+        var widgetArea = new WidgetArea("dashboard", "Dashboard");
+        widgetArea.AddWidget(new Widget("analytics.engagements", null, null));
+        widgetArea.AddWidget(new Widget("sample-widget2", null, null));
+
+        context.Set<WidgetArea>().Add(widgetArea);
 
         await context.SaveChangesAsync();
     }
