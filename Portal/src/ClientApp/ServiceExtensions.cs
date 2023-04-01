@@ -12,6 +12,8 @@ using YourBrand.Portal.Theming;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Polly.Extensions.Http;
+using YourBrand.Portal.Client;
+using Microsoft.AspNetCore.Components;
 
 namespace YourBrand.Portal;
 
@@ -54,6 +56,15 @@ public static class ServiceExtensions
         //.SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Set lifetime to five minutes
         //.AddPolicyHandler(GetRetryPolicy());
 
+
+        services.AddWidgetsClients((sp, httpClient) =>
+        {
+            var navigationManager = sp.GetRequiredService<NavigationManager>();
+            httpClient.BaseAddress = new Uri($"{ServiceUrls.PortalServiceUrl}/");
+        }, builder =>
+        {
+            builder.AddHttpMessageHandler<CustomAuthorizationMessageHandler>();
+        });
 
         return services;
     }

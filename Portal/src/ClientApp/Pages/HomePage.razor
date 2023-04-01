@@ -1,14 +1,11 @@
 ﻿@page "/"
 @using YourBrand.Portal.Widgets
 @inject IStringLocalizer<HomePage> T
+@inject IWidgetsClient WidgetsClient
+@inject IWidgetService WidgetService
 
 <AppPageTitle>@T["Title"]</AppPageTitle>
 
 @* <MudText Typo="Typo.h4" GutterBottom="true">@T["Title"]</MudText> *@
 
-<WidgetArea WidgetAreaId="dashboard" />
-
-@code {
-
-}
-
+<WidgetDisplay WidgetAreaId="dashboard" />

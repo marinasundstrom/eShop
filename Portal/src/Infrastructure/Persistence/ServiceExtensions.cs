@@ -46,5 +46,6 @@ public static class ServiceExtensions
 
         services.AddScoped<ITodoRepository, TodoRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IWidgetRepository, WidgetRepository>();
     }
 }

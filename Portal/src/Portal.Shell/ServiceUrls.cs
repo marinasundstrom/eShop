@@ -4,6 +4,8 @@ public static class ServiceUrls
 {
     public const string RootUrl = "https://localhost";
 
+    public const string PortalServiceUrl = $"{RootUrl}:5001";
+
     public const string CatalogServiceUrl = $"{RootUrl}:5011";
 
     public const string SalesServiceUrl = $"{RootUrl}:5041";

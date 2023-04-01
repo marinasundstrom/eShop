@@ -15,7 +15,7 @@ public static class ServiceExtensions
 {
     public static IServiceCollection AddShellServices(this IServiceCollection services) 
     {
-        return services
+        services
             .AddWidgets()
             .AddThemeServices()
             .AddNavigationServices()
@@ -23,5 +23,7 @@ public static class ServiceExtensions
             .AddScoped<CustomAuthorizationMessageHandler>()
             .AddScoped<ICurrentUserService, CurrentUserService>()
             .AddScoped<Services.IAccessTokenProvider, AccessTokenProvider>();
+
+        return services;
     }
 }

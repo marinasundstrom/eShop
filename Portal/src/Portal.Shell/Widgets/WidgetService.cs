@@ -30,6 +30,7 @@ public sealed class Widget
     private Func<string>? nameFunc;
     private bool isVisible = true;
     private WidgetSize size = WidgetSize.Small;
+    private bool isHeaderVisible = true;
 
     public Widget(string id, string name, Type componentType)
     {
@@ -99,7 +100,24 @@ public sealed class Widget
                 isVisible = value;
                 Updated?.Invoke(this, EventArgs.Empty);
             }
-        }      
+        }
+    }
+
+    public void Hide() => IsVisible = false;
+
+    public void Show() => IsVisible = true;
+
+    public bool IsHeaderVisible
+    {
+        get => isHeaderVisible;
+        set
+        {
+            if (value != isHeaderVisible)
+            {
+                isHeaderVisible = value;
+                Updated?.Invoke(this, EventArgs.Empty);
+            }
+        }
     }
 
     public bool RequiresAuthorization { get; set; }
@@ -109,10 +127,6 @@ public sealed class Widget
     public string? Policy { get; set; }
 
     public event EventHandler? Updated;
-
-    public void Hide() => IsVisible = false;
-
-    public void Show() => IsVisible = true;
 }
 
 public enum WidgetSize
