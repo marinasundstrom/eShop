@@ -1,0 +1,3 @@
+StoreIdOrHandle,Sku,Name,Handle,Description,GroupId,GroupName,ParentSku,Image,Price,RegularPrice,Listed
+joes,red-wine,Red wine,red-wine,Test,6,,,red-wine.jpg,79,,true
+joes,big-burger,Big burger,big-burger,A tasty burger,2,,,burger.jpg,55,,true

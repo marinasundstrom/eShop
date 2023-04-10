@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using YourBrand.Catalog.Common.Models;
 using YourBrand.Catalog.Features.Products.Groups;
+using YourBrand.Catalog.Features.Products.Import;
 
 namespace YourBrand.Catalog.Features.Products;
 
@@ -81,6 +82,20 @@ public partial class ProductsController : Controller
     public async Task<ActionResult<ProductDto>> CreateProduct(ApiCreateProduct data, CancellationToken cancellationToken)
     {
         return Ok(await _mediator.Send(new CreateProduct(data.Name, data.Handle, data.StoreId, data.HasVariants, data.Description, data.BrandId, data.GroupId, data.Sku, data.Price, data.Visibility), cancellationToken));
+    }
+
+    [HttpPost("UploadProductImages")]
+    public async Task<ActionResult> UploadProductImages(IFormFile file, CancellationToken cancellationToken)
+    {   
+        await _mediator.Send(new UploadProductImages(file.OpenReadStream()), cancellationToken);
+        return Ok();
+    }
+
+    [HttpPost("ImportProductsCsv")]
+    public async Task<ActionResult> ImportProductsCsv(IFormFile file, CancellationToken cancellationToken)
+    {   
+        var errors = await _mediator.Send(new ImportProductsCsv(file.OpenReadStream()), cancellationToken);
+        return Ok(errors);
     }
 }
 
