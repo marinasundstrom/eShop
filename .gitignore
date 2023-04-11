@@ -485,3 +485,4 @@ _site
 *.db-wal
 Sales/Catalog/src/Web/temp
 Sales/Catalog/src/Web/temp.zip
+Sales/Catalog/src/Web/uploads

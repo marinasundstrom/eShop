@@ -87,8 +87,8 @@ public partial class ProductsController : Controller
     [HttpPost("ImportProducts")]
     public async Task<ActionResult> ImportProducts(IFormFile file, CancellationToken cancellationToken)
     {   
-        var errors = await _mediator.Send(new ImportProducts(file.OpenReadStream()), cancellationToken);
-        return Ok(errors);
+        var result = await _mediator.Send(new ImportProducts(file.OpenReadStream()), cancellationToken);
+        return Ok(result.GetValue().Diagnostics);
     }
 }
 

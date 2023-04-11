@@ -9,9 +9,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products.Import;
 
-public sealed record ImportProducts(Stream Stream) : IRequest<IEnumerable<string>>
+public record ProductImportResult(IEnumerable<string> Diagnostics);
+
+public sealed record ImportProducts(Stream Stream) : IRequest<Result<ProductImportResult>>
 {
-    public sealed class Handler : IRequestHandler<ImportProducts, IEnumerable<string>>
+
+    public sealed class Handler : IRequestHandler<ImportProducts, Result<ProductImportResult>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IBlobStorageService _blobStorageService;
@@ -22,13 +25,15 @@ public sealed record ImportProducts(Stream Stream) : IRequest<IEnumerable<string
             _blobStorageService = blobStorageService;
         }
 
-        public async Task<IEnumerable<string>> Handle(ImportProducts request, CancellationToken cancellationToken)
+        public async Task<Result<ProductImportResult>> Handle(ImportProducts request, CancellationToken cancellationToken)
         {
             var name = DateTime.UtcNow.Ticks.ToString();
 
             await UploadAndExtractFiles(request.Stream, name);
 
             using var fileStream = File.OpenRead($"./uploads/{name}/products.csv");
+
+            List<string> diagnostics = new ();
 
             var configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
             {
@@ -49,7 +54,11 @@ public sealed record ImportProducts(Stream Stream) : IRequest<IEnumerable<string
 
                     var p = _context.Products.Any(x => x.SKU == record.Sku || x.Handle == record.Handle);
 
-                    if(p) continue;
+                    if(p) 
+                    {
+                        diagnostics.Add($"Product with SKU \"{record.Sku}\" already exists. Skipping it.");
+                        continue;
+                    }
 
                     ProductGroup group = await GetGroup(store, record.GroupId.GetValueOrDefault(), cancellationToken);
                     
@@ -76,11 +85,12 @@ public sealed record ImportProducts(Stream Stream) : IRequest<IEnumerable<string
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            List<string> errors = new ();
-
             foreach(var product in products.Select(x => x.Value)) 
             {
-                if(string.IsNullOrEmpty(product.Image)) continue;
+                if(string.IsNullOrEmpty(product.Image))
+                {
+                     continue;
+                }
 
                 var image = string.IsNullOrEmpty(product.Image) ? null : Path.Combine("./temp", product.Image!);
 
@@ -88,24 +98,39 @@ public sealed record ImportProducts(Stream Stream) : IRequest<IEnumerable<string
 
                 await _blobStorageService.DeleteBlobAsync(blobId);
 
+                Stream? stream = null;
+
                 try 
                 {
-                    await _blobStorageService.UploadBlobAsync(blobId, File.OpenRead(image!));        
+                    stream  = File.OpenRead(image!);
+                } 
+                catch (FileNotFoundException) 
+                {
+                    diagnostics.Add($"Image \"{image}\" not found for SKU \"{product.SKU}\".");
+
+                    continue;
+                }
+
+                try 
+                {
+                    await _blobStorageService.UploadBlobAsync(blobId, stream!);        
                     product.Image = blobId;
 
                     File.Delete(image!);    
                 }
                 catch(Exception exc) 
                 {
-                    errors.Add($"{exc.Message}");
+                    diagnostics.Add($"{exc.Message}");
                 }
             }
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            Directory.Delete($"./uploads/{name}", true);
+            string ArchiveDirPath = $"./uploads/{name}";
 
-            return errors;
+            Directory.Delete(ArchiveDirPath, true);
+
+            return Result.Success(new ProductImportResult(diagnostics));
         }
 
         private static string GetHandle(ProductRecord record)
@@ -160,27 +185,33 @@ public sealed record ImportProducts(Stream Stream) : IRequest<IEnumerable<string
 
         async Task UploadAndExtractFiles(Stream stream, string name) 
         {
+            const string UploadDirPath = $"./uploads";
+
             try
             {
-                Directory.CreateDirectory($"./uploads");
+                Directory.CreateDirectory(UploadDirPath);
             }
             catch(IOException) {}
 
-            using (var file = File.Open($"./uploads/{name}.zip", FileMode.OpenOrCreate)) 
+            string ArchiveFilePath = $"./uploads/{name}.zip";
+
+            using (var file = File.Open(ArchiveFilePath, FileMode.OpenOrCreate)) 
             {
                 await stream.CopyToAsync(file);
                 file.Seek(0, SeekOrigin.Begin);
             }
 
+            string ArchiveDirPath = $"./uploads/{name}";
+
             try
             {
-                Directory.CreateDirectory($"./uploads/{name}");
+                Directory.CreateDirectory(ArchiveDirPath);
             }
             catch(IOException) {}
 
-            System.IO.Compression.ZipFile.ExtractToDirectory($"./uploads/{name}.zip", $"./uploads/{name}");
+            System.IO.Compression.ZipFile.ExtractToDirectory(ArchiveFilePath, ArchiveDirPath);
 
-            File.Delete($"./uploads/{name}.zip");
+            File.Delete(ArchiveFilePath);
         }
 
         public record class ProductRecord(string StoreIdOrHandle, string Sku, string Name, string? Handle, string? Description, long? GroupId, string? GroupName, string? ParentSku, string? Image, decimal Price, decimal? RegularPrice, bool? Listed);
