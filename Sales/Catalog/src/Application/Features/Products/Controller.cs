@@ -84,20 +84,6 @@ public partial class ProductsController : Controller
         return Ok(await _mediator.Send(new CreateProduct(data.Name, data.Handle, data.StoreId, data.HasVariants, data.Description, data.BrandId, data.GroupId, data.Sku, data.Price, data.Visibility), cancellationToken));
     }
 
-    [HttpPost("UploadProductImages")]
-    public async Task<ActionResult> UploadProductImages(IFormFile file, CancellationToken cancellationToken)
-    {   
-        await _mediator.Send(new UploadProductImages(file.OpenReadStream()), cancellationToken);
-        return Ok();
-    }
-
-    [HttpPost("ImportProductsCsv")]
-    public async Task<ActionResult> ImportProductsCsv(IFormFile file, CancellationToken cancellationToken)
-    {   
-        var errors = await _mediator.Send(new ImportProductsCsv(file.OpenReadStream()), cancellationToken);
-        return Ok(errors);
-    }
-
     [HttpPost("ImportProducts")]
     public async Task<ActionResult> ImportProducts(IFormFile file, CancellationToken cancellationToken)
     {   
