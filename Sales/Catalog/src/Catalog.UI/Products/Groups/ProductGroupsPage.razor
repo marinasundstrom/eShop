@@ -1,8 +1,10 @@
 ﻿@page "/products/groups"
+@implements IDisposable
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
+@inject IStoreProvider StoreProvider
 
 <AppPageTitle>Product Groups</AppPageTitle>
 
@@ -36,6 +38,7 @@
 
 @code
 {
+    StoreDto? store;
     List<ProductGroupDto>? itemGroups;
 
     [Parameter]
@@ -43,7 +46,30 @@
 
     protected override async Task OnInitializedAsync()
     {
-        itemGroups = (await ProductGroupsClient.GetProductGroupsAsync(null, null, true, true)).ToList();
+        StoreProvider.CurrentStoreChanged += OnCurrentStoreChanged;
+
+        store = StoreProvider.CurrentStore;
+
+        await LoadData();
+    }
+
+    private async void OnCurrentStoreChanged(object? sender, EventArgs e) 
+    {
+        store = StoreProvider.CurrentStore;
+
+        await LoadData();
+
+        StateHasChanged();
+    }
+
+    public void Dispose() 
+    {
+        StoreProvider.CurrentStoreChanged -= OnCurrentStoreChanged;      
+    }
+
+    async Task LoadData() 
+    {
+        itemGroups = (await ProductGroupsClient.GetProductGroupsAsync(store.Id, null, true, true)).ToList();
     }
 
     async Task CreateGroup()
