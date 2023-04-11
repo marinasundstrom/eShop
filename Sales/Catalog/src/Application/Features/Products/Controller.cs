@@ -97,6 +97,13 @@ public partial class ProductsController : Controller
         var errors = await _mediator.Send(new ImportProductsCsv(file.OpenReadStream()), cancellationToken);
         return Ok(errors);
     }
+
+    [HttpPost("ImportProducts")]
+    public async Task<ActionResult> ImportProducts(IFormFile file, CancellationToken cancellationToken)
+    {   
+        var errors = await _mediator.Send(new ImportProducts(file.OpenReadStream()), cancellationToken);
+        return Ok(errors);
+    }
 }
 
 public sealed record UpdateProductPriceRequest(decimal Price);

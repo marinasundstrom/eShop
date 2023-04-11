@@ -4,24 +4,16 @@
 
 <AppPageTitle>Import Products</AppPageTitle>
 
-<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">Import Products</MudText>
+<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12" GutterBottom="true">Import Products</MudText>
 
-<MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".zip" OnFilesChanged="UploadImagesArchive" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
+<MudText Typo="Typo.body1">Upload a Zip file containing a products.csv file and multiple image files.</MudText>
+
+<MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".zip" OnFilesChanged="UploadArchive" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
                    @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
     <ButtonTemplate>       
         <MudPaper Height="300px" Outlined="true" Class="@DragClass">
-            <MudText Typo="Typo.h6">Images Zip file</MudText>
-            <MudText Typo="Typo.body1">@(imagesFile is null ? "Drag and drop files here or click" : imagesFile.Name)</MudText>
-        </MudPaper>
-    </ButtonTemplate>
-</MudFileUpload>
-
-<MudFileUpload T="IReadOnlyList<IBrowserFile>" Accept=".csv" OnFilesChanged="UploadCsvFile" Hidden="false" Class="flex-1" InputClass="absolute mud-width-full mud-height-full overflow-hidden z-20" InputStyle="opacity:0"
-                   @ondragenter="@SetDragClass" @ondragleave="@ClearDragClass" @ondragend="@ClearDragClass">
-    <ButtonTemplate>       
-        <MudPaper Height="300px" Outlined="true" Class="@DragClass">
-            <MudText Typo="Typo.h6">Products CSV file</MudText>
-            <MudText Typo="Typo.body1">@(csvFile is null ? "Drag and drop files here or click" : csvFile.Name)</MudText>
+            <MudText Typo="Typo.h6">Zip file</MudText>
+            <MudText Typo="Typo.body1">@(archiveFile is null ? "Drag and drop files here or click" : archiveFile.Name)</MudText>
         </MudPaper>
     </ButtonTemplate>
 </MudFileUpload>
@@ -35,28 +27,19 @@
     private static string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10";
     private string DragClass = DefaultDragClass;
 
-    IBrowserFile imagesFile;
-    IBrowserFile csvFile;
+    IBrowserFile archiveFile;
 
-    private async void UploadImagesArchive(InputFileChangeEventArgs e)
+    private async void UploadArchive(InputFileChangeEventArgs e)
     {
-        imagesFile = e.GetMultipleFiles().First();
+        archiveFile = e.GetMultipleFiles().First();
     }
 
-    private async void UploadCsvFile(InputFileChangeEventArgs e)
-    {
-        csvFile = e.GetMultipleFiles().First();
-    }
-
-    public bool CanUpload => (imagesFile is not null && csvFile is not null);
+    public bool CanUpload => (archiveFile is not null);
 
     private async void Upload()
     {
-        await ProductsClient.UploadProductImagesAsync(new FileParameter(imagesFile.OpenReadStream(3 *
-            1000000), imagesFile.Name));
-
-        await ProductsClient.ImportProductsCsvAsync(new FileParameter(csvFile.OpenReadStream(3 *
-            1000000), csvFile.Name));
+        await ProductsClient.ImportProductsAsync(new FileParameter(archiveFile.OpenReadStream(3 *
+            1000000), archiveFile.Name));
     }
 
     private void SetDragClass()

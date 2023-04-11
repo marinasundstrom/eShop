@@ -1132,6 +1132,42 @@
         }
       }
     },
+    "/v1/Products/ImportProducts": {
+      "post": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_ImportProducts",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Products/{productId}/Options": {
       "get": {
         "tags": [

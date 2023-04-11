@@ -1,0 +1,30 @@
+[
+    {
+      "StoreIdOrHandle": "siko",
+      "Sku": "rullebor",
+      "Name": "Rullebör",
+      "Handle": "rullebor",
+      "Description": "En rymlig skottkärra",
+      "GroupId": 14,
+      "GroupName": "Testgrupp",
+      "ParentSku": "",
+      "Image": "wheelbarrow.jpg",
+      "Price": 10,
+      "RegularPrice": "",
+      "Listed": true
+    },
+    {
+      "StoreIdOrHandle": "siko",
+      "Sku": "skruv-120pack",
+      "Name": "Skruv 120-pack",
+      "Handle": "skruv-120pack",
+      "Description": "Fina skruvar för gipsskrivor",
+      "GroupId": 14,
+      "GroupName": "Testgrupp",
+      "ParentSku": "",
+      "Image": "screw.jpeg",
+      "Price": 84.8,
+      "RegularPrice": "",
+      "Listed": true
+    }
+  ]

@@ -1,0 +1,30 @@
+[
+    {
+      "StoreIdOrHandle": "joes",
+      "Sku": "red-wine",
+      "Name": "Red wine",
+      "Handle": "red-wine",
+      "Description": "Test",
+      "GroupId": 6,
+      "GroupName": "",
+      "ParentSku": "",
+      "Image": "red-wine.jpg",
+      "Price": 79,
+      "RegularPrice": "",
+      "Listed": true
+    },
+    {
+      "StoreIdOrHandle": "joes",
+      "Sku": "big-burger",
+      "Name": "Big burger",
+      "Handle": "big-burger",
+      "Description": "A tasty burger",
+      "GroupId": 2,
+      "GroupName": "",
+      "ParentSku": "",
+      "Image": "burger.jpg",
+      "Price": 55,
+      "RegularPrice": "",
+      "Listed": true
+    }
+  ]
