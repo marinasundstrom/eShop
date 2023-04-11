@@ -1,4 +1,3 @@
-
 @import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html,
@@ -223,6 +222,7 @@ header.main {
     opacity: 0;
     transform: translateX(300px);
   }
+
   to {
     opacity: 1;
   }
@@ -237,6 +237,7 @@ header.main {
     opacity: 0;
     transform: translateY(300px);
   }
+
   to {
     opacity: 1;
   }
@@ -261,7 +262,7 @@ header.main {
 }
 
 .bm-container {
-    z-index: 999999 !important;
+  z-index: 999999 !important;
 }
 
 .ms-n5 {
@@ -277,14 +278,16 @@ header.main {
   object-fit: cover;
 }
 
-@media (min-width: 768px)
-{
-  .g-md-6, .gy-md-6 {
+@media (min-width: 768px) {
+
+  .g-md-6,
+  .gy-md-6 {
     --bs-gutter-y: 5rem;
   }
 
-  .g-md-6, .gx-md-6 {
-      --bs-gutter-x: 5rem;
+  .g-md-6,
+  .gx-md-6 {
+    --bs-gutter-x: 5rem;
   }
 }
 
@@ -302,4 +305,24 @@ header.main {
 
 .menu-link:hover {
   color: rgb(209, 209, 209);
+}
+
+.checkbox-lg .form-check-input {
+  top: .8rem;
+  scale: 1.4;
+  margin-right: 1rem;
+}
+
+.checkbox-lg .form-check-label {
+  /* padding-top: 13px; */
+}
+
+.checkbox-xl .form-check-input {
+  top: 1.2rem;
+  scale: 1.7;
+  margin-right: 0.8rem;
+}
+
+.checkbox-xl .form-check-label {
+  /* padding-top: 19px; */
 }

@@ -107,10 +107,10 @@
 
                         @foreach (var itemOption in optionGroup.Options)
                         {
-                            <div class="form-floating mb-3 mt-3">
+                            <div class="form-floating mb-3 mt-3 ms-1">
                                 @if(itemOption.OptionType == OptionType.YesOrNo) 
                                 {
-                                    <div class="form-check">
+                                    <div class="form-check checkbox-lg">
                                         <InputCheckbox class="form-check-input" 
                                             Value="@itemOption.IsSelected" 
                                             ValueExpression="() => itemOption.IsSelected" 
