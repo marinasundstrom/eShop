@@ -52,9 +52,11 @@ public sealed record ImportProducts(Stream Stream) : IRequest<Result<ProductImpo
 
                     string productHandle = GetHandle(record);
 
-                    var p = _context.Products.Any(x => x.SKU == record.Sku || x.Handle == record.Handle);
+                    var productExists = _context.Products
+                        .Where(x => x.Store == store)
+                        .Any(x => x.SKU == record.Sku || x.Handle == record.Handle);
 
-                    if(p) 
+                    if(productExists) 
                     {
                         diagnostics.Add($"Product with SKU \"{record.Sku}\" already exists. Skipping it.");
                         continue;
