@@ -142,6 +142,8 @@ View product
                 </div>
             </MudPaper>
         }
+
+        <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete"  OnClick="DeleteProduct">Delete product</MudButton>
         </MudItem>
     </MudGrid>
 
@@ -154,4 +156,18 @@ View product
     }
 
     <ProductOptionsView ProductId="@ProductId.GetValueOrDefault()" ProductOptions="product.Options.ToList().AsReadOnly()" />
+}
+
+@code 
+{
+    async Task DeleteProduct() 
+    {
+        var result = await DialogService.ShowMessageBox("Delete products", "Are you sure?", "Yes", "No");
+
+        if(!result.GetValueOrDefault()) return;
+
+        await ProductsClient.DeleteProductAsync(ProductId.GetValueOrDefault());
+
+        NavigationManager.NavigateTo("/products");
+    }
 }

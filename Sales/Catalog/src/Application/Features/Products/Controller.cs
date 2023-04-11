@@ -42,6 +42,13 @@ public partial class ProductsController : Controller
         return Ok();
     }
 
+    [HttpDelete("{productId}")]
+    public async Task<ActionResult> DeleteProduct(long productId, CancellationToken cancellationToken)
+    {
+        await _mediator.Send(new DeleteProduct(productId), cancellationToken);
+        return Ok();
+    }
+
     [HttpPost("{productId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ActionResult> UploadProductImage([FromRoute] long productId, IFormFile file, CancellationToken cancellationToken)
