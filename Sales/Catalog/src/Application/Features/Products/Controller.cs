@@ -38,53 +38,68 @@ public partial class ProductsController : Controller
     [HttpPut("{productId}")]
     public async Task<ActionResult> UpdateProductDetails(long productId, ApiUpdateProductDetails details, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateProductDetails(productId, details), cancellationToken);
-        return Ok();
+        var result = await _mediator.Send(new UpdateProductDetails(productId, details), cancellationToken);
+        return this.HandleResult(result);
     }
 
     [HttpDelete("{productId}")]
     public async Task<ActionResult> DeleteProduct(long productId, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new DeleteProduct(productId), cancellationToken);
-        return Ok();
+        var result = await _mediator.Send(new DeleteProduct(productId), cancellationToken);
+        return this.HandleResult(result);
+    }
+
+    [HttpPut("{productId}/Name")]
+    public async Task<ActionResult> UpdateProductName(long productId, [FromBody] string name, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new UpdateProductName(productId, name), cancellationToken);
+        return this.HandleResult(result);
+    }
+
+
+    [HttpPut("{productId}/Sku")]
+    public async Task<ActionResult> UpdateProductSku(long productId, [FromBody] string sku, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new UpdateProductSku(productId, sku), cancellationToken);
+        return this.HandleResult(result);
+    }
+
+    [HttpPut("{productId}/Description")]
+    public async Task<ActionResult> UpdateProductDescription(long productId, [FromBody] string description, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new UpdateProductDescription(productId, description), cancellationToken);
+        return this.HandleResult(result);
     }
 
     [HttpPost("{productId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ActionResult> UploadProductImage([FromRoute] long productId, IFormFile file, CancellationToken cancellationToken)
     {
-        var url = await _mediator.Send(new UploadProductImage(productId, file.FileName, file.OpenReadStream()), cancellationToken);
-        return Ok(url);
+        var result = await _mediator.Send(new UploadProductImage(productId, file.FileName, file.OpenReadStream()), cancellationToken);
+        return this.HandleResult(result);
     }
 
-    [HttpPost("{productId}/Visibility")]
-    public async Task<ActionResult> UpdateProductVisibility(long productId, ProductVisibility visibility, CancellationToken cancellationToken)
+    [HttpPut("{productId}/Visibility")]
+    public async Task<ActionResult> UpdateProductVisibility(long productId, [FromBody]  ProductVisibility visibility, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateProductVisibility(productId, visibility), cancellationToken);
-        return Ok();
+        var result = await _mediator.Send(new UpdateProductVisibility(productId, visibility), cancellationToken);
+        return this.HandleResult(result);
     }
 
-    [HttpPost("{productId}/Group")]
+    [HttpPut("{productId}/Group")]
     public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(long productId, long groupId, CancellationToken cancellationToken)
     {
-        var dto = await _mediator.Send(new UpdateProductGroup(productId, groupId), cancellationToken);
-        return Ok(dto);
+        var result = await _mediator.Send(new UpdateProductGroup(productId, groupId), cancellationToken);
+        return this.HandleResult(result);
     }
 
-    [HttpPost("{productId}/Price")]
+    [HttpPut("{productId}/Price")]
     public async Task<ActionResult> UpdateProductPrice(long productId, UpdateProductPriceRequest dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateProductPrice(productId, dto.Price), cancellationToken);
-        return Ok();
+        var result = await _mediator.Send(new UpdateProductPrice(productId, dto.Price), cancellationToken);
+        return this.HandleResult(result);
     }
-
-    [HttpPost("{productId}/Sku")]
-    public async Task<ActionResult> UpdateProductSku(long productId, string sku, CancellationToken cancellationToken)
-    {
-        await _mediator.Send(new UpdateProductSku(productId, sku), cancellationToken);
-        return Ok();
-    }
-
+    
     [HttpPost]
     public async Task<ActionResult<ProductDto>> CreateProduct(ApiCreateProduct data, CancellationToken cancellationToken)
     {

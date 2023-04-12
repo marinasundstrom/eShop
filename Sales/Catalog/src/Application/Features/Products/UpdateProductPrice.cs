@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record UpdateProductPrice(long ProductId, decimal Price) : IRequest
+public sealed record UpdateProductPrice(long ProductId, decimal Price) : IRequest<Result>
 {
-    public sealed class Handler : IRequestHandler<UpdateProductPrice>
+    public sealed class Handler : IRequestHandler<UpdateProductPrice, Result>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,16 +15,21 @@ public sealed record UpdateProductPrice(long ProductId, decimal Price) : IReques
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateProductPrice request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateProductPrice request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
-                .FirstAsync(x => x.Id == request.ProductId);
+                .FirstOrDefaultAsync(x => x.Id == request.ProductId);
+
+            if (item is null) 
+            {
+                return Result.Failure(Errors.Products.ProductNotFound);
+            }
 
             item.Price = request.Price;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return Unit.Value;
+            return Result.Success();
         }
     }
 }

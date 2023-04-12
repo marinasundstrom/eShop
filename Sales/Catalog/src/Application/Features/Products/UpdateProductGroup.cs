@@ -6,9 +6,9 @@ using YourBrand.Catalog.Features.Products.Groups;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest<ProductGroupDto>
+public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest<Result<ProductGroupDto>>
 {
-    public sealed class Handler : IRequestHandler<UpdateProductGroup, ProductGroupDto>
+    public sealed class Handler : IRequestHandler<UpdateProductGroup, Result<ProductGroupDto>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -17,12 +17,17 @@ public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest
             _context = context;
         }
 
-        public async Task<ProductGroupDto> Handle(UpdateProductGroup request, CancellationToken cancellationToken)
+        public async Task<Result<ProductGroupDto>> Handle(UpdateProductGroup request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
                 .Include(x => x.Group)
                 .ThenInclude(x => x!.Parent)
-                .FirstAsync(x => x.Id == request.ProductId);
+                .FirstOrDefaultAsync(x => x.Id == request.ProductId);
+
+            if (item is null) 
+            {
+                return Result.Failure<ProductGroupDto>(Errors.Products.ProductNotFound);
+            }
 
             item.Group!.DecrementProductCount();
 
@@ -49,7 +54,7 @@ public sealed record UpdateProductGroup(long ProductId, long GroupId) : IRequest
                 .Include(x => x.Parent)
                 .FirstAsync(x => x.Id == request.GroupId, cancellationToken);
 
-            return dto.ToDto();
+            return Result.Success(dto.ToDto());
         }
     }
 }

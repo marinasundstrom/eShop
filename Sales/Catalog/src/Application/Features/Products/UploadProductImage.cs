@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record UploadProductImage(long ProductId, string FileName, Stream Stream) : IRequest<string?>
+public sealed record UploadProductImage(long ProductId, string FileName, Stream Stream) : IRequest<Result<string>>
 {
-    public sealed class Handler : IRequestHandler<UploadProductImage, string?>
+    public sealed class Handler : IRequestHandler<UploadProductImage, Result<string>>
     {
         private readonly IApplicationDbContext _context;
         private readonly IBlobStorageService _blobStorageService;
@@ -17,10 +17,15 @@ public sealed record UploadProductImage(long ProductId, string FileName, Stream 
             _blobStorageService = blobStorageService;
         }
 
-        public async Task<string?> Handle(UploadProductImage request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(UploadProductImage request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
-                               .FirstAsync(x => x.Id == request.ProductId);
+                .FirstOrDefaultAsync(x => x.Id == request.ProductId);
+
+            if (item is null) 
+            {
+                return Result.Failure<string>(Errors.Products.ProductNotFound);
+            }
 
             var blobId = $"{item.Id}:{request.FileName}";
 
@@ -32,7 +37,7 @@ public sealed record UploadProductImage(long ProductId, string FileName, Stream 
 
             await _context.SaveChangesAsync();
 
-            return GetImageUrl(item.Image);
+            return Result.Success(GetImageUrl(item.Image)!);
         }
 
         private static string? GetImageUrl(string? name)

@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record UpdateQuantityAvailable(long ProductId, int Quantity) : IRequest<ProductDto?>
+public sealed record UpdateQuantityAvailable(long ProductId, int Quantity) : IRequest<Result<ProductDto>>
 {
-    public sealed class Handler : IRequestHandler<UpdateQuantityAvailable, ProductDto?>
+    public sealed class Handler : IRequestHandler<UpdateQuantityAvailable, Result<ProductDto>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,17 +15,21 @@ public sealed record UpdateQuantityAvailable(long ProductId, int Quantity) : IRe
             _context = context;
         }
 
-        public async Task<ProductDto?> Handle(UpdateQuantityAvailable request, CancellationToken cancellationToken)
+        public async Task<Result<ProductDto>> Handle(UpdateQuantityAvailable request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
-                .AsSplitQuery()
-                .FirstAsync(p => p.Id == request.ProductId);
+                .FirstOrDefaultAsync(x => x.Id == request.ProductId);
+
+            if (item is null) 
+            {
+                return Result.Failure<ProductDto>(Errors.Products.ProductNotFound);
+            }
 
             item.QuantityAvailable = request.Quantity;
 
             await _context.SaveChangesAsync(cancellationToken);
 
-            return item?.ToDto();
+            return Result.Success(item.ToDto());
         }
     }
 }

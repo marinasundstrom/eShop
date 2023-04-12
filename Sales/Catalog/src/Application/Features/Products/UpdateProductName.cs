@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record DeleteProduct(long ProductId) : IRequest<Result>
+public sealed record UpdateProductName(long ProductId, string Name) : IRequest<Result>
 {
-    public sealed class Handler : IRequestHandler<DeleteProduct, Result>
+    public sealed class Handler : IRequestHandler<UpdateProductName, Result>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,7 +15,7 @@ public sealed record DeleteProduct(long ProductId) : IRequest<Result>
             _context = context;
         }
 
-        public async Task<Result> Handle(DeleteProduct request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateProductName request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
                 .FirstOrDefaultAsync(x => x.Id == request.ProductId);
@@ -25,7 +25,7 @@ public sealed record DeleteProduct(long ProductId) : IRequest<Result>
                 return Result.Failure(Errors.Products.ProductNotFound);
             }
 
-            _context.Products.Remove(item);
+            item.Name = request.Name;
 
             await _context.SaveChangesAsync(cancellationToken);
 

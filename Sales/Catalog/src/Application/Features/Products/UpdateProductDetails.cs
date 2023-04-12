@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Products;
 
-public sealed record UpdateProductDetails(long ProductId, ApiUpdateProductDetails Details) : IRequest
+public sealed record UpdateProductDetails(long ProductId, ApiUpdateProductDetails Details) : IRequest<Result>
 {
-    public sealed class Handler : IRequestHandler<UpdateProductDetails>
+    public sealed class Handler : IRequestHandler<UpdateProductDetails, Result>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,10 +15,15 @@ public sealed record UpdateProductDetails(long ProductId, ApiUpdateProductDetail
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateProductDetails request, CancellationToken cancellationToken)
+        public async Task<Result> Handle(UpdateProductDetails request, CancellationToken cancellationToken)
         {
             var item = await _context.Products
-            .FirstAsync(x => x.Id == request.ProductId);
+                .FirstOrDefaultAsync(x => x.Id == request.ProductId);
+
+            if (item is null) 
+            {
+                return Result.Failure(Errors.Products.ProductNotFound);
+            }
 
             var group = await _context.ProductGroups
                 .FirstOrDefaultAsync(x => x.Id == request.Details.GroupId);
@@ -31,7 +36,7 @@ public sealed record UpdateProductDetails(long ProductId, ApiUpdateProductDetail
 
             await _context.SaveChangesAsync();
 
-            return Unit.Value;
+            return Result.Success();
         }
 
         private static string? GetImageUrl(string? name)
