@@ -1,6 +1,7 @@
 ﻿@using System.ComponentModel.DataAnnotations
 @inject IProductsClient ProductsClient
 @inject IProductGroupsClient ProductGroupsClient
+@inject IStoreProvider StoreProvider
 
 <EditForm Model="@this" OnValidSubmit="OnSubmit">
     <DataAnnotationsValidator />
@@ -12,20 +13,12 @@
             <MudTextField Label="Name" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Name" For="() => Name" />
 
             <MudTextField Label="Handle" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Handle" For="() => Handle" />
-
-            <YourBrand.Catalog.Stores.StoreSelector @bind-Value="Store" For="() => Store" Variant="Variant.Outlined" Class="mb-6" />
-
+            
             <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
             @if (Groups is not null)
             {
-                <MudSelect T="ProductGroupDto" Label="Group" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Group" ToStringFunc="x => x?.Name"
-                           For="() => Group">
-                    @foreach (var item in Groups)
-                    {
-                        <MudSelectItem Value="@item" />
-                    }
-                </MudSelect>
+                <YourBrand.Catalog.Products.Groups.ProductGroupSelector2 @bind-Group="Group" />
             }
 
             <MudCheckBox Label="Has variants" Class="mb-6" @bind-Checked="HasVariants" For="() => HasVariants" />
@@ -46,7 +39,8 @@
 
 </EditForm>
 
-@code {
+@code 
+{
     public IList<ProductGroupDto> Groups { get; set; }
 
     [CascadingParameter] MudDialogInstance Modal { get; set; }
@@ -54,22 +48,24 @@
     [Required]
     public string Name { get; set; }
 
-    [Required]
-    public StoreDto? Store { get; set; }
-
     public bool HasVariants { get; set; }
 
     public string? Description { get; set; }
 
     public ProductGroupDto Group { get; set; }
 
+    [Required]
     public string? Handle { get; set; }
 
     public decimal? Price { get; set; }
 
+    StoreDto? store;
+
     protected override async Task OnInitializedAsync()
     {
-        var groups = await ProductGroupsClient.GetProductGroupsAsync(null, null, true, true);
+        store = StoreProvider.CurrentStore;
+
+        var groups = await ProductGroupsClient.GetProductGroupsAsync(store!.Id, null, true, true);
         Groups = groups.ToList();
         Group = groups.First();
     }
@@ -80,7 +76,7 @@
         {
             Name = Name,
             Handle = Handle,
-            StoreId = Store.Id!,
+            StoreId = store!.Id,
             HasVariants = HasVariants,
             Description = Description,
             GroupId = Group.Id,
