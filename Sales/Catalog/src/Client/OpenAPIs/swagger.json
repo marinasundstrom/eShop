@@ -1214,10 +1214,9 @@
           "200": {
             "description": "",
             "content": {
-              "application/octet-stream": {
+              "application/json": {
                 "schema": {
-                  "type": "string",
-                  "format": "binary"
+                  "$ref": "#/components/schemas/ProductImportResult"
                 }
               }
             }
@@ -3682,6 +3681,18 @@
                 "$ref": "#/components/schemas/ProductVisibility"
               }
             ]
+          }
+        }
+      },
+      "ProductImportResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "diagnostics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

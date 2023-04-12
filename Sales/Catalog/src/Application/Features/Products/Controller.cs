@@ -87,6 +87,7 @@ public partial class ProductsController : Controller
     }
 
     [HttpPut("{productId}/Group")]
+    [ProducesResponseType(typeof(ProductGroupDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<ProductGroupDto>> UpdateProductGroup(long productId, long groupId, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new UpdateProductGroup(productId, groupId), cancellationToken);
@@ -107,10 +108,11 @@ public partial class ProductsController : Controller
     }
 
     [HttpPost("ImportProducts")]
+    [ProducesResponseType(typeof(ProductImportResult), StatusCodes.Status200OK)]
     public async Task<ActionResult> ImportProducts(IFormFile file, CancellationToken cancellationToken)
     {   
         var result = await _mediator.Send(new ImportProducts(file.OpenReadStream()), cancellationToken);
-        return Ok(result.GetValue().Diagnostics);
+        return this.HandleResult(result);
     }
 }
 

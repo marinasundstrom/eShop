@@ -23,10 +23,25 @@
     Upload
 </MudButton>
 
+@if(diagnostics is not null) 
+{
+    <MudPaper Class="mt-4 pa-4" Elevation="25">
+        <MudText Typo="Typo.h5" Class="mb-4">Exceptions</MudText>
+
+        <ul>
+        @foreach (var diagnostic in diagnostics)
+        {
+            <li>@diagnostic</li>
+        }  
+        </ul>
+    </MudPaper>
+}
+
 @code 
 {
     private static string DefaultDragClass = "relative rounded-lg border-2 border-dashed pa-4 mt-4 mud-width-full mud-height-full z-10";
     private string DragClass = DefaultDragClass;
+    private IEnumerable<string>? diagnostics;
 
     IBrowserFile archiveFile;
 
@@ -41,8 +56,19 @@
     {
         try 
         {
-            await ProductsClient.ImportProductsAsync(new FileParameter(archiveFile.OpenReadStream(3 *
+            var result = await ProductsClient.ImportProductsAsync(new FileParameter(archiveFile.OpenReadStream(3 *
                 1000000), archiveFile.Name));
+
+            diagnostics = result.Diagnostics;
+
+            StateHasChanged();
+
+            if(diagnostics.Any()) 
+            {
+                Snackbar.Add("Import succeeded with exceptions", Severity.Success);
+
+                return;
+            }
 
             Snackbar.Add("Import successful", Severity.Success);
         }
