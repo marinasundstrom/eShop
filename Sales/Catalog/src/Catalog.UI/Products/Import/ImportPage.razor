@@ -1,6 +1,7 @@
 @page "/products/import"
 @inject IProductsClient ProductsClient
 @inject IDialogService DialogService
+@inject ISnackbar Snackbar
 
 <AppPageTitle>Import Products</AppPageTitle>
 
@@ -38,8 +39,17 @@
 
     private async void Upload()
     {
-        await ProductsClient.ImportProductsAsync(new FileParameter(archiveFile.OpenReadStream(3 *
-            1000000), archiveFile.Name));
+        try 
+        {
+            await ProductsClient.ImportProductsAsync(new FileParameter(archiveFile.OpenReadStream(3 *
+                1000000), archiveFile.Name));
+
+            Snackbar.Add("Import successful", Severity.Success);
+        }
+        catch(Exception) 
+        {
+            Snackbar.Add("Import failed", Severity.Error);
+        }
     }
 
     private void SetDragClass()
