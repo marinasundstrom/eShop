@@ -27,7 +27,7 @@
 
             @foreach(var group in subGroups) 
             {
-                <a href="/groups/@group.Path">
+                <a @key="@group.GetHashCode()" href="/groups/@group.Path">
                     <h5 style="display: inline-block;">
                         <span class="badge rounded-pill text-bg-@SelectedStyle(group.Path) me-2">@group.Name</span>
                     </h5>
@@ -42,7 +42,7 @@
             @foreach (var item in itemResults.Items)
             {
                 <div class="col card-group">
-                    <ProductView Product="@item" OnAddItemToCartClicked="AddItemToCart" />
+                    <ProductView @key="@item.GetHashCode()" Product="@item" OnAddItemToCartClicked="AddItemToCart" />
                 </div>
             }
         </div>
