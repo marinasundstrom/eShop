@@ -1,0 +1,109 @@
+<MudButton ButtonType="@ButtonType" Disabled="@(Disabled || _processing)" OnClick="ProcessSomething" Variant="@Variant" Color="@((_error ? ErrorColor : Color).GetValueOrDefault())" Size="@Size">
+    @if (_processing)
+    {
+        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+        @if(LoadingText is not null) 
+        {
+            <MudText Class="ms-2">@LoadingText</MudText>
+        }
+    }
+    else if(_error && !(ErrorText is null && ErrorIcon is null))
+    {
+        if(ErrorIcon is not null) 
+        {
+            <MudIcon Class="ms-n1" Size="Size.Small" Icon="@ErrorIcon" />
+        }
+        if(ErrorText is not null) 
+        {
+            <MudText Class="@(ErrorIcon is not null ? "ms-2" : string.Empty)">@ErrorText</MudText>
+        }
+    }
+    else
+    {
+        if(Icon is not null) 
+        {
+            <MudIcon Class="ms-n1" Size="Size.Small" Icon="@Icon" />
+        }
+        if(ChildContent is not null) 
+        {
+            <MudText Class="@(Icon is not null ? "ms-2" : string.Empty)">@ChildContent</MudText>
+        }
+    }
+</MudButton>
+
+@code {
+    private bool _processing = false;
+    private bool _error =  false;
+
+    [Parameter]
+    public ButtonType ButtonType { get; set; } = MudBlazor.ButtonType.Button;
+
+    [Parameter]
+    public bool Disabled { get; set; }
+
+    [Parameter]
+    public string? Icon { get; set; }
+
+    [Parameter]
+    public EventCallback OnClick { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    [Parameter]
+    public string? LoadingText { get; set; }
+
+    [Parameter]
+    public string? ErrorIcon { get; set; } = Icons.Material.Filled.Error;
+
+    [Parameter]
+    public Color? ErrorColor { get; set; } = MudBlazor.Color.Error;
+
+    [Parameter]
+    public string? ErrorText { get; set; } = "Try again";
+
+    [Parameter]
+    public Variant Variant { get; set; } = MudBlazor.Variant.Text;
+
+    [Parameter]
+    public Color Color { get; set; } = MudBlazor.Color.Default;
+
+    [Parameter]
+    public Size Size { get; set; } = MudBlazor.Size.Medium;
+
+    public void Reset() 
+    {
+        _error = false;
+    }
+
+    public Func<Task> Decorate(Func<Task> handler)
+    {
+        return async () => await InvokeHandler(handler);
+    }
+
+    public async Task InvokeHandler(Func<Task> handler)
+    {
+        _error = false;
+        _processing = true;
+
+        try 
+        {
+            await handler();
+        }
+        catch
+        {
+            _error = true;
+        }
+        finally 
+        {
+            _processing = false;
+        }
+    }
+
+    async Task ProcessSomething()
+    {
+        await InvokeHandler(async () => {
+            await OnClick.InvokeAsync();
+        });
+    }
+}
