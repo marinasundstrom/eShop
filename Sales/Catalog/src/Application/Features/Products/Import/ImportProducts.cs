@@ -62,6 +62,8 @@ public sealed record ImportProducts(Stream Stream) : IRequest<Result<ProductImpo
                         continue;
                     }
 
+                    Brand? brand = string.IsNullOrEmpty(record.Brand) ? null : await GetBrand(record.Brand, cancellationToken);
+
                     ProductGroup group = await GetGroup(store, record.GroupId.GetValueOrDefault(), cancellationToken);
                     
                     var parentProduct = string.IsNullOrEmpty(record.ParentSku) ? null : await GetProduct(store, record.ParentSku, cancellationToken);
@@ -158,6 +160,18 @@ public sealed record ImportProducts(Stream Stream) : IRequest<Result<ProductImpo
             return group;
         }
 
+        Dictionary<string, Brand> brands = new Dictionary<string, Brand>();
+
+        private async Task<Brand> GetBrand(string handle, CancellationToken cancellationToken)
+        {
+            if(!brands.TryGetValue(handle, out var brand)) 
+            {
+                brand = await _context.Brands.FirstAsync(x => x.Handle == handle, cancellationToken);
+                brands.Add(handle, brand);
+            }
+            return brand;
+        }
+
         Dictionary<string, Store> stores = new Dictionary<string, Store>();
 
         private async Task<Store> GetStore(string handle, CancellationToken cancellationToken)
@@ -216,6 +230,6 @@ public sealed record ImportProducts(Stream Stream) : IRequest<Result<ProductImpo
             File.Delete(ArchiveFilePath);
         }
 
-        public record class ProductRecord(string StoreIdOrHandle, string Sku, string Name, string? Handle, string? Description, long? GroupId, string? GroupName, string? ParentSku, string? Image, decimal Price, decimal? RegularPrice, bool? Listed);
+        public record class ProductRecord(string StoreIdOrHandle, string Sku, string Name, string? Handle, string? Description, string? Brand, long? GroupId, string? GroupName, string? ParentSku, string? Image, decimal Price, decimal? RegularPrice, bool? Listed);
     }
 }
