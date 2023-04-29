@@ -8,6 +8,8 @@ using YourBrand.Customers.Application.Common.Models;
 using YourBrand.Customers.Application.Features.Organizations;
 using YourBrand.Customers.Application.Features.Organizations.Queries;
 using YourBrand.Customers.Application.Features.Customers;
+using YourBrand.Customers.Features.Customers.Import;
+using Microsoft.AspNetCore.Http;
 
 namespace YourBrand.Customers.Application.Features.Customers;
 
@@ -42,5 +44,13 @@ public class CustomersController
     public async Task<CustomerDto?> GetCustomerBySSN(string ssn, CancellationToken cancellationToken)
     {
         return await _mediator.Send(new GetCustomerBySSN(ssn), cancellationToken);
+    }
+    
+    [HttpPost("ImportCustomers")]
+    [ProducesResponseType(typeof(CustomerImportResult), StatusCodes.Status200OK)]
+    public async Task<ActionResult> ImportCustomers(IFormFile file, CancellationToken cancellationToken)
+    {   
+        var result = await _mediator.Send(new ImportCustomers(file.OpenReadStream()), cancellationToken);
+        return this.HandleResult(result);
     }
 }
