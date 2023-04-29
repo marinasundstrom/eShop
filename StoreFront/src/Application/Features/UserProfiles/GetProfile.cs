@@ -29,7 +29,7 @@ public sealed record GetProfile : IRequest<UserProfileDto>
 
             var customer = await customersClient.GetCustomerAsync(customerId.GetValueOrDefault(), cancellationToken);
 
-            return new UserProfileDto(customer.Id, customer.FirstName, customer.LastName, customer.Ssn, customer.Email, customer.Phone, customer.PhoneMobile);
+            return new UserProfileDto(customer.Id, customer.FirstName!, customer.LastName!, customer.Ssn!, customer.Email!, customer.Phone!, customer.PhoneMobile!);
         }
     }
 }
