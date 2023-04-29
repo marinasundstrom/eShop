@@ -1,0 +1,146 @@
+﻿@page "/products/{id}"
+@page "/products/{id}/{variantId}"
+@inject IProductsClient ProductsClient
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+
+@if(loading) 
+{
+    <LoadingIndicator />
+}
+else 
+{
+    <AppPageTitle>@productViewModel.Name (@productViewModel.Id)</AppPageTitle>
+
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@productViewModel.Name</MudText>
+
+<MudGrid Spacing="6">
+        <MudItem xs="12" sm="12" md="6" lg="6">
+            <div class="card shadow-sm">
+                @if ((productViewModel.Variant?.Image ?? productViewModel.Image) is not null)
+        {
+                    <MudImage Src="@(productViewModel.Variant?.Image ?? productViewModel.Image)" Alt="Mony the dog" Fluid="true" Elevation="25" Class="rounded-lg" Style="width:100%;" />
+        }
+        else
+        {
+                    <svg class="rounded-lg" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+        }
+            </div>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="6" lg="6">
+            <MudCard Elevation="25">
+                <MudCardHeader>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Details</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+
+                    <p>@productViewModel.Description</p>
+
+                    <p>@productViewModel.Product?.Group?.Name</p>
+
+                    @if (productViewModel.Id is not null)
+    {
+                        <p class="mb-4">Id: @productViewModel.Id</p>
+    }
+
+                        <p class="mb-4"> @productViewModel.Price.ToString("c")</p>
+
+                    @if (productViewModel.Total > 0)
+    {
+                        <p class="mb-4"> @productViewModel.Total.ToString("c")</p>
+    }
+
+    @*
+
+                    @if (variant is not null)
+    {
+                        <MudText Typo="Typo.h6" Align="Align.Left" Class="mb-2">@variant.Description</MudText>
+
+                        @if (variant.Id is not null)
+    {
+                            <p class="mb-4">Id: @variant.Id</p>
+    }
+
+                        <p class="mb-4"> @variant.Price.ToString("c")</p>
+    }
+
+    *@
+
+                    <MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" Link="@($"/products/{productViewModel.Id}/edit")" Class="my-2">Edit product</MudButton>
+
+                </MudCardContent>
+            </MudCard>
+
+                        @if (productViewModel.Variants is not null)
+        {
+            <MudGrid>     
+                    @foreach(var variant in productViewModel.Variants)
+                    {
+                    <MudItem xs="6" sm="6" md="4">
+                        <div class="card shadow-sm mt-4" @onclick="async () => await SelectVariant(variant)">
+                        @if ((variant?.Image ?? productViewModel.Image) is not null)
+                        {
+                            <MudImage Src="@(variant?.Image ?? productViewModel.Image)" Alt="Mony the dog" Fluid="true" Elevation="25" Class="rounded-lg"/>
+                        }
+                        else
+                        {
+                            <svg class="rounded-lg" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        }
+                        </div>
+                    </MudItem>
+                    }  
+            </MudGrid>
+        }
+
+        <MudPaper Elevation="25" Class="mt-4 pa-4">
+                @if(productViewModel.AttributeGroups.Any()) 
+                {
+                    @foreach (var attributeGroup in productViewModel.AttributeGroups)
+                    {
+                        <MudText Typo="Typo.h5" GutterBottom="true">@(attributeGroup.Name ?? "Attributes")</MudText>
+
+                        @foreach (var itemAttribute in attributeGroup.Attributes)
+                        {
+                            <MudSelect T="string" Label="@itemAttribute.Name" Class="mb-4" Value="@itemAttribute.SelectedValueId" Variant="@Variant.Outlined" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await UpdateVariant(); await UpdateUrl(); }" aria-label="@itemAttribute.Name" Placeholder="Choose option">
+                                @* <option selected>None</option> *@
+                                @foreach(var value in itemAttribute.Values!) 
+                                {
+                                    <MudSelectItem Value="@value.Id">
+                                        @value.Name
+                                    </MudSelectItem>
+                                }
+                            </MudSelect>
+                        }
+                    }
+                }
+        </MudPaper>
+
+        </MudItem>
+    </MudGrid>
+}
+
+@code {
+    async Task SelectVariant(ProductDto variant)
+    {
+        await productViewModel.SelectVariant(variant);
+
+        await UpdateUrl();
+
+        NavigationManager.NavigateTo($"/products/{productViewModel.Id}/{variant.Id}", replace: true);
+
+        StateHasChanged();
+    }
+
+    async Task UpdateVariant()
+    {
+        await productViewModel!.UpdateVariant();
+
+        await UpdateUrl();
+    }
+
+    async Task UpdateUrl()
+    {
+
+    }
+}

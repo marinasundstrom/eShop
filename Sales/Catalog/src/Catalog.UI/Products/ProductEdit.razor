@@ -14,7 +14,7 @@
 
 @if (product is null)
 {
-    <span>Loading...</span>
+    <LoadingIndicator />
 }
 else
 {
@@ -144,6 +144,9 @@ View product
         }
 
         <MudButton Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete"  OnClick="DeleteProduct">Delete product</MudButton>
+        
+        <MudButton Color="Color.Primary" StartIcon="@Icons.Material.Filled.Edit" Link="@(product.Parent is not null ? $"/products/{product.Parent.Id}/{product.Id}" : $"/products/{product.Id}")" Class="my-2">View product</MudButton>
+
         </MudItem>
     </MudGrid>
 

@@ -27,16 +27,5 @@
     <ProjectReference Include="..\..\..\..\Portal\src\Portal.Shell\Portal.Shell.csproj" />
     <ProjectReference Include="..\..\..\..\Portal\src\Portal.Modules\Portal.Modules.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Products\Attributes\" />
-    <None Remove="Products\Variants\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Products\Attributes\" />
-    <Folder Include="Products\Variants\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Products\Product.razor" />
-  </ItemGroup>
+  
 </Project>
