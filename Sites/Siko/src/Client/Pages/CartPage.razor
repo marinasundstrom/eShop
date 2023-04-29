@@ -8,7 +8,11 @@
 <div class="container">
     <h1>Basket</h1>
 
-    @if(cart is not null) 
+    @if(cart is null) 
+    {
+        <Spinner />
+    }
+    else 
     {
         @if(cart.Items.Any()) 
         {

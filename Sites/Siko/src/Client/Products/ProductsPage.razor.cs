@@ -102,6 +102,8 @@ partial class ProductsPage
             subGroups = restored0!;
         }
 
+        itemResults = null;
+
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteProductDto>(
             "itemResults", out var restored))
         {

@@ -74,8 +74,6 @@ partial class ProductsPage
         persistingSubscription =
             ApplicationState.RegisterOnPersisting(PersistItems);
 
-        Console.WriteLine(Path);
-
         if (!string.IsNullOrEmpty(Path))
         {
             if (!ApplicationState.TryTakeFromJson<ProductGroupDto>(
@@ -101,6 +99,8 @@ partial class ProductsPage
         {
             subGroups = restored0!;
         }
+
+        itemResults = null;
 
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteProductDto>(
             "itemResults", out var restored))
