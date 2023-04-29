@@ -57,15 +57,15 @@
                             <div>
                                 @if(CartItemId is null) 
                                 {
-                                    <button type="button" class="btn btn-outline-secondary ms-2 me-2" @onclick="AddItemToCart" @onclick:preventDefault><i class="fa fa-shopping-basket"></i> Add to basket</button>
+                                    <LoadingButton Class="ms-2 me-2" Icon="shopping-basket" LoadingText="Processing..." OnClick="AddItemToCart">Add to basket</LoadingButton>
                                 }
                                 else 
                                 {
-                                    <button type="button" class="btn btn-outline-secondary ms-2 me-2" @onclick="UpdateCartItem" @onclick:preventDefault><i class="fa fa-shopping-basket"></i> Update item</button>
+                                    <LoadingButton Class="ms-2 me-2" Variant="outline" Icon="shopping-basket" LoadingText="Processing..." OnClick="UpdateCartItem">Update item</LoadingButton>
                                 }
                                 @if (hasAddedToCart)
                                 {
-                                    <a class="btn btn-primary fadeInRight" href="/checkout"><i class="fa fa-shopping-basket"></i> Check out</a>
+                                    <a class="btn btn-primary fadeInRight" href="/checkout"><i class="fa fa-shopping-basket me-1"></i> Check out</a>
                                 }
                             </div>
                         </div>

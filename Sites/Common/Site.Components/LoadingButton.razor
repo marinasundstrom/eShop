@@ -1,48 +1,49 @@
-<MudButton ButtonType="@ButtonType" Disabled="@(Disabled || _processing)" OnClick="ProcessSomething" Variant="@Variant" Color="@((_error ? ErrorColor : Color).GetValueOrDefault())" Size="@Size">
+<button class="btn btn-@(_error ? ErrorColor : Color) @Class" type="button" disabled="@(Disabled || _processing)" @onclick="ProcessSomething">
     @if (_processing)
     {
-        <MudProgressCircular Class="ms-n1" Size="Size.Small" Indeterminate="true"/>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         @if(LoadingText is not null) 
         {
-            <MudText Class="ms-2">@LoadingText</MudText>
+            <span class="ms-2">@LoadingText</span>
         }
     }
     else if(_error && !(ErrorText is null && ErrorIcon is null))
     {
         if(ErrorIcon is not null) 
         {
-            <MudIcon Class="ms-n1" Size="Size.Small" Icon="@ErrorIcon" />
+            <i class="fa fa-@(ErrorIcon)"></i>
         }
         if(ErrorText is not null) 
         {
-            <MudText Class="@(ErrorIcon is not null ? "ms-2" : string.Empty)">@ErrorText</MudText>
+            <span class="@(ErrorIcon is not null ? "ms-2" : string.Empty)">@ErrorText</span>
         }
     }
     else
     {
         if(Icon is not null) 
         {
-            <MudIcon Class="ms-n1" Size="Size.Small" Icon="@Icon" />
+            <i class="fa fa-@(Icon)"></i>
+
         }
         if(ChildContent is not null) 
         {
-            <MudText Class="@(Icon is not null ? "ms-2" : string.Empty)">@ChildContent</MudText>
+            <span class="@(Icon is not null ? "ms-2" : string.Empty)">@ChildContent</span>
         }
     }
-</MudButton>
+</button>
 
 @code {
     private bool _processing = false;
     private bool _error =  false;
 
     [Parameter]
-    public ButtonType ButtonType { get; set; } = MudBlazor.ButtonType.Button;
-
-    [Parameter]
     public bool Disabled { get; set; }
 
     [Parameter]
     public string? Icon { get; set; }
+
+    [Parameter]
+    public string? Class { get; set; }
 
     [Parameter]
     public EventCallback OnClick { get; set; } = default!;
@@ -54,22 +55,22 @@
     public string? LoadingText { get; set; }
 
     [Parameter]
-    public string? ErrorIcon { get; set; } = Icons.Material.Filled.Error;
+    public string? ErrorIcon { get; set; } = "circle-exclamation";
 
     [Parameter]
-    public Color? ErrorColor { get; set; } = MudBlazor.Color.Error;
+    public string? ErrorColor { get; set; } = "danger";
 
     [Parameter]
     public string? ErrorText { get; set; } = "Try again";
 
     [Parameter]
-    public Variant Variant { get; set; } = MudBlazor.Variant.Text;
+    public string Variant { get; set; } = default!;
 
     [Parameter]
-    public Color Color { get; set; } = MudBlazor.Color.Default;
+    public string Color { get; set; } = "primary";
 
     [Parameter]
-    public Size Size { get; set; } = MudBlazor.Size.Medium;
+    public string Size { get; set; } = default!;
 
     [Parameter]
     public int Timeout { get; set; } = 1000;

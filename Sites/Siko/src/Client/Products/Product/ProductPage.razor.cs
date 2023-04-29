@@ -156,7 +156,7 @@ partial class ProductPage
     }
 
     async Task AddItemToCart()
-    {
+    {        
         await CartClient.AddItemToCartAsync(new AddCartItemDto()
         {
             ProductId = (productViewModel?.Variant?.Id ?? productViewModel?.Product?.Id).ToString(),

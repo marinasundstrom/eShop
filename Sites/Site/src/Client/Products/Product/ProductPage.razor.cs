@@ -158,6 +158,10 @@ partial class ProductPage
 
     async Task AddItemToCart()
     {
+        #if DEBUG
+        await Task.Delay(1500);
+        #endif
+        
         await CartClient.AddItemToCartAsync(new AddCartItemDto()
         {
             ProductId = (productViewModel?.Variant?.Id ?? productViewModel?.Product?.Id).ToString(),
