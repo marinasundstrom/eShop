@@ -1,9 +1,9 @@
 @using System.Globalization 
 
-<div @attributes="@AdditionalAttributes">
+<div @attributes="@AdditionalAttributes" style="color: #ca0000">
     @if (Price == 0)
     {
-        <h5 style="display: inline-block; color: red; font-weight: 500; line-height: 0;">Free</h5>
+        <h5 style="display: inline-block; color: #ca0000; font-weight: 500; line-height: 0;">Free</h5>
     }
     else
     {
@@ -13,7 +13,7 @@
         }
         else
         {
-            <h5 style="display: inline-block; font-weight: 500; color: red; line-height: 0;">@FormatPrice(Price)</h5>
+            <h5 style="display: inline-block; font-weight: 500; color: #ca0000; line-height: 0;">@FormatPrice(Price)</h5>
         }
     }
 
