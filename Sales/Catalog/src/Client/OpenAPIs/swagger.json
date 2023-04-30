@@ -3128,6 +3128,9 @@
           },
           "handle": {
             "type": "string"
+          },
+          "currency": {
+            "type": "string"
           }
         }
       },

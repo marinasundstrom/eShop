@@ -1,3 +1,3 @@
 namespace YourBrand.Catalog.Features.Stores;
 
-public record class StoreDto(string Id, string Name, string Handle);
+public record class StoreDto(string Id, string Name, string Handle, string Currency);

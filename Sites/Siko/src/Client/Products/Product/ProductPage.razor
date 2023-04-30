@@ -40,7 +40,7 @@
 
                         @*<p>@productViewModel.Id</p>*@
 
-                        <PriceDisplay Price="@productViewModel.Total" RegularPrice="@productViewModel.RegularPrice" />
+                        <PriceDisplay Price="@productViewModel.Total" RegularPrice="@productViewModel.RegularPrice" Currency="@productViewModel.Currency" />
 
                         @if (productViewModel.Available is not null)
                         {
@@ -120,7 +120,7 @@
                                                         @itemOption.Name
                                                         @if (itemOption.Price is not null)
                                                         {
-                                                            <small class="text-muted ms-2">@itemOption.Price?.ToString("c")</small>
+                                                            <small class="text-muted ms-2">@itemOption.Price?.FormatCurrency(productViewModel.Currency)</small>
                                                         }
                                                     </label>
                                                 </div>
@@ -135,7 +135,7 @@
                                                             @value.Name
                                                             @if (value.Price is not null)
                                                             {
-                                                                <small class="text-muted ms-2">@value.Price?.ToString("c")</small>
+                                                                <small class="text-muted ms-2">@value.Price?.FormatCurrency(productViewModel.Currency)</small>
                                                             }
                                                         </option>
                                                     }

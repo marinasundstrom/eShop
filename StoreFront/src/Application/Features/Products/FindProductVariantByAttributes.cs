@@ -10,16 +10,18 @@ public sealed record FindProductVariantByAttributes(
 {
     sealed class Handler : IRequestHandler<FindProductVariantByAttributes, SiteProductDto?>
     {
+        private readonly IStoresProvider _storesProvider;
         private readonly YourBrand.Catalog.IProductsClient _productsClient;
         private readonly IProductGroupsClient productGroupsClient;
         private readonly YourBrand.Inventory.IItemsClient _inventoryProductsClient;
 
         public Handler(
+            IStoresProvider storesProvider,
             YourBrand.Catalog.IProductsClient productsClient,
             YourBrand.Catalog.IProductGroupsClient productGroupsClient,
             YourBrand.Inventory.IItemsClient inventoryProductsClient)
         {
-
+            _storesProvider = storesProvider;
             _productsClient = productsClient;
             this.productGroupsClient = productGroupsClient;
             _inventoryProductsClient = inventoryProductsClient;
@@ -27,8 +29,10 @@ public sealed record FindProductVariantByAttributes(
 
         public async Task<SiteProductDto?> Handle(FindProductVariantByAttributes request, CancellationToken cancellationToken)
         {
+            var store = await _storesProvider.GetCurrentStore(cancellationToken);
+
             var r = await _productsClient.FindVariantByAttributeValuesAsync(request.ProductIdOrHandle, request.Attributes!, cancellationToken);
-            return r?.ToDto();
+            return r?.ToDto(store!);
         }
     }
 }

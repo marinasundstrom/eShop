@@ -9,17 +9,20 @@ public sealed record GetCart : IRequest<SiteCartDto>
 {
     sealed class Handler : IRequestHandler<GetCart, SiteCartDto>
     {
+        private readonly IStoresProvider _storesProvider;
         private readonly YourBrand.Carts.ICartsClient  _cartsClient;
         private readonly YourBrand.Catalog.IProductsClient _productsClient;
         private readonly ICurrentUserService currentUserService;
         private readonly IDistributedCache cache;
 
         public Handler(
+            IStoresProvider storesProvider,
             YourBrand.Carts.ICartsClient  cartsClient,
             YourBrand.Catalog.IProductsClient productsClient,
             ICurrentUserService currentUserService,
             IDistributedCache cache)
         {
+            _storesProvider = storesProvider;
             _cartsClient = cartsClient;
             _productsClient = productsClient;
             this.currentUserService = currentUserService;
@@ -30,6 +33,8 @@ public sealed record GetCart : IRequest<SiteCartDto>
         {
             var customerId = currentUserService.CustomerNo;
             var clientId = currentUserService.ClientId;
+
+            var store = await _storesProvider.GetCurrentStore(cancellationToken);
 
             //Console.WriteLine(currentUserService.Host);
 
@@ -135,7 +140,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                     }
                 }
 
-                items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(string.Join(", ", optionTexts)), (int)cartItem.Quantity, (decimal)cartItem.Quantity * price.GetValueOrDefault(), cartItem.Data));
+                items.Add(new SiteCartItemDto(cartItem.Id, item.ToDto(store!, string.Join(", ", optionTexts)), (int)cartItem.Quantity, (decimal)cartItem.Quantity * price.GetValueOrDefault(), cartItem.Data));
             }
 
             return new SiteCartDto(cart.Id, items);

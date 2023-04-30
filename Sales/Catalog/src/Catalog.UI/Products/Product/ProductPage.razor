@@ -3,6 +3,7 @@
 @inject IProductsClient ProductsClient
 @inject NavigationManager NavigationManager
 @inject IDialogService DialogService
+@inject IStoreProvider StoreProvider
 
 @if(loading) 
 {
@@ -44,11 +45,11 @@ else
                         <p class="mb-4">Id: @productViewModel.Id</p>
     }
 
-                        <p class="mb-4"> @productViewModel.Price.ToString("c")</p>
+                        <p class="mb-4"> @productViewModel.Price.FormatCurrency(StoreProvider.CurrentStore.Currency)</p>
 
                     @if (productViewModel.Total > 0)
     {
-                        <p class="mb-4"> @productViewModel.Total.ToString("c")</p>
+                        <p class="mb-4"> @productViewModel.Total.FormatCurrency(StoreProvider.CurrentStore.Currency)</p>
     }
 
     @*

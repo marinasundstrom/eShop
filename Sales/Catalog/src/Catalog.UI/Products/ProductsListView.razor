@@ -2,6 +2,7 @@
 @inject IProductsClient ProductsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
+@inject IStoreProvider StoreProvider
 
             <MudTable T="ProductDto" ServerData="@(new Func<TableState, Task<TableData<ProductDto>>>(ServerReload))"
             Dense="true" Hover="true" @ref="table" OnRowClick="(e) => ShowProduct(e.Item)" Elevation="25">
@@ -67,8 +68,8 @@
                     <MudTd DataLabel="Group">@context.Group?.Name</MudTd>
                     <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : string.Empty)</MudTd>
                         @* <MudTd DataLabel="Handle">@context.Handle</MudTd> *@
-                        <MudTd DataLabel="Price">@context.Price?.ToString("c")</MudTd>
-                        <MudTd DataLabel="Compare At Price">@context.RegularPrice?.ToString("c")</MudTd>
+                        <MudTd DataLabel="Price">@context.Price?.FormatCurrency(store.Currency)</MudTd>
+                        <MudTd DataLabel="Compare At Price">@context.RegularPrice?.FormatCurrency(store.Currency)</MudTd>
                         <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
                         <MudTd>
                             <MudIconButton Icon="@Icons.Material.Filled.Send" Class="me-2" Link="@($"/products/{context.Id}")" />
@@ -89,6 +90,7 @@
 @code
 {
     MudTable<ProductDto> table;
+    StoreDto store = default!;
 
     [Parameter]
     public string? Path { get; set; }
@@ -103,6 +105,8 @@
     {
         // if(table is not null)
         //     await table.ReloadServerData();
+
+        store = StoreProvider.CurrentStore;
     }
 
     public void Dispose()
@@ -112,6 +116,8 @@
 
     private async Task<TableData<ProductDto>> ServerReload(TableState state)
     {
+        store = StoreProvider.CurrentStore;
+
         var result = await ProductsClient.GetProductsAsync(StoreId, BrandId, true, true, Path, state.Page,
         state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ?
         YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);

@@ -21,6 +21,7 @@ public static class ServiceExtensions
 
         services.AddValidatorsFromAssembly(typeof(ServiceExtensions).Assembly);
 
+        services.AddScoped<IStoresProvider, StoresProvider>();
         services.AddScoped<IStoreHandleToStoreIdResolver, StoreHandleToStoreIdResolver>();
 
         return services;

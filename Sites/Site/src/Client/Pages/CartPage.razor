@@ -29,7 +29,7 @@
                                 <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
                             </div>
                         </div>
-                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
+                        <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Currency))</span>
                     </li>   
                 }
                 <li class="list-group-item d-flex justify-content-end">

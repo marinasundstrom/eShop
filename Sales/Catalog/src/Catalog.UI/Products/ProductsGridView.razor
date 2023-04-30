@@ -2,6 +2,7 @@
 @inject IProductsClient ProductsClient
 @inject IDialogService DialogService
 @inject NavigationManager NavigationManager
+@inject IStoreProvider StoreProvider
 
 @if (items is null)
 {
@@ -12,7 +13,7 @@ else
 <MudGrid Spacing="6" Class="mb-4">
     @foreach (var item in items)
     {
-        <MudItem xs="12" sm="6" md="4" lg="4">
+        <MudItem xs="12" sm="6" md="4" lg="4" @key="@item.Id">
             <a href="/products/@item.Id/edit">
                 <MudCard Elevation="25">
                     <MudCardMedia Image="@item.Image" Height="200" />
@@ -26,10 +27,10 @@ else
                             @if (item.RegularPrice is not null)
                             {
                                 <span class="me-3"
-                                    style="text-decoration: line-through; color: gray;">@item.RegularPrice?.ToString("c")
+                                    style="text-decoration: line-through; color: gray;">@item.RegularPrice?.FormatCurrency(store.Currency)
                                 </span>
                             }
-                            @item.Price?.ToString("c")
+                            @item.Price?.FormatCurrency(store.Currency)
                         </MudText>
                         <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}/edit")">Learn
                             More</MudButton>
@@ -49,6 +50,7 @@ else
     int pageSize = 9;
     int pages = 0;
     int page = 1;
+    StoreDto store = default!;
 
     [Parameter]
     public string? Path { get; set; }
@@ -62,6 +64,8 @@ else
     protected override async Task OnInitializedAsync()
     {
         //await OnPageChanged(1);
+
+        store = StoreProvider.CurrentStore;
     }
 
     public void Dispose()
@@ -71,6 +75,8 @@ else
 
     async Task OnPageChanged(int page)
     {
+        store = StoreProvider.CurrentStore;
+
         var result = await ProductsClient.GetProductsAsync(StoreId, BrandId, true, true, Path, page - 1,
         pageSize, null, null, null);
         items = result.Items;

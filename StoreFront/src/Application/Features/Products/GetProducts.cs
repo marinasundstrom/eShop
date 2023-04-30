@@ -20,6 +20,7 @@ public sealed record GetProducts(
 {
     sealed class Handler : IRequestHandler<GetProducts, ItemsResult<SiteProductDto>>
     {
+        private readonly IStoresProvider _storesProvider;
         private readonly YourBrand.Catalog.IProductsClient _productsClient;
         private readonly IProductGroupsClient productGroupsClient;
         private readonly YourBrand.Inventory.IItemsClient _inventoryProductsClient;
@@ -27,12 +28,14 @@ public sealed record GetProducts(
         private readonly IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver;
 
         public Handler(
+            IStoresProvider storesProvider,
             YourBrand.Catalog.IProductsClient productsClient,
             YourBrand.Catalog.IProductGroupsClient productGroupsClient,
             YourBrand.Inventory.IItemsClient inventoryProductsClient,
             ICurrentUserService currentUserService,
             IStoreHandleToStoreIdResolver storeHandleToStoreIdResolver)
         {
+            _storesProvider = storesProvider;
             _productsClient = productsClient;
             this.productGroupsClient = productGroupsClient;
             _inventoryProductsClient = inventoryProductsClient;
@@ -42,9 +45,9 @@ public sealed record GetProducts(
 
         public async Task<ItemsResult<SiteProductDto>> Handle(GetProducts request, CancellationToken cancellationToken)
         {
-            var storeId = await storeHandleToStoreIdResolver.ToStoreId(currentUserService.Host!);
+            var store = await _storesProvider.GetCurrentStore(cancellationToken);
 
-            var result = await _productsClient.GetProductsAsync(storeId, request.BrandIdOrHandle,
+            var result = await _productsClient.GetProductsAsync(store!.Id, request.BrandIdOrHandle,
                 false, true, request.ProductGroupIdOrPath, 
                 request.Page - 1, request.PageSize, request.SearchString,
                 request.SortBy, request.SortDirection, cancellationToken);
@@ -61,7 +64,7 @@ public sealed record GetProducts(
                 } catch {}
                 */
 
-                products.Add(product.ToDto());
+                products.Add(product.ToDto(store!));
             }
             return new ItemsResult<SiteProductDto>(products, result.TotalItems);
         }

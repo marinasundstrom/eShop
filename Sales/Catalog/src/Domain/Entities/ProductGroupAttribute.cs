@@ -2,7 +2,7 @@ namespace YourBrand.Catalog.Domain.Entities;
 
 public class ProductGroupAttribute : Entity<Guid>
 {
-    public string ProductGroupId { get; set; } = null!;
+    public long ProductGroupId { get; set; }
 
     public ProductGroup ProductGroup { get; set; } = null!;
 

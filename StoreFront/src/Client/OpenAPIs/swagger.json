@@ -1203,6 +1203,9 @@
             "type": "string",
             "nullable": true
           },
+          "currency": {
+            "type": "string"
+          },
           "price": {
             "type": "number",
             "format": "decimal",

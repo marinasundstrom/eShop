@@ -33,6 +33,8 @@ public class ProductViewModel
 
     public string Image => Variant?.Image ?? Product?.Image ?? string.Empty;
 
+    public string Currency => Product!.Currency;
+
     public decimal Price => Variant?.Price ?? Product?.Price ?? 0;
 
     public decimal Total => Price

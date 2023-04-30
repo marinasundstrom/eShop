@@ -31,7 +31,7 @@
                             <h6 class="my-0">@cartItem.Product.Name x @cartItem.Quantity</h6>
                             <small class="text-muted">@cartItem.Product.Description</small>
                         </div>
-                        <span class="text-muted">@((cartItem.Total).ToString("c"))</span>
+                        <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Currency))</span>
                     </li>
 
                 }

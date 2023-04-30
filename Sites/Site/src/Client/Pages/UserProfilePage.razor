@@ -65,7 +65,7 @@ else
                                             @order.Date.ToString("yyyy-MM-dd")
                                         </span>
                                         <span class="me-3" style="width: 90px">
-                                            @order.Total.ToString("c")
+                                            @order.Total.FormatCurrency(order.Currency)
                                         </span>
                                         <span>
                                             @order.Status.Name
@@ -93,9 +93,9 @@ else
                                                             <td>@orderItem.Description</td>
                                                             <td>@orderItem.Notes</td>
                                                             <td>@orderItem.Quantity @orderItem.Unit</td>
-                                                            <td>@orderItem.UnitPrice.ToString("c")</td>
+                                                            <td>@orderItem.UnitPrice.FormatCurrency(order.Currency)</td>
                                                             <td>@(orderItem.VatRate * 100)%</td>
-                                                            <td>@orderItem.Total.ToString("c")</td>
+                                                            <td>@orderItem.Total.FormatCurrency(order.Currency)</td>
                                                         </tr>
                                                     }
                                                 </tbody>
@@ -106,11 +106,11 @@ else
                                             <div class="me-2">
                                                 <div class="d-flex justify-content-between">
                                                     <span class="me-5">Total</span>
-                                                    <strong>@order.Total.ToString("c")</strong>
+                                                    <strong>@order.Total.FormatCurrency(order.Currency)</strong>
                                                 </div>
                                                 <div class="d-flex justify-content-between mt-2">
                                                     <small class="me-5">Sub Total</small>
-                                                    <small>@order.SubTotal.ToString("c")</small>
+                                                    <small>@order.SubTotal.FormatCurrency(order.Currency)</small>
                                                 </div>
                                                 @*
                                 <div class="d-flex justify-content-between mt-2">
@@ -120,7 +120,7 @@ else
                                 *@
                                                 <div class="d-flex justify-content-between mt-2">
                                                     <small class="me-5">VAT</small>
-                                                    <small>@order.Vat.ToString("c")</small>
+                                                    <small>@order.Vat.FormatCurrency(order.Currency)</small>
                                                 </div>
                                             </div>
                                         </div>

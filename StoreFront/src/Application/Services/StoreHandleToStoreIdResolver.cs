@@ -1,34 +1,24 @@
-using Microsoft.Extensions.Caching.Distributed;
-using YourBrand.Catalog;
-
 namespace YourBrand.StoreFront.Application.Services;
+
+public interface IStoreHandleToStoreIdResolver
+{
+    Task<string> ToStoreId(string handle, CancellationToken cancellationToken = default);
+}
+
 
 public class StoreHandleToStoreIdResolver : IStoreHandleToStoreIdResolver
 {
-    private readonly IDistributedCache cache;
-    private readonly IStoresClient storesClient;
+    private readonly IStoresProvider _storesProvider;
 
-    public StoreHandleToStoreIdResolver(IDistributedCache cache, IStoresClient storesClient)
+    public StoreHandleToStoreIdResolver(IStoresProvider storesProvider)
     {
-        this.cache = cache;
-        this.storesClient = storesClient;
+        _storesProvider = storesProvider;
     }
 
     public async Task<string> ToStoreId(string handle, CancellationToken cancellationToken = default)
     {
-        var stores = await GetStores(cancellationToken);
+        var stores = await _storesProvider.GetStores(cancellationToken);
 
         return stores.First(x => x.Handle == handle).Id;
-    }
-
-    private async Task<ICollection<StoreDto>> GetStores(CancellationToken cancellationToken)
-    {
-        return (await cache.GetOrCreateAsync("store", async (options, cancellationToken) =>
-        {
-            options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
-            
-            var result = await storesClient.GetStoresAsync(0, 100, null, null, null, cancellationToken);
-            return result.Items;
-        }))!;
     }
 }
