@@ -34,7 +34,7 @@ public record GetCustomers(int Page = 1, int PageSize = 10, string? SearchString
             var query = _context.Customers
                 .AsSplitQuery()
                 .AsNoTracking()
-                .OrderByDescending(x => x.Id)
+                .OrderBy(x => x.Id)
                 .AsQueryable();
 
             if (request.SearchString is not null)
