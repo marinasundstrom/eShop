@@ -47,7 +47,7 @@
             </ul>
 
             <div class="d-flex justify-content-end">
-                <button class="btn btn-secondary me-2" @onclick="async () => await ClearItems()"><i class="fa fa-trash" /> Clear basket</button>
+                <LoadingButton Variant="secondary" Class="me-2" Icon="trash" OnClick="async () => await ClearItems()">Clear basket</LoadingButton>
                 <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
             </div>
         }
