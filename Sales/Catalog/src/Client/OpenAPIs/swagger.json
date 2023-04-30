@@ -646,13 +646,21 @@
             "x-position": 1
           },
           {
+            "name": "brandIdOrHandle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
             "name": "includeUnlisted",
             "in": "query",
             "schema": {
               "type": "boolean",
               "default": false
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "groupProducts",
@@ -661,7 +669,7 @@
               "type": "boolean",
               "default": true
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "productGroupIdOrPath",
@@ -669,7 +677,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 4
+            "x-position": 5
           },
           {
             "name": "page",
@@ -679,7 +687,7 @@
               "format": "int32",
               "default": 0
             },
-            "x-position": 5
+            "x-position": 6
           },
           {
             "name": "pageSize",
@@ -689,7 +697,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 6
+            "x-position": 7
           },
           {
             "name": "searchString",
@@ -697,7 +705,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 7
+            "x-position": 8
           },
           {
             "name": "sortBy",
@@ -705,7 +713,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 8
+            "x-position": 9
           },
           {
             "name": "sortDirection",
@@ -722,7 +730,7 @@
                 }
               ]
             },
-            "x-position": 9
+            "x-position": 10
           }
         ],
         "responses": {
@@ -3358,6 +3366,9 @@
           },
           "name": {
             "type": "string"
+          },
+          "handle": {
+            "type": "string"
           }
         }
       },
@@ -4100,6 +4111,9 @@
         "properties": {
           "name": {
             "type": "string"
+          },
+          "handle": {
+            "type": "string"
           }
         }
       },
@@ -4108,6 +4122,9 @@
         "additionalProperties": false,
         "properties": {
           "name": {
+            "type": "string"
+          },
+          "handle": {
             "type": "string"
           }
         }

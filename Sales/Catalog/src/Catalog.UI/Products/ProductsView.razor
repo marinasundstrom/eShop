@@ -25,16 +25,20 @@
                 </MudButton>
             </MudPaper>
         }
+
+        <MudPaper Elevation="25" Class="mt-4 pa-4">
+            <YourBrand.Catalog.Brands.BrandSelector Label="Brand" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Brand" For="() => Brand" />
+        </MudPaper>
     </MudItem>
 
     <MudItem xs="12" sm="8" md="8" lg="10">
             @if (Mode == ProductsViewMode.List)
             {
-                <ProductsListView StoreId="@StoreId" Path="@productGroupTreeNode?.Path" />
+                <ProductsListView StoreId="@StoreId" BrandId="@Brand?.Handle" Path="@productGroupTreeNode?.Path" />
             }
             else if (Mode == ProductsViewMode.Grid)
             {
-                <ProductsGridView StoreId="@StoreId" Path="@productGroupTreeNode?.Path" />
+                <ProductsGridView StoreId="@StoreId" BrandId="@Brand?.Handle" Path="@productGroupTreeNode?.Path" />
             }
     </MudItem>
 </MudGrid>
@@ -50,6 +54,9 @@
 
     [Parameter]
     public string? StoreId { get; set; }
+
+    [Parameter]
+    public BrandDto? Brand { get; set; }
 
     [Parameter]
     public ProductsViewMode Mode { get; set; }

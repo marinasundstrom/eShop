@@ -10,6 +10,7 @@ namespace YourBrand.StoreFront.Application.Features.Products;
 
 public sealed record GetProducts(
     string? ProductGroupIdOrPath = null,
+    string? BrandIdOrHandle = null,
     int Page = 1,
     int PageSize = 10,
     string? SearchString = null,
@@ -43,7 +44,7 @@ public sealed record GetProducts(
         {
             var storeId = await storeHandleToStoreIdResolver.ToStoreId(currentUserService.Host!);
 
-            var result = await _productsClient.GetProductsAsync(storeId,
+            var result = await _productsClient.GetProductsAsync(storeId, request.BrandIdOrHandle,
                 false, true, request.ProductGroupIdOrPath, 
                 request.Page - 1, request.PageSize, request.SearchString,
                 request.SortBy, request.SortDirection, cancellationToken);

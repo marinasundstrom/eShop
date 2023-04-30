@@ -113,7 +113,7 @@ partial class ProductsPage
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteProductDto>(
             "itemResults", out var restored))
         {
-            itemResults = await ProductsClient.GetProductsAsync(Path, Page.GetValueOrDefault(), pageSize, null, null, null);
+            itemResults = await ProductsClient.GetProductsAsync(Path, null, Page.GetValueOrDefault(), pageSize, null, null, null);
         }
         else
         {

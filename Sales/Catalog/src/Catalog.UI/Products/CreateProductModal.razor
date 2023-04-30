@@ -16,6 +16,8 @@
             
             <MudTextField Lines="3" Label="Description" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Description" For="() => Description" />
 
+            <YourBrand.Catalog.Brands.BrandSelector Label="Brand" Class="mb-6" Variant="Variant.Outlined" @bind-Value="Brand" For="() => Brand" />
+
             @if (Groups is not null)
             {
                 <YourBrand.Catalog.Products.Groups.ProductGroupSelector2 @bind-Group="Group" />
@@ -54,6 +56,8 @@
 
     public ProductGroupDto Group { get; set; }
 
+    public BrandDto? Brand { get; set; }
+
     [Required]
     public string? Handle { get; set; }
 
@@ -80,6 +84,7 @@
             HasVariants = HasVariants,
             Description = Description,
             GroupId = Group.Id,
+            BrandId = Brand?.Id,
             Price = Price
         };
 

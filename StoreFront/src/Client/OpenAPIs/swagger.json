@@ -112,6 +112,14 @@
             "x-position": 1
           },
           {
+            "name": "brandIdOrHandle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          },
+          {
             "name": "page",
             "in": "query",
             "schema": {
@@ -119,7 +127,7 @@
               "format": "int32",
               "default": 1
             },
-            "x-position": 2
+            "x-position": 3
           },
           {
             "name": "pageSize",
@@ -129,7 +137,7 @@
               "format": "int32",
               "default": 10
             },
-            "x-position": 3
+            "x-position": 4
           },
           {
             "name": "searchString",
@@ -137,7 +145,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 4
+            "x-position": 5
           },
           {
             "name": "sortBy",
@@ -145,7 +153,7 @@
             "schema": {
               "type": "string"
             },
-            "x-position": 5
+            "x-position": 6
           },
           {
             "name": "sortDirection",
@@ -162,7 +170,7 @@
                 }
               ]
             },
-            "x-position": 6
+            "x-position": 7
           }
         ],
         "responses": {

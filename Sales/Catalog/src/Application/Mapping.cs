@@ -80,6 +80,6 @@ public static class Mapping
 
     public static BrandDto ToDto(this Domain.Entities.Brand brand)
     {
-        return new BrandDto(brand.Id, brand.Name);
+        return new BrandDto(brand.Id, brand.Name, brand.Handle);
     }
 }

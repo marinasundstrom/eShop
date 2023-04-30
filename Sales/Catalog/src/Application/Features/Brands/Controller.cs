@@ -36,13 +36,13 @@ public class BrandsController : ControllerBase
     [HttpPost]
     public async Task<BrandDto> CreateBrand(CreateBrandDto dto, CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new CreateBrandCommand(dto.Name), cancellationToken);
+        return await _mediator.Send(new CreateBrandCommand(dto.Name, dto.Handle), cancellationToken);
     }
 
     [HttpPut("{id}")]
     public async Task UpdateBrand(int id, UpdateBrandDto dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateBrandCommand(id, dto.Name), cancellationToken);
+        await _mediator.Send(new UpdateBrandCommand(id, dto.Name, dto.Handle), cancellationToken);
     }
 
     [HttpDelete("{id}")]
@@ -52,7 +52,7 @@ public class BrandsController : ControllerBase
     }
 }
 
-public record CreateBrandDto(string Name);
+public record CreateBrandDto(string Name, string Handle);
 
-public record UpdateBrandDto(string Name);
+public record UpdateBrandDto(string Name, string Handle);
 

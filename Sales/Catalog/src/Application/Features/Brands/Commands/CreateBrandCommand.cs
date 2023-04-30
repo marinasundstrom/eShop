@@ -3,7 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 namespace YourBrand.Catalog.Features.Brands.Commands;
 
-public sealed record CreateBrandCommand(string Name) : IRequest<BrandDto>
+public sealed record CreateBrandCommand(string Name, string Handle) : IRequest<BrandDto>
 {
     public sealed class CreateBrandCommandHandler : IRequestHandler<CreateBrandCommand, BrandDto>
     {
@@ -20,7 +20,7 @@ public sealed record CreateBrandCommand(string Name) : IRequest<BrandDto>
 
             if (brand is not null) throw new Exception();
 
-            brand = new Domain.Entities.Brand(request.Name, request.Name);
+            brand = new Domain.Entities.Brand(request.Name, request.Handle);
 
             context.Brands.Add(brand);
 

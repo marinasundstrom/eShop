@@ -96,6 +96,9 @@
     [Parameter]
     public string? StoreId { get; set; }
 
+    [Parameter]
+    public string? BrandId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         // if(table is not null)
@@ -109,7 +112,7 @@
 
     private async Task<TableData<ProductDto>> ServerReload(TableState state)
     {
-        var result = await ProductsClient.GetProductsAsync(StoreId, true, true, Path, state.Page,
+        var result = await ProductsClient.GetProductsAsync(StoreId, BrandId, true, true, Path, state.Page,
         state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ?
         YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
 

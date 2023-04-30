@@ -9,6 +9,9 @@
             <MudContainer Style="max-height: 500px; overflow-y: scroll">
                 <MudTextField Label="Name" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Name"
                               For="@(() => Name)" />
+
+                <MudTextField Label="Handle" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Handle"
+                    For="@(() => Handle)" />
             </MudContainer>
         </DialogContent>
 
@@ -44,6 +47,9 @@
 
     [Required]
     public string Name { get; set; }
+    
+    [Required]
+    public string Handle { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -54,6 +60,7 @@
             var brand = await BrandsClient.GetBrandAsync(BrandId.GetValueOrDefault());
             //Area = brand.Area;
             Name = brand.Name;
+            Handle = brand.Handle;
         }
     }
 
@@ -63,7 +70,8 @@
         {
             var brand = await BrandsClient.CreateBrandAsync(new CreateBrandDto {
                 //BrandId = Area.Id,
-                Name = Name
+                Name = Name,
+                Handle = Handle
             });
 
             Dialog.Close(brand);
@@ -75,7 +83,8 @@
                 await BrandsClient.UpdateBrandAsync(BrandId.GetValueOrDefault(), new UpdateBrandDto
                 {
                     //BrandId = Area.Id,
-                    Name = Name
+                    Name = Name,
+                    Handle = Handle
                 });
             }
 

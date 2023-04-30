@@ -55,7 +55,7 @@
     {
         try
         {
-            var results = await BrandsClient.GetBrandsAsync(0, 10, text, null, null);
+            var results = await BrandsClient.GetBrandsAsync(1, 10, text, null, null);
             return results.Items;
         }
         catch (AccessTokenNotAvailableException exception)

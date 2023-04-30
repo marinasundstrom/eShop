@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace YourBrand.Catalog.Features.Brands.Commands;
 
-public sealed record UpdateBrandCommand(int Id, string Name) : IRequest
+public sealed record UpdateBrandCommand(int Id, string Name, string Handle) : IRequest
 {
     public sealed class UpdateBrandCommandHandler : IRequestHandler<UpdateBrandCommand>
     {

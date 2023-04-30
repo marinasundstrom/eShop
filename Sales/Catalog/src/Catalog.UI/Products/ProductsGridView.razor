@@ -56,6 +56,9 @@ else
     [Parameter]
     public string? StoreId { get; set; }
 
+    [Parameter]
+    public string? BrandId { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         //await OnPageChanged(1);
@@ -68,7 +71,7 @@ else
 
     async Task OnPageChanged(int page)
     {
-        var result = await ProductsClient.GetProductsAsync(StoreId, true, true, Path, page - 1,
+        var result = await ProductsClient.GetProductsAsync(StoreId, BrandId, true, true, Path, page - 1,
         pageSize, null, null, null);
         items = result.Items;
 
