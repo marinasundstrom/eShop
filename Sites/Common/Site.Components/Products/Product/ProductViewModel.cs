@@ -33,9 +33,9 @@ public class ProductViewModel
 
     public string Image => Variant?.Image ?? Product?.Image ?? string.Empty;
 
-    public string Currency => Product!.Currency;
+    public string Currency => Product!.RegularPrice!.Currency;
 
-    public decimal Price => Variant?.Price ?? Product?.Price ?? 0;
+    public decimal Price => Variant?.Price?.Amount ?? Product?.Price?.Amount ?? 0;
 
     public decimal Total => Price
                 + OptionGroups.SelectMany(x => x.Options)
@@ -43,7 +43,7 @@ public class ProductViewModel
                 .Select(x => x.Price.GetValueOrDefault() + (x.Values.FirstOrDefault(x3 => x3.Id == x?.SelectedValueId)?.Price ?? 0))
                 .Sum();
 
-    public decimal? RegularPrice => Product?.RegularPrice;
+    public decimal? RegularPrice => Product?.RegularPrice!.Amount;
 
     public int? Available => Variant?.Available ?? Product?.Available;
 

@@ -29,7 +29,7 @@
                                 <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
                             </div>
                         </div>
-                        <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Currency))</span>
+                        <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Price.Currency))</span>
                     </li>   
                 }
                 <li class="list-group-item d-flex justify-content-end">
@@ -81,7 +81,7 @@
         }
         await CartClient.UpdateCartItemQuantityAsync(cartItem.Id, newQuantity);
         cartItem.Quantity = newQuantity;
-        cartItem.Total = cartItem.Quantity * cartItem.Product.Price.GetValueOrDefault();
+        cartItem.Total = cartItem.Quantity * cartItem.Product.Price.Amount;
     }
 
     async Task UpdateItem(SiteCartItemDto cartItem)

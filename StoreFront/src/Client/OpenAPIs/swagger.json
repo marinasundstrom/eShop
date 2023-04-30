@@ -1203,18 +1203,21 @@
             "type": "string",
             "nullable": true
           },
-          "currency": {
-            "type": "string"
-          },
           "price": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyAmountDto"
+              }
+            ]
           },
           "regularPrice": {
-            "type": "number",
-            "format": "decimal",
-            "nullable": true
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CurrencyAmountDto"
+              }
+            ]
           },
           "available": {
             "type": "integer",
@@ -1317,6 +1320,19 @@
                 "$ref": "#/components/schemas/SiteParentProductGroupDto"
               }
             ]
+          }
+        }
+      },
+      "CurrencyAmountDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "currency": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number",
+            "format": "decimal"
           }
         }
       },

@@ -5,7 +5,7 @@ namespace YourBrand.StoreFront.Application;
 public static class Mapper
 {
     public static SiteProductDto ToDto(this YourBrand.Catalog.ProductDto product, Catalog.StoreDto store, string? description = null) =>
-        new SiteProductDto(product.Id, product.Name, product.Handle, !string.IsNullOrEmpty(description) ? description : product.Description, product.Parent?.ToDto2(), product.Group?.ToDto(), product.Image, store.Currency, product.Price, product.RegularPrice, product.QuantityAvailable, product.Attributes, product.Options, product.HasVariants);
+        new SiteProductDto(product.Id, product.Name, product.Handle, !string.IsNullOrEmpty(description) ? description : product.Description, product.Parent?.ToDto2(), product.Group?.ToDto(), product.Image, product.Price?.GetCurrencyAmountDto(store), product.RegularPrice?.GetCurrencyAmountDto(store), product.QuantityAvailable, product.Attributes, product.Options, product.HasVariants);
 
     public static SiteParentProductDto ToDto2(this YourBrand.Catalog.ParentProductDto product) =>
         new SiteParentProductDto(product.Id, product.Name, product.Handle, product.Description, product.Group?.ToDto());
@@ -37,4 +37,8 @@ public static class Mapper
         AdministrativeArea = address.AdministrativeArea,
         Country = address.Country
     };
+
+    public static CurrencyAmountDto GetCurrencyAmountDto(this decimal price, Catalog.StoreDto store) => new(store.Currency, price);
 }
+
+public record CurrencyAmountDto(string Currency, decimal Amount);

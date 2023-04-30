@@ -30,7 +30,7 @@
                                 <h6 class="my-0">@cartItem.Product.Name x @cartItem.Quantity</h6>
                                 <small class="text-muted">@cartItem.Product.Description</small>
                             </div>
-                            <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Currency))</span>
+                            <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Price.Currency))</span>
                         </li>   
                     }
                     <li class="list-group-item d-flex justify-content-between">
