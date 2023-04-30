@@ -13,6 +13,8 @@ partial class ProductsPage
     int pageSize = 10;
     int totalPages = 0;
 
+    bool loading = false;
+
     private PersistingComponentStateSubscription persistingSubscription;
 
     [Parameter]
@@ -71,6 +73,10 @@ partial class ProductsPage
             Page = 1;
         }
 
+        loading = true;
+
+        StateHasChanged();
+
         persistingSubscription =
             ApplicationState.RegisterOnPersisting(PersistItems);
 
@@ -113,6 +119,8 @@ partial class ProductsPage
         {
             itemResults = restored!;
         }
+
+        loading = false;
 
         if (itemResults.TotalItems < pageSize)
         {

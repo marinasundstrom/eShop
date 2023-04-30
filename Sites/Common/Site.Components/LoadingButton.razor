@@ -73,7 +73,7 @@
     public string Size { get; set; } = default!;
 
     [Parameter]
-    public int Timeout { get; set; } = 1000;
+    public int Timeout { get; set; } = 600;
 
     public void Reset() 
     {
@@ -96,9 +96,9 @@
         {
             if(Timeout > 0) 
             {
-                t = Task.Delay(Timeout).ContinueWith((task) => { 
+                t = Task.Delay(Timeout).ContinueWith(async (task) => { 
                         _processing = true;
-                        InvokeAsync(StateHasChanged); 
+                        await InvokeAsync(StateHasChanged); 
                     }, cts.Token);
             }
             else

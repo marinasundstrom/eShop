@@ -6,7 +6,7 @@
 
 @if (userProfile is null)
 {
-    <Spinner />
+    <LoadingIndicator />
 }
 else
 {
@@ -31,7 +31,7 @@ else
                     }
                     if (ordersResult is null)
                     {
-                        <Spinner />
+                        <LoadingIndicator />
                     }
                     else
                     {

@@ -36,22 +36,25 @@
         </div>
     }
 
-    @if (itemResults is not null)
+    @if(loading) 
     {
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-md-5">
-            @foreach (var item in itemResults.Items)
-            {
-                <div class="col card-group">
-                    <ProductView @key="@item.GetHashCode()" Product="@item" OnAddItemToCartClicked="AddItemToCart" />
-                </div>
-            }
-        </div>
-
-        <Pagination Class="mt-4" Page="@Page.GetValueOrDefault()" PageCount="@totalPages" PageChanged="OnPageChanged"
-        Href="/blog" />
+        <LoadingIndicator />
     }
     else 
     {
-        <Spinner />
+        if (itemResults is not null)
+        {
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-md-5">
+                @foreach (var item in itemResults.Items)
+                {
+                    <div class="col card-group">
+                        <ProductView @key="@item.GetHashCode()" Product="@item" OnAddItemToCartClicked="AddItemToCart" />
+                    </div>
+                }
+            </div>
+
+            <Pagination Class="mt-4" Page="@Page.GetValueOrDefault()" PageCount="@totalPages" PageChanged="OnPageChanged"
+            Href="/blog" />
+        }
     }
 </div>

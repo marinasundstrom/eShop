@@ -13,6 +13,8 @@ partial class ProductsPage
     int pageSize = 10;
     int totalPages = 0;
 
+    bool loading = false;
+
     private PersistingComponentStateSubscription persistingSubscription;
 
     [Parameter]
@@ -71,6 +73,19 @@ partial class ProductsPage
             Page = 1;
         }
 
+        loading = true;
+
+        StateHasChanged();
+
+        /*
+        #if DEBUG
+        if(!RenderingContext.IsPrerendering) 
+        {
+            await Task.Delay(2000);
+        }
+        #endif
+        */
+
         persistingSubscription =
             ApplicationState.RegisterOnPersisting(PersistItems);
 
@@ -100,8 +115,6 @@ partial class ProductsPage
             subGroups = restored0!;
         }
 
-        itemResults = null;
-
         if (!ApplicationState.TryTakeFromJson<ItemsResultOfSiteProductDto>(
             "itemResults", out var restored))
         {
@@ -111,6 +124,8 @@ partial class ProductsPage
         {
             itemResults = restored!;
         }
+
+        loading = false;
 
         if (itemResults.TotalItems < pageSize)
         {
