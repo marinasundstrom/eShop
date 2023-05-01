@@ -77,7 +77,7 @@
                         <div class="d-flex">
                                 @foreach(var v in productViewModel.Variants)
                                 {
-                                    <div @key="v.Id">
+                                    <div @key="@v.Id">
                                         <div class="card mt-1 me-2 @(v.Id == productViewModel.Variant.Id ? "shadow" : null)" @onclick="async () => await SelectVariant(v!)">
                                         @if ((v?.Image ?? productViewModel.Image) is not null)
                                         {
@@ -98,88 +98,90 @@
                     <div class="form">
                     @foreach (var optionGroup in productViewModel.OptionGroups)
                     {
-                        <h4 class="mt-4">@(optionGroup.Name ?? "Options")</h4>
+                        <div @key="@optionGroup.Id">
+                            <h4 class="mt-4">@(optionGroup.Name ?? "Options")</h4>
 
-                        @if(optionGroup.Max is not null) 
-                        { 
-                            <small class="text-muted">Max @optionGroup.Max</small>
-                        }
+                            @if(optionGroup.Max is not null) 
+                            { 
+                                <small class="text-muted">Max @optionGroup.Max</small>
+                            }
 
-                        @foreach (var itemOption in optionGroup.Options)
-                        {
-                            <div class="form-floating mb-3 mt-3 ms-1">
-                                @if(itemOption.OptionType == OptionType.YesOrNo) 
-                                {
-                                    <div class="form-check checkbox-lg">
-                                        <InputCheckbox class="form-check-input" 
-                                            Value="@itemOption.IsSelected" 
-                                            ValueExpression="() => itemOption.IsSelected" 
-                                            ValueChanged="async (v) => { itemOption.IsSelected = v; await UpdateUrl(); }" 
-                                            id="flexCheckDefault" 
-                                            disabled=@(!itemOption.IsSelected && optionGroup.Options.Count(x => x.IsSelected) >= optionGroup.Max) />
+                            @foreach (var itemOption in optionGroup.Options)
+                            {
+                                <div class="form-floating mb-3 mt-3 ms-1" @key="@itemOption.Id">
+                                    @if(itemOption.OptionType == OptionType.YesOrNo) 
+                                    {
+                                        <div class="form-check checkbox-lg">
+                                            <InputCheckbox class="form-check-input" 
+                                                Value="@itemOption.IsSelected" 
+                                                ValueExpression="() => itemOption.IsSelected" 
+                                                ValueChanged="async (v) => { itemOption.IsSelected = v; await UpdateUrl(); }" 
+                                                id="flexCheckDefault" 
+                                                disabled=@(!itemOption.IsSelected && optionGroup.Options.Count(x => x.IsSelected) >= optionGroup.Max) />
 
-                                        <label class="form-check-label" for="flexCheckDefault">
-                                            @itemOption.Name
-                                            @if(itemOption.Price is not null) 
-                                            { 
-                                                <small class="text-muted ms-2">@itemOption.Price?.FormatCurrency(productViewModel.Currency)</small>
-                                            }
-                                        </label>
-                                    </div>
-                                } 
-                                else if(itemOption.OptionType == OptionType.Choice) 
-                                {
-                                    <InputSelect TValue="string?" Value="@itemOption.SelectedValueId" ValueExpression="() => itemOption.SelectedValueId" ValueChanged="async (v) => { itemOption.SelectedValueId = v; await UpdateUrl(); }" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
-                                        @* <option selected>None</option> *@
-                                        @foreach(var value in itemOption.Values!) 
-                                        {
-                                            <option value="@value.Id">
-                                                @value.Name
-                                                @if(value.Price is not null) 
+                                            <label class="form-check-label" for="flexCheckDefault">
+                                                @itemOption.Name
+                                                @if(itemOption.Price is not null) 
                                                 { 
-                                                    <small class="text-muted ms-2">@value.Price?.FormatCurrency(productViewModel.Currency)</small>
+                                                    <small class="text-muted ms-2">@itemOption.Price?.FormatCurrency(productViewModel.Currency)</small>
                                                 }
-                                            </option>
-                                        }
-                                    </InputSelect>
-                                    <label for="exampleInputEmail1">
-                                        @itemOption.Name 
-                                    </label>
-                                }
-                                else if(itemOption.OptionType == OptionType.NumericalValue) 
-                                {           
-                                    <InputNumber 
-                                        TValue="int?" 
-                                        Value="@itemOption.NumericalValue" 
-                                        ValueExpression="() => itemOption.NumericalValue" 
-                                        ValueChanged="async (v) => { itemOption.NumericalValue = v; await UpdateUrl(); }" 
-                                        type="number" 
-                                        class="form-control" 
-                                        id="exampleInputEmail1" 
-                                        aria-describedby="emailHelp" 
-                                        placeholder="Enter value" 
-                                        min="@itemOption.MinNumericalValue" 
-                                        step="1"
-                                        max="@itemOption.MaxNumericalValue" />
-                                    <label for="exampleInputEmail1">@itemOption.Name</label>
-                                }
-                                else if(itemOption.OptionType == OptionType.TextValue) 
-                                {           
-                                    <InputText 
-                                        Value="@itemOption.TextValue" 
-                                        ValueExpression="() => itemOption.TextValue" 
-                                        ValueChanged="async (v) => { itemOption.TextValue = v; await UpdateUrl(); }" 
-                                        type="text" 
-                                        class="form-control" 
-                                        id="exampleInputEmail1" 
-                                        aria-describedby="emailHelp" 
-                                        placeholder="Enter value" 
-                                        />
-                                    <label for="exampleInputEmail1">@itemOption.Name</label>
-                                }
+                                            </label>
+                                        </div>
+                                    } 
+                                    else if(itemOption.OptionType == OptionType.Choice) 
+                                    {
+                                        <InputSelect TValue="string?" Value="@itemOption.SelectedValueId" ValueExpression="() => itemOption.SelectedValueId" ValueChanged="async (v) => { itemOption.SelectedValueId = v; await UpdateUrl(); }" class="form-select" aria-label="@itemOption.Name" placeholder="Choose option">
+                                            @* <option selected>None</option> *@
+                                            @foreach(var value in itemOption.Values!) 
+                                            {
+                                                <option value="@value.Id">
+                                                    @value.Name
+                                                    @if(value.Price is not null) 
+                                                    { 
+                                                        <small class="text-muted ms-2">@value.Price?.FormatCurrency(productViewModel.Currency)</small>
+                                                    }
+                                                </option>
+                                            }
+                                        </InputSelect>
+                                        <label for="exampleInputEmail1">
+                                            @itemOption.Name 
+                                        </label>
+                                    }
+                                    else if(itemOption.OptionType == OptionType.NumericalValue) 
+                                    {           
+                                        <InputNumber 
+                                            TValue="int?" 
+                                            Value="@itemOption.NumericalValue" 
+                                            ValueExpression="() => itemOption.NumericalValue" 
+                                            ValueChanged="async (v) => { itemOption.NumericalValue = v; await UpdateUrl(); }" 
+                                            type="number" 
+                                            class="form-control" 
+                                            id="exampleInputEmail1" 
+                                            aria-describedby="emailHelp" 
+                                            placeholder="Enter value" 
+                                            min="@itemOption.MinNumericalValue" 
+                                            step="1"
+                                            max="@itemOption.MaxNumericalValue" />
+                                        <label for="exampleInputEmail1">@itemOption.Name</label>
+                                    }
+                                    else if(itemOption.OptionType == OptionType.TextValue) 
+                                    {           
+                                        <InputText 
+                                            Value="@itemOption.TextValue" 
+                                            ValueExpression="() => itemOption.TextValue" 
+                                            ValueChanged="async (v) => { itemOption.TextValue = v; await UpdateUrl(); }" 
+                                            type="text" 
+                                            class="form-control" 
+                                            id="exampleInputEmail1" 
+                                            aria-describedby="emailHelp" 
+                                            placeholder="Enter value" 
+                                            />
+                                        <label for="exampleInputEmail1">@itemOption.Name</label>
+                                    }
 
-                            </div>
-                        }
+                                </div>
+                            }
+                        </div>
                     }
                     </div>
                 }
@@ -189,26 +191,28 @@
                     <div class="form">
                     @foreach (var attributeGroup in productViewModel.AttributeGroups)
                     {
-                        <h4 class="mt-4">@(attributeGroup.Name ?? "Attributes")</h4>
+                        <div @key="@attributeGroup.Id">
+                            <h4 class="mt-4">@(attributeGroup.Name ?? "Attributes")</h4>
 
-                        @foreach (var itemAttribute in attributeGroup.Attributes)
-                        {
-                            <div class="form-floating mb-3 mt-3">
-                                
-                                    <InputSelect TValue="string?" Value="@itemAttribute.SelectedValueId" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await UpdateVariant(); await UpdateUrl(); }" class="form-select" aria-label="@itemAttribute.Name" placeholder="Choose option">
-                                        @* <option selected>None</option> *@
-                                        @foreach(var value in itemAttribute.Values!) 
-                                        {
-                                            <option value="@value.Id">
-                                                @value.Name
-                                            </option>
-                                        }
-                                    </InputSelect>
-                                    <label for="exampleInputEmail1">
-                                        @itemAttribute.Name 
-                                    </label>
-                            </div>
-                        }
+                            @foreach (var itemAttribute in attributeGroup.Attributes)
+                            {
+                                <div class="form-floating mb-3 mt-3" @key="@itemAttribute.Id">
+                                    
+                                        <InputSelect TValue="string?" Value="@itemAttribute.SelectedValueId" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await UpdateVariant(); await UpdateUrl(); }" class="form-select" aria-label="@itemAttribute.Name" placeholder="Choose option">
+                                            @* <option selected>None</option> *@
+                                            @foreach(var value in itemAttribute.Values!) 
+                                            {
+                                                <option value="@value.Id">
+                                                    @value.Name
+                                                </option>
+                                            }
+                                        </InputSelect>
+                                        <label for="exampleInputEmail1">
+                                            @itemAttribute.Name 
+                                        </label>
+                                </div>
+                            }
+                        </div>
                     }
                     </div>
                 }
