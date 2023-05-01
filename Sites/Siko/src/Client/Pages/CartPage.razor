@@ -14,47 +14,64 @@
     }
     else 
     {
-        @if(cart.Items.Any()) 
-        {
-            <ul class="list-group mb-3 my-3 p-3 bg-body rounded shadow-sm">
-                @foreach (var cartItem in cart.Items)
+        <div style="row">
+            <div class="col-12 col-sm-12 col-lg-9 col-md-12">
+                @if(cart.Items.Any()) 
                 {
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
-                            <h6 class="my-0">@cartItem.Product.Name</h6>
-                            <small class="text-muted">@cartItem.Product.Description</small>
-                            <div class="d-flex">
-                                <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
-                                <button class="btn ms-2" @onclick="async () => await UpdateItem(cartItem)"><i class="fa fa-edit" /></button>
-                                <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
+                    <ul class="list-group mb-3 my-3 p-3 bg-body rounded shadow-sm">
+                        @foreach (var cartItem in cart.Items)
+                        {
+                            <li class="list-group-item lh-sm"> @* d-flex flex-row justify-content-between flex-md-wrap *@
+                                <div class="row">
+                                    <div class="col-8 d-flex">
+                                        <a href="/products/@cartItem.Product.Handle">
+                                            <img src="@cartItem.Product.Image" class="py-2 mx-2 me-4" style="width: 80px; height: 80px; object-fit: contain;" />
+                                        </a>
+                                        <div class="py-2">
+                                            <a class="text-decoration-none text-dark" href="/products/@cartItem.Product.Handle">
+                                                <h6 class="my-0 mb-2" style="font-weight: 600;">@cartItem.Product.Name</h6>
+                                            </a>
+                                            <small class="text-muted">@cartItem.Product.Description</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-4 mt-2 mt-md-0 py-2">
+                                        <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Price.Currency!))</span>
+                                        <div class="d-flex flex-wrap">
+                                            <InputQuantity Class="mt-2" MinValue="0" Value="cartItem.Quantity" ValueChanged="async (v) => await ItemQuantityChanged(cartItem, v)" />
+                                            <div class="d-flex">
+                                                <button class="btn ms-2" @onclick="async () => await UpdateItem(cartItem)"><i class="fa fa-edit" /></button>
+                                                <button class="btn" @onclick="async () => await DeleteItem(cartItem)"><i class="fa fa-trash" /></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>   
+                        }
+                        <li class="list-group-item d-flex justify-content-end">
+                            <div>
+                                <li class="d-flex justify-content-between">
+                                    <span class="me-5">Total</span>
+                                    <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
+                                </li>
+                                <li class="d-flex justify-content-between mt-2">
+                                    <small class="me-5">VAT incl.</small>
+                                    <small>@((cart.Items.Sum(x => x.Total).GetVatFromTotal(0.25)).ToString("c"))</small>
+                                </li>
                             </div>
-                        </div>
-                        <span class="text-muted">@((cartItem.Total).FormatCurrency(cartItem.Product.Price.Currency!))</span>
-                    </li>   
-                }
-                <li class="list-group-item d-flex justify-content-end">
-                    <div>
-                        <li class="d-flex justify-content-between">
-                            <span class="me-5">Total</span>
-                            <strong>@cart.Items.Sum(x => x.Total).ToString("c")</strong>
                         </li>
-                        <li class="d-flex justify-content-between mt-2">
-                            <small class="me-5">VAT incl.</small>
-                            <small>@((cart.Items.Sum(x => x.Total).GetVatFromTotal(0.25)).ToString("c"))</small>
-                        </li>
-                    </div>
-                </li>
-            </ul>
+                    </ul>
 
-            <div class="d-flex justify-content-end">
-                <LoadingButton Color="secondary" Class="me-2" Icon="trash" OnClick="async () => await ClearItems()">Clear basket</LoadingButton>
-                <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
+                    <div class="d-flex justify-content-end">
+                        <LoadingButton Color="secondary" Class="me-2" Icon="trash" OnClick="async () => await ClearItems()">Clear basket</LoadingButton>
+                        <a class="btn btn-lg btn-primary" href="/checkout">Checkout & Pay</a>
+                    </div>
+                }
+                else 
+                {
+                    <p>No items here :(</p>
+                }
             </div>
-        }
-        else 
-        {
-            <p>No items here :(</p>
-        }
+        </div>
     }
 </div>
 
