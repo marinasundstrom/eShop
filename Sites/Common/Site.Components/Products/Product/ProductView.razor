@@ -27,13 +27,24 @@
         </div>
     </div>
     <div class="btn-group mt-2">
-        @if(!Product.HasVariants /* || Product.Custom */) 
+        @if(Product.HasVariants) 
         {
-            <LoadingButton Icon="shopping-basket" OnClick="async () => await OnAddItemToCartClicked.InvokeAsync(Product)"></LoadingButton>
-        }
-        @if(Product.Options.Any(/* x => x.IsRequired */)) 
+            <a href="/products/@Product.Handle" class="btn btn-outline-secondary">Pick a variant</a>
+        } 
+        else 
         {
-            <a href="/products/@Product.Id" class="btn btn-outline-secondary">Customize</a>
+            @if(Product.IsCustomizable) 
+            {
+                <a href="/products/@Product.Handle" class="btn btn-outline-primary">Customize</a>
+            } 
+            else 
+            {
+                <LoadingButton Icon="shopping-basket" Variant="outline" OnClick="async () => await OnAddItemToCartClicked.InvokeAsync(Product)"></LoadingButton>
+                @if(Product.Options.Any(/* x => x.IsRequired */)) 
+                {
+                    <a href="/products/@Product.Handle" class="btn btn-outline-secondary">Customize</a>
+                }
+            }
         }
     </div>
 </div>
