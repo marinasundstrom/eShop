@@ -1,13 +1,10 @@
 using YourBrand.Portal.AppBar;
-using YourBrand.Portal.Authentication;
-using YourBrand.Portal.Localization;
 using YourBrand.Portal.NavMenu;
 using YourBrand.Portal.Services;
 using YourBrand.Portal.Theming;
-using MudBlazor;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using YourBrand.Portal.Widgets;
+using YourBrand.Portal.Markdown;
 
 namespace YourBrand.Portal;
 
@@ -22,7 +19,8 @@ public static class ServiceExtensions
             .AddAppBar()
             .AddScoped<CustomAuthorizationMessageHandler>()
             .AddScoped<ICurrentUserService, CurrentUserService>()
-            .AddScoped<Services.IAccessTokenProvider, AccessTokenProvider>();
+            .AddScoped<Services.IAccessTokenProvider, AccessTokenProvider>()
+            .AddMarkdownServices();
 
         return services;
     }

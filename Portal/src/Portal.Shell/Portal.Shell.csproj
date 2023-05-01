@@ -21,16 +21,12 @@
     <PackageReference Include="MudBlazor" Version="6.1.7" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+    <PackageReference Include="HtmlSanitizer" Version="8.0.601" />
+    <PackageReference Include="Markdig" Version="0.18.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Portal.Services\Portal.Services.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Shared\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Shared\" />
-  </ItemGroup>
 </Project>

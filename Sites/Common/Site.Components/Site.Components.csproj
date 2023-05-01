@@ -16,8 +16,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
     <PackageReference Include="HtmlSanitizer" Version="8.0.601" />
     <PackageReference Include="Markdig" Version="0.18.3" />
-    <PackageReference Include="ReadTimeEstimator" Version="1.0.0" />
-    <PackageReference Include="YamlDotNet" Version="8.1.0" />
   </ItemGroup>
 
   <ItemGroup>

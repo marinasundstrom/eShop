@@ -30,13 +30,13 @@ else
         </MudItem>
 
         <MudItem xs="12" sm="12" md="6" lg="6">
-            <MudCard Elevation="25">
+            <MudCard Elevation="25" Class="mb-6">
                 <MudCardHeader>
                     <MudText Typo="Typo.h5" Align="Align.Center">Details</MudText>
                 </MudCardHeader>
                 <MudCardContent>
 
-                    <p>@productViewModel.Description</p>
+                    <p>@productViewModel.Headline</p>
 
                     <p>@productViewModel.Product?.Group?.Name</p>
 
@@ -79,7 +79,7 @@ else
                     @foreach(var variant in productViewModel.Variants)
                     {
                     <MudItem xs="6" sm="6" md="4">
-                        <div class="card shadow-sm mt-4" @onclick="async () => await SelectVariant(variant)">
+                        <div class="card shadow-sm mb-6" @onclick="async () => await SelectVariant(variant)">
                         @if ((variant?.Image ?? productViewModel.Image) is not null)
                         {
                             <MudImage Src="@(variant?.Image ?? productViewModel.Image)" Alt="Mony the dog" Fluid="true" Elevation="25" Class="rounded-lg"/>
@@ -94,29 +94,37 @@ else
             </MudGrid>
         }
 
-        <MudPaper Elevation="25" Class="mt-4 pa-4">
-                @if(productViewModel.AttributeGroups.Any()) 
-                {
-                    @foreach (var attributeGroup in productViewModel.AttributeGroups)
-                    {
-                        <MudText Typo="Typo.h5" GutterBottom="true">@(attributeGroup.Name ?? "Attributes")</MudText>
-
-                        @foreach (var itemAttribute in attributeGroup.Attributes)
+        @if(productViewModel.AttributeGroups.Any()) 
+        {
+            <MudPaper Elevation="25" Class="mb-6 pa-4">    
+                        @foreach (var attributeGroup in productViewModel.AttributeGroups)
                         {
-                            <MudSelect T="string" Label="@itemAttribute.Name" Class="mb-4" Value="@itemAttribute.SelectedValueId" Variant="@Variant.Outlined" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await UpdateVariant(); await UpdateUrl(); }" aria-label="@itemAttribute.Name" Placeholder="Choose option">
-                                @* <option selected>None</option> *@
-                                @foreach(var value in itemAttribute.Values!) 
-                                {
-                                    <MudSelectItem Value="@value.Id">
-                                        @value.Name
-                                    </MudSelectItem>
-                                }
-                            </MudSelect>
-                        }
-                    }
-                }
-        </MudPaper>
+                            <MudText Typo="Typo.h5" GutterBottom="true">@(attributeGroup.Name ?? "Attributes")</MudText>
 
+                            @foreach (var itemAttribute in attributeGroup.Attributes)
+                            {
+                                <MudSelect T="string" Label="@itemAttribute.Name" Class="mb-4" Value="@itemAttribute.SelectedValueId" Variant="@Variant.Outlined" ValueExpression="() => itemAttribute.SelectedValueId" ValueChanged="async (v) => { itemAttribute.SelectedValueId = v; await UpdateVariant(); await UpdateUrl(); }" aria-label="@itemAttribute.Name" Placeholder="Choose option">
+                                    @* <option selected>None</option> *@
+                                    @foreach(var value in itemAttribute.Values!) 
+                                    {
+                                        <MudSelectItem Value="@value.Id">
+                                            @value.Name
+                                        </MudSelectItem>
+                                    }
+                                </MudSelect>
+                            }
+                        }         
+            </MudPaper>
+        }
+
+        @if(!string.IsNullOrEmpty(productViewModel.Description)) 
+        {  
+            <MudPaper Elevation="25" Class="mt-4 pa-4">
+                <MudText Typo="Typo.h5" Class="mb-4">Description</MudText>
+
+                <YourBrand.Portal.Markdown.MarkdownView Content="@productViewModel.Description" />
+            </MudPaper>
+        }
         </MudItem>
     </MudGrid>
 }

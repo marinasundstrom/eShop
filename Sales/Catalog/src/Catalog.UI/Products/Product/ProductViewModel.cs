@@ -27,6 +27,10 @@ public class ProductViewModel
 
     public string Name => Product?.Name ?? string.Empty;
 
+    public string Headline => Variant?.Headline ?? Product?.Headline ?? string.Empty;
+
+    public string ShortDescription => Variant?.ShortDescription ?? Product?.ShortDescription ?? string.Empty;
+
     public string Description => Variant?.Description ?? Product?.Description ?? string.Empty;
 
     public string Image => Variant?.Image ?? Product?.Image ?? string.Empty;
