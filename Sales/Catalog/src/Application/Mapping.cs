@@ -30,6 +30,7 @@ public static class Mapping
                item.Price,
                item.RegularPrice,
                item.QuantityAvailable,
+               item.IsCustomizable.GetValueOrDefault(),
                item.HasVariants,
                (ProductVisibility?)item.Visibility,
                item.ProductAttributes.Select(x => x.ToDto()),

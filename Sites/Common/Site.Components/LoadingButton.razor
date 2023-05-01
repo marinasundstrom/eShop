@@ -1,4 +1,5 @@
-<button class="btn btn-@(_error ? ErrorColor : Color) @Class" type="button" disabled="@(Disabled || _processing)" @onclick="ProcessSomething">
+<button class="@($"btn btn-{(Variant is null ? null : $"{Variant}-")}{(_error ? ErrorColor : Color)}") @Class" type="button" disabled="@(Disabled || _processing)" @onclick="ProcessSomething">
+    
     @if (_processing)
     {
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

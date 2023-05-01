@@ -5,10 +5,13 @@ namespace YourBrand.StoreFront.Application;
 public static class Mapper
 {
     public static SiteProductDto ToDto(this YourBrand.Catalog.ProductDto product, Catalog.StoreDto store, string? description = null) =>
-        new SiteProductDto(product.Id, product.Name, product.Handle, !string.IsNullOrEmpty(description) ? description : product.Description, product.Parent?.ToDto2(), product.Group?.ToDto(), product.Image, product.Price?.GetCurrencyAmountDto(store), product.RegularPrice?.GetCurrencyAmountDto(store), product.QuantityAvailable, product.Attributes, product.Options, product.HasVariants);
+        new (product.Id, product.Name, product.Handle, !string.IsNullOrEmpty(description) ? description : product.Description, 
+        product.Parent?.ToDto2(), product.Group?.ToDto(), product.Image, 
+        product.Price?.GetCurrencyAmountDto(store), product.RegularPrice?.GetCurrencyAmountDto(store), product.QuantityAvailable, 
+        product.Attributes, product.Options, product.IsCustomizable, product.HasVariants);
 
     public static SiteParentProductDto ToDto2(this YourBrand.Catalog.ParentProductDto product) =>
-        new SiteParentProductDto(product.Id, product.Name, product.Handle, product.Description, product.Group?.ToDto());
+        new (product.Id, product.Name, product.Handle, product.Description, product.Group?.ToDto());
 
     public static SiteProductGroupDto ToDto(this YourBrand.Catalog.ProductGroupDto dto) => new (dto.Id, dto.Name, dto.Handle, dto.Path, dto.Parent?.ToDto2());
 

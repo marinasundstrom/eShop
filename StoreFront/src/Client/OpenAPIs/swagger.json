@@ -1236,6 +1236,9 @@
               "$ref": "#/components/schemas/ProductOptionDto"
             }
           },
+          "isCustomizable": {
+            "type": "boolean"
+          },
           "hasVariants": {
             "type": "boolean"
           }

@@ -52,9 +52,9 @@ public sealed class Product : AggregateRoot<long>
 
     public decimal? ShippingFee { get; set; }
 
-    public bool HasVariants { get; set; } = false;
+    public bool? IsCustomizable { get; set; } = false;
 
-    public bool? AllCustom { get; set; }
+    public bool HasVariants { get; set; } = false;
 
     public List<ProductAttribute> ProductAttributes { get; } = new List<ProductAttribute>();
 

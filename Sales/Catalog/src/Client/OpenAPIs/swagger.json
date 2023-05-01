@@ -3334,6 +3334,9 @@
             "format": "int32",
             "nullable": true
           },
+          "isCustomizable": {
+            "type": "boolean"
+          },
           "hasVariants": {
             "type": "boolean"
           },
