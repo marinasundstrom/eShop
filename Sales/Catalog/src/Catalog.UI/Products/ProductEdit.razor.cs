@@ -32,7 +32,7 @@ partial class ProductEdit : ComponentBase
 
     private async Task LoadAsync()
     {
-        product = await ProductsClient.GetProductAsync(ProductId.ToString());
+        product = await ProductsClient.GetProductAsync(ProductId.ToString()!);
     }
 
     public void Dispose()

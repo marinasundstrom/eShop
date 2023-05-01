@@ -151,6 +151,19 @@ View product
         </MudItem>
     </MudGrid>
 
+    <MudExpansionPanels Elevation="25" Class="mb-4">
+        <MudExpansionPanel>
+            <TitleContent>
+                <MudText Typo="Typo.h6" GutterBottom="true">Description</MudText>
+            </TitleContent>
+
+            <ChildContent>
+                <TUIEditor @ref="descriptionEditor" InitialMarkdown="@product.Description" class="mb-2"></TUIEditor>
+                <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="async () => ProductsClient.UpdateProductDescriptionAsync(product.Id, await descriptionEditor.GetMarkdown())">Save</MudButton>
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+
     <ProductAttributesView ProductId="@ProductId.GetValueOrDefault()" HasVariants="product.HasVariants"
     ProductAttributes="product.Attributes.ToList().AsReadOnly()" />
 
@@ -164,6 +177,8 @@ View product
 
 @code 
 {
+    TUIEditor descriptionEditor = default;
+
     async Task DeleteProduct() 
     {
         var result = await DialogService.ShowMessageBox("Delete products", "Are you sure?", "Yes", "No");

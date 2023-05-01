@@ -1,0 +1,31 @@
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div @ref="editorDiv" @attributes="@AdditionalAttributes"></div>
+
+@code {
+    IJSObjectReference module = null!;
+    ElementReference? editorDiv;
+
+    IJSObjectReference editor = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        module = await JS.InvokeAsync<IJSObjectReference>(
+        "import", "./_content/Catalog.UI/TUIEditor.razor.js");
+
+        editor = await module.InvokeAsync<IJSObjectReference>("initTUIEditor", new object[] { editorDiv, InitialMarkdown ?? string.Empty });
+    }
+    public ValueTask<string> GetMarkdown() => module.InvokeAsync<string>("getMarkdown", new[] { editor });
+
+    [Parameter]
+    public string? InitialMarkdown { get; set; }
+
+    [Parameter(CaptureUnmatchedValues = true)]
+    public IDictionary<string, object>? AdditionalAttributes { get; set; }
+
+    public async ValueTask DisposeAsync()
+    {
+        await module.DisposeAsync();
+    }
+}
