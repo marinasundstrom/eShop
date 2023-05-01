@@ -70,13 +70,6 @@
                             </div>
                         </div>
 
-                        @if(!string.IsNullOrEmpty(productViewModel.Description)) 
-                        {
-                        <div>
-                            <Site.Components.Markdown.MarkdownView Content="@productViewModel.Description" />
-                        </div>
-                        }
-
                     @if (productViewModel.Variants is not null && productViewModel.Variants.Any())
                     {
                         <h4 class="mt-4">@productViewModel.Variants.First().Attributes.First(x => x.IsMainAttribute).Attribute.Name</h4>
