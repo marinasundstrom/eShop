@@ -24,9 +24,9 @@ public sealed class Product : AggregateRoot<long>
 
     public string Handle { get; set; } = null!;
 
-    public string? SKU { get; set; } = null!;
+    public string? Headline { get; set; }
 
-    public string? Substitle { get; set; }
+    public string? SKU { get; set; } = null!;
 
     //public bool IsNew { get; set; }
 
@@ -35,6 +35,8 @@ public sealed class Product : AggregateRoot<long>
     public long? ParentProductId { get; set; }
 
     public ProductGroup? Group { get; set; }
+    
+    public string? ShortDescription { get; set; }
 
     public string? Description { get; set; } = null!;
 

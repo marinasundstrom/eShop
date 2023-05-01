@@ -5,7 +5,7 @@ namespace YourBrand.StoreFront.Application;
 public static class Mapper
 {
     public static SiteProductDto ToDto(this YourBrand.Catalog.ProductDto product, Catalog.StoreDto store, string? description = null) =>
-        new (product.Id, product.Name, product.Handle, !string.IsNullOrEmpty(description) ? description : product.Description, 
+        new (product.Id, product.Name, product.Headline, product.Handle, !string.IsNullOrEmpty(description) ? description : product.Description, 
         product.Parent?.ToDto2(), product.Group?.ToDto(), product.Image, 
         product.Price?.GetCurrencyAmountDto(store), product.RegularPrice?.GetCurrencyAmountDto(store), product.QuantityAvailable, 
         product.Attributes, product.Options, product.IsCustomizable, product.HasVariants);

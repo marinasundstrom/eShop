@@ -94,7 +94,7 @@ public static class Seed
 
         var item = new Product("Färgad t-shirt", "fargad-tshirt")
         {
-            Description = "T-shirt i olika färger",
+            Headline = "T-shirt i olika färger",
             HasVariants = true,
             Group = await context.ProductGroups.FirstAsync(x => x.Handle == "t-shirts"),
             Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,
@@ -280,7 +280,7 @@ public static class Seed
     {
         var item = new Product("Kebabtallrik", "kebabtallrik")
         {
-            Description = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
+            Headline = "Dönnerkebab, nyfriterad pommes frites, sallad, och sås",
             Price = 89,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
@@ -316,7 +316,7 @@ public static class Seed
     {
         var item = new Product("Herrgårdsstek", "herrgardsstek")
         {
-            Description = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
+            Headline = "Vår fina stek med pommes och vår hemlagade bearnaise sås",
             Price = 179,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
@@ -365,7 +365,7 @@ public static class Seed
     {
         var item = new Product("Korg", "korg")
         {
-            Description = "En korg med smårätter",
+            Headline = "En korg med smårätter",
             Price = 179,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
@@ -434,7 +434,7 @@ public static class Seed
     {
         var item = new Product("Pizza", "pizza")
         {
-            Description = "Custom pizza",
+            Headline = "Custom pizza",
             Price = 40,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
@@ -546,7 +546,7 @@ public static class Seed
     {
         var item = new Product("Sallad", "sallad")
         {
-            Description = "Din egna sallad",
+            Headline = "Din egna sallad",
             Price = 52,
             Group = await context.ProductGroups.FirstAsync(x => x.Name == "Food"),
             Visibility = YourBrand.Catalog.Domain.Enums.ProductVisibility.Listed,

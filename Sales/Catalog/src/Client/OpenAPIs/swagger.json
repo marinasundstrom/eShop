@@ -929,6 +929,51 @@
         }
       }
     },
+    "/v1/Products/{productId}/Headline": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_UpdateProductHeadline",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "headline",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Products/{productId}/Sku": {
       "put": {
         "tags": [
@@ -949,6 +994,51 @@
         ],
         "requestBody": {
           "x-name": "sku",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Products/{productId}/ShortDescription": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_UpdateProductShortDescription",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "description",
           "content": {
             "application/json": {
               "schema": {
@@ -3283,7 +3373,15 @@
           "handle": {
             "type": "string"
           },
+          "headline": {
+            "type": "string",
+            "nullable": true
+          },
           "sku": {
+            "type": "string",
+            "nullable": true
+          },
+          "shortDescription": {
             "type": "string",
             "nullable": true
           },

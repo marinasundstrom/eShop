@@ -5,6 +5,8 @@ using Blazored.SessionStorage;
 using Blazored.Modal;
 using Blazored.Toast;
 using Site.Services;
+using Site.Components.Markdown;
+
 namespace Site.Client;
 
 public static class ServiceExtensions
@@ -63,6 +65,8 @@ public static class ServiceExtensions
         services.AddBlazoredToast();
 
         services.AddGeolocationServices();
+
+        services.AddMarkdownServices();
 
         return services;
     }

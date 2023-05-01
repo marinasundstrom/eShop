@@ -56,11 +56,24 @@ public partial class ProductsController : Controller
         return this.HandleResult(result);
     }
 
+    [HttpPut("{productId}/Headline")]
+    public async Task<ActionResult> UpdateProductHeadline(long productId, [FromBody] string headline, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new UpdateProductHeadline(productId, headline), cancellationToken);
+        return this.HandleResult(result);
+    }
 
     [HttpPut("{productId}/Sku")]
     public async Task<ActionResult> UpdateProductSku(long productId, [FromBody] string sku, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new UpdateProductSku(productId, sku), cancellationToken);
+        return this.HandleResult(result);
+    }
+
+    [HttpPut("{productId}/ShortDescription")]
+    public async Task<ActionResult> UpdateProductShortDescription(long productId, [FromBody] string description, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new UpdateProductShortDescription(productId, description), cancellationToken);
         return this.HandleResult(result);
     }
 

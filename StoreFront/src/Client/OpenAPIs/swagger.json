@@ -1219,6 +1219,10 @@
           "name": {
             "type": "string"
           },
+          "headline": {
+            "type": "string",
+            "nullable": true
+          },
           "handle": {
             "type": "string"
           },
