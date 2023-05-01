@@ -215,15 +215,19 @@
                     </div>
 
                 </section>
+            </div>
 
                 @if(!string.IsNullOrEmpty(productViewModel.Description)) 
                 {
-                    <div class="row mb-3 my-3 p-3 bg-body rounded shadow-sm">
-                        <h2 class="mt-2 mb-2">About</h2>
-                        <Site.Components.Markdown.MarkdownView Content="@productViewModel.Description" />
+                    <div class="row">
+                        <div class="col">
+                            <div class="mb-3 my-3 p-3 bg-body rounded shadow-sm">
+                                <h2 class="mb-2">About</h2>
+                                <Site.Components.Markdown.MarkdownView Content="@productViewModel.Description" />
+                            </div>
+                        </div>
                     </div>
                 }
-            </div>
     </article>
 }
 else 
