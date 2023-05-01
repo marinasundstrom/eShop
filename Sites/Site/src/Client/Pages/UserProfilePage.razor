@@ -14,7 +14,7 @@ else
         <h1>@userProfile?.FirstName @userProfile?.LastName</h1>
         <p role="status">@userProfile?.Ssn</p>
         
-        @if (ordersResult is not null)
+        @if(ordersResult is not null)
         { 
             if (!ordersResult.Items.Any())
             {
@@ -29,7 +29,7 @@ else
                     @{
                         int i = 1;
                     }
-                    if (ordersResult is null)
+                    @if (ordersResult is null)
                     {
                         <LoadingIndicator />
                     }

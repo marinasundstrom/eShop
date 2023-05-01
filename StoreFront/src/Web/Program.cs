@@ -167,8 +167,6 @@ foreach (ApiVersionDescription description in provider.ApiVersionDescriptions)
 
         config.DefaultReferenceTypeNullHandling = NJsonSchema.Generation.ReferenceTypeNullHandling.NotNull;
 
-        config.DefaultReferenceTypeNullHandling = NJsonSchema.Generation.ReferenceTypeNullHandling.NotNull;
-
         config.AddSecurity("JWT", new OpenApiSecurityScheme
         {
             Type = OpenApiSecuritySchemeType.ApiKey,

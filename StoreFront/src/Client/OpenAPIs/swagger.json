@@ -951,19 +951,35 @@
             "$ref": "#/components/schemas/OrderStatusDto"
           },
           "assigneeId": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "customerId": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "currency": {
             "type": "string"
           },
           "billingDetails": {
-            "$ref": "#/components/schemas/BillingDetailsDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/BillingDetailsDto"
+              }
+            ]
           },
           "shippingDetails": {
-            "$ref": "#/components/schemas/ShippingDetailsDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/ShippingDetailsDto"
+              }
+            ]
           },
           "items": {
             "type": "array",
@@ -988,7 +1004,12 @@
             "format": "date-time"
           },
           "createdBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "lastModified": {
             "type": "string",
@@ -996,7 +1017,12 @@
             "nullable": true
           },
           "lastModifiedBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           }
         }
       },
@@ -1036,7 +1062,8 @@
             "type": "string"
           },
           "ssn": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "phoneNumber": {
             "type": "string"
@@ -1057,10 +1084,12 @@
             "type": "string"
           },
           "premises": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "subPremises": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "postalCode": {
             "type": "string"
@@ -1090,7 +1119,8 @@
             "type": "string"
           },
           "careOf": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "address": {
             "$ref": "#/components/schemas/AddressDto2"
@@ -1108,10 +1138,12 @@
             "type": "string"
           },
           "itemId": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "unit": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "unitPrice": {
             "type": "number",
@@ -1130,14 +1162,20 @@
             "format": "decimal"
           },
           "notes": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "created": {
             "type": "string",
             "format": "date-time"
           },
           "createdBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           },
           "lastModified": {
             "type": "string",
@@ -1145,7 +1183,12 @@
             "nullable": true
           },
           "lastModifiedBy": {
-            "$ref": "#/components/schemas/UserDto"
+            "nullable": true,
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/UserDto"
+              }
+            ]
           }
         }
       },

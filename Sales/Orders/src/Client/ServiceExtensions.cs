@@ -8,9 +8,7 @@ public static class ServiceExtensions
     {
         services
             .AddOrdersClient(configureClient, builder)
-            .AddOrderStatusesClient(configureClient, builder)
-            .AddCartsClient(configureClient, builder);
-
+            .AddOrderStatusesClient(configureClient, builder);
         return services;
     }
 
@@ -30,17 +28,6 @@ public static class ServiceExtensions
         var b = services
             .AddHttpClient(nameof(OrderStatusesClient), configureClient)
             .AddTypedClient<IOrderStatusesClient>((http, sp) => new OrderStatusesClient(http));
-
-        builder?.Invoke(b);
-
-        return services;
-    }
-
-    public static IServiceCollection AddCartsClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
-    {
-        var b = services
-            .AddHttpClient(nameof(CartsClient), configureClient)
-            .AddTypedClient<ICartsClient>((http, sp) => new CartsClient(http));
 
         builder?.Invoke(b);
 
