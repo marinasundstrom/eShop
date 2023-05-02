@@ -30,13 +30,13 @@
     </ToolBarContent>
 
     <HeaderContent>
-        <MudTh>Id</MudTh>
+        <MudTh><MudTableSortLabel T="OrderDto" SortLabel="Id">Id</MudTableSortLabel></MudTh>
         @*<MudTh>Type</MudTh>*@
-        <MudTh>Date</MudTh>
-        <MudTh>Status</MudTh>
+        <MudTh><MudTableSortLabel T="OrderDto" SortLabel="Date">Date</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel T="OrderDto" SortLabel="Status">Status</MudTableSortLabel></MudTh>
         <MudTh>Sub Total</MudTh>
         <MudTh>VAT</MudTh>
-        <MudTh>Total</MudTh>
+        <MudTh><MudTableSortLabel T="OrderDto" SortLabel="Total">Total</MudTableSortLabel></MudTh>
         <MudTh></MudTh>
     </HeaderContent>
     <RowTemplate Context="order">
@@ -65,6 +65,7 @@
 
 @code
 {
+    CancellationTokenSource cts = new ();
     MudTable<OrderDto> table;
     bool loading = false;
     OrderStatusDto? Status;
@@ -82,11 +83,16 @@
 
         try
         {
-            var result = await OrdersClient.GetOrdersAsync(selectedStatuses?.Select(x => x.Id), null, null, null, state.Page + 1, state.PageSize, null, null);
+            var result = await OrdersClient.GetOrdersAsync(selectedStatuses?.Select(x => x.Id), null, null, null, state.Page + 1, state.PageSize,
+                state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel,
+                state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Orders.SortDirection.Ascending : YourBrand.Orders.SortDirection.Descending), cts.Token);
 
             return new TableData<OrderDto>() { TotalItems = result.TotalItems, Items = result.Items };
         }
-        catch { throw; }
+        catch 
+        {
+            return new TableData<OrderDto>();
+        }
         finally
         {
             loading = false;
