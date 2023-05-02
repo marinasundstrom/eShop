@@ -131,6 +131,14 @@ View product
             </div>
         </MudPaper>
 
+        <MudPaper Elevation="25" Class="pa-4 mb-4">
+            <div class="d-flex flex-grow-1">
+                <div class="flex-1 d-flex me-2">
+                    <YourBrand.Catalog.Brands.BrandSelector Variant="@Variant.Outlined" Value="@product.Brand" ValueChanged="async (b) => await ProductsClient.UpdateProductBrandAsync(product.Id, b.Id)" />
+                </div>
+            </div>
+        </MudPaper>
+
         @if(product.Sku is not null) 
         {
             <MudPaper Elevation="25" Class="pa-4 mb-4">

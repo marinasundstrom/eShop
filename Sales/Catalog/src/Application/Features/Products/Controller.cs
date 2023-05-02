@@ -84,6 +84,13 @@ public partial class ProductsController : Controller
         return this.HandleResult(result);
     }
 
+    [HttpPut("{productId}/Brand")]
+    public async Task<ActionResult> UpdateProductBrand(long productId, [FromBody] int brandId, CancellationToken cancellationToken)
+    {
+        var result = await _mediator.Send(new UpdateProductBrand(productId, brandId), cancellationToken);
+        return this.HandleResult(result);
+    }
+
     [HttpPost("{productId}/UploadImage")]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ActionResult> UploadProductImage([FromRoute] long productId, IFormFile file, CancellationToken cancellationToken)

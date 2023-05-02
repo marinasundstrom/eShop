@@ -13,3 +13,7 @@ export function initTUIEditor(elem, initialMarkdown) {
 export function getMarkdown(editor) {
     return editor.getMarkdown();
 }
+
+export function setMarkdown(editor, markdown) {
+    return editor.setMarkdown(markdown);
+}

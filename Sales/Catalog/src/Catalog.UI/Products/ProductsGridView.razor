@@ -20,7 +20,7 @@ else
 
                     <MudCardContent>
                         <MudText Typo="Typo.h5">@item.Name</MudText>
-                        <MudText Typo="Typo.body2">@item.Description</MudText>
+                        <MudText Typo="Typo.body2">@item.Headline</MudText>
                     </MudCardContent>
                     <MudCardActions Class="mx-2 d-flex justify-space-between flex-grow-1 gap-4">
                         <MudText Typo="Typo.body2">
@@ -32,8 +32,10 @@ else
                             }
                             @item.Price?.FormatCurrency(store.Currency)
                         </MudText>
-                        <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}/edit")">Learn
-                            More</MudButton>
+                        <div>
+                            <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}")">View</MudButton>
+                            <MudButton StartIcon="@Icons.Material.Filled.Edit" Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}/edit")">Edit</MudButton>
+                        </div>
                     </MudCardActions>
                 </MudCard>
             </a>

@@ -18,6 +18,8 @@
     }
     public ValueTask<string> GetMarkdown() => module.InvokeAsync<string>("getMarkdown", new[] { editor });
 
+    public ValueTask SetMarkdown(string markdown) => module.InvokeVoidAsync("setMarkdown", new object[] { editor, markdown });
+
     [Parameter]
     public string? InitialMarkdown { get; set; }
 

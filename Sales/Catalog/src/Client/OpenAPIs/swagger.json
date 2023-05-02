@@ -1109,6 +1109,52 @@
         }
       }
     },
+    "/v1/Products/{productId}/Brand": {
+      "put": {
+        "tags": [
+          "Products"
+        ],
+        "operationId": "Products_UpdateProductBrand",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "brandId",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/Products/{productId}/UploadImage": {
       "post": {
         "tags": [
