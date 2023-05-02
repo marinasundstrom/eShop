@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Attach to Portal",
+            "type": "blazorwasm",
+            "request": "attach",
+            "url": "https://localhost:5001"
+        },
+        {
+            "name": "Attach to Site",
+            "type": "blazorwasm",
+            "request": "attach",
+            "url": "https://localhost:6001"
+        },
+        {
+            "name": "Attach to Siko",
+            "type": "blazorwasm",
+            "request": "attach",
+            "url": "https://localhost:6021"
+        }
+    ]
+}

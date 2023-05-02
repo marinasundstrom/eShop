@@ -211,21 +211,22 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseWebAssemblyDebugging();
+    app.UseDeveloperExceptionPage();
+
+    app.UseOpenApi();
+    app.UseSwaggerUi3();
+}
+
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
 
 app.MapReverseProxy();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseDeveloperExceptionPage();
-
-    app.UseOpenApi();
-    app.UseSwaggerUi3();
-}
 
 app.UseCors(MyAllowSpecificOrigins);
 
