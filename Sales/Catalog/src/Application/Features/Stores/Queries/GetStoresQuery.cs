@@ -1,23 +1,29 @@
-using MediatR;
+﻿using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
+using YourBrand.Catalog;
 using YourBrand.Catalog.Common.Models;
+using YourBrand.Catalog.Features.Stores;
 
-namespace YourBrand.Catalog.Features.Stores;
+namespace YourStore.Catalog.Features.Stores.Queries;
 
-public record GetStores(int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<StoreDto>>
+public sealed record GetStoresQuery(int Page = 0, int PageSize = 10, string? SearchString = null, string? SortBy = null, YourBrand.Catalog.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<StoreDto>>
 {
-    public class Handler : IRequestHandler<GetStores, ItemsResult<StoreDto>>
+    sealed class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, ItemsResult<StoreDto>>
     {
         private readonly IApplicationDbContext _context;
+        private readonly ICurrentUserService currentUserService;
 
-        public Handler(IApplicationDbContext context)
+        public GetStoresQueryHandler(
+            IApplicationDbContext context,
+            ICurrentUserService currentUserService)
         {
             _context = context;
+            this.currentUserService = currentUserService;
         }
 
-        public async Task<ItemsResult<StoreDto>> Handle(GetStores request, CancellationToken cancellationToken)
+        public async Task<ItemsResult<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
         {
             var query = _context.Stores
                 .AsSplitQuery()
@@ -33,7 +39,7 @@ public record GetStores(int Page = 10, int PageSize = 10, string? SearchString =
 
             if (request.SortBy is not null)
             {
-                query = query.OrderBy(request.SortBy, request.SortDirection == Common.Models.SortDirection.Desc ? YourBrand.Catalog.SortDirection.Descending : YourBrand.Catalog.SortDirection.Ascending);
+                query = query.OrderBy(request.SortBy, request.SortDirection == YourBrand.Catalog.Common.Models.SortDirection.Desc ? YourBrand.Catalog.SortDirection.Descending : YourBrand.Catalog.SortDirection.Ascending);
             }
             else
             {

@@ -11,6 +11,206 @@
     }
   ],
   "paths": {
+    "/v1/Stores": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "Stores_GetStores",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            },
+            "x-position": 1
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "x-position": 2
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 3
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 4
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SortDirection"
+                    }
+                  ]
+                }
+              ]
+            },
+            "x-position": 5
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ItemsResultOfStoreDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "Stores_CreateStore",
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateStoreDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/Stores/{id}": {
+      "get": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "Stores_GetStore",
+        "parameters": [
+          {
+            "name": "IdOrHandle",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 2
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StoreDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "Stores_UpdateStore",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "requestBody": {
+          "x-name": "dto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStoreDto"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 2
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Stores"
+        ],
+        "operationId": "Stores_DeleteStore",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
     "/v1/ProductGroups": {
       "get": {
         "tags": [
@@ -318,81 +518,6 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ProductGroupDto"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/v1/Stores": {
-      "get": {
-        "tags": [
-          "Stores"
-        ],
-        "operationId": "Stores_GetStores",
-        "parameters": [
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 0
-            },
-            "x-position": 1
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 10
-            },
-            "x-position": 2
-          },
-          {
-            "name": "searchString",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 3
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            },
-            "x-position": 4
-          },
-          {
-            "name": "sortDirection",
-            "in": "query",
-            "schema": {
-              "oneOf": [
-                {
-                  "nullable": true,
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/SortDirection"
-                    }
-                  ]
-                }
-              ]
-            },
-            "x-position": 5
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ItemsResultOfStoreDto"
                 }
               }
             }
@@ -3083,6 +3208,82 @@
   },
   "components": {
     "schemas": {
+      "ItemsResultOfStoreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StoreDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "StoreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "SortDirection": {
+        "type": "string",
+        "description": "",
+        "x-enumNames": [
+          "Desc",
+          "Asc"
+        ],
+        "enum": [
+          "Desc",
+          "Asc"
+        ]
+      },
+      "CreateStoreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
+      "UpdateStoreDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "currency": {
+            "type": "string"
+          }
+        }
+      },
       "ProductGroupDto": {
         "type": "object",
         "additionalProperties": false,
@@ -3235,52 +3436,6 @@
             "type": "boolean"
           }
         }
-      },
-      "ItemsResultOfStoreDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "items": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/StoreDto"
-            }
-          },
-          "totalItems": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "StoreDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "handle": {
-            "type": "string"
-          },
-          "currency": {
-            "type": "string"
-          }
-        }
-      },
-      "SortDirection": {
-        "type": "string",
-        "description": "",
-        "x-enumNames": [
-          "Desc",
-          "Asc"
-        ],
-        "enum": [
-          "Desc",
-          "Asc"
-        ]
       },
       "ProductAttributeDto": {
         "type": "object",

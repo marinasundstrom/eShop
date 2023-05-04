@@ -5,14 +5,10 @@ namespace YourBrand.Portal.Domain.Entities;
 
 public sealed class Widget : AggregateRoot<Guid> /*, IAuditable */
 {
-    #nullable disable
-
     private Widget() 
     {
 
     }
-
-    #nullable restore
 
     public Widget(string widgetId, string? userId, JsonDocument? settings)
         : base(Guid.NewGuid())
@@ -50,14 +46,10 @@ public sealed class WidgetArea : AggregateRoot<string> /*, IAuditable */
 {
     HashSet<Widget> widgets = new HashSet<Widget>();
 
-    #nullable disable
-
     private WidgetArea() 
     {
 
     }
-
-    #nullable restore
 
     public WidgetArea(string id, string name)
         : base(id)
@@ -65,7 +57,7 @@ public sealed class WidgetArea : AggregateRoot<string> /*, IAuditable */
         Name = name;
     }
 
-    public string Name { get; set; }
+    public string Name { get; set; } = default!;
 
     public IReadOnlyCollection<Widget> Widgets => widgets;
 

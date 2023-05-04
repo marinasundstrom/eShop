@@ -13,9 +13,9 @@ public static class Seed
         await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync(); 
 
-        context.Stores.Add(new Store("Joes", "joes"));
+        context.Stores.Add(new Store("Joes", "joes", "SEK"));
 
-        context.Stores.Add(new Store("Siko", "siko"));
+        context.Stores.Add(new Store("Siko", "siko", "SEK"));
 
         await context.SaveChangesAsync();
 
