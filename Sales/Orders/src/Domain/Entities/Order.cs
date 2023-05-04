@@ -29,8 +29,8 @@ public class Order : AggregateRoot<string>, IAuditable
         {
             StatusId = status;
 
-            //AddDomainEvent(new OrderUpdated(Id));
-            //AddDomainEvent(new OrderStatusUpdated(Id, status, oldStatus));
+            AddDomainEvent(new OrderUpdated(Id));
+            AddDomainEvent(new OrderStatusUpdated(Id, status, oldStatus));
 
             return true;
         }

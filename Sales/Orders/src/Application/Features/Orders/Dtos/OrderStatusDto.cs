@@ -7,5 +7,7 @@ namespace YourBrand.Orders.Application.Features.Orders.Dtos;
 public record OrderStatusDto
 (
     int Id,
-    string Name
+    string Name,
+    string Handle,
+    string? Description
 );

@@ -9,14 +9,17 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
-        context.OrderStatuses.Add(new OrderStatus("Draft"));
-        context.OrderStatuses.Add(new OrderStatus("Pending Payment"));
-        context.OrderStatuses.Add(new OrderStatus("Processing"));
-        context.OrderStatuses.Add(new OrderStatus("On Hold"));
-        context.OrderStatuses.Add(new OrderStatus("Shipped"));
-        context.OrderStatuses.Add(new OrderStatus("Completed"));
-        context.OrderStatuses.Add(new OrderStatus("Canceled"));
+        Version1(context);
 
         await context.SaveChangesAsync();
+    }
+
+    private static void Version1(ApplicationDbContext context)
+    {
+        context.OrderStatuses.Add(new OrderStatus("Draft", "draft", string.Empty));
+
+        context.OrderStatuses.Add(new OrderStatus("Open", "open", string.Empty));
+        context.OrderStatuses.Add(new OrderStatus("Archived", "archived", string.Empty));
+        context.OrderStatuses.Add(new OrderStatus("Canceled", "canceled", string.Empty));
     }
 }

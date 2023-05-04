@@ -41,10 +41,10 @@ public class ModuleInitializer : IModuleInitializer
 
         group.CreateItem("engagement", () => t["Engagement"], MudBlazor.Icons.Material.Filled.Analytics, "/analytics/engagement");
 
-        var dashboardService =
+        var widgetService =
             services.GetRequiredService<IWidgetService>();
 
-        dashboardService.RegisterWidget(new Widget("analytics.engagements", "Engagements", typeof(EngagementsWidget))
+        widgetService.RegisterWidget(new Widget("analytics.engagements", "Engagements", typeof(EngagementsWidget))
         {
             Size = WidgetSize.Medium
         });

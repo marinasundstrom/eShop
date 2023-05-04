@@ -27,7 +27,7 @@ public sealed class OrderStatusUpdatedEventHandler : IDomainEventHandler<OrderSt
         if (order is null)
             return;
 
-        //await orderNotificationService.StatusUpdated(order.OrderNo, 1);
+        await orderNotificationService.StatusUpdated(order.OrderNo, order.Status.ToDto());
 
         if (order.AssigneeId is not null && order.LastModifiedById != order.AssigneeId)
         {/*

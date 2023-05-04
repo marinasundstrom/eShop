@@ -41,13 +41,13 @@ public class OrderStatusesController : ControllerBase
     [HttpPost]
     public async Task<OrderStatusDto> CreateOrderStatus(CreateOrderStatusDto dto, CancellationToken cancellationToken)
     {
-        return await _mediator.Send(new CreateOrderStatusCommand(dto.Name, dto.CreateWarehouse), cancellationToken);
+        return await _mediator.Send(new CreateOrderStatusCommand(dto.Name, dto.Handle, dto.Description), cancellationToken);
     }
 
     [HttpPut("{id}")]
     public async Task UpdateOrderStatus(int id, UpdateOrderStatusDto dto, CancellationToken cancellationToken)
     {
-        await _mediator.Send(new UpdateOrderStatusCommand(id, dto.Name), cancellationToken);
+        await _mediator.Send(new UpdateOrderStatusCommand(id, dto.Name, dto.Handle, dto.Description), cancellationToken);
     }
 
     [HttpDelete("{id}")]
@@ -57,7 +57,7 @@ public class OrderStatusesController : ControllerBase
     }
 }
 
-public record CreateOrderStatusDto(string Name, bool CreateWarehouse);
+public record CreateOrderStatusDto(string Name, string Handle, string? Description);
 
-public record UpdateOrderStatusDto(string Name);
+public record UpdateOrderStatusDto(string Name, string Handle, string? Description);
 

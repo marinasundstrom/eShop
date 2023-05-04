@@ -9,17 +9,18 @@ public class OrderStatus : Entity<int>, IAuditable
     {
     }
 
-    public OrderStatus(int id)
-    {
-        Id = id;
-    }
-
-    public OrderStatus(string name)
+    public OrderStatus(string name, string handle, string? description)
     {
         Name = name;
+        Handle = handle;
+        Description = description;
     }
 
     public string Name { get; set; } = null!;
+
+    public string Handle { get; set; } = null!;
+
+    public string? Description { get; set; }
 
     public User? CreatedBy { get; set; }
 

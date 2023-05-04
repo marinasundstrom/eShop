@@ -7,7 +7,7 @@ using YourBrand.Orders.Application.Features.Orders.Dtos;
 
 namespace YourBrand.Orders.Application.Features.Orders.Statuses.Commands;
 
-public record CreateOrderStatusCommand(string Name, bool CreateWarehouse) : IRequest<OrderStatusDto>
+public record CreateOrderStatusCommand(string Name, string Handle, string? Description) : IRequest<OrderStatusDto>
 {
     public class CreateOrderStatusCommandHandler : IRequestHandler<CreateOrderStatusCommand, OrderStatusDto>
     {
@@ -24,7 +24,7 @@ public record CreateOrderStatusCommand(string Name, bool CreateWarehouse) : IReq
 
             if (orderStatus is not null) throw new Exception();
 
-            orderStatus = new Domain.Entities.OrderStatus(request.Name);
+            orderStatus = new Domain.Entities.OrderStatus(request.Name, request.Handle, request.Description);
 
             context.OrderStatuses.Add(orderStatus);
 

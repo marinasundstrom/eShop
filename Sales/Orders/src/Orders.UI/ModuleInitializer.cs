@@ -6,6 +6,8 @@ using YourBrand.Orders.Client;
 using YourBrand.Portal.NavMenu;
 using YourBrand.Portal.Modules;
 using Microsoft.Extensions.Localization;
+using YourBrand.Portal.Widgets;
+using YourBrand.Sales;
 
 namespace YourBrand.Orders;
 
@@ -36,5 +38,13 @@ public class ModuleInitializer : IModuleInitializer
         group.RequiresAuthorization = true;
 
         group.CreateItem("orders", () => t["Orders"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/orders");
+
+        var widgetService =
+            services.GetRequiredService<IWidgetService>();
+
+        widgetService.RegisterWidget(new Widget("orders.pendingOrders", "Pending orders", typeof(PendingOrdersWidget))
+        {
+            Size = WidgetSize.Medium
+        });
     }
 }

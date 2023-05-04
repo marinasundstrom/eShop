@@ -1048,6 +1048,13 @@
           },
           "name": {
             "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1070,8 +1077,12 @@
           "name": {
             "type": "string"
           },
-          "createWarehouse": {
-            "type": "boolean"
+          "handle": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         }
       },
@@ -1081,6 +1092,13 @@
         "properties": {
           "name": {
             "type": "string"
+          },
+          "handle": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
           }
         }
       },

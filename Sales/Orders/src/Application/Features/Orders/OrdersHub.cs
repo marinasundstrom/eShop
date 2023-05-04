@@ -4,8 +4,13 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace YourBrand.Orders.Application.Features.Orders;
 
+public interface IOrdersHub 
+{
+    
+}
+
 [Authorize]
-public sealed class OrdersHub : Hub<IOrdersHubClient>
+public sealed class OrdersHub : Hub<IOrdersHubClient>, IOrdersHub
 {
     public override Task OnConnectedAsync()
     {

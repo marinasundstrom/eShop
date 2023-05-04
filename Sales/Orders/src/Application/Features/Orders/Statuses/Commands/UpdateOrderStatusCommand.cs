@@ -7,7 +7,7 @@ using YourBrand.Orders.Application.Features.Orders.Dtos;
 
 namespace YourBrand.Orders.Application.Features.Orders.Statuses.Commands;
 
-public record UpdateOrderStatusCommand(int Id, string Name) : IRequest
+public record UpdateOrderStatusCommand(int Id, string Name, string Handle, string? Description) : IRequest
 {
     public class UpdateOrderStatusCommandHandler : IRequestHandler<UpdateOrderStatusCommand>
     {
@@ -25,6 +25,8 @@ public record UpdateOrderStatusCommand(int Id, string Name) : IRequest
             if (orderStatus is null) throw new Exception();
 
             orderStatus.Name = request.Name;
+            orderStatus.Handle = request.Handle;
+            orderStatus.Description = request.Description;
 
             await context.SaveChangesAsync(cancellationToken);
 

@@ -23,11 +23,11 @@
         </ToolBarContent>
         <HeaderContent>
             <MudTh><MudTableSortLabel T="BrandDto" SortLabel="Name">Name</MudTableSortLabel></MudTh>
-            @*<MudTh><MudTableSortLabel T="BrandDto" SortLabel="Area">Area</MudTableSortLabel></MudTh>*@
+            <MudTh><MudTableSortLabel T="BrandDto" SortLabel="Handle">Handle</MudTableSortLabel></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">@context.Name</MudTd>
-            @*<MudTd DataLabel="Name">@context.Area.Name</MudTd> *@
+            <MudTd DataLabel="Handle">@context.Handle</MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager />

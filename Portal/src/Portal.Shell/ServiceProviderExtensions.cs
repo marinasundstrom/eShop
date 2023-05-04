@@ -61,17 +61,17 @@ public static class ServiceProviderExtensions
 
     private static void CreateDashboard(IServiceProvider services)
     {
-        var dashboardService = 
+        var widgetService = 
             services.GetRequiredService<IWidgetService>();
 
-        dashboardService.RegisterWidget(new Widget("sample-widget", "Sample Widget", typeof(SampleWidget)));
+        widgetService.RegisterWidget(new Widget("sample-widget", "Sample Widget", typeof(SampleWidget)));
 
-        dashboardService.RegisterWidget(new Widget("sample-widget2", "Sample Widget", typeof(SampleWidget2)) {
+        widgetService.RegisterWidget(new Widget("sample-widget2", "Sample Widget", typeof(SampleWidget2)) {
             Size = WidgetSize.Small
         });
 
         /*
-        dashboardService.RegisterWidget(new Widget("sample-widget3", "Sample Widget", typeof(SampleWidget2)) {
+        widgetService.RegisterWidget(new Widget("sample-widget3", "Sample Widget", typeof(SampleWidget2)) {
             Size = WidgetSize.Large
         });
         */
