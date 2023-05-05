@@ -58,6 +58,8 @@ public class ModuleInitializer : IModuleInitializer
         catalogItem.CreateItem("attributes", () => t["Attributes"], MudBlazor.Icons.Material.Filled.List, "/products/attributes");
 
         catalogItem.CreateItem("brands", () => t["Brands"], MudBlazor.Icons.Material.Filled.List, "/brands");
+
+        catalogItem.CreateItem("stores", () => t["Stores"], MudBlazor.Icons.Material.Filled.Store, "/stores");
     }
 
     private static void InitAppBarTray(IServiceProvider services) 

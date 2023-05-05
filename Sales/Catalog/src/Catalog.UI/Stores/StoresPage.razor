@@ -1,0 +1,110 @@
+@page "/stores"
+@attribute [Authorize]
+@inject IStoresClient StoresClient
+@inject NavigationManager NavigationManager
+@inject IDialogService DialogService
+
+<AppPageTitle>Stores</AppPageTitle>
+
+<MudText Typo="Typo.h3" Class="mb-4">Stores</MudText>
+
+<MudButton Variant="Variant.Filled" OnClick="async () => await OnStoreClicked(null)" StartIcon="@Icons.Filled.Add" Color="Color.Default" Class="mb-2 me-2">
+    New Store
+</MudButton>
+
+<MudPaper Class="pa-4" Elevation="25">
+    <MudTable @ref="table" T="StoreDto" Elevation="0" ServerData="LoadData" Dense="false" Hover="true" Bordered="false"
+              Striped="true" OnRowClick="ItemOnClick">
+        <ToolBarContent>
+
+            <MudSpacer />
+
+            <MudTextField T="string" Dense="true" Value="searchString" ValueChanged="@(s=>OnSearch(s))" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Immediate="true" DebounceInterval="200"></MudTextField>
+        </ToolBarContent>
+        <HeaderContent>
+            <MudTh><MudTableSortLabel T="StoreDto" SortLabel="Name">Name</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="StoreDto" SortLabel="Handle">Handle</MudTableSortLabel></MudTh>
+            <MudTh><MudTableSortLabel T="StoreDto" SortLabel="Currency">Currency</MudTableSortLabel></MudTh>
+        </HeaderContent>
+        <RowTemplate>
+            <MudTd DataLabel="Name">@context.Name</MudTd>
+            <MudTd DataLabel="Handle">@context.Handle</MudTd>
+            <MudTd DataLabel="Handle">@context.Currency</MudTd>
+        </RowTemplate>
+        <PagerContent>
+            <MudTablePager />
+        </PagerContent>
+    </MudTable>
+</MudPaper>
+
+
+@code {
+    MudTable<StoreDto> table; 
+    string? searchString;
+
+    public StoreDto Store { get; set; }
+
+    private async Task<TableData<StoreDto>> LoadData(TableState state)
+    {
+        try
+        {
+            var results = await StoresClient.GetStoresAsync(state.Page, state.PageSize, searchString, state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel, state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc));
+            return new TableData<StoreDto> { Items = results.Items, TotalItems = results.TotalItems };
+        }
+        /*catch (ApiException exc)
+        {
+        }
+        catch (HttpRequestException exc)
+        {
+        }*/
+        catch (Exception exc)
+        {
+            //await JSHelpers.Alert(exc.Message);
+        }
+
+        return null!;
+    }
+
+    private async Task ItemOnClick(TableRowClickEventArgs<StoreDto> ev)
+    {
+        var item = ev.Item;
+
+        await OnStoreClicked(item);
+    }
+
+    private void OnSearch(string text)
+    {
+        searchString = text;
+        table.ReloadServerData();
+    }
+
+    private async Task OnStoreChanged(StoreDto sa)
+    {
+        Store = sa;
+        table.ReloadServerData();
+    }
+
+    async Task OnStoreClicked(StoreDto? dto)
+    {
+        try
+        {
+            var parameters = new DialogParameters();
+            parameters.Add(nameof(StoreDialog.StoreId), dto?.Id);
+
+            var dialogReference = DialogService.Show<StoreDialog>(dto is null ? "New Store" : $"Update {dto.Name}", parameters, new DialogOptions {
+                //FullScreen = true,
+                MaxWidth = MaxWidth.ExtraLarge
+            });
+            var result = await dialogReference.Result;
+
+            if(result.Cancelled)
+                return;
+
+            await table.ReloadServerData();
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
+    }
+}

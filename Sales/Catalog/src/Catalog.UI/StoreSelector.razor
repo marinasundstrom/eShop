@@ -39,6 +39,8 @@
     {
         currentStore = StoreProvider.CurrentStore;
 
+        if(currentStore is null) return;
+
         StateHasChanged();
 
         Snackbar.Add($"Your store is: {currentStore.Name}");
