@@ -23,7 +23,7 @@ public sealed record UpdateStoreCommand(string Id, string Name, string Handle, s
 
             store.Name = request.Name;
             store.Handle = request.Handle;
-            store.Currency = request.Currency;
+            //store.Currency = request.Currency;
 
             await context.SaveChangesAsync(cancellationToken);
 

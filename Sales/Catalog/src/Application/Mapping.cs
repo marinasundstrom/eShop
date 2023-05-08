@@ -12,7 +12,7 @@ public static class Mapping
 {
     public static StoreDto ToDto(this Domain.Entities.Store store)
     {
-        return new StoreDto(store.Id, store.Name, store.Handle, store.Currency);
+        return new StoreDto(store.Id, store.Name, store.Handle, store.Currency.Code);
     }
 
     public static ProductDto ToDto(this Domain.Entities.Product item)

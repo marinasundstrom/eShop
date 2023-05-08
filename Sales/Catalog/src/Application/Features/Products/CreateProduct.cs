@@ -17,6 +17,16 @@ public sealed record CreateProduct(string Name, string Handle, string StoreId, b
 
         public async Task<ProductDto?> Handle(CreateProduct request, CancellationToken cancellationToken)
         {
+            if(await _context.Products.AnyAsync(x => x.Name == request.Name)) 
+            {
+                throw new Exception("Product with name already exists");
+            }
+
+            if(await _context.Products.AnyAsync(x => x.Handle == request.Handle)) 
+            {
+                throw new Exception("Handle already in use");
+            }
+
             var group = await _context.ProductGroups
                 .Include(x => x.Attributes)
                 .Include(x => x.Options)

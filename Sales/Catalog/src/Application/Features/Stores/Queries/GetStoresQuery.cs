@@ -47,6 +47,7 @@ public sealed record GetStoresQuery(int Page = 0, int PageSize = 10, string? Sea
             }
 
             var items = await query
+                .Include(x => x.Currency)
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize).AsQueryable()
                 .ToArrayAsync();

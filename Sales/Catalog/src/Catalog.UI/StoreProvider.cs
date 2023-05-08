@@ -27,7 +27,7 @@ public sealed class StoreProvider : IStoreProvider
 
     public async Task<IEnumerable<StoreDto>> GetAvailableStoresAsync() 
     {
-        var items = _stores = (await _storesClient.GetStoresAsync(null, null, null, null, null)).Items;
+        var items = _stores = (await _storesClient.GetStoresAsync(0, null, null, null, null)).Items;
         if(CurrentStore is null) 
         {
             var storeId = await _localStorageService.GetItemAsStringAsync("storeId");

@@ -20,6 +20,16 @@ public sealed record CreateBrandCommand(string Name, string Handle) : IRequest<B
 
             if (brand is not null) throw new Exception();
 
+            if(await context.Brands.AnyAsync(x => x.Name == request.Name)) 
+            {
+                throw new Exception("Brand with name already exists");
+            }
+
+            if(await context.Brands.AnyAsync(x => x.Handle == request.Handle)) 
+            {
+                throw new Exception("Handle already in use");
+            }
+
             brand = new Domain.Entities.Brand(request.Name, request.Handle);
 
             context.Brands.Add(brand);
