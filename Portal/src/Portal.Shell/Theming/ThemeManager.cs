@@ -10,7 +10,7 @@ public interface IThemeManager : IDisposable
 
     ColorScheme? PreferredColorScheme { get; set;}
 
-    void UseSystemScheme();
+    void UseSystemColorScheme();
 
     void SetPreferredColorScheme(ColorScheme colorScheme);
 
@@ -61,7 +61,7 @@ public sealed class ThemeManager : IThemeManager
         set => _localStorage.SetItem(PreferredColorSchemeKey, value);
     }
 
-    public void UseSystemScheme()
+    public void UseSystemColorScheme()
     {
         PreferredColorScheme = null;
         CurrentColorScheme = _systemColorSchemeDetector.CurrentColorScheme;
