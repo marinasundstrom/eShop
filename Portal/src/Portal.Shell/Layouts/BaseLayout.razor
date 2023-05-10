@@ -2,10 +2,11 @@
 @using Blazored.LocalStorage
 @using YourBrand.Portal.AppBar
 @using YourBrand.Portal.NavMenu
+@implements IDisposable
 @inject IThemeManager ThemeManager
 @inject ILocalStorageService LocalStorage
 
-<MudThemeProvider IsDarkMode="@(_currentColorScheme == ColorScheme.Dark)" Theme="_theme" />
+<MudThemeProvider IsDarkMode="@(ThemeManager.CurrentColorScheme == ColorScheme.Dark)" Theme="ThemeManager.Theme" />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
@@ -29,34 +30,29 @@
 </MudScrollToTop>
 
 @code {
-    private MudTheme _theme = new MudTheme()
-    {
-        Typography = new Typography()
-        {
-            Default = new Default()
-            {
-                FontFamily = new[] { "Roboto", "sans-serif" }
-            }
-        },
-        Palette = new Palette
-        {
-            Background = "rgb(248, 249, 250)",
-            AppbarBackground = "#137cdf", 
-            Primary = "#4892d7"
-            //Secondary = "#00000000"
-        }
-    };
-
     bool _drawerOpen = false;
-    ColorScheme? _currentColorScheme;
     bool _disableOverlay = true;
 
     protected override async Task OnInitializedAsync()
     {
-        _currentColorScheme = ThemeManager.CurrentColorScheme;
-        ThemeManager.ColorSchemeChanged += OnColorSchemeChanged;
+        //ThemeManager.SetTheme(Themes.AppTheme);
 
         _drawerOpen = await LocalStorage.GetItemAsync<bool?>("drawerOpen") ?? true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                ThemeManager.Initialize();
+
+                ThemeManager.ThemeChanged += OnThemeChanged;
+                ThemeManager.ColorSchemeChanged += OnColorSchemeChanged;
+                
+                StateHasChanged();
+            }
     }
 
     async Task OpenChanged(bool isOpen)
@@ -70,10 +66,18 @@
         _drawerOpen = !_drawerOpen;
     }
 
+    void OnThemeChanged(object? sender, EventArgs ea)
+    {
+        StateHasChanged();
+    }
+
     void OnColorSchemeChanged(object? sender, ColorSchemeChangedEventArgs ea)
     {
-        _currentColorScheme = ea.ColorScheme;
-
         StateHasChanged();
+    }
+
+    public void Dispose() 
+    {
+        ThemeManager.ColorSchemeChanged -= OnColorSchemeChanged;     
     }
 }
