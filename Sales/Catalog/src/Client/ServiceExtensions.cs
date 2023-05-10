@@ -11,7 +11,8 @@ public static class ServiceExtensions
             .AddOptionsClient(configureClient, builder)
             .AddAttributesClient(configureClient, builder)
             .AddStoresClient(configureClient, builder)
-            .AddBrandsClient(configureClient, builder);
+            .AddBrandsClient(configureClient, builder)
+            .AddCurrenciesClient(configureClient, builder);
 
         return services;
     }
@@ -71,6 +72,17 @@ public static class ServiceExtensions
         var b = services
             .AddHttpClient(nameof(BrandsClient), configureClient)
             .AddTypedClient<IBrandsClient>((http, sp) => new BrandsClient(http));
+
+        builder?.Invoke(b);
+
+        return services;
+    }
+
+    public static IServiceCollection AddCurrenciesClient(this IServiceCollection services, Action<IServiceProvider, HttpClient> configureClient, Action<IHttpClientBuilder>? builder = null)
+    {
+        var b = services
+            .AddHttpClient(nameof(CurrenciesClient), configureClient)
+            .AddTypedClient<ICurrenciesClient>((http, sp) => new CurrenciesClient(http));
 
         builder?.Invoke(b);
 

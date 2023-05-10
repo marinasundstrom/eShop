@@ -28,6 +28,8 @@ public sealed class Product : AggregateRoot<long>
 
     public string? SKU { get; set; } = null!;
 
+    public string? Unit { get; set; } = null!;
+
     //public bool IsNew { get; set; }
 
     public Product? ParentProduct { get; set; }

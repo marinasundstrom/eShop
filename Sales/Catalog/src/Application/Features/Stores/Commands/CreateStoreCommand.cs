@@ -24,7 +24,9 @@ public sealed record CreateStoreCommand(string Name, string Handle, string Curre
 
             if (store is not null) throw new Exception();
 
-            store = new YourBrand.Catalog.Domain.Entities.Store(request.Name, request.Handle, request.Currency);
+            var currency = await context.Currencies.FirstAsync(i => i.Code == request.Currency, cancellationToken);
+
+            store = new YourBrand.Catalog.Domain.Entities.Store(request.Name, request.Handle, currency);
 
             context.Stores.Add(store);
 
@@ -32,6 +34,7 @@ public sealed record CreateStoreCommand(string Name, string Handle, string Curre
 
             store = await context
                .Stores
+               .Include(x => x.Currency)
                .AsNoTracking()
                .FirstAsync(c => c.Id == store.Id);
 

@@ -1,5 +1,6 @@
 using YourBrand.Catalog.Features.Attributes;
 using YourBrand.Catalog.Features.Brands;
+using YourBrand.Catalog.Features.Currencies;
 using YourBrand.Catalog.Features.Options;
 using YourBrand.Catalog.Features.Products;
 using YourBrand.Catalog.Features.Products.Groups;
@@ -12,7 +13,7 @@ public static class Mapping
 {
     public static StoreDto ToDto(this Domain.Entities.Store store)
     {
-        return new StoreDto(store.Id, store.Name, store.Handle, store.Currency.Code);
+        return new StoreDto(store.Id, store.Name, store.Handle, store.Currency.ToDto());
     }
 
     public static ProductDto ToDto(this Domain.Entities.Product item)
@@ -84,5 +85,10 @@ public static class Mapping
     public static BrandDto ToDto(this Domain.Entities.Brand brand)
     {
         return new BrandDto(brand.Id, brand.Name, brand.Handle);
+    }
+
+    public static CurrencyDto ToDto(this Domain.Entities.Currency currency)
+    {
+        return new (currency.Code, currency.Name, currency.Symbol);
     }
 }

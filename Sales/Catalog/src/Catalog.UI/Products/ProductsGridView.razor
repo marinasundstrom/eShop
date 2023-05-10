@@ -27,10 +27,10 @@ else
                             @if (item.RegularPrice is not null)
                             {
                                 <span class="me-3"
-                                    style="text-decoration: line-through; color: gray;">@item.RegularPrice?.FormatCurrency(store.Currency)
+                                    style="text-decoration: line-through; color: gray;">@item.RegularPrice?.FormatCurrency(store.Currency.Code)
                                 </span>
                             }
-                            @item.Price?.FormatCurrency(store.Currency)
+                            @item.Price?.FormatCurrency(store.Currency.Code)
                         </MudText>
                         <div>
                             <MudButton Variant="Variant.Text" Color="Color.Primary" Href="@($"/products/{item.Id}")">View</MudButton>

@@ -34,6 +34,8 @@ public interface IApplicationDbContext
 
     DbSet<OptionValue> OptionValues { get; }
 
+    DbSet<Currency> Currencies { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 
     EntityEntry Entry(object entity);

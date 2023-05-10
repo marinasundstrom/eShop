@@ -11,11 +11,15 @@ public static class Seed
     public static async Task SeedData(ApplicationDbContext context)
     {
         await context.Database.EnsureDeletedAsync();
-        await context.Database.EnsureCreatedAsync(); 
+        await context.Database.EnsureCreatedAsync();
 
-        context.Stores.Add(new Store("Joes", "joes", "SEK"));
+        var currency = context.Currencies.Add(new Currency("SEK", "Swedish Krona", "kr")).Entity;
 
-        context.Stores.Add(new Store("Siko", "siko", "SEK"));
+        await context.SaveChangesAsync();
+
+        context.Stores.Add(new Store("Joes", "joes", currency));
+
+        context.Stores.Add(new Store("Siko", "siko", currency));
 
         await context.SaveChangesAsync();
 

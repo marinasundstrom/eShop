@@ -4,11 +4,11 @@ public class Store : Entity<string>
 {
     protected Store() { }
 
-    public Store(string name, string handle, string currency) : base(Guid.NewGuid().ToString())
+    public Store(string name, string handle, Currency currency) : base(Guid.NewGuid().ToString())
     {
         Name = name;
         Handle = handle;
-        //Currency = currency;
+        Currency = currency;
     }
 
     public string Name { get; set; } = null!;

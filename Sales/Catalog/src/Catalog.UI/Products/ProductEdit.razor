@@ -117,13 +117,13 @@ View product
         <MudPaper Elevation="25" Class="pa-4 mb-4">
             <div class="d-flex flex-grow-1">
                 <div class="flex-1 d-flex me-2">
-                    <MudField Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.Price?.FormatCurrency(StoreProvider.CurrentStore.Currency)</MudField>
+                    <MudField Label="Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.Price?.FormatCurrency(StoreProvider.CurrentStore.Currency.Code)</MudField>
                 </div>
 
                 @if(product.RegularPrice is not null) 
                 {
                     <div class="flex-1 d-flex">
-                        <MudField Label="Regular Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.RegularPrice?.FormatCurrency(StoreProvider.CurrentStore.Currency)</MudField>
+                        <MudField Label="Regular Price" Variant="Variant.Outlined" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.AttachMoney">@product.RegularPrice?.FormatCurrency(StoreProvider.CurrentStore.Currency.Code)</MudField>
                     </div>
                 }
 

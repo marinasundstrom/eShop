@@ -13,7 +13,7 @@
                 <MudTextField Label="Handle" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Handle"
                     For="@(() => Handle)" />
 
-                <MudTextField Label="Currency" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Currency"
+                <YourBrand.Catalog.Currencies.CurrencySelector Label="Currency" Variant="Variant.Outlined" Class="mt-4" @bind-Value="Currency"
                     For="@(() => Currency)" />
             </MudContainer>
         </DialogContent>
@@ -55,7 +55,7 @@
     public string Handle { get; set; }
 
     [Required]
-    public string Currency { get; set; }
+    public CurrencyDto Currency { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -63,7 +63,7 @@
 
         if (StoreId is not null) 
         {
-            var store = await StoresClient.GetStoreAsync(StoreId, string.Empty);
+            var store = await StoresClient.GetStoreAsync(StoreId);
             Name = store.Name;
             Handle = store.Handle;
             Currency = store.Currency;
@@ -77,7 +77,7 @@
             var store = await StoresClient.CreateStoreAsync(new CreateStoreDto {
                 Name = Name,
                 Handle = Handle,
-                Currency = Currency
+                Currency = Currency.Code
             });
 
             Dialog.Close(store);
@@ -90,7 +90,7 @@
                 {
                     Name = Name,
                     Handle = Handle,
-                    Currency = Currency
+                    Currency = Currency.Code
                 });
             }
 

@@ -28,7 +28,7 @@ public class StoresController : ControllerBase
         return await _mediator.Send(new GetStoresQuery(page, pageSize, searchString, sortBy, sortDirection), cancellationToken);
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{IdOrHandle}")]
     public async Task<StoreDto?> GetStore(string IdOrHandle, CancellationToken cancellationToken)
     {
         return await _mediator.Send(new GetStoreQuery(IdOrHandle), cancellationToken);

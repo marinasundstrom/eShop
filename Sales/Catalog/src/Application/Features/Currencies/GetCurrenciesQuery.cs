@@ -4,18 +4,18 @@ using Microsoft.EntityFrameworkCore;
 
 using YourBrand.Catalog;
 using YourBrand.Catalog.Common.Models;
-using YourBrand.Catalog.Features.Stores;
+using YourBrand.Catalog.Features.Currencies;
 
-namespace YourStore.Catalog.Features.Stores.Queries;
+namespace YourStore.Catalog.Features.Currencies;
 
-public sealed record GetStoresQuery(int Page = 0, int PageSize = 10, string? SearchString = null, string? SortBy = null, YourBrand.Catalog.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<StoreDto>>
+public sealed record GetCurrenciesQuery(int Page = 0, int PageSize = 10, string? SearchString = null, string? SortBy = null, YourBrand.Catalog.Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<CurrencyDto>>
 {
-    sealed class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, ItemsResult<StoreDto>>
+    sealed class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, ItemsResult<CurrencyDto>>
     {
         private readonly IApplicationDbContext _context;
         private readonly ICurrentUserService currentUserService;
 
-        public GetStoresQueryHandler(
+        public GetCurrenciesQueryHandler(
             IApplicationDbContext context,
             ICurrentUserService currentUserService)
         {
@@ -23,10 +23,9 @@ public sealed record GetStoresQuery(int Page = 0, int PageSize = 10, string? Sea
             this.currentUserService = currentUserService;
         }
 
-        public async Task<ItemsResult<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
+        public async Task<ItemsResult<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
         {
-            var query = _context.Stores
-                .Include(x => x.Currency)
+            var query = _context.Currencies
                 .AsSplitQuery()
                 .AsNoTracking()
                 .AsQueryable();
@@ -44,16 +43,15 @@ public sealed record GetStoresQuery(int Page = 0, int PageSize = 10, string? Sea
             }
             else
             {
-                query = query.OrderBy(x => x.Id);
+                query = query.OrderBy(x => x.Symbol);
             }
 
             var items = await query
-                .Include(x => x.Currency)
                 .Skip(request.Page * request.PageSize)
                 .Take(request.PageSize).AsQueryable()
                 .ToArrayAsync();
 
-            return new ItemsResult<StoreDto>(items.Select(item => item.ToDto()),
+            return new ItemsResult<CurrencyDto>(items.Select(item => item.ToDto()),
             totalCount);
         }
     }

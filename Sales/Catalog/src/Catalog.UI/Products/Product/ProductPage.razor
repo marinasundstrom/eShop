@@ -45,11 +45,11 @@ else
                         <p class="mb-4">Id: @productViewModel.Id</p>
     }
 
-                        <p class="mb-4"> @productViewModel.Price.FormatCurrency(StoreProvider.CurrentStore.Currency)</p>
+                        <p class="mb-4"> @productViewModel.Price.FormatCurrency(StoreProvider.CurrentStore!.Currency.Code)</p>
 
                     @if (productViewModel.Total > 0)
     {
-                        <p class="mb-4"> @productViewModel.Total.FormatCurrency(StoreProvider.CurrentStore.Currency)</p>
+                        <p class="mb-4"> @productViewModel.Total.FormatCurrency(StoreProvider.CurrentStore.Currency.Code)</p>
     }
 
     @*

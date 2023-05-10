@@ -41,7 +41,7 @@ public static class Mapper
         Country = address.Country
     };
 
-    public static CurrencyAmountDto GetCurrencyAmountDto(this decimal price, Catalog.StoreDto store) => new(store.Currency, price);
+    public static CurrencyAmountDto GetCurrencyAmountDto(this decimal price, Catalog.StoreDto store) => new(store.Currency.Code, price);
 }
 
 public record CurrencyAmountDto(string Currency, decimal Amount);

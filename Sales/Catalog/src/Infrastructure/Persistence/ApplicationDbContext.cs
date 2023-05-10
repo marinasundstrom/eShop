@@ -85,6 +85,8 @@ public sealed class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<OptionValue> OptionValues { get; set; } = null!;
 
+    public DbSet<Currency> Currencies { get; set; } = null!;
+
 
 #nullable restore
 }

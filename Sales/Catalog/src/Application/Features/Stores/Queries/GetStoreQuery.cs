@@ -26,8 +26,8 @@ public sealed record GetStoreQuery(string IdOrHandle) : IRequest<StoreDto?>
         {
             var store = await _context
                .Stores
-               .AsNoTracking()
                .Include(x => x.Currency)
+               .AsNoTracking()
                .FirstAsync(c => c.Id == request.IdOrHandle || c.Handle == request.IdOrHandle);
 
             return store?.ToDto();

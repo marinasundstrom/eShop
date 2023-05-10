@@ -68,8 +68,8 @@
                     <MudTd DataLabel="Group">@context.Group?.Name</MudTd>
                     <MudTd DataLabel="Has variants">@(context.HasVariants ? "Yes" : string.Empty)</MudTd>
                         @* <MudTd DataLabel="Handle">@context.Handle</MudTd> *@
-                        <MudTd DataLabel="Price">@context.Price?.FormatCurrency(store.Currency)</MudTd>
-                        <MudTd DataLabel="Compare At Price">@context.RegularPrice?.FormatCurrency(store.Currency)</MudTd>
+                        <MudTd DataLabel="Price">@context.Price?.FormatCurrency(store.Currency.Code)</MudTd>
+                        <MudTd DataLabel="Compare At Price">@context.RegularPrice?.FormatCurrency(store.Currency.Code)</MudTd>
                         <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
                         <MudTd>
                             <MudIconButton Icon="@Icons.Material.Filled.Send" Class="me-2" Link="@($"/products/{context.Id}")" />
