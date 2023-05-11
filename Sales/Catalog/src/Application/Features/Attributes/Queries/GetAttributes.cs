@@ -37,6 +37,15 @@ public record GetAttributes(string[]? Ids = null, int Page = 10, int PageSize = 
                 query = query.Where(o => o.Name.ToLower().Contains(request.SearchString.ToLower()));
             }
 
+            if (request.SortBy is not null)
+            {
+                query = query.OrderBy(request.SortBy, request.SortDirection == YourBrand.Catalog.Common.Models.SortDirection.Desc ? YourBrand.Catalog.SortDirection.Descending : YourBrand.Catalog.SortDirection.Ascending);
+            }
+            else
+            {
+                query = query.OrderBy(x => x.Name);
+            }
+
             var totalCount = await query.CountAsync();
 
             var items = await query

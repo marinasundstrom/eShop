@@ -23,6 +23,7 @@ public record GetAttributeValues(string Id) : IRequest<IEnumerable<AttributeValu
                 .Include(pv => pv.Attribute)
                 .ThenInclude(pv => pv.Group)
                 .Where(p => p.Attribute.Id == request.Id)
+                .OrderBy(x => x.Name)
                 .ToArrayAsync();
 
             return options.Select(x => x.ToDto());

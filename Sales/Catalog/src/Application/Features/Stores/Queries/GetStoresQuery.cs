@@ -44,7 +44,7 @@ public sealed record GetStoresQuery(int Page = 0, int PageSize = 10, string? Sea
             }
             else
             {
-                query = query.OrderBy(x => x.Id);
+                query = query.OrderBy(x => x.Name);
             }
 
             var items = await query
