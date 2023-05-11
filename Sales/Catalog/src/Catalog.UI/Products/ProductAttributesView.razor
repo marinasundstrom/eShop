@@ -19,7 +19,7 @@
     }
 </style>
 
-<MudTable @ref="productAttributesTable" Items="@ProductAttributes" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductAttributeDto,bool>(FilterAttributesFunc)"
+<MudTable @ref="productAttributesTable" Items="@ProductAttributes" Dense="false" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductAttributeDto,bool>(FilterAttributesFunc)"
           @bind-SelectedItem="selectedProductAttribute" SortLabel="Sort By" CommitEditTooltip="Commit Edit"
           OnCommitEditClick="@(() => Snackbar.Add("Commit Edit Handler Invoked"))" RowEditPreview="BackupItem" RowEditCancel="ResetItemToOriginalValues"
           RowEditCommit="ItemHasBeenCommitted" IsEditRowSwitchingBlocked="true" EditTrigger="TableEditTrigger.EditButton"

@@ -30,8 +30,8 @@
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Handle">@context.Handle</MudTd>
             <MudTd>
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async (e) => await UpdateBrand(context)" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteBrand(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="async (e) => await UpdateBrand(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="async () => await DeleteBrand(context)" />
             </MudTd>
         </RowTemplate>
         <PagerContent>

@@ -108,7 +108,7 @@
         <MudTd DataLabel="@T["LastModified"]">@context.LastModified?.ToLocalTime().ToString("g")</MudTd>
         <MudTd DataLabel="@T["LastModifiedBy"]">@context.LastModifiedBy?.Name</MudTd>
         <MudTh>
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteTicket(context)" Disabled="selectMultiple"></MudIconButton>
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="async () => await DeleteTicket(context)" Disabled="selectMultiple"></MudIconButton>
         </MudTh>
     </RowTemplate>
     <NoRecordsContent>

@@ -18,7 +18,7 @@
     }
 </style>
 
-<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="true" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductOptionDto,bool>(FilterOptionsFunc)"
+<MudTable @ref="productOptionsTable" Items="@ProductOptions" Class="mt-4" Dense="false" Hover="true" Elevation="25" ReadOnly="false" CanCancelEdit="true" Filter="new Func<ProductOptionDto,bool>(FilterOptionsFunc)"
           @bind-SelectedItem="selectedProductOption" SortLabel="Sort By" GroupBy="tableGroupDefinition">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Options</MudText>
@@ -54,8 +54,8 @@
         <MudTd Style="text-align:right">
             @if(!context.IsInherited) 
             {
-                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async () => await ShowEditOptionDialog(context)" />
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteOption(context.Option.Id)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="async () => await ShowEditOptionDialog(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="async () => await DeleteOption(context.Option.Id)" />
             }
         </MudTd>
     </RowTemplate>

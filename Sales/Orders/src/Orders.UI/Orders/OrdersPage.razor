@@ -48,7 +48,7 @@
         <MudTd DataLabel="VAT">@order.Vat.FormatCurrency(order.Currency)</MudTd>
         <MudTd DataLabel="Total">@order.Total.FormatCurrency(order.Currency)</MudTd>
         <MudTd>
-            <MudIconButton Icon="@Icons.Filled.FileDownload" Link="@($"/api/invoicing/orders/{order.OrderNo}/file")" @onclick:stopPropagation />
+            <MudIconButton Icon="@Icons.Filled.FileDownload" Size="Size.Small" Link="@($"/api/invoicing/orders/{order.OrderNo}/file")" @onclick:stopPropagation />
             @if (order.Status.Id == 1)
             {
                 <MudIconButton Icon="@Icons.Filled.Delete" Size="Size.Small" OnClick="async (e) => await DeleteOrder(order)" />

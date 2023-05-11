@@ -39,7 +39,7 @@ else
 
         <MudItem xs="12" sm="7" md="7" lg="9" xl="10">
             <MudTable @ref="table" T="ProductGroupDto" ServerData="ServerReload"
-                    Dense="true" Hover="true" Elevation="25"
+                    Dense="false" Hover="true" Elevation="25"
                     OnRowClick="@((e) => NavigationManager.NavigateTo($"/products/groups/{e.Item.Path}"))">
                 <ToolBarContent>
                     <MudText Typo="Typo.h6">Sub-groups</MudText>
@@ -55,8 +55,8 @@ else
                         <MudTd DataLabel="Name">@group.Name</MudTd>
                         <MudTd DataLabel="Description">@group.Description</MudTd>
                         <MudTd>
-                            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async (e) => await UpdateGroup(group)" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="async (e) => await UpdateGroup(group)" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="async () => await DeleteGroup(group)" />
                         </MudTd>
                 </RowTemplate>
                 <NoRecordsContent>

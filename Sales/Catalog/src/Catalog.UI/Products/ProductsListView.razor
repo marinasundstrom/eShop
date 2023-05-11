@@ -72,8 +72,8 @@
                         <MudTd DataLabel="Compare At Price">@context.RegularPrice?.FormatCurrency(store.Currency.Code)</MudTd>
                         <MudTd DataLabel="Visibility">@context.Visibility</MudTd>
                         <MudTd>
-                            <MudIconButton Icon="@Icons.Material.Filled.Send" Class="me-2" Link="@($"/products/{context.Id}")" />
-                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Link="@($"/products/{context.Id}/edit")" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Send" Size="Size.Small" Class="me-2" Link="@($"/products/{context.Id}")" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" Link="@($"/products/{context.Id}/edit")" />
                         </MudTd>
                     </RowTemplate>
                     <NoRecordsContent>
