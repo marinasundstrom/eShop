@@ -24,10 +24,15 @@
         <HeaderContent>
             <MudTh><MudTableSortLabel T="BrandDto" SortLabel="Name">Name</MudTableSortLabel></MudTh>
             <MudTh><MudTableSortLabel T="BrandDto" SortLabel="Handle">Handle</MudTableSortLabel></MudTh>
+            <MudTh></MudTh>
         </HeaderContent>
         <RowTemplate>
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="Handle">@context.Handle</MudTd>
+            <MudTd>
+                <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async (e) => await UpdateBrand(context)" />
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteBrand(context)" />
+            </MudTd>
         </RowTemplate>
         <PagerContent>
             <MudTablePager />
@@ -84,6 +89,11 @@
 
     async Task OnBrandClicked(BrandDto? dto)
     {
+        await UpdateBrand(dto);
+    }
+
+    async Task UpdateBrand(BrandDto? dto)
+    {
         try
         {
             var parameters = new DialogParameters();
@@ -104,5 +114,18 @@
         {
             exception.Redirect();
         }
+    }
+
+    async Task DeleteBrand(BrandDto brand)
+    {
+        var modalResult = await DialogService.ShowMessageBox("Delete the brand?", "The brand will be deleted.\nThis cannot be undone.", yesText: "Delete", noText: "No");
+        if (!modalResult.GetValueOrDefault())
+        {
+            return;
+        }
+
+        await BrandsClient.DeleteBrandAsync(brand.Id);
+
+        await table.ReloadServerData();
     }
 }
