@@ -162,12 +162,25 @@ View product
     <MudExpansionPanels Elevation="25" Class="mb-4">
         <MudExpansionPanel>
             <TitleContent>
+                <MudText Typo="Typo.h6" GutterBottom="true">Headline</MudText>
+            </TitleContent>
+
+            <ChildContent>
+                <MudTextField T="string" Variant="Variant.Outlined" Lines="3" @bind-Text="product.Headline" class="mb-2"></MudTextField>
+                <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="async () => await ProductsClient.UpdateProductHeadlineAsync(product.Id, product.Headline)">Save</MudButton>
+            </ChildContent>
+        </MudExpansionPanel>
+    </MudExpansionPanels>
+
+    <MudExpansionPanels Elevation="25" Class="mb-4">
+        <MudExpansionPanel>
+            <TitleContent>
                 <MudText Typo="Typo.h6" GutterBottom="true">Description</MudText>
             </TitleContent>
 
             <ChildContent>
                 <TUIEditor @ref="descriptionEditor" InitialMarkdown="@product.Description" class="mb-2"></TUIEditor>
-                <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="async () => ProductsClient.UpdateProductDescriptionAsync(product.Id, await descriptionEditor.GetMarkdown())">Save</MudButton>
+                <MudButton StartIcon="@Icons.Material.Filled.Save" OnClick="async () => await ProductsClient.UpdateProductDescriptionAsync(product.Id, await descriptionEditor.GetMarkdown())">Save</MudButton>
             </ChildContent>
         </MudExpansionPanel>
     </MudExpansionPanels>
