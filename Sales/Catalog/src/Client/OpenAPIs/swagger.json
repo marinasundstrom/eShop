@@ -3464,6 +3464,10 @@
           },
           "allowItems": {
             "type": "boolean"
+          },
+          "productsCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },
@@ -3491,6 +3495,10 @@
                 "$ref": "#/components/schemas/ParentProductGroupDto"
               }
             ]
+          },
+          "productsCount": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

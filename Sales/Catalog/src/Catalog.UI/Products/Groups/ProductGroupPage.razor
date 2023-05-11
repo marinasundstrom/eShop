@@ -47,13 +47,15 @@ else
                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="CreateGroup" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create group</MudButton>
                 </ToolBarContent>
                 <HeaderContent>
-                    <MudTh>Name</MudTh>
-                    <MudTh>Description</MudTh>
+                    <MudTh><MudTableSortLabel T="ProductGroupDto" SortLabel="Name">Name</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel T="ProductGroupDto" SortLabel="Description">Description</MudTableSortLabel></MudTh>
+                    <MudTh><MudTableSortLabel T="ProductGroupDto" SortLabel="ProductsCount">Products</MudTableSortLabel></MudTh>
                     <MudTh></MudTh>
                 </HeaderContent>
                 <RowTemplate Context="group">
                         <MudTd DataLabel="Name">@group.Name</MudTd>
                         <MudTd DataLabel="Description">@group.Description</MudTd>
+                        <MudTd DataLabel="Products">@group.ProductsCount</MudTd>
                         <MudTd>
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Size="Size.Small" OnClick="async (e) => await UpdateGroup(group)" />
                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Size="Size.Small" OnClick="async () => await DeleteGroup(group)" />

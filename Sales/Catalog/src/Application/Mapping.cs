@@ -54,7 +54,7 @@ public static class Mapping
 
     public static ProductGroupDto ToDto(this Domain.Entities.ProductGroup itemGroup)
     {
-        return new ProductGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Handle, itemGroup.Path, itemGroup.Description, itemGroup.Parent?.ToDto2(), itemGroup.AllowItems);
+        return new ProductGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Handle, itemGroup.Path, itemGroup.Description, itemGroup.Parent?.ToDto2(), itemGroup.AllowItems, itemGroup.ProductsCount);
     }
 
     public static ProductGroupTreeNodeDto ToDto3(this Domain.Entities.ProductGroup itemGroup)
@@ -64,7 +64,7 @@ public static class Mapping
 
     public static ParentProductGroupDto ToDto2(this Domain.Entities.ProductGroup itemGroup)
     {
-        return new ParentProductGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Handle, itemGroup.Path, itemGroup.Parent?.ToDto2());
+        return new ParentProductGroupDto(itemGroup.Id, itemGroup.Name, itemGroup.Handle, itemGroup.Path, itemGroup.Parent?.ToDto2(), itemGroup.ProductsCount);
     }
 
     private static string? GetImageUrl(string? name)
