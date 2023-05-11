@@ -432,15 +432,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "nullable": true,
-                    "oneOf": [
-                      {
-                        "$ref": "#/components/schemas/ProductGroupDto"
-                      }
-                    ]
-                  }
+                  "$ref": "#/components/schemas/ItemsResultOfProductGroupDto"
                 }
               }
             }
@@ -1661,6 +1653,22 @@
           "Desc",
           "Asc"
         ]
+      },
+      "ItemsResultOfProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductGroupDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
       },
       "ProductGroupDto": {
         "type": "object",

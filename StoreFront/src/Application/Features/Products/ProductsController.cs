@@ -60,7 +60,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet("Categories")]
-    public async Task<IEnumerable<ProductGroupDto>?> GetProductGroups(long? parentGroupId, bool includeWithUnlisted = false, CancellationToken cancellationToken = default)
+    public async Task<ItemsResult<ProductGroupDto>?> GetProductGroups(long? parentGroupId, bool includeWithUnlisted = false, CancellationToken cancellationToken = default)
     {
         return await mediator.Send(new GetProductGroups(parentGroupId, includeWithUnlisted), cancellationToken);
     }

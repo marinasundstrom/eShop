@@ -69,7 +69,7 @@
     {
         store = StoreProvider.CurrentStore;
 
-        var groups = await ProductGroupsClient.GetProductGroupsAsync(store!.Id, null, true, true);
+        var groups = (await ProductGroupsClient.GetProductGroupsAsync(store!.Id, null, true, true, null, null, null, null, null)).Items;
         Groups = groups.ToList();
         Group = groups.First();
     }

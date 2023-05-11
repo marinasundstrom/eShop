@@ -8,63 +8,78 @@
 
 <AppPageTitle>@(itemGroup is null ? "Product Groups" : itemGroup?.Name)</AppPageTitle>
 
-<MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@(itemGroup is null ? "Product Groups" : itemGroup?.Name)</MudText>
+@if(loading) 
+{
+    <LoadingIndicator />
+}
+else 
+{
+    <MudText Typo="Typo.h3" Align="Align.Center" Class="mb-12">@(itemGroup is null ? "Product Groups" : itemGroup?.Name)</MudText>
 
-<MudGrid Spacing="4" Class="mt-2">
-    <MudItem xs="12" sm="5" md="5" lg="3" xl="2">
-        @if (productGroupTreeNodes is not null)
-        {
-            <MudPaper Elevation="25" Class="pa-4">
-                <MudTreeView T="ProductGroupTreeNodeDto"
-                Items="(new HashSet<ProductGroupTreeNodeDto>(productGroupTreeNodes))" Hover="true"
-                    SelectedValueChanged="async (e) => await SetGroup(e)">
-                    <ItemTemplate>
-                        <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
-                        Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
-                    </ItemTemplate>
-                </MudTreeView>
+    <MudGrid Spacing="4" Class="mt-2">
+        <MudItem xs="12" sm="5" md="5" lg="3" xl="2">
+            @if (productGroupTreeNodes is not null)
+            {
+                <MudPaper Elevation="25" Class="pa-4">
+                    <MudTreeView T="ProductGroupTreeNodeDto"
+                    Items="(new HashSet<ProductGroupTreeNodeDto>(productGroupTreeNodes))" Hover="true"
+                        SelectedValueChanged="async (e) => await SetGroup(e)">
+                        <ItemTemplate>
+                            <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
+                            Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
+                        </ItemTemplate>
+                    </MudTreeView>
 
-                <MudButton Class="mt-4" Size="@Size.Small" StartIcon="@Icons.Material.Filled.Clear"
-                OnClick="async () => { productGroupTreeNode = null; await SetGroup(productGroupTreeNode); itemGroup = null; Path = null; await LoadData(); }">Clear selection
-                </MudButton>
-            </MudPaper>
-        }
-    </MudItem>
+                    <MudButton Class="mt-4" Size="@Size.Small" StartIcon="@Icons.Material.Filled.Clear"
+                    OnClick="async () => { productGroupTreeNode = null; await SetGroup(productGroupTreeNode); itemGroup = null; Path = null; await LoadData(); }">Clear selection
+                    </MudButton>
+                </MudPaper>
+            }
+        </MudItem>
 
-    <MudItem xs="12" sm="7" md="7" lg="9" xl="10">
-        <MudTable T="ProductGroupDto" Items="itemGroups"
-                Dense="true" Hover="true" Elevation="25"
-                OnRowClick="@((e) => NavigationManager.NavigateTo($"/products/groups/{e.Item.Path}"))">
-            <ToolBarContent>
-                <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="CreateGroup" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create group</MudButton>
-            </ToolBarContent>
-            <HeaderContent>
-                <MudTh>Name</MudTh>
-                <MudTh>Description</MudTh>
-                <MudTh></MudTh>
-            </HeaderContent>
-            <RowTemplate Context="group">
-                    <MudTd DataLabel="Name">@group.Name</MudTd>
-                    <MudTd DataLabel="Description">@group.Description</MudTd>
-                    <MudTd>
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async (e) => await UpdateGroup(group)" />
-                        <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
-                    </MudTd>
-            </RowTemplate>
-            <NoRecordsContent>
-                <MudText>No matching records found</MudText>
-            </NoRecordsContent>
-            <LoadingContent>
-                <MudText>Loading...</MudText>
-            </LoadingContent>
-        </MudTable>
-    </MudItem>
-</MudGrid>
+        <MudItem xs="12" sm="7" md="7" lg="9" xl="10">
+            <MudTable @ref="table" T="ProductGroupDto" ServerData="ServerReload"
+                    Dense="true" Hover="true" Elevation="25"
+                    OnRowClick="@((e) => NavigationManager.NavigateTo($"/products/groups/{e.Item.Path}"))">
+                <ToolBarContent>
+                    <MudText Typo="Typo.h6">Sub-groups</MudText>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="CreateGroup" StartIcon="@Icons.Material.Filled.Add" Class="my-2">Create group</MudButton>
+                </ToolBarContent>
+                <HeaderContent>
+                    <MudTh>Name</MudTh>
+                    <MudTh>Description</MudTh>
+                    <MudTh></MudTh>
+                </HeaderContent>
+                <RowTemplate Context="group">
+                        <MudTd DataLabel="Name">@group.Name</MudTd>
+                        <MudTd DataLabel="Description">@group.Description</MudTd>
+                        <MudTd>
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" OnClick="async (e) => await UpdateGroup(group)" />
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" OnClick="async () => await DeleteGroup(group)" />
+                        </MudTd>
+                </RowTemplate>
+                <NoRecordsContent>
+                    <MudText>No matching records found</MudText>
+                </NoRecordsContent>
+                <LoadingContent>
+                    <MudText>Loading...</MudText>
+                </LoadingContent>
+                <PagerContent>
+                    <MudTablePager />
+                </PagerContent>
+            </MudTable>
+        </MudItem>
+    </MudGrid>
+}
 
 @code
 {
-        IEnumerable<ProductGroupTreeNodeDto>? productGroupTreeNodes;
+    MudTable<ProductGroupDto> table = default!;
+    IEnumerable<ProductGroupTreeNodeDto>? productGroupTreeNodes;
     ProductGroupTreeNodeDto? productGroupTreeNode;
+    bool loading = false;
+
 
     [Parameter]
     public string? Path { get; set; }
@@ -116,13 +131,13 @@
 
         if(Path is null) 
         {
-            itemGroups = (await ProductGroupsClient.GetProductGroupsAsync(store.Id, null, true, true)).ToList();
+            await table.ReloadServerData();        
         }
         else 
         {
             itemGroup = await ProductGroupsClient.GetProductGroupAsync(Path);
 
-            itemGroups = (await ProductGroupsClient.GetProductGroupsAsync(null, itemGroup.Id, true, true)).ToList();
+            await table.ReloadServerData();        
         }
     }
 
@@ -181,6 +196,17 @@
         Path = productGroupTreeNode.Path;
 
         NavigationManager.NavigateTo($"/products/groups/{Path}", replace: true);
+    }
+
+    private async Task<TableData<ProductGroupDto>> ServerReload(TableState state)
+    {
+        store = StoreProvider.CurrentStore;
+
+        var result = await ProductGroupsClient.GetProductGroupsAsync(store.Id, itemGroup?.Id, true, true,
+        state.Page, state.PageSize, null, state.SortLabel, state.SortDirection == MudBlazor.SortDirection.Ascending ?
+        YourBrand.Catalog.SortDirection.Asc : YourBrand.Catalog.SortDirection.Desc);
+
+        return new TableData<ProductGroupDto>() { TotalItems = result.TotalItems, Items = result.Items };
     }
 }
 

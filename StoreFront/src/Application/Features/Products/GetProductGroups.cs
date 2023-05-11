@@ -1,14 +1,15 @@
 ﻿using MediatR;
 
 using YourBrand.Catalog;
+using YourBrand.StoreFront.Application.Common.Models;
 
 namespace YourBrand.StoreFront.Application.Features.Products;
 
 public sealed record GetProductGroups(
     long? ParentGroupId, bool IncludeWithUnlisted)
-    : IRequest<IEnumerable<ProductGroupDto>>
+    : IRequest<ItemsResult<ProductGroupDto>>
 {
-    sealed class Handler : IRequestHandler<GetProductGroups, IEnumerable<ProductGroupDto>>
+    sealed class Handler : IRequestHandler<GetProductGroups, ItemsResult<ProductGroupDto>>
     {
         private readonly YourBrand.Catalog.IProductsClient _productsClient;
         private readonly IProductGroupsClient productGroupsClient;
@@ -31,10 +32,11 @@ public sealed record GetProductGroups(
             this.storeHandleToStoreIdResolver = storeHandleToStoreIdResolver;
         }
 
-        public async Task<IEnumerable<ProductGroupDto>> Handle(GetProductGroups request, CancellationToken cancellationToken)
+        public async Task<ItemsResult<ProductGroupDto>> Handle(GetProductGroups request, CancellationToken cancellationToken)
         {
             var storeId = await storeHandleToStoreIdResolver.ToStoreId(currentUserService.Host!);
-            return await productGroupsClient.GetProductGroupsAsync(storeId, request.ParentGroupId, request.IncludeWithUnlisted, false, cancellationToken);
+            var results = await productGroupsClient.GetProductGroupsAsync(storeId, request.ParentGroupId, request.IncludeWithUnlisted, false, null, null, null, null, null, cancellationToken);
+            return new ItemsResult<ProductGroupDto>(results.Items, results.TotalItems);
         }
     }
 }

@@ -2,11 +2,14 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 
+using YourBrand.Catalog.Common.Models;
+
 namespace YourBrand.Catalog.Features.Products.Groups;
 
-public record GetProductGroups(string? StoreId, long? ParentGroupId, bool IncludeWithUnlistedProducts, bool IncludeHidden) : IRequest<IEnumerable<ProductGroupDto>>
+public record GetProductGroups(string? StoreId, long? ParentGroupId, bool IncludeWithUnlistedProducts, bool IncludeHidden, 
+    int Page = 10, int PageSize = 10, string? SearchString = null, string? SortBy = null, Common.Models.SortDirection? SortDirection = null) : IRequest<ItemsResult<ProductGroupDto>>
 {
-    public class Handler : IRequestHandler<GetProductGroups, IEnumerable<ProductGroupDto>>
+    public class Handler : IRequestHandler<GetProductGroups, ItemsResult<ProductGroupDto>>
     {
         private readonly IApplicationDbContext _context;
 
@@ -15,9 +18,11 @@ public record GetProductGroups(string? StoreId, long? ParentGroupId, bool Includ
             _context = context;
         }
 
-        public async Task<IEnumerable<ProductGroupDto>> Handle(GetProductGroups request, CancellationToken cancellationToken)
+        public async Task<ItemsResult<ProductGroupDto>> Handle(GetProductGroups request, CancellationToken cancellationToken)
         {
             var query = _context.ProductGroups
+                    .AsNoTracking()
+                    .AsSplitQuery()
                     .AsQueryable();
 
             query = query.Where(x => x.Parent!.Id == request.ParentGroupId);
@@ -39,11 +44,30 @@ public record GetProductGroups(string? StoreId, long? ParentGroupId, bool Includ
                 && !x.Products.All(z => z.Visibility == Domain.Enums.ProductVisibility.Unlisted));
             }
 
-            var itemGroups = await query
-                .Include(x => x.Parent)
-                .ToListAsync();
+            if (request.SearchString is not null)
+            {
+                query = query.Where(ca => ca.Name.ToLower().Contains(request.SearchString.ToLower()));
+            }
 
-            return itemGroups.Select(group => group.ToDto());
+            var totalCount = await query.CountAsync();
+
+            if (request.SortBy is not null)
+            {
+                query = query.OrderBy(request.SortBy, request.SortDirection == Common.Models.SortDirection.Desc ? YourBrand.Catalog.SortDirection.Descending : YourBrand.Catalog.SortDirection.Ascending);
+            }
+            else
+            {
+                query = query.OrderBy(x => x.Name);
+            }
+
+            var items = await query
+                .Include(x => x.Parent)
+                .Skip(request.Page * request.PageSize)
+                .Take(request.PageSize).AsQueryable()
+                .ToArrayAsync();
+
+            return new ItemsResult<ProductGroupDto>(items.Select(item => item.ToDto()),
+            totalCount);
         }
     }
 }

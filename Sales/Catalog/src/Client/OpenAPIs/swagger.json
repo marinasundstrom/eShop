@@ -216,8 +216,7 @@
             "name": "storeId",
             "in": "query",
             "schema": {
-              "type": "string",
-              "nullable": true
+              "type": "string"
             },
             "x-position": 1
           },
@@ -248,6 +247,59 @@
               "default": false
             },
             "x-position": 4
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 0
+            },
+            "x-position": 5
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            },
+            "x-position": 6
+          },
+          {
+            "name": "searchString",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 7
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 8
+          },
+          {
+            "name": "sortDirection",
+            "in": "query",
+            "schema": {
+              "oneOf": [
+                {
+                  "nullable": true,
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/SortDirection"
+                    }
+                  ]
+                }
+              ]
+            },
+            "x-position": 9
           }
         ],
         "responses": {
@@ -256,10 +308,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ProductGroupDto"
-                  }
+                  "$ref": "#/components/schemas/ItemsResultOfProductGroupDto"
                 }
               }
             }
@@ -3365,6 +3414,22 @@
           },
           "currency": {
             "type": "string"
+          }
+        }
+      },
+      "ItemsResultOfProductGroupDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductGroupDto"
+            }
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

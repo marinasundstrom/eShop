@@ -22,8 +22,10 @@ public record GetProductGroupTree(string? StoreId) : IRequest<IEnumerable<Produc
             var query = _context.ProductGroups
                 .Include(x => x.Parent)
                 .ThenInclude(x => x!.Parent)
-                .Include(x => x.SubGroups)
+                .Include(x => x.SubGroups.OrderBy(x => x.Name))
                 .Where(x => x.Parent == null)
+                .OrderBy(x => x.Name)
+                .AsSingleQuery()
                 .AsNoTracking();
 
             if (request.StoreId is not null)

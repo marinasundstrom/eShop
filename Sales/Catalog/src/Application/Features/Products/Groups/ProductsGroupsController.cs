@@ -2,6 +2,7 @@ using MediatR;
 
 using Microsoft.AspNetCore.Mvc;
 
+using YourBrand.Catalog.Common.Models;
 using YourBrand.Catalog.Features.Products.Groups;
 
 namespace YourBrand.Catalog.Controllers;
@@ -19,9 +20,10 @@ public partial class ProductGroupsController : Controller
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductGroupDto>>> GetProductGroups(string? storeId = null, long? parentGroupId = null, bool includeWithUnlistedProducts = false, bool IncludeHidden = false, CancellationToken cancellationToken = default)
+    public async Task<ActionResult<ItemsResult<ProductGroupDto>>> GetProductGroups(string? storeId = null, long? parentGroupId = null, bool includeWithUnlistedProducts = false, bool IncludeHidden = false,
+        int page = 0, int pageSize = 10, string? searchString = null, string? sortBy = null, Common.Models.SortDirection? sortDirection = null, CancellationToken cancellationToken = default)
     {
-        return Ok(await _mediator.Send(new GetProductGroups(storeId, parentGroupId, includeWithUnlistedProducts, IncludeHidden), cancellationToken));
+        return Ok(await _mediator.Send(new GetProductGroups(storeId, parentGroupId, includeWithUnlistedProducts, IncludeHidden, page, pageSize, searchString, sortBy, sortDirection), cancellationToken));
     }
 
     [HttpGet("Tree")]
