@@ -132,7 +132,7 @@
         if (!ApplicationState.TryTakeFromJson< ICollection<ProductGroupDto>>(
             "itemGroups", out var restored))
         {
-            itemGroups = await ProductsClient.GetProductGroupsAsync(null, true);
+            itemGroups = (await ProductsClient.GetProductGroupsAsync(null, true)).Items.ToList();
         }
         else
         {

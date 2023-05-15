@@ -101,7 +101,7 @@ partial class ProductsPage
         { 
             var id = productGroup?.Parent?.Id ?? productGroup?.Id;
 
-            subGroups = await ProductsClient.GetProductGroupsAsync(id, true);
+            subGroups = (await ProductsClient.GetProductGroupsAsync(id, true)).Items.ToList();
         }
         else
         {
