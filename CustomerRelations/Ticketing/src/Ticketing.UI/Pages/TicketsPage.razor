@@ -33,9 +33,9 @@
 
         <MudSpacer />
 
-        <MudSelect T="TicketStatusDto?" Label="@T["Status"]" Dense="true" Value="Status" ValueChanged="OnStatusChanged" For="() => Status" Immediate="true" Variant="Variant.Outlined">
-            <MudSelectItem Value="@((TicketStatusDto?)null)">@T["AllStatuses"]</MudSelectItem>
-
+        <MudSelect T="TicketStatusDto?" Label="@T["Status"]" Dense="true" MultiSelection="true" Value="Status" ValueChanged="OnStatusChanged"
+            ToStringFunc="@((i) => i.Name)"
+            SelectedValues="selectedStatuses" SelectedValuesChanged="OnSelectedStatusesChanged" For="() => Status" Immediate="true" Variant="Variant.Outlined">
             @foreach (var status in ticketStatuses)
             {
                 <MudSelectItem Value="@status">@T[status.Name]</MudSelectItem>
@@ -129,6 +129,14 @@
     bool selectMultiple;
     private HashSet<TicketDto> selectedItems = new HashSet<TicketDto>();
     List<TicketStatusDto> ticketStatuses = new();
+    HashSet<TicketStatusDto> selectedStatuses = new HashSet<TicketStatusDto>();
+
+    private async Task OnSelectedStatusesChanged(IEnumerable<TicketStatusDto> ticketStatuses) 
+    {
+        selectedStatuses = ticketStatuses.ToHashSet();
+
+        await table.ReloadServerData();
+    }
 
     [Parameter] public int? Id { get; set; }
 
@@ -236,10 +244,10 @@
     }
 
     private async Task<TableData<TicketDto>> ServerReload(TableState state)
-    {
+    {        
         try
         {
-            var result = await TicketsClient.GetTicketsAsync(Status is null ? null : new int[] { Status.Id }, Assignee?.Id, state.Page + 1, state.PageSize,
+            var result = await TicketsClient.GetTicketsAsync(selectedStatuses is null ? null : selectedStatuses.Select(x => x.Id), Assignee?.Id, state.Page + 1, state.PageSize,
                 state.SortDirection == MudBlazor.SortDirection.None ? null : state.SortLabel,
                 state.SortDirection == MudBlazor.SortDirection.None ? null : (state.SortDirection == MudBlazor.SortDirection.Ascending ? Ticketing.SortDirection.Ascending : Ticketing.SortDirection.Descending), cts.Token);
 

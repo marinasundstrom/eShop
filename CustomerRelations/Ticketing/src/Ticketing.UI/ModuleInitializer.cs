@@ -7,6 +7,7 @@ using YourBrand.Portal.NavMenu;
 using YourBrand.Portal.Modules;
 using Microsoft.Extensions.Localization;
 using YourBrand.Portal;
+using YourBrand.Portal.Widgets;
 
 namespace YourBrand.Ticketing;
 
@@ -41,5 +42,13 @@ public class ModuleInitializer : IModuleInitializer
         group2.CreateItem("board", () => t["Board"], MudBlazor.Icons.Material.Filled.TableView, "/Tickets/Board");
 
         group2.CreateItem("tickets", () => t["Tickets"], MudBlazor.Icons.Material.Filled.InsertDriveFile, "/Tickets");
+
+        var widgetService =
+            services.GetRequiredService<IWidgetService>();
+
+        widgetService.RegisterWidget(new Widget("tickets.overview", "Tickets", typeof(TicketsWidget))
+        {
+            Size = WidgetSize.Medium
+        });
     }
 }
