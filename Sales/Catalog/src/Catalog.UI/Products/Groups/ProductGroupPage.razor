@@ -38,6 +38,24 @@ else
         </MudItem>
 
         <MudItem xs="12" sm="7" md="7" lg="9" xl="10">
+            @if(itemGroup is not null) 
+            {
+                <MudPaper class="pa-4 mb-4" Elevation="25">
+                    <MudGrid>
+                        <MudItem xs="12" sm="12" md="3">
+                            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="async (e) => await UpdateGroup2(itemGroup)" StartIcon="@Icons.Material.Filled.Edit" Class="my-2">Update details</MudButton> 
+                        </MudItem>
+
+                        @if(!string.IsNullOrEmpty(itemGroup.Description)) 
+                        {
+                            <MudItem xs="12" sm="12" md="9">
+                                <MudText Typo="Typo.body1">@itemGroup.Description</MudText>
+                            </MudItem>
+                        }
+                    </MudGrid>
+                </MudPaper>
+            }
+
             <MudTable @ref="table" T="ProductGroupDto" ServerData="ServerReload"
                     Dense="false" Hover="true" Elevation="25"
                     OnRowClick="@((e) => NavigationManager.NavigateTo($"/products/groups/{e.Item.Path}"))">
@@ -171,6 +189,22 @@ else
         var index = itemGroups!.IndexOf(itemGroup);
 
         itemGroups[index] = (ProductGroupDto)result.Data;
+    }
+
+    async Task UpdateGroup2(ProductGroupDto itemGroup)
+    {
+        DialogParameters parameters = new();
+        parameters.Add(nameof(UpdateProductGroupModal.ProductGroup), itemGroup);
+
+        var modalRef = DialogService.Show<UpdateProductGroupModal>("Update Group", parameters);
+
+        var result = await modalRef.Result;
+
+        if (result.Cancelled) return;
+
+        this.itemGroup = (ProductGroupDto)result.Data;
+
+        StateHasChanged();
     }
 
     async Task DeleteGroup(ProductGroupDto itemGroup)

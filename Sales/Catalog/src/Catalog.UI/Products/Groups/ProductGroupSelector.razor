@@ -4,9 +4,9 @@
 {
     <div @onclick:stopPropagation @onclick:preventDefault>
         <MudTreeView @ref="treeView" T="ProductGroupTreeNodeDto" Items="(new HashSet<ProductGroupTreeNodeDto>(tree))" Hover="true" Expanded="@Expanded"
-            SelectedValue="ProductGroupTreeNode" SelectedValueChanged="OnProductGroupTreeNodeChanged">
+            ActivatedValue="ProductGroupTreeNode" SelectedValue="ProductGroupTreeNode" SelectedValueChanged="OnProductGroupTreeNodeChanged">
             <ItemTemplate>
-                <MudTreeViewItem Expanded="@Expanded" Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
+                <MudTreeViewItem Items="@(new HashSet<ProductGroupTreeNodeDto>(context.SubGroups))" Value="@context"
                     Text="@context.Name" EndText="@context.ProductsCount.ToString()" EndTextTypo="@Typo.caption" />
             </ItemTemplate>
         </MudTreeView>
