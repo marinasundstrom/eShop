@@ -77,15 +77,15 @@ services:
       protocol: https
       port: 5081
 
-  # - name: shops-web
-  #   project: Shops/src/Web/Web.csproj
-  #   bindings:
-  #   - name: http
-  #     protocol: http
-  #     port: 5280
-  #   - name: https
-  #     protocol: https
-  #     port: 5281
+  - name: payments-web
+    project: Payments/src/Web/Web.csproj
+    bindings:
+    - name: http
+      protocol: http
+      port: 5380
+    - name: https
+      protocol: https
+      port: 5381
 
   - name: analytics-web
     project: Analytics/src/Web/Web.csproj
