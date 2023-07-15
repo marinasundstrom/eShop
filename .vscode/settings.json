@@ -10,5 +10,6 @@
             }
         ],
         "scanLimit": 200
-    }
+    },
+    "dotnet.defaultSolution": "eShop.sln"
 }
