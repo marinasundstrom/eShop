@@ -48,8 +48,8 @@ dotnet run -- /seed
 
 ```
 Username: alice 
-Password: alice
+Password: Pass123$
 
 Username: bob 
-Password: bob
+Password: Pass123$
 ```
