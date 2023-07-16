@@ -82,8 +82,9 @@ public class HostApplicationLifetimeEventsHostedService : IHostedService
                 Console.WriteLine(JsonSerializer.Serialize(c, options));
         }
 
-        return;
+        //return;
 
+        regions.ExecuteDelete();
         countries.ExecuteDelete();
         currencies.ExecuteDelete();
         languages.ExecuteDelete();
@@ -161,7 +162,7 @@ public class HostApplicationLifetimeEventsHostedService : IHostedService
             }
             */
 
-            await _context.SaveChangesAsync();
+            //await _context.SaveChangesAsync();
 
             i++;
         }
@@ -195,6 +196,9 @@ public class HostApplicationLifetimeEventsHostedService : IHostedService
             var c = await countries.FirstOrDefaultAsync(x => x.Code == code);
             if(c is not null) 
             {
+                var continent = countryJ.Value.GetProperty("continent").GetString();
+                c.Continent = await continents.FirstOrDefaultAsync(x => x.Code == continent);
+
                 c.NativeName = countryJ.Value.GetProperty("native").GetString();
 
                 var languages0 = countryJ.Value.GetProperty("languages").EnumerateArray();
