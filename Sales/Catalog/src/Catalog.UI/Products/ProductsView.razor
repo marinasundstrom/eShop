@@ -7,7 +7,7 @@
 @inject IStoreProvider StoreProvider
 
 <MudGrid Spacing="4" Class="mt-2">
-    <MudItem xs="12" sm="5" md="5" lg="3"  xl="2">
+    <MudItem xs="12" sm="5" md="5" lg="3" xl="2">
         @if (productGroupTreeNodes is not null)
         {
             <MudPaper Elevation="25" Class="pa-4">
@@ -31,7 +31,7 @@
         </MudPaper>
     </MudItem>
 
-    <MudItem xs="12" sm="7" md="7" lg="9" xl="2">
+    <MudItem xs="12" sm="7" md="7" lg="9" xl="10">
             @if (Mode == ProductsViewMode.List)
             {
                 <ProductsListView StoreId="@StoreId" BrandId="@Brand?.Handle" Path="@productGroupTreeNode?.Path" />
