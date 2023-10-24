@@ -6,7 +6,9 @@ Sites built with Bootstrap. Admin Portal with MudBlazor.
 
 [Video 1](https://youtu.be/BbAThgEa5k8) [Video 2](https://youtu.be/NVqLKeuNO_w) [Video 3](https://youtu.be/rmg41zHW3Nw) [Video 4](https://youtu.be/nHbQ1a7WyyM) [Video 5](https://youtu.be/eHalPncX5W0)
 
-Based on [YourBrand](https://github.com/marinasundstrom/YourBrand) project.
+Based on [YourBrand](https://github.com/marinasundstrom/YourBrand_Old) (Old) project.
+
+Succeeded by the new [YourBrand](https://github.com/marinasundstrom/YourBrand) project.
 
 ## Goal
 
