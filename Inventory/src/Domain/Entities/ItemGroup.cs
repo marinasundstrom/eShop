@@ -4,9 +4,10 @@ public class ItemGroup : Entity<string>, IAuditable
 {
     protected ItemGroup() { }
 
-    public ItemGroup(string id)
+    public ItemGroup(string name)
     {
-        Id = id;
+        Id = Guid.NewGuid().ToString();
+        Name = name;
     }
 
     public string Name { get; set; } = null!;

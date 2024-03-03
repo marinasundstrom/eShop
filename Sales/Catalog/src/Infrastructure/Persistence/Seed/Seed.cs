@@ -10,7 +10,7 @@ public static class Seed
 {
     public static async Task SeedData(ApplicationDbContext context)
     {
-        await context.Database.EnsureDeletedAsync();
+        //await context.Database.EnsureDeletedAsync();
         await context.Database.EnsureCreatedAsync();
 
         var currency = context.Currencies.Add(new Currency("SEK", "Swedish Krona", "kr")).Entity;
@@ -31,7 +31,8 @@ public static class Seed
         {
             Handle = "clothes",
             Description = null,
-            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes"),
+            Path = "clothes"
         });
 
         context.ProductGroups.Add(new ProductGroup("T-shirts")
@@ -39,21 +40,24 @@ public static class Seed
             Handle = "t-shirts",
             Description = null,
             Store = await context.Stores.FirstAsync(x => x.Handle == "joes"),
-            Parent = r.Entity
+            Parent = r.Entity,
+            Path = "t-shirts"
         });
 
         context.ProductGroups.Add(new ProductGroup("Food")
         {
             Handle = "food",
             Description = null,
-            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes"),
+            Path = "food"
         });
 
         context.ProductGroups.Add(new ProductGroup("Drinks")
         {
             Handle = "drinks",
             Description = null,
-            Store = await context.Stores.FirstAsync(x => x.Handle == "joes")
+            Store = await context.Stores.FirstAsync(x => x.Handle == "joes"),
+            Path = "food/drinks"
         });
 
         await context.SaveChangesAsync();

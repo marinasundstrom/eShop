@@ -45,7 +45,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
                       policy =>
                       {
-                          policy.WithOrigins("https://localhost:5001")
+                          policy.WithOrigins("https://localhost:5174", "https://localhost:5001")
                           .AllowAnyHeader().AllowAnyMethod();
                       });
 });
@@ -113,7 +113,7 @@ builder.Services
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
                     {
-                        options.Authority = "https://localhost:5041";
+                        options.Authority = "https://localhost:5031";
                         options.Audience = "myapi";
 
                         options.TokenValidationParameters = new TokenValidationParameters()
@@ -264,8 +264,8 @@ using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().Creat
 
     if (dbProviderName!.Contains("SqlServer"))
     {
-        //await context.Database.EnsureDeletedAsync();
-        //await context.Database.EnsureCreatedAsync(); 
+        await context.Database.EnsureDeletedAsync();
+        await context.Database.EnsureCreatedAsync(); 
 
         try
         {

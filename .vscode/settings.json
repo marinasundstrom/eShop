@@ -11,5 +11,170 @@
         ],
         "scanLimit": 200
     },
-    "dotnet.defaultSolution": "eShop.sln"
+    "dotnet.defaultSolution": "eShop.sln",
+    "editor.formatOnSave": false,
+    "restoreTerminals.terminals": [
+        {
+            "splitTerminals": [
+                {
+                    "name": "Main",
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Proxy",
+                    "commands": [
+                        "dotnet run --project Proxy/Proxy.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Portal",
+                    "commands": [
+                        "dotnet run --project Portal/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Catalog",
+                    "commands": [
+                        "dotnet run --project Sales/Catalog/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Orders",
+                    "commands": [
+                        "dotnet run --project Sales/Orders/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Carts",
+                    "commands": [
+                        "dotnet run --project Sales/Carts/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Payments",
+                    "commands": [
+                        "dotnet run --project Payments/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Marketing",
+                    "commands": [
+                        "dotnet run --project Marketing/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Inventory",
+                    "commands": [
+                        "dotnet run --project Inventory/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Customers",
+                    "commands": [
+                        "dotnet run --project CustomerRelations/Customers/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Ticketing",
+                    "commands": [
+                        "dotnet run --project CustomerRelations/Ticketing/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Analytics",
+                    "commands": [
+                        "dotnet run --project Analytics/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "IdentityService",
+                    "commands": [
+                        "dotnet run --project IdentityService/IdentityService.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Site",
+                    "commands": [
+                        "dotnet run --project Sites/Site/src/Server/Site.Server.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
+                    "name": "Siko",
+                    "commands": [
+                        "dotnet run --project Sites/Siko/src/Server/Site.Server.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+    ]
 }

@@ -25,7 +25,7 @@ builder.Services
     .AddShellServices()
     .AddModuleLoader();
 
-await builder.Services.LoadModules($"/modules.json");
+await builder.Services.LoadModules($"https://localhost:5174/modules.json");
 
 var app = builder.Build();
 

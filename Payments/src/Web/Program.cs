@@ -44,7 +44,7 @@ builder.Services.AddCors(options =>
                         .AllowAnyHeader();
 
                         /*
-                          policy.WithOrigins("https://localhost:5001")
+                          policy.WithOrigins("https://localhost:5174", "https://localhost:5001")
                           .AllowAnyHeader().AllowAnyMethod();
 
                           policy.WithOrigins("https://yourbrand.eu.ngrok.io")

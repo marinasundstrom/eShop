@@ -77,7 +77,7 @@
     {
         store = StoreProvider.CurrentStore;
 
-        StoreId = store.Id;
+        StoreId = store?.Id;
         GroupId = null;
 
         productGroupTreeNodes = await ProductGroupsClient.GetProductGroupsTreeAsync(store?.Id);
