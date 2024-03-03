@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using YourBrand.Portal;
-using YourBrand.StoreFront.Client;
 using YourBrand.Portal.Modules;
-using YourBrand.Portal.Navigation;
+using YourBrand.Portal.NavMenu;
 using Microsoft.Extensions.Localization;
+using YourBrand.StoreFront.Client;
 
 namespace YourBrand.StoreFront;
 

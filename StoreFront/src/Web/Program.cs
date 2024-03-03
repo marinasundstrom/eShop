@@ -230,7 +230,7 @@ builder.Services.AddAuthentication(options =>
 IConnectionMultiplexer? connection = null;
 
 var connectionString = builder.Configuration.GetConnectionString("redis");
-var c = ConfigurationOptions.Parse(connectionString, true);
+var c = ConfigurationOptions.Parse(connectionString!, true);
 
 connection = ConnectionMultiplexer.Connect(c);
 

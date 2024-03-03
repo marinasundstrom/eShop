@@ -64,7 +64,7 @@ public sealed record GetCart : IRequest<SiteCartDto>
                         {
                             options.AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2);
 
-                            return await _productsClient.GetProductAsync(cartItem.ItemId, cancellationToken);
+                            return await _productsClient.GetProductAsync(cartItem.ItemId!, cancellationToken);
                         });
 
                 if(string.IsNullOrEmpty(cartItem.Data)) 

@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 
 using YourBrand.Portal;
-using YourBrand.Carts.Client;
-using YourBrand.Portal.Navigation;
 using YourBrand.Portal.Modules;
 using Microsoft.Extensions.Localization;
+using YourBrand.Portal.NavMenu;
+using YourBrand.Carts.Client;
 
 namespace YourBrand.Carts;
 

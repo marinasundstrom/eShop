@@ -53,9 +53,9 @@ public sealed record Checkout(
 
             foreach (var cartItem in cart.Items)
             {
-                var product = await productsClient2.GetProductAsync(cartItem.ItemId, cancellationToken);
+                var product = await productsClient2.GetProductAsync(cartItem.ItemId!, cancellationToken);
 
-                var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data, new JsonSerializerOptions
+                var options = JsonSerializer.Deserialize<IEnumerable<Option>>(cartItem.Data!, new JsonSerializerOptions
                 {
                     DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
                 })!;
