@@ -157,6 +157,17 @@
         {
             "splitTerminals": [
                 {
+                    "name": "StoreFront",
+                    "commands": [
+                        "dotnet run --project StoreFront/src/Web/Web.csproj"
+                    ],
+                    "shouldRunCommands": false
+                }
+            ]
+        },
+        {
+            "splitTerminals": [
+                {
                     "name": "Site",
                     "commands": [
                         "dotnet run --project Sites/Site/src/Server/Site.Server.csproj"
@@ -175,6 +186,6 @@
                     "shouldRunCommands": false
                 }
             ]
-        },
+        }
     ]
 }

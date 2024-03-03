@@ -282,6 +282,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Contracts", "Sites\Com
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Site.Server.Authentication", "Sites\Common\Site.Server.Authentication\Site.Server.Authentication.csproj", "{272EC124-1147-4183-A832-DB9D73279971}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Proxy", "Proxy\Proxy.csproj", "{FACC6193-189C-4553-BBF2-870B5D545809}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -720,6 +722,10 @@ Global
 		{272EC124-1147-4183-A832-DB9D73279971}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{272EC124-1147-4183-A832-DB9D73279971}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{272EC124-1147-4183-A832-DB9D73279971}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FACC6193-189C-4553-BBF2-870B5D545809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FACC6193-189C-4553-BBF2-870B5D545809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FACC6193-189C-4553-BBF2-870B5D545809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FACC6193-189C-4553-BBF2-870B5D545809}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
