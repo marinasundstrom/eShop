@@ -21,7 +21,7 @@
     <PackageReference Include="MudBlazor" Version="6.16.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.3.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
-    <PackageReference Include="HtmlSanitizer" Version="8.0.601" />
+    <PackageReference Include="HtmlSanitizer" Version="8.0.723" />
     <PackageReference Include="Markdig" Version="0.18.3" />
   </ItemGroup>
 
